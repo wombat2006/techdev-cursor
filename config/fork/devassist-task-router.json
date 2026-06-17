@@ -1,0 +1,14 @@
+{
+  "version": "1",
+  "defaults": {
+    "llm_analyze": "balanced",
+    "llm_codegen": "fast",
+    "llm_agent_edit": "balanced",
+    "llm_aggregate": "critical"
+  },
+  "rules": [
+    { "kind": "llm_codegen", "preset": "fast", "pinnedProviders": ["gpt-5-codex"] },
+    { "kind": "llm_agent_edit", "preset": "balanced", "pinnedProviders": ["sonnet-4.5"] },
+    { "kind": "llm_aggregate", "preset": "critical", "pinnedProviders": ["opus-4.1"], "requiresWallBounce": true }
+  ]
+}

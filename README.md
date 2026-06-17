@@ -1,5 +1,9 @@
 # 🏓 TechSapo - Enhanced MCP Orchestration with Wall-Bounce Analysis
 
+> **PRIMARY REPO — TechSapo DevAssist (Cursor MCP line)**  
+> Fork: `techdev-cursor` · Upstream reference: [wombat2006/techdev](https://github.com/wombat2006/techdev)  
+> Bootstrap: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · Runbook: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
+
 [![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests/)
 [![MCP Services](https://img.shields.io/badge/MCP%20services-7+-blue.svg)](#mcp-services)
 [![Security](https://img.shields.io/badge/security-enterprise-red.svg)](#security)

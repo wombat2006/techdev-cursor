@@ -1,0 +1,21 @@
+id: devassist-cursor
+displayName: TechSapo DevAssist (Cursor MCP)
+description: Cursor IDE integration via unified provider MCP + subscription quota
+
+inherits:
+  - wall-bounce-engine
+  - sse-api
+  - inference-profiles-ts20
+
+swappable:
+  taskRouterRules: config/fork/devassist-task-router.json
+  dictionary: config/fork/devassist-dictionary-v0.json
+  groundingProviders: config/fork/grounding-providers.json
+  disclaimer: config/fork/disclaimer-devassist.json
+
+cursorMcp:
+  server: techsapo-providers
+  template: config/cursor-mcp.template.json
+  entrypoint: dist/services/techsapo-providers-mcp-server.js
+  primaryUse: single-provider dev tasks
+  productionAnalysis: wall-bounce-api

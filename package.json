@@ -1,7 +1,7 @@
 {
-  "name": "techsapo",
+  "name": "techdev-cursor",
   "version": "1.0.0",
-  "description": "Infrastructure Support Tool with LLM Orchestrator",
+  "description": "TechSapo DevAssist — Cursor MCP primary fork (unified provider MCP)",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -25,6 +25,7 @@
     "codex-mcp-stop": "./scripts/start-codex-mcp.sh -s",
     "codex-mcp-restart": "./scripts/start-codex-mcp.sh -r",
     "codex-mcp-test": "./scripts/start-codex-mcp.sh -t",
+    "techsapo-providers-mcp": "node dist/services/techsapo-providers-mcp-server.js",
     "mcp-performance": "node -e \"require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getPerformanceSummary()\"",
     "mcp-metrics": "node -e \"console.log(JSON.stringify(require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getLatestMetrics(), null, 2))\"",
     "mcp-alerts": "node -e \"console.log(JSON.stringify(require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getActiveAlerts(), null, 2))\"",

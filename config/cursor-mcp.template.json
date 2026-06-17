@@ -1,14 +1,9 @@
 {
   "mcpServers": {
-    "techsapo-codex": {
-      "command": "npm",
-      "args": ["run", "codex-mcp"],
-      "cwd": "<REPO_ROOT>"
-    },
-    "techsapo-claude": {
-      "command": "npm",
-      "args": ["run", "claude-code-mcp"],
-      "cwd": "<REPO_ROOT>"
+    "techsapo-providers": {
+      "command": "node",
+      "args": ["dist/services/techsapo-providers-mcp-server.js"],
+      "cwd": "/home/wombat/techdev-cursor"
     }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "version": "0",
+  "terms": [
+    { "key": "wb", "expansion": "Wall-Bounce", "domain": "platform" },
+    { "key": "mcp", "expansion": "Model Context Protocol", "domain": "platform" }
+  ]
+}
