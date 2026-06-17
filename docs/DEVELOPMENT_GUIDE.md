@@ -110,8 +110,8 @@ Key variables defined in `src/config/environment.ts`:
 - **Node.js**: ≥18.0.0 required (WSL-native for Cursor MCP — see [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) Phase 0)
 - **Claude Code CLI**: WSL-native `@anthropic-ai/claude-code` + OAuth (not Windows `/mnt/c/` shim)
 - **Codex CLI**: WSL-native `@openai/codex` + `~/.codex/auth.json` (not Windows npm)
-- **Antigravity CLI**: `agy` on WSL PATH for Google Tier 1（`agy auth login`）。→ [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)  
-  Note: implementation still spawns legacy `gemini` (migration pending)
+- **Antigravity CLI**: `agy` on WSL PATH for Google Tier 1（OAuth token under `~/.gemini/antigravity-cli/`）。→ [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)  
+  Wall-Bounce spawns `agy --print` via [src/utils/antigravity-cli.ts](../src/utils/antigravity-cli.ts)
 - **Redis**: Required for caching and session management
 - **Database**: MySQL2 for audit logs and monitoring data
 - **Monitoring**: Prometheus + Grafana stack in Docker containers

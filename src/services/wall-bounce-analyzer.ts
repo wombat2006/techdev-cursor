@@ -6,6 +6,7 @@
 import { EventEmitter } from 'events';
 import { logger } from '../utils/logger';
 import { config } from '../config/environment';
+import { executeAgyPrint } from '../utils/antigravity-cli';
 import { createCodexGPT5Provider } from './codex-gpt5-provider';
 
 
@@ -20,7 +21,7 @@ interface ProviderConfig {
   modelArgs?: Record<string, any>;
   tier: number;
   capabilities: string[];
-  invocationType: 'gemini' | 'gpt5' | 'claude';
+  invocationType: 'agy' | 'gemini' | 'gpt5' | 'claude';
   role?: 'default-aggregator' | 'complex-aggregator';
 }
 
@@ -338,103 +339,51 @@ export class WallBounceAnalyzer extends EventEmitter {
     version: '2.5-pro' | '2.5-flash'
   ): Promise<LLMResponse> {
     try {
-      const { spawn } = require('child_process');
-
-      // プロンプトはbuildProviderPrompt()で既に完成しているのでそのまま使用
-      const systemPrompt = prompt;
-
-      // セキュアなspawn使用 - stdin経由でプロンプトを渡す
       const modelName = version === '2.5-pro' ? 'gemini-2.5-pro' : 'gemini-2.5-flash';
-      const args = ['--model', modelName, '--output-format', 'json'];
+      const providerKey = version === '2.5-pro' ? 'gemini-2.5-pro' : 'gemini-2.5-flash';
 
-      logger.info('🤖 Gemini CLI実行開始 (stdin経由)', {
-        command: 'gemini',
-        args: ['--model', modelName, '--output-format', 'json'],
-        promptPreview: systemPrompt.substring(0, 500)
+      logger.info('Antigravity CLI execution (stdin + --print)', {
+        command: 'agy',
+        model: modelName,
+        promptPreview: prompt.substring(0, 500),
       });
-      
-      // デバッグ: 実際に送信されるプロンプトをログ出力
-      logger.info('=' + '='.repeat(79));
-      logger.info(`📤 Gemini ${version} への入力プロンプト:`);
-      logger.info('=' + '='.repeat(79));
-      logger.info(systemPrompt);
-      logger.info('=' + '='.repeat(79));
 
-      // セキュアなPromiseベースspawn実行
-      const { stdout, stderr } = await new Promise<{stdout: string, stderr: string}>((resolve, reject) => {
-        const child = spawn('gemini', args, { 
-        timeout: config.wallBounce.enableTimeout ? config.wallBounce.timeoutMs : undefined,
-        stdio: ['pipe', 'pipe', 'pipe'], // stdin経由で入力
-        env: { ...process.env }
-      });
-        
-        // stdin経由でシステムプロンプトを送信
-        child.stdin?.write(systemPrompt);
-        child.stdin?.end();
-        
-        let stdout = '';
-        let stderr = '';
-
-        child.stdout?.on('data', (data: any) => {
-          const chunk = data.toString();
-          stdout += chunk;
-          
-          // Emit real-time streaming event for each chunk
+      const timeoutMs = config.wallBounce.enableTimeout ? config.wallBounce.timeoutMs : undefined;
+      const { content, stderr } = await executeAgyPrint(prompt, {
+        model: modelName,
+        timeoutMs,
+        onChunk: (chunk) => {
           this.emit('provider:streaming', {
-            provider: version === '2.5-pro' ? 'gemini-2.5-pro' : 'gemini-2.5-flash',
-            chunk: chunk,
-            timestamp: Date.now()
+            provider: providerKey,
+            chunk,
+            timestamp: Date.now(),
           });
-        });
-
-        child.stderr?.on('data', (data: any) => {
-          stderr += data.toString();
-        });
-
-        child.on('close', (code: number | null) => {
-          if (code === 0) {
-            resolve({ stdout, stderr });
-          } else {
-            reject(new Error(`Gemini CLI exit code: ${code}, stderr: ${stderr}`));
-          }
-        });
-
-        child.on('error', (error: any) => {
-          reject(new Error(`Spawn error: ${error.message}`));
-        });
-
-        // タイムアウト無効化
-        // const timeout = setTimeout(() => {
-        //   child.kill('SIGTERM');
-        //   reject(new Error('Gemini CLI timeout'));
-        // }, 300000);
-
-        // clearTimeout(timeout); // タイムアウト無効化
+        },
       });
-      
-      if (stderr && !stderr.includes('DeprecationWarning')) {
-        logger.warn('⚠️ Gemini CLI警告', { stderr });
+
+      if (stderr) {
+        logger.warn('Antigravity CLI stderr', { stderr });
       }
-      
-      const response = JSON.parse(stdout);
-      const content = response.content || response.text || stdout;
-      const displayLabel = version === '2.5-pro' ? 'Gemini 2.5 Pro CLI' : 'Gemini 2.5 Flash CLI';
+
+      const displayLabel =
+        version === '2.5-pro' ? 'Gemini 2.5 Pro (Antigravity)' : 'Gemini 2.5 Flash (Antigravity)';
       const cost = version === '2.5-pro' ? 0.002 : 0.001;
-      
+
       return {
         content: `[${displayLabel}] ${content}`,
         confidence: 0.88,
-        reasoning: `Google ${displayLabel}経由での高品質分析（セキュア実装）`,
+        reasoning: `Google ${displayLabel} via Antigravity CLI`,
         cost,
-        tokens: { input: Math.ceil(prompt.length / 4), output: Math.ceil(content.length / 4) }
+        tokens: { input: Math.ceil(prompt.length / 4), output: Math.ceil(content.length / 4) },
       };
     } catch (error) {
-      logger.error('❌ Gemini CLI execution failed (セキュア実装)', { 
+      logger.error('Antigravity CLI execution failed', {
         error: error instanceof Error ? error.message : String(error),
-        stderr: (error as any).stderr || 'No stderr'
       });
-      
-      throw new Error(`Gemini CLI failed: ${error instanceof Error ? error.message : String(error)}`);
+
+      throw new Error(
+        `Antigravity CLI failed: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -1481,89 +1430,22 @@ ${analysis}`,
   }
 
   private async performClaudeInternalAnalysis(prompt: string, version: string): Promise<string> {
-    logger.info('🔧 Claude Internal SDK fallback - using Gemini for aggregation', { version, promptLength: prompt.length });
+    logger.info('Claude Internal SDK fallback - using Antigravity for aggregation', {
+      version,
+      promptLength: prompt.length,
+    });
 
-    // When Claude fails, use Gemini as aggregator instead
-    // Use stdin to pass the prompt to avoid argument parsing issues
     try {
-      const { spawn } = require('child_process');
-      
-      // Gemini CLI with stdin input (no -p flag to avoid escaping issues)
-      const args = ['--model', 'gemini-2.5-pro', '--output-format', 'json'];
-      
-      logger.info('🔄 Gemini aggregation via CLI (stdin)', {
-        command: 'gemini',
-        promptLength: prompt.length
-      });
-      
-      return await new Promise<string>((resolve, reject) => {
-        const geminiProcess = spawn('gemini', args, {
-          timeout: 60000,
-          maxBuffer: 5 * 1024 * 1024,
-          stdio: ['pipe', 'pipe', 'pipe'], // stdin, stdout, stderr
-          env: { ...process.env }
-        });
-
-        let stdout = '';
-        let stderr = '';
-
-        // Write prompt to stdin
-        geminiProcess.stdin.write(prompt);
-        geminiProcess.stdin.end();
-
-        geminiProcess.stdout.on('data', (data: Buffer) => {
-          stdout += data.toString();
-        });
-
-        geminiProcess.stderr.on('data', (data: Buffer) => {
-          stderr += data.toString();
-        });
-
-        geminiProcess.on('close', (code: number | null) => {
-          if (code === 0 && stdout) {
-            try {
-              // Gemini returns JSON with response field
-              const parsed = JSON.parse(stdout);
-              const responseText = parsed.content || parsed.text || parsed.response || stdout;
-              
-              logger.info('✅ Gemini aggregation complete', {
-                responseLength: responseText.length
-              });
-              
-              resolve(responseText);
-            } catch (parseError) {
-              // If not JSON, use raw stdout
-              logger.warn('⚠️ Gemini JSON parse failed, using raw output', { parseError });
-              resolve(stdout.trim());
-            }
-          } else {
-            // Filter out deprecation warnings from stderr
-            const filteredStderr = stderr
-              .split('\n')
-              .filter(line => !line.includes('DeprecationWarning') && !line.includes('punycode'))
-              .join('\n')
-              .trim();
-              
-            reject(new Error(`Gemini aggregation failed: ${filteredStderr || `Exit code ${code}`}`));
-          }
-        });
-
-        geminiProcess.on('error', (error) => {
-          reject(error);
-        });
+      const { content } = await executeAgyPrint(prompt, {
+        model: 'gemini-2.5-pro',
+        timeoutMs: 60000,
       });
 
+      logger.info('Antigravity aggregation complete', { responseLength: content.length });
+      return content;
     } catch (error) {
-      logger.error('❌ Gemini aggregation failed', { error, version });
-      
-      // Last resort: Return a helpful error message
-      return `申し訳ございません。統合分析システムで一時的な問題が発生しています。
-
-元のクエリへの個別回答は正常に取得できましたが、最終統合処理でエラーが発生しました。
-
-エラー詳細: ${error instanceof Error ? error.message : String(error)}
-
-システム管理者に連絡し、アグリゲーター設定を確認してください。`;
+      logger.error('Antigravity aggregation failed', { error, version });
+      throw error;
     }
   }
 

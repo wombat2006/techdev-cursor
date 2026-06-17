@@ -54,7 +54,7 @@ Tier 3: Claude Sonnet 4    → Internal SDK
 Tier 4: Claude Opus 4.1    → Aggregator (synthesis)
 ```
 
-> **Implementation note:** Docs standard is `agy`. `wall-bounce-analyzer.ts` still spawns legacy `gemini` (migration pending) → [ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)
+> **Implementation note:** Google Tier 1 uses Antigravity CLI (`agy`) via `src/utils/antigravity-cli.ts` → [ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)
 
 ---
 

@@ -11,42 +11,32 @@ import ragEndpoints from './routes/rag-endpoint';
 import codexSessionRoutes from './routes/codex-session';
 import pdfRoutes from './routes/pdf-routes';
 
-interface GeminiCliHealth {
+import { checkAntigravityVersion } from './utils/antigravity-cli';
+
+interface AntigravityCliHealth {
   status: 'ok' | 'error' | 'unknown';
   version: string;
   lastChecked: number;
 }
 
-const GEMINI_CLI_TTL_MS = 5 * 60 * 1000; // cache for 5 minutes
-let geminiCliHealth: GeminiCliHealth | null = null;
+const ANTIGRAVITY_CLI_TTL_MS = 5 * 60 * 1000;
+let antigravityCliHealth: AntigravityCliHealth | null = null;
 
-const resolveGeminiCliHealth = async (): Promise<GeminiCliHealth> => {
+const resolveAntigravityCliHealth = async (): Promise<AntigravityCliHealth> => {
   const now = Date.now();
 
-  if (geminiCliHealth && (now - geminiCliHealth.lastChecked) < GEMINI_CLI_TTL_MS) {
-    return geminiCliHealth;
+  if (antigravityCliHealth && now - antigravityCliHealth.lastChecked < ANTIGRAVITY_CLI_TTL_MS) {
+    return antigravityCliHealth;
   }
 
-  try {
-    const { exec } = require('child_process');
-    const { promisify } = require('util');
-    const execAsync = promisify(exec);
+  const result = await checkAntigravityVersion(5000);
+  antigravityCliHealth = {
+    status: result.ok ? 'ok' : 'error',
+    version: result.version,
+    lastChecked: now,
+  };
 
-    const { stdout } = await execAsync('gemini --version', { timeout: 5000 });
-    geminiCliHealth = {
-      status: 'ok',
-      version: stdout.trim(),
-      lastChecked: now
-    };
-  } catch (error) {
-    geminiCliHealth = {
-      status: 'error',
-      version: 'unknown',
-      lastChecked: now
-    };
-  }
-
-  return geminiCliHealth;
+  return antigravityCliHealth;
 };
 
 export function createServer() {
@@ -143,14 +133,14 @@ export function createServer() {
         redisStatus = 'error';
       }
 
-      const geminiHealth = await resolveGeminiCliHealth();
+      const antigravityHealth = await resolveAntigravityCliHealth();
 
       // Get current environment configuration
       const environmentConfig = {
         srpEnabled: process.env.USE_SRP_WALL_BOUNCE === 'true',
         srpTrafficPercentage: parseInt(process.env.SRP_TRAFFIC_PERCENTAGE || '0'),
-        geminiStrategy: process.env.GEMINI_STRATEGY || 'api',
-        geminiCliPercentage: parseInt(process.env.GEMINI_CLI_PERCENTAGE || '0'),
+        geminiStrategy: process.env.GEMINI_STRATEGY || 'agy',
+        geminiCliPercentage: parseInt(process.env.GEMINI_CLI_PERCENTAGE || '100'),
         deploymentVersion: process.env.DEPLOYMENT_VERSION || 'unknown'
       };
 
@@ -159,10 +149,15 @@ export function createServer() {
         services: {
           redis: redisStatus,
           sessionManager: 'ok',
-          geminiCli: geminiHealth.status
+          antigravityCli: antigravityHealth.status,
+          geminiCli: antigravityHealth.status
+        },
+        antigravity: {
+          cliVersion: antigravityHealth.version,
+          binary: process.env.ANTIGRAVITY_CLI_BIN || 'agy'
         },
         gemini: {
-          cliVersion: geminiHealth.version,
+          cliVersion: antigravityHealth.version,
           strategy: environmentConfig.geminiStrategy,
           cliPercentage: environmentConfig.geminiCliPercentage
         },

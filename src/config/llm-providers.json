@@ -9,7 +9,7 @@
       },
       "tier": 1,
       "capabilities": ["analysis", "reasoning", "multilingual"],
-      "invocationType": "gemini"
+      "invocationType": "agy"
     },
     {
       "key": "gpt-5-codex",

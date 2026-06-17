@@ -35,7 +35,7 @@ Multi-LLM orchestration engine ensuring quality through provider diversity.
 3. **Claude Sonnet 4** - Internal SDK, cost-managed
 4. **Claude Opus 4.1** - Aggregator role, synthesis
 
-> **Implementation note**: Documentation standard is Antigravity CLI. Source may still spawn legacy `gemini` until migration — see [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md).
+> **Implementation note**: Wall-Bounce Google Tier 1 uses Antigravity CLI (`agy --print` via [src/utils/antigravity-cli.ts](../src/utils/antigravity-cli.ts)).
 
 **Execution Modes**:
 - `parallel`: Concurrent provider execution (default)
@@ -180,7 +180,7 @@ Response to Wall-Bounce
 - **Vector Storage**: For RAG embeddings (future)
 
 ### LLM Integration
-- **CLI Tools**: `agy` (Antigravity, Tier 1 Google), `codex` (OpenAI); legacy `gemini` spawn may remain until migration — [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)
+- **CLI Tools**: `agy` (Antigravity, Tier 1 Google), `codex` (OpenAI) — see [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)
 - **SDK**: Anthropic SDK for internal calls
 - **MCP**: `@modelcontextprotocol/sdk`
 

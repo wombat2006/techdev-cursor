@@ -84,13 +84,35 @@ Model Context Protocol基盤の協調分析システム
 
 - Node.js 18.0.0 以上
 - Docker & Docker Compose（またはPodman）
-- **Antigravity CLI**（`agy`）— Google Tier 1（Gemini 2.5 Pro/Flash）。`agy auth login` で認証
+- **Antigravity CLI**（`agy`）— Google Tier 1（Gemini 2.5 Pro/Flash）。WSL ネイティブ必須
 - **Codex CLI** — GPT-5 Codex 連携
 - APIキー: OpenAI、Claude（SDK）、OpenRouter 等（Google Gemini API キー直埋めは禁止）
 - （オプション）本番環境用 Redis、MySQL
 
-> Google プロバイダー詳細: [docs/ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)  
-> ※ 実装は legacy `gemini` spawn のまま（Antigravity CLI へ移行予定）
+> Google プロバイダーは Antigravity CLI（`agy`）経由 — [docs/ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)  
+> Wall-Bounce は `src/utils/antigravity-cli.ts` から `agy --print`（stdin）で呼び出します。
+
+### Antigravity CLI（Google Tier 1）
+
+```bash
+# インストール（WSL）
+curl -fsSL https://antigravity.google/cli/install.sh | bash
+which agy   # ~/.local/bin/agy であること（Windows npm の gemini ではない）
+
+# 認証（対話 UI — 初回またはトークン更新時）
+agy auth login
+
+# 動作確認（Wall-Bounce と同じ経路: stdin + --print）
+echo "Reply with only: ok" | agy --print --model gemini-2.5-flash
+echo "Reply with only: ok" | agy --print --model gemini-2.5-pro
+```
+
+| 用途 | コマンド |
+|------|----------|
+| 対話で試す | `agy auth login` |
+| Wall-Bounce / スクリプト | `echo "…" \| agy --print --model gemini-2.5-flash` |
+
+オプション: `ANTIGRAVITY_CLI_BIN` でバイナリパスを上書き可能。
 
 ## 🛠 クイックスタート
 

@@ -1,17 +1,95 @@
 ## Project Purpose
-TechSapo is a TypeScript/Node.js service that orchestrates multiple LLM and MCP integrations, exposes REST APIs (Hugging Face, RAG, webhooks), and serves a Gemini-style dashboard with Prometheus/Grafana monitoring links.
+
+TechSapo DevAssist (`techdev-cursor`) is the **primary** Full-Fork of upstream `wombat2006/techdev`. It is a TypeScript/Node.js service that orchestrates multiple LLM and MCP integrations (Wall-Bounce), exposes REST/SSE APIs (Hugging Face, RAG, webhooks), and targets Cursor IDE integration via a unified `techsapo-providers` stdio MCP server.
+
+- Upstream: `wombat2006/techdev` (reference / optional cherry-pick)
+- Fork tag: `fork-base/5cc31f57`
+- Manifest: `forkProfile.yaml`
 
 ## Tech Stack
+
 - Runtime: Node.js >=18 with Express 4
 - Language: TypeScript (compiled via `tsc` to `dist/`)
 - Tooling: Jest for tests, ESLint, ts-node-dev for local dev
-- Integrations: prom-client for metrics, multiple MCP/LLM SDKs, Redis/MySQL clients
+- Integrations: prom-client, `@modelcontextprotocol/sdk`, Redis/MySQL, Google Drive RAG
+- Provider CLIs (subscription): `claude`, `codex`, `agy` (WSL-native; no API keys in code)
 
-## Rough Structure
-- `src/index.ts`: main Express server bootstrap, middleware, routes, metrics, static assets
-- `src/routes/`, `src/controllers/`, `src/services/`: domain routing, business logic, MCP orchestration
-- `src/metrics/`, `src/middleware/`, `src/utils/`: observability, shared helpers, logging
-- `public/`: static web assets (dashboard scripts, HTML)
-- `tests/`: Jest unit/integration suites
-- `scripts/`: operational scripts (service start/stop, monitoring stack)
-- `dist/`: build output deployed to production
+## Repository Tree (verified 2026-06-18)
+
+```
+techdev-cursor/                    # ~250 files (excl. .git, node_modules)
+├── forkProfile.yaml               # Fork manifest (DevAssist-Cursor)
+├── CLAUDE.md                      # Agent nav skeleton
+├── README.md / README_ja.md       # Fork-primary banner present
+├── package.json                   # name: techdev-cursor; techsapo-providers-mcp script
+├── config/
+│   ├── cursor-mcp.template.json   # Unified techsapo-providers registration
+│   ├── codex-mcp.toml             # Legacy codex daemon config
+│   └── fork/                      # Fork Day 0 stubs (all present)
+│       ├── devassist-task-router.json
+│       ├── devassist-dictionary-v0.json
+│       ├── disclaimer-devassist.json
+│       └── grounding-providers.json  # []
+├── src/                           # 69 TypeScript/JSON files
+│   ├── index.ts                   # Main Express HTTPS server (:8443)
+│   ├── server.ts / wall-bounce-server.ts
+│   ├── config/                    # environment, feature-flags, llm-providers.json
+│   ├── controllers/               # huggingface-controller
+│   ├── routes/                    # 11 route modules (wall-bounce-api, rag, webhooks, …)
+│   ├── services/                  # 40+ services (core business logic)
+│   │   ├── wall-bounce-analyzer.ts    # Wall-Bounce core (legacy spawn)
+│   │   ├── wall-bounce-orchestrator.ts
+│   │   ├── mcp-integration-service.ts
+│   │   ├── claude-code-mcp-server.ts  # Legacy; deprecated for Cursor
+│   │   ├── codex-mcp-server.ts        # Ops/daemon only
+│   │   └── googledrive-*.ts           # RAG
+│   ├── middleware/                # error-handler, openai-auth, validation, metrics
+│   ├── metrics/                   # prometheus-client
+│   ├── types/                     # huggingface, googleapis (no fork types yet)
+│   └── utils/                     # logger, security, mcp-clients, …
+├── tests/                         # 24 test files (unit/integration/security/performance)
+├── scripts/                       # start/stop, monitoring, pptx-gen, codex-mcp daemon
+├── public/                        # Dashboard HTML/JS/CSS
+├── docs/                          # 93 files (ARCHITECTURE, FORK_CURSOR, CURSOR_MCP_TODO, ADRs)
+└── .cursor/rules/                 # documentation-sync.mdc
+```
+
+### Fork extension layout (planned — FORK_CURSOR.md)
+
+| Path | Status |
+|------|--------|
+| `forkProfile.yaml` | ✅ |
+| `config/fork/*.json` | ✅ |
+| `config/cursor-mcp.template.json` | ✅ |
+| `config/inference-profiles.json` | ❌ Track A-2+ |
+| `config/schemas/` | ❌ optional Day 0 |
+| `src/types/inference-profile.ts` | ❌ Track A-1 |
+| `src/types/adapter-types.ts` | ❌ Track A-1 |
+| `src/adapters/` (claude, codex, agy, resolver) | ❌ Track A-1 |
+| `src/services/techsapo-providers-mcp-server.ts` | ❌ Track A-1 |
+| `tests/adapters/` | ❌ Track A-1 |
+
+## Core Subsystems
+
+1. **Wall-Bounce** — `wall-bounce-analyzer.ts` + `wall-bounce-api.ts` (SSE); Google Tier 1 via `agy --print` (`src/utils/antigravity-cli.ts`)
+2. **MCP (legacy → unified)** — Target: single stdio `techsapo-providers` with `analyze_claude`, `analyze_codex`, `analyze_agy`; not yet implemented
+3. **RAG** — Google Drive connector, embeddings, webhooks
+4. **Monitoring** — Prometheus metrics via `src/metrics/`
+
+## Execution Tracks (from CURSOR_MCP_TODO)
+
+| Track | Tree impact | Status |
+|-------|-------------|--------|
+| Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed (`3232b194`) |
+| A-0 | WSL CLI auth (claude/codex/agy) | Partial (codex/agy pending) |
+| A-1 | adapters + unified MCP server | ❌ not started |
+| A-2 | inference-profiles.json + MCP schemas | ❌ |
+| B | wall-bounce-analyzer uses adapters | ❌ |
+| C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |
+
+## Key References
+
+- Fork design: `docs/FORK_CURSOR.md`
+- Runbook: `docs/CURSOR_MCP_TODO.md`
+- Architecture: `docs/ARCHITECTURE.md`
+- Wall-Bounce: `docs/WALL_BOUNCE_SYSTEM.md`

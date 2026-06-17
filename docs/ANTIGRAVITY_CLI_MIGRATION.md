@@ -2,7 +2,7 @@
 
 **Version**: 1.0  
 **Date**: 2026-06-18  
-**Status**: Documentation adopted (implementation migration is a separate task)
+**Status**: Implemented in `wall-bounce-analyzer.ts` via `src/utils/antigravity-cli.ts`
 
 ---
 
@@ -22,11 +22,11 @@ Reference: [Google Developers Blog — Transitioning Gemini CLI to Antigravity C
 
 | Item | Documentation standard | Implementation (AS-IS) |
 |------|------------------------|-------------------------|
-| Google Tier 1 | Antigravity CLI (`agy`) | `wall-bounce-analyzer.ts` spawns legacy `gemini` |
+| Google Tier 1 | Antigravity CLI (`agy`) | `wall-bounce-analyzer.ts` spawns `agy --print` (stdin) |
 | Security | CLI spawn only, no API keys | Unchanged |
 | Wall-Bounce | Multi-provider coordination | Unchanged |
 
-**Future implementation migration**: `spawn('gemini', …)` → `spawn('agy', …)`, align arguments and auth flow with Antigravity spec. At documentation adoption time, **no code changes** are made.
+**Future implementation migration**: `spawn('gemini', …)` → `spawn('agy', …)` — **done** in `executeGeminiCLI` / aggregation fallback. Prompt via stdin + `--print`; plain-text response (not JSON).
 
 ---
 

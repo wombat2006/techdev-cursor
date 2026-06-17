@@ -1,4 +1,5 @@
 import express from 'express';
+import { checkAntigravityVersion } from './utils/antigravity-cli';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -98,12 +99,19 @@ class TechSapoServer {
           timestamp: new Date().toISOString(),
           overall_status: 'healthy',
           services: {
-            gemini: {
-              name: 'Gemini 2.5 Pro',
+            antigravity: {
+              name: 'Antigravity CLI (Gemini 2.5 Pro)',
               status: 'healthy',
               latency_ms: null,
               last_check: new Date().toISOString(),
-              method: 'CLI'
+              method: 'CLI (agy)',
+            },
+            gemini: {
+              name: 'Gemini 2.5 Pro (legacy key)',
+              status: 'healthy',
+              latency_ms: null,
+              last_check: new Date().toISOString(),
+              method: 'CLI',
             },
             gpt5: {
               name: 'GPT-5 (Codex)',
@@ -149,36 +157,20 @@ class TechSapoServer {
         // Quick health checks for each service
         const checks = [];
 
-        // Gemini CLI check
+        // Antigravity CLI check
         checks.push(
           (async () => {
             try {
               const start = Date.now();
-              const { spawn } = await import('child_process');
-              const gemini = spawn('gemini', ['--version'], { timeout: 3000 });
-
-              await new Promise<void>((resolve, reject) => {
-                const timeout = setTimeout(() => {
-                  gemini.kill();
-                  reject(new Error('Timeout'));
-                }, 3000);
-
-                gemini.on('close', (code) => {
-                  clearTimeout(timeout);
-                  if (code === 0) {
-                    healthStatus.services.gemini.latency_ms = Date.now() - start;
-                    resolve();
-                  } else {
-                    reject(new Error(`Exit code ${code}`));
-                  }
-                });
-
-                gemini.on('error', (err) => {
-                  clearTimeout(timeout);
-                  reject(err);
-                });
-              });
+              const result = await checkAntigravityVersion(5000);
+              if (result.ok) {
+                healthStatus.services.antigravity.latency_ms = Date.now() - start;
+                healthStatus.services.gemini.status = 'healthy';
+              } else {
+                throw new Error(`agy unavailable: ${result.version}`);
+              }
             } catch (error) {
+              healthStatus.services.antigravity.status = 'error';
               healthStatus.services.gemini.status = 'error';
             }
           })()
