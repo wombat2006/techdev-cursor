@@ -1,10 +1,12 @@
 ## Project Purpose
 
-TechSapo DevAssist (`techdev-cursor`) is the **primary** Full-Fork of upstream `wombat2006/techdev`. It is a TypeScript/Node.js service that orchestrates multiple LLM and MCP integrations (Wall-Bounce), exposes REST/SSE APIs (Hugging Face, RAG, webhooks), and targets Cursor IDE integration via a unified `techsapo-providers` stdio MCP server.
+**`techdev-cursor`** is an **integrated Cursor IDE development-environment project**, forked from upstream `wombat2006/techdev` (Wall-Bounce multi-LLM platform).
 
-- Upstream: `wombat2006/techdev` (reference / optional cherry-pick)
-- Fork tag: `fork-base/5cc31f57`
-- Manifest: `forkProfile.yaml`
+- **Primary goals:** **Improve coding accuracy** and **reduce coding workload** (unified MCP, CLI adapters, multi-LLM Wall-Bounce in dev loop)
+- **Explicitly not:** IT incident/troubleshooting analysis project (upstream InfraOps fork specialization)
+- **Upstream:** `wombat2006/techdev` (reference / optional cherry-pick)
+- **Fork tag:** `fork-base/5cc31f57`
+- **Manifest:** `forkProfile.yaml`
 
 ## Tech Stack
 

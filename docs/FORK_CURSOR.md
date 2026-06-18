@@ -4,8 +4,20 @@
 **Owner**: TechSapo Development Team  
 **Last updated**: 2026-06-18 (Fork schemas + MCP bootstrap)
 
-**Upstream (this repo):** `wombat2006/techdev` — reference / archive for platform docs and P5 architecture.  
-**Primary (fork):** `techdev-cursor` — Cursor MCP, Unified provider server, Provider Adapters, and ongoing DevAssist work.
+## Repository identity
+
+**`techdev-cursor`** is an **integrated Cursor IDE development-environment project**. It was created by forking upstream **`techdev`** — the TechSapo platform that implements the **Wall-Bounce** multi-LLM analysis system.
+
+| Aspect | Definition |
+|--------|------------|
+| **Origin** | GitHub fork of `wombat2006/techdev` (Wall-Bounce engine, SSE/API, provider tiers) |
+| **Purpose** | Build an integrated dev environment in Cursor to **improve coding accuracy** and **reduce coding workload** (WSL CLIs, unified stdio MCP, adapter layer, multi-LLM review) |
+| **Not** | An **IT incident/troubleshooting analysis** project — that specialization is the upstream **InfraOps** fork line, not this repo |
+| **Also not** | A drop-in replacement for upstream production ops — Wall-Bounce API remains in-tree for dev/analysis workflows |
+| **Upstream role** | Reference / optional cherry-pick (`fork_primary` model) |
+
+**Upstream (reference):** `wombat2006/techdev` — platform docs and P5 architecture archive.  
+**Primary (this fork):** `techdev-cursor` — Cursor-integrated coding environment (DevAssist line).
 
 Related: [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md) · [MCP_SERVICES.md](./MCP_SERVICES.md) · [P5 §9 Forkable core](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#9-フォーク可能コア) · [TS-20 InferenceProfile](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
 
@@ -17,7 +29,7 @@ Related: [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CU
 |---|--------|
 | D1 | MCP topology | **Unified** — single `techsapo-providers` stdio server |
 | D2 | Repo model | **Full-Fork** — entire `techdev` tree (not slim repo) |
-| D3 | Fork name | **`techdev-cursor`** — Cursor MCP / DevAssist line |
+| D3 | Fork name | **`techdev-cursor`** — integrated Cursor dev environment (coding accuracy + workload reduction; not InfraOps/incident analysis) |
 | D4 | Upstream sync | **fork_primary** — fork is primary; upstream is reference |
 | D5 | Merge-back | **Optional** — cherry-pick to upstream if needed; not on critical path |
 

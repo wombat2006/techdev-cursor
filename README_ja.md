@@ -1,5 +1,9 @@
 # TechSapo - AIオーケストレーション付きIT基盤支援ツール
 
+> **PRIMARY REPO — `techdev-cursor`**  
+> **このリポジトリの位置づけ:** 壁打ち（Wall-Bounce）システムを備えた upstream [`techdev`](https://github.com/wombat2006/techdev) をフォークして作成した、**Cursor IDE 向け統合開発環境構築プロジェクト**。**目的:** **コーディング精度の向上**と**コーディング負荷の軽減**（マルチ LLM 壁打ち・Unified MCP・サブスクリプション CLI 連携）。**IT 障害解析に特化した PRJ ではない**（それは upstream の InfraOps フォークライン）。  
+> 詳細: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · 手順: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
+
 **壁打ち分析**とマルチLLMオーケストレーション、包括的Prometheus監視、日本語AI統合を特徴とするエンタープライズグレードIT基盤支援ツール
 
 *[English](README.md) | 日本語*
@@ -19,7 +23,111 @@
 - **Tier 4**: OpenRouter Ensemble（補助分析）
 - **Tier 5**: Claude Opus4.1（緊急時専用）
 
+## 🔄 処理フロー
+
+本フォーク（`techdev-cursor`）における **コーディング支援** の End-to-End 経路。**AS-IS**（現行）と **To-Be**（P5 / Track C 計画）を併記。
+
+### 全体像
+
+```mermaid
+flowchart TB
+  subgraph cursor [Cursor IDE — 主経路]
+    U[開発者プロンプト]
+    U --> MCP{単一 LLM で足りる?}
+    MCP -->|Yes| UP[techsapo-providers MCP]
+    UP --> AC[analyze_claude]
+    UP --> AX[analyze_codex]
+    UP --> AG[analyze_agy]
+    AC & AX & AG --> CR[コード提案 / 修正 / 説明]
+  end
+
+  subgraph ingress [リクエスト入口 — API / 本番分析]
+    U2[ユーザープロンプト]
+    U2 --> PA{{PromptAnalyzer<br/>形態素解析 To-Be}}
+    PA --> TR[TaskRouter + InferenceProfile]
+    TR --> RAGQ{RAG / Grounding<br/>必要?}
+  end
+
+  subgraph grounding [Grounding / RAG]
+    RAGQ -->|Yes| GQ[RAG 検索クエリ生成<br/>parse 結果 + 辞書 v0]
+    GQ --> VS[(Vector Store<br/>Google Drive 同期)]
+    GQ --> C7[Context7 / 独自 DB 等 To-Be]
+    GQ --> GB[Grounding Bundle]
+    RAGQ -->|No| WBIN[Wall-Bounce 入力]
+    GB --> WBIN
+  end
+
+  subgraph wallbounce [Wall-Bounce — 2〜5 ラウンド]
+    WBIN --> P1[Provider 1..N 並列/逐次]
+    P1 --> CE[Consensus Engine]
+    CE --> HG{Hard Gate<br/>confidence ≥0.7<br/>consensus ≥0.6}
+    HG -->|未達| P1
+    HG -->|達成| AGG[Aggregator<br/>Sonnet / Opus]
+  end
+
+  AGG --> OUT[日本語回答 / SSE]
+  CR --> OUT2[Cursor エディタ反映]
+
+  U -.->|複雑・多 LLM 合意| U2
+```
+
+### A. Cursor 開発支援フロー（主経路）
+
+| Step | 処理 | 実装 |
+|------|------|------|
+| 1 | Cursor でタスク入力（実装・リファクタ・デバッグ） | Cursor IDE |
+| 2 | 単一モデルで十分 → `techsapo-providers` MCP を stdio spawn | `techsapo-providers-mcp-server.ts` |
+| 3 | MCP → CLI アダプタ → subscription 実行 | `src/adapters/*` |
+| 4 | 結果をエディタ / チャットに反映 | — |
+
+### B. Wall-Bounce 多 LLM 分析フロー
+
+| Step | 処理 | AS-IS | To-Be |
+|------|------|-------|-------|
+| 1 | プロンプト受信 | API / SSE | + **PromptAnalyzer（形態素解析）** |
+| 2 | タスク種別・複雑度 | regex ヒューリスティック | parse + 辞書 + TaskRouter |
+| 3 | Provider 選定・分析 2+ LLM | ✅ | adapter 統一（Track B） |
+| 4 | コンセンサス · Hard Gate | 部分 | 憲法 enforce（Track C） |
+| 5 | Aggregator → 日本語出力 | ✅ | — |
+
+### C. RAG / Grounding フロー
+
+**取り込み:** Google Drive Webhook → DL → Vector Store（`googledrive-webhook-handler.ts`）。**AS-IS では Embedding 前に形態素解析しない。**
+
+**クエリ時:**
+
+| Step | AS-IS | To-Be |
+|------|-------|-------|
+| クエリ受信 | ✅ | — |
+| 形態素解析 + 辞書 | ❌ | ✅ PromptAnalyzer（RAG 検索クエリ生成**前**） |
+| RAG 検索 → Grounding Bundle | 部分 | Orchestrator 統合 |
+| Wall-Bounce 根拠付き回答 | ✅ | — |
+
+### D. 形態素解析（PromptAnalyzer）の位置づけ
+
+RAG が必要な場合、**RAG 検索クエリ生成前**および**プロンプト認識精度向上**のため形態素解析前処理を行う（**Track C-2 計画中**）。
+
+| 用途 | 内容 |
+|------|------|
+| クエリ正規化 · 専門語認識 | `devassist-dictionary-v0.json` 照合 |
+| TaskRouter / RAG term 抽出 | 1 リクエスト 1 parse、結果を共有 |
+| 非用途 | プロンプト本体の形態素置換 · Embedding 前の一律前処理 |
+
+#### より確からしい投入フェーズ
+
+| フェーズ | 評価 |
+|----------|------|
+| **① リクエスト入口 PromptAnalyzer**（RAG **検索クエリ**生成前） | ✅ **第一推奨** — routing と RAG term を 1 parse で処理 |
+| **② Vector Store 投入（Embedding）前** | ⚠️ 一律適用 **非推奨** — hybrid 索引メタのみ Phase 2 で条件付き |
+| **③ LLM プロンプト置換** | ❌ **非採用** |
+
+> 「RAG 前処理」= **② ingest 前ではなく ① クエリ時 PromptAnalyzer** が主戦場。
+
+詳細: [WALL_BOUNCE_P5 §7](./docs/decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#7-形態素解析の位置づけ) · [CURSOR_MCP_TODO § C-2](./docs/CURSOR_MCP_TODO.md)
+
 ## 🚀 主要機能
+
+> **フォークのスコープ:** 本リポジトリ（`techdev-cursor`）は **コーディング支援・開発生産性** が主眼。下記の IT 障害解析等は upstream プラットフォームの汎用機能であり、**このフォークの主目的ではない**（InfraOps 系フォーク向け）。
 
 ### 🤖 AI駆動分析
 - **壁打ち分析**: 複数LLMによる協調分析で高品質な回答生成
@@ -49,13 +157,52 @@
 
 - Node.js 18.0.0 以上
 - Docker & Docker Compose（または Podman）
+- **Claude Code CLI**（`claude`）— Anthropic MAX / OAuth（WSL ネイティブ必須。`ANTHROPIC_API_KEY` は MCP/CLI 経路では使わない）
+- **Codex CLI**（`codex`）— GPT-5 / OpenAI subscription（WSL ネイティブ必須）
 - **Antigravity CLI**（`agy`）— Google Tier 1（Gemini 2.5 Pro/Flash）。WSL ネイティブ必須
-- **Codex CLI** — GPT-5 Codex 連携
-- API キー: OpenAI、Claude（SDK）、OpenRouter 等（Google Gemini API キー直埋めは禁止）
+- API キー: Hugging Face（埋め込み等）、OpenRouter 等（Google Gemini / Anthropic API キー直埋めは禁止）
 - （オプション）本番環境用 Redis、MySQL
 
-> Google プロバイダーは Antigravity CLI（`agy`）経由 — [docs/ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)  
-> Wall-Bounce は `src/utils/antigravity-cli.ts` から `agy --print`（stdin）で呼び出します。
+> 3 つの subscription CLI（`claude` / `codex` / `agy`）は WSL ネイティブでインストール・認証 — 詳細手順: [docs/CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
+> Google Tier 1 / Wall-Bounce: `agy --print` — [docs/ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)
+
+### Claude Code CLI（Anthropic MAX / OAuth）
+
+Cursor MCP の `analyze_claude` およびターミナルからの単発呼び出しに使用。**API キーではなく OAuth サブスクリプション**（MAX 等）を利用します。
+
+```bash
+# インストール（WSL — Windows npm の claude.exe ではない）
+npm install -g @anthropic-ai/claude-code
+which claude   # /mnt/c/.../npm/claude でないこと
+
+# 認証（いずれか）
+claude login
+# または Windows 資格情報を WSL に symlink:
+# ln -sf /mnt/c/Users/<YOU>/.claude/.credentials.json ~/.claude/.credentials.json
+
+# API キーで課金されないよう無効化
+unset ANTHROPIC_API_KEY
+
+# 動作確認（MCP アダプタと同じ --print 経路）
+claude --print --model sonnet --effort low "Reply with only: ok"
+```
+
+| 用途 | コマンド |
+|------|----------|
+| 対話セッション | `claude` |
+| Cursor MCP / スクリプト | `claude --print --model sonnet "…"` |
+
+### Codex CLI（OpenAI subscription）
+
+```bash
+npm install -g @openai/codex
+which codex      # WSL ネイティブパスであること
+codex login
+test -f ~/.codex/auth.json && echo "codex auth ok"
+
+# 動作確認
+codex --print "Reply with only: ok"
+```
 
 ### Antigravity CLI（Google Tier 1）
 

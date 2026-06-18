@@ -1,6 +1,6 @@
 id: devassist-cursor
 displayName: TechSapo DevAssist (Cursor MCP)
-description: Cursor IDE integration via unified provider MCP + subscription quota
+description: Integrated Cursor dev environment — coding accuracy & workload reduction; fork of Wall-Bounce techdev (not IT incident analysis)
 
 inherits:
   - wall-bounce-engine

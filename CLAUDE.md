@@ -2,6 +2,8 @@
 
 **AI Orchestration Platform with Wall-Bounce Multi-LLM Analysis**
 
+> **Repo:** `techdev-cursor` — integrated Cursor dev environment (coding accuracy + workload reduction); fork of Wall-Bounce `techdev`. Not IT incident analysis. See [FORK_CURSOR.md](docs/FORK_CURSOR.md).
+
 > **Skeleton only.** See linked docs for commands, MCP rules, and details. Do not bloat this file — accuracy degrades when it grows.
 
 ---
