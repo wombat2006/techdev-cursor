@@ -595,6 +595,38 @@ curl -X POST localhost:4000/api/v1/generate \
   }'
 ```
 
+## 設計上のこだわり（Design depth）
+
+> 外部レビュー向け — このリポジトリで**何を・どこまで設計として固定しているか**の概要。実装タスク一覧ではありません（内部 runbook: [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)）。
+
+### Multi-vendor integration maturity（進行中）
+
+マルチ LLM の**実用性**を上げるため、各ベンダーの **公式 Cookbook / platform docs** を [TS-21 カタログ](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)（`config/llm-model-catalog.json`）へ順次取り込んでいます。**現時点では OpenAI を先行して深掘り中**で、Anthropic / Google は同じパターンで横展開予定です。
+
+```text
+OpenAI     ████████░░  深掘り中（Cookbook · prompt guidance · pricing 反映済み）
+Anthropic  ██░░░░░░░░  順次（Claude 公式 Cookbook / docs 組込予定）
+Google     ██░░░░░░░░  順次（Gemini / Antigravity 公式資料 組込予定）
+```
+
+| Provider | TS-21 catalog | 公式 Cookbook / platform docs | 状態 |
+|----------|---------------|-------------------------------|------|
+| **OpenAI** | GPT-5.x / Codex 系を詳細化 | [Cookbook 統合](./docs/OPENAI_COOKBOOK_INTEGRATION.md) · [prompt guidance](./docs/OPENAI_PROMPT_GUIDANCE.md) · [model matrix](./docs/OPENAI_MODEL_MATRIX.md) | **先行深掘り中** — カタログ `cookbookIndex` / `promptGuidanceIndex` 反映 |
+| **Anthropic** | Claude エントリ（要約） | Claude 公式 Cookbook / docs → 順次 TS-21 へ | **未着手〜計画中** — Wall-Bounce Tier 3 / Claude Code CLI は AS-IS |
+| **Google** | Gemini エントリ（要約） | [Antigravity CLI 移行](./docs/ANTIGRAVITY_CLI_MIGRATION.md) · [Gemini ガイド群](./docs/gemini-api-migration-guide.md) — Cookbook 相当は順次 | **基盤のみ** — Tier 1 `agy` 運用、カタログ enrich はこれから |
+
+> **読み方:** バーは「公式知見のカタログ取込みの進み具合」のイメージです（本番コード完成度とは別軸）。OpenAI で確立した **catalog ← Cookbook ← platform docs** の型を、他ベンダーへコピーして実用性を揃えていく方針です。
+
+| テーマ | 設計判断（要約） | 詳細 |
+|--------|------------------|------|
+| **Wall-Bounce 憲法** | 単一 LLM 禁止 · 2–5 ラウンド · confidence ≥ 0.7 / consensus ≥ 0.6 | [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md) · [AGENTS.md](./AGENTS.md) |
+| **マルチ LLM カタログ（TS-21）** | モデル特性・transport・pricing を JSON カタログで分離（adapter は HOW） | [TECH_STACK_LLM_MODEL_CATALOG.md](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
+| **InferenceProfile（TS-20）** | リクエスト単位の effort / CoT / temperature をカタログと分離 | [TECH_STACK_INFERENCE_PROFILES.md](./docs/decisions/TECH_STACK_INFERENCE_PROFILES.md) |
+| **フォークスコープ** | Cursor 統合・**コーディング支援**に特化（IT 障害解析ラインではない） | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) |
+| **セキュリティ** | subscription CLI / SDK のみ · コード・リポジトリに API key を置かない | [SECURITY.md](./docs/SECURITY.md) |
+| **OpenAI 統合（先行）** | 公式 prompt guidance · Cookbook · コスト tier · RAG Batch はゲート付き任意 | [OPENAI_COOKBOOK_INTEGRATION.md](./docs/OPENAI_COOKBOOK_INTEGRATION.md) · [OPENAI_PROMPT_GUIDANCE.md](./docs/OPENAI_PROMPT_GUIDANCE.md) |
+| **ADR** | スタック判断を `docs/decisions/` に記録し README / 実装と同期 | [decisions/README.md](./docs/decisions/README.md) |
+
 ---
 
 **🎯 Cursor 統合開発環境 — techdev-cursor（DevAssist）**
