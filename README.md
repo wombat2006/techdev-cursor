@@ -2,7 +2,7 @@
 
 > **PRIMARY REPO — TechSapo DevAssist (Cursor MCP line)**  
 > Fork: `techdev-cursor` · Upstream reference: [wombat2006/techdev](https://github.com/wombat2006/techdev)  
-> Bootstrap: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · Runbook: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
+> Bootstrap: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · Runbook: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · Backlog: [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
 
 [![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests/)
 [![MCP Services](https://img.shields.io/badge/MCP%20services-7+-blue.svg)](#mcp-services)
@@ -28,6 +28,7 @@ Model Context Protocol基盤の協調分析システム
 - **Tier 5**: Claude Opus4.1 + Cipher - 緊急時・セキュリティ専用
 
 ### 🔗 MCP Services Infrastructure {#mcp-services}
+- **techsapo-providers** (Unified): Cursor 向け stdio MCP — `analyze_claude` / `analyze_codex` / `analyze_agy`
 - **Wall-Bounce MCP**: 複数LLM協調処理オーケストレーター
 - **Vault MCP**: AES-256-GCM暗号化環境変数管理
 - **Stash MCP**: セマンティックコード検索・コンテキスト管理
@@ -114,12 +115,33 @@ echo "Reply with only: ok" | agy --print --model gemini-2.5-pro
 
 オプション: `ANTIGRAVITY_CLI_BIN` でバイナリパスを上書き可能。
 
+### Unified Provider MCP（Cursor — Track A-1）
+
+単一 stdio サーバー `techsapo-providers` が CLI アダプタ経由で各 LLM を直接呼び出します（subscription quota）。Wall-Bounce 本番分析は引き続き API 経由。
+
+| Tool | Provider | Transport |
+|------|----------|-----------|
+| `analyze_claude` | Claude Code | `claude --print`（OAuth） |
+| `analyze_codex` | Codex | `codex exec`（非対話） |
+| `analyze_agy` | Antigravity | `agy --print`（stdin） |
+
+```bash
+npm run build
+
+# stdio サーバー起動確認（Cursor は自動 spawn — npm run codex-mcp は使わない）
+npm run techsapo-providers-mcp
+```
+
+Cursor 登録: [config/cursor-mcp.template.json](./config/cursor-mcp.template.json) を Settings → MCP にコピー（`node dist/services/techsapo-providers-mcp-server.js`）。
+
+実装: `src/adapters/*` · `src/services/techsapo-providers-mcp-server.ts` · 将来拡張: [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
+
 ## 🛠 クイックスタート
 
 ### 1. リポジトリセットアップ
 ```bash
-git clone https://github.com/wombat2006/techsapo.git
-cd techsapo
+git clone git@github.com:wombat2006/techdev-cursor.git
+cd techdev-cursor
 npm install
 ```
 
@@ -137,6 +159,13 @@ cp .env.example .env
 # または手動起動
 npm run build
 npm start
+```
+
+### 4. Cursor MCP 登録（オプション）
+```bash
+# A-0: WSL ネイティブ claude / codex / agy + 認証 — docs/CURSOR_MCP_TODO.md
+npm run build
+# config/cursor-mcp.template.json を Cursor Settings → MCP に反映
 ```
 
 ## 🎯 MCP エンドポイント

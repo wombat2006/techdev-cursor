@@ -63,11 +63,11 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 | `config/cursor-mcp.template.json` | ✅ |
 | `config/inference-profiles.json` | ❌ Track A-2+ |
 | `config/schemas/` | ❌ optional Day 0 |
-| `src/types/inference-profile.ts` | ❌ Track A-1 |
-| `src/types/adapter-types.ts` | ❌ Track A-1 |
-| `src/adapters/` (claude, codex, agy, resolver) | ❌ Track A-1 |
-| `src/services/techsapo-providers-mcp-server.ts` | ❌ Track A-1 |
-| `tests/adapters/` | ❌ Track A-1 |
+| `src/types/inference-profile.ts` | ✅ Track A-1 |
+| `src/types/adapter-types.ts` | ✅ Track A-1 |
+| `src/adapters/` (claude, codex, agy, resolver) | ✅ Track A-1 |
+| `src/services/techsapo-providers-mcp-server.ts` | ✅ Track A-1 |
+| `tests/adapters/` | ✅ resolver unit test |
 
 ## Core Subsystems
 
@@ -82,7 +82,7 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 |-------|-------------|--------|
 | Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed (`3232b194`) |
 | A-0 | WSL CLI auth (claude/codex/agy) | Partial (codex/agy pending) |
-| A-1 | adapters + unified MCP server | ❌ not started |
+| A-1 | adapters + unified MCP server | ✅ implemented; Cursor register pending |
 | A-2 | inference-profiles.json + MCP schemas | ❌ |
 | B | wall-bounce-analyzer uses adapters | ❌ |
 | C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |

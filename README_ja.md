@@ -79,12 +79,29 @@ echo "Reply with only: ok" | agy --print --model gemini-2.5-pro
 
 オプション: `ANTIGRAVITY_CLI_BIN` でバイナリパスを上書き可能。
 
+### Unified Provider MCP（Cursor — Track A-1）
+
+単一 stdio サーバー `techsapo-providers` が CLI アダプタ経由で各 LLM を直接呼び出します（subscription quota）。
+
+| Tool | Provider | Transport |
+|------|----------|-----------|
+| `analyze_claude` | Claude Code | `claude --print`（OAuth） |
+| `analyze_codex` | Codex | `codex exec`（非対話） |
+| `analyze_agy` | Antigravity | `agy --print`（stdin） |
+
+```bash
+npm run build
+npm run techsapo-providers-mcp   # 起動確認（Cursor 登録は template 参照）
+```
+
+詳細: [config/cursor-mcp.template.json](./config/cursor-mcp.template.json) · [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
+
 ## 🛠 クイックスタート
 
 ### 1. リポジトリセットアップ
 ```bash
-git clone https://github.com/wombat2006/techsapo.git
-cd techsapo
+git clone git@github.com:wombat2006/techdev-cursor.git
+cd techdev-cursor
 npm install
 ```
 
@@ -102,6 +119,13 @@ cp .env.example .env
 # または手動起動
 npm run build
 npm start
+```
+
+### 4. Cursor MCP 登録（オプション）
+```bash
+# A-0: WSL ネイティブ claude / codex / agy + 認証 — docs/CURSOR_MCP_TODO.md
+npm run build
+# config/cursor-mcp.template.json を Cursor Settings → MCP に反映
 ```
 
 ## 🎯 主要エンドポイント

@@ -69,6 +69,7 @@
 | **CURSOR_MCP_PLAN.md** | Cursor MCP plan; Phase 0 WSL CLI + auth prerequisite (TS-21) | Developers |
 | **FORK_CURSOR.md** | Full-Fork `techdev-cursor`; unified MCP primary (TS-21 impl) | Developers |
 | **CURSOR_MCP_TODO.md** | Phased execution runbook — Track A/B/C + Gate reviews | Developers |
+| **PROVIDER_INTEGRATION_BACKLOG.md** | Provider adapters, SDK sidecar margin, open backlog (unprioritized) | Developers |
 | **TECH_STACK_WORKSPACE.md** | Tech stack AS-IS inventory & decision backlog TS-01…21 | Architects / leads |
 
 ### Integration Guides
