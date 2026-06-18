@@ -18,14 +18,28 @@
 
 ### マルチLLMオーケストレーション
 
-> OpenAI モデル ID: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)。マルチベンダー特性: [config/llm-model-catalog.json](./config/llm-model-catalog.json)（[TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)）。**AS-IS コード**は legacy 名のままの箇所あり。
+> OpenAI モデル ID: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)。マルチベンダー特性: [config/llm-model-catalog.json](./config/llm-model-catalog.json)（[TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)）、[OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) 由来の `apiFeatures` / `references[]` / `cookbookIndex` を含む。**呼び出し方針（Context7 照合済）:** カタログ = 経路チャネル + 能力 + `nativeModelFlag`；アダプタ（`src/adapters/*`）= 具体 CLI/API — [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)。**AS-IS コード**は legacy 名のままの箇所あり。
 
 - **Tier 0**: Context7 / Stash — リファレンス層（非 LLM）
 - **Tier 1**: Claude Code CLI — 開発 routing · Unified MCP
 - **Tier 2**: Antigravity CLI（`agy`）+ **GPT-5.4 mini / nano** — 高速・高ボリューム（To-Be；現行は Codex CLI）
 - **Tier 3**: Claude Sonnet 4.5 + OpenRouter — 複雑分析
-- **Tier 4**: **GPT-5.5** + Codex CLI — 複雑 codegen / 推論
+- **Tier 4**: **GPT-5.5** — Responses API 優先 · codex 系モデルのみ Codex CLI
 - **Tier 5**: **GPT-5.5 Pro** + Claude Opus 4.1 — 集約 / 最難問 critique
+
+### LLM モデルカタログ（TS-21）
+
+3 層分離 — カタログ・リクエスト単位パラメータ・アダプタ argv を混同しない:
+
+| 層 | ファイル | 役割 |
+|----|----------|------|
+| **LlmModelCatalog** | `config/llm-model-catalog.json` | **WHAT:** モデル特性・上限・経路・Cookbook 参照 |
+| **InferenceProfile** | `inference-profiles.json`（[TS-20](./docs/decisions/TECH_STACK_INFERENCE_PROFILES.md)） | **HOW:** effort / temperature / cot |
+| **Provider アダプタ** | `src/adapters/{claude,codex,agy}-adapter.ts` | **BIND:** 具体 CLI spawn / API body（コードで版管理） |
+
+- JSON Schema: [config/schemas/llm-model-catalog.schema.json](./config/schemas/llm-model-catalog.schema.json)
+- `transport.invocationBindingRef` は実装へのポインタのみ（`spawnArgs` はカタログに書かない）
+- Cookbook 同期: Track F-7 · Codex MCP コマンド整合: Track F-8
 
 ## 🔄 処理フロー
 
@@ -198,14 +212,16 @@ claude --print --model sonnet --effort low "Reply with only: ok"
 
 ### Codex CLI（OpenAI subscription）
 
+`analyze_codex` の非対話経路: `codex exec --model <id> …`（[`codex-adapter.ts`](./src/adapters/codex-adapter.ts)）。PM2 の Codex MCP は CLI サブコマンド要確認（`codex mcp-server` vs 旧 `codex mcp serve`）— [Track F-8](./docs/PROVIDER_INTEGRATION_BACKLOG.md)。
+
 ```bash
 npm install -g @openai/codex
 which codex      # WSL ネイティブパスであること
 codex login
 test -f ~/.codex/auth.json && echo "codex auth ok"
 
-# 動作確認
-codex --print "Reply with only: ok"
+# 動作確認（非対話 — MCP アダプタと同系）
+codex exec "Reply with only: ok"
 ```
 
 ### Antigravity CLI（Google Tier 1）

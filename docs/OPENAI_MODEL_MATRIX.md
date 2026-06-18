@@ -6,9 +6,9 @@
 
 Target catalog for OpenAI models used in TechSapo / `techdev-cursor`. **AS-IS code** still references legacy IDs (`gpt-5-codex`, `gpt-5`, etc.) until backlog items are implemented.
 
-**Machine-readable catalog**: multi-vendor entries live in [config/llm-model-catalog.json](../config/llm-model-catalog.json) (TS-21). This doc is the OpenAI-focused view; add entries there when models ship.
+**Machine-readable catalog**: multi-vendor entries live in [config/llm-model-catalog.json](../config/llm-model-catalog.json) (TS-21). OpenAI traits sourced from [OpenAI Cookbook](https://github.com/openai/openai-cookbook) (`registry.yaml` + prompting guides). This doc is the OpenAI-focused summary.
 
-Related: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md)
+Related: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · [OPENAI_COOKBOOK_INTEGRATION.md](./OPENAI_COOKBOOK_INTEGRATION.md)
 
 ---
 

@@ -2,7 +2,9 @@
 
 ## 🍳 Overview
 
-This guide integrates advanced techniques from the [OpenAI Cookbook](https://cookbook.openai.com) into TechSapo's architecture, filling gaps in our current implementation and enhancing AI capabilities.
+This guide integrates advanced techniques from the [OpenAI Cookbook](https://cookbook.openai.com) ([GitHub](https://github.com/openai/openai-cookbook)) into TechSapo's architecture, filling gaps in our current implementation and enhancing AI capabilities.
+
+> **Model traits (machine-readable):** OpenAI Cookbook findings are normalized into [config/llm-model-catalog.json](../config/llm-model-catalog.json) per [TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) — `apiFeatures`, `builtinTools`, `references[]`, and `cookbookIndex` (from `registry.yaml` slugs). Human summary: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md).
 
 ## 📚 Cookbook Topics Integration Status
 

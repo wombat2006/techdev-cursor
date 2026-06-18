@@ -48,6 +48,11 @@ Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wirin
 - [ ] **F-4** — Migrate `llm-providers.json` entries to reference `catalogId` instead of duplicating traits
 - [ ] **F-5** — Sync vendor matrix docs (OpenAI, Anthropic, Google) from catalog export or CI check
 - [ ] **F-6** — Unit tests: alias resolution, deprecated model warnings, role eligibility
+- [ ] **F-7** — Cookbook sync job: diff `registry.yaml` tags (gpt-5*, codex) vs `cookbookIndex` / `references[]`
+- [ ] **F-8** — Align Codex MCP daemon command with official CLI (`codex mcp-server` vs `codex mcp serve`); verify via Context7/docs
+- [ ] **F-9** — Optional `config/invocation-bindings.json` (versioned adapter recipes; separate from model catalog)
+
+OpenAI source: [openai/openai-cookbook](https://github.com/openai/openai-cookbook) · [cookbook.openai.com](https://cookbook.openai.com) · Context7 `/websites/developers_openai_api`
 
 ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · Schema: [config/schemas/llm-model-catalog.schema.json](../config/schemas/llm-model-catalog.schema.json)
 

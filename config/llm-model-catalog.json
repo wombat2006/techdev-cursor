@@ -4,7 +4,8 @@
     "openai": {
       "displayName": "OpenAI",
       "billingModel": "mixed",
-      "docsUrl": "https://platform.openai.com/docs/models"
+      "docsUrl": "https://platform.openai.com/docs/models",
+      "cookbookUrl": "https://cookbook.openai.com"
     },
     "anthropic": {
       "displayName": "Anthropic",
@@ -21,44 +22,134 @@
     {
       "id": "gpt-5.5",
       "vendor": "openai",
+      "modelFamily": "gpt-5.5",
       "displayName": "GPT-5.5",
       "status": "planned",
       "tier": 4,
-      "roles": ["llm_analyze", "llm_cross_critique"],
+      "roles": ["llm_analyze", "llm_cross_critique", "llm_agent_edit"],
+      "modalities": ["text", "vision", "multimodal"],
       "presetDefault": "deep",
+      "prompting": {
+        "style": "structured",
+        "notes": "Responses API; long-running agent workflows. See gpt-5 prompting lineage in cookbook."
+      },
       "capabilities": {
         "reasoning": "frontier",
         "toolUse": true,
         "toolSearch": true,
         "computerUse": true,
         "compaction": false,
-        "multimodal": false,
+        "multimodal": true,
+        "spatialReasoning": true,
         "japaneseQuality": "good",
         "codegen": true,
         "longWorkflow": true
+      },
+      "builtinTools": {
+        "mcp": true,
+        "computerUse": true,
+        "webSearch": true,
+        "fileSearch": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["none", "minimal", "low", "medium", "high", "xhigh"],
+          "default": "medium"
+        },
+        "verbosity": {
+          "supported": true,
+          "values": ["low", "medium", "high"],
+          "default": "medium"
+        },
+        "structuredOutputs": true,
+        "reasoningItems": true,
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 24,
+          "notes": "24h TTL only per platform guidance"
+        },
+        "parallelToolCalls": true,
+        "freeFormFunctionCalling": true,
+        "contextFreeGrammar": true,
+        "skillsApi": true
       },
       "limits": { "contextTokens": 1000000 },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
-        "nativeModelFlag": "gpt-5.5"
+        "nativeModelFlag": "gpt-5.5",
+        "invocationBindingRef": "openai:responses-v1"
       },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "grounded-spatial-reasoning-layouts",
+          "title": "Evaluating Grounded Spatial Reasoning with GPT-5.5",
+          "url": "https://cookbook.openai.com/examples/multimodal/grounded_spatial_reasoning_layouts",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "reasoning-items",
+          "title": "Better performance from reasoning models using the Responses API",
+          "url": "https://cookbook.openai.com/examples/responses_api/reasoning_items",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "mcp-tool-guide",
+          "title": "MCP Tool Guide",
+          "url": "https://cookbook.openai.com/examples/mcp/mcp_tool_guide",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://openai.com/api/pricing/"
+        }
+      ],
       "costHint": "flagship",
-      "notes": "Responses API optimized; prompt caching 24h only. See OPENAI_MODEL_MATRIX.md"
+      "notes": "Flagship general model — complex reasoning, tools, long workflows. Prefer Responses API."
     },
     {
       "id": "gpt-5.5-pro",
       "vendor": "openai",
+      "modelFamily": "gpt-5.5",
       "displayName": "GPT-5.5 Pro",
       "status": "planned",
       "tier": 5,
       "roles": ["llm_aggregate", "llm_cross_critique"],
+      "modalities": ["text", "multimodal"],
       "presetDefault": "critical",
+      "prompting": { "style": "structured" },
       "capabilities": {
         "reasoning": "frontier",
         "toolUse": true,
-        "longWorkflow": true
+        "longWorkflow": true,
+        "multimodal": true
+      },
+      "builtinTools": {
+        "mcp": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["medium", "high"],
+          "default": "high"
+        },
+        "structuredOutputs": true,
+        "reasoningItems": true,
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 24
+        }
       },
       "transport": {
         "invocationTypes": ["responses_api"],
@@ -66,41 +157,114 @@
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.5-pro"
       },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "reasoning-items",
+          "url": "https://cookbook.openai.com/examples/responses_api/reasoning_items",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://openai.com/api/pricing/"
+        }
+      ],
       "costHint": "frontier",
-      "notes": "Higher compute tier above GPT-5.5"
+      "notes": "Higher-compute tier above GPT-5.5 for hardest problems."
     },
     {
       "id": "gpt-5.4-mini",
       "vendor": "openai",
+      "modelFamily": "gpt-5.4",
       "displayName": "GPT-5.4 mini",
       "status": "planned",
       "tier": 2,
       "roles": ["llm_analyze", "llm_codegen"],
+      "modalities": ["text", "vision", "document"],
       "presetDefault": "balanced",
+      "prompting": {
+        "style": "balanced",
+        "notes": "Suited for conversational chat and high-volume tasks."
+      },
       "capabilities": {
         "reasoning": "medium",
         "toolUse": true,
         "toolSearch": true,
         "computerUse": true,
         "compaction": true,
+        "documentUnderstanding": true,
+        "multimodal": true,
         "codegen": true
+      },
+      "builtinTools": {
+        "mcp": true,
+        "computerUse": true,
+        "webSearch": true,
+        "fileSearch": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["none", "minimal", "low", "medium", "high"],
+          "default": "medium"
+        },
+        "verbosity": {
+          "supported": true,
+          "values": ["low", "medium", "high"],
+          "default": "medium"
+        },
+        "structuredOutputs": true,
+        "promptCaching": { "supported": true },
+        "parallelToolCalls": true,
+        "freeFormFunctionCalling": true,
+        "contextFreeGrammar": true
       },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
-        "preferredInvocation": "codex_cli",
-        "nativeModelFlag": "gpt-5.4-mini"
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5.4-mini",
+        "invocationBindingRef": "openai:responses-v1"
       },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "vision-understanding",
+          "title": "Getting the Most out of GPT-5.4 for Vision and Document Understanding",
+          "url": "https://cookbook.openai.com/examples/multimodal/document_and_multimodal_understanding_tips",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "gpt-5-new-params-and-tools",
+          "url": "https://cookbook.openai.com/examples/gpt-5/gpt-5_new_params_and_tools",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://openai.com/api/pricing/"
+        }
+      ],
       "costHint": "mini",
-      "notes": "High-volume chat / conversational workloads"
+      "notes": "GPT-5.4-class; fast, low-cost, high volume; tool search + computer use + compaction."
     },
     {
       "id": "gpt-5.4-nano",
       "vendor": "openai",
+      "modelFamily": "gpt-5.4",
       "displayName": "GPT-5.4 nano",
       "status": "planned",
       "tier": 2,
       "roles": ["llm_analyze"],
+      "modalities": ["text"],
       "presetDefault": "fast",
+      "prompting": {
+        "style": "minimal",
+        "notes": "Use reasoning effort minimal for extraction/formatting (cookbook pattern)."
+      },
       "capabilities": {
         "reasoning": "low",
         "toolUse": false,
@@ -108,45 +272,220 @@
         "computerUse": false,
         "compaction": true
       },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["minimal", "low"],
+          "default": "minimal"
+        },
+        "verbosity": {
+          "supported": true,
+          "values": ["low", "medium"],
+          "default": "low"
+        },
+        "promptCaching": { "supported": true },
+        "parallelToolCalls": false,
+        "freeFormFunctionCalling": false
+      },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
-        "preferredInvocation": "codex_cli",
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.4-nano"
       },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "gpt-5-new-params-and-tools",
+          "title": "GPT-5 New Params and Tools (minimal reasoning pattern)",
+          "url": "https://cookbook.openai.com/examples/gpt-5/gpt-5_new_params_and_tools",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://openai.com/api/pricing/"
+        }
+      ],
       "costHint": "nano",
-      "notes": "Simple high-frequency tasks"
+      "notes": "Lightest tier; compaction yes; no tool search / computer use."
     },
     {
       "id": "gpt-5-codex",
       "vendor": "openai",
+      "modelFamily": "gpt-5-codex",
       "displayName": "GPT-5 Codex",
       "status": "active",
       "deprecatedBy": "gpt-5.4-mini",
       "tier": 2,
-      "roles": ["llm_codegen"],
+      "roles": ["llm_codegen", "llm_agent_edit"],
+      "modalities": ["text"],
       "presetDefault": "balanced",
+      "prompting": {
+        "style": "minimal",
+        "notes": "Less-is-more prompting; avoid verbose instructions (cookbook: codex-prompting-guide)."
+      },
       "capabilities": {
         "reasoning": "high",
         "toolUse": true,
+        "compaction": true,
         "codegen": true,
         "longWorkflow": true
+      },
+      "builtinTools": {
+        "terminal": true,
+        "applyPatch": true,
+        "mcp": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "cli_only"],
+        "recommendedEndpoint": "cli_only",
+        "adaptiveReasoning": true,
+        "goals": true,
+        "structuredOutputs": true,
+        "promptCaching": { "supported": true },
+        "parallelToolCalls": false,
+        "freeFormFunctionCalling": true
       },
       "transport": {
         "invocationTypes": ["codex_cli"],
         "preferredInvocation": "codex_cli",
         "apiSurface": "cli_only",
-        "nativeModelFlag": "gpt-5-codex"
+        "nativeModelFlag": "gpt-5-codex",
+        "invocationBindingRef": "openai:codex-exec-v1"
       },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "codex-prompting-guide",
+          "title": "Codex Prompting Guide",
+          "url": "https://cookbook.openai.com/examples/gpt-5/codex_prompting_guide",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "using-goals-in-codex",
+          "title": "Using Goals in Codex",
+          "url": "https://cookbook.openai.com/examples/codex/using_goals_in_codex",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "building-consistent-workflows-codex-cli-agents-sdk",
+          "url": "https://cookbook.openai.com/examples/codex/codex_mcp_agents_sdk/building_consistent_workflows_codex_cli_agents_sdk",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "building-reliable-agents-memory-compaction",
+          "title": "Building Reliable Agents with Memory and Compaction",
+          "url": "https://cookbook.openai.com/examples/agents_sdk/building_reliable_agents_memory_compaction",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
       "costHint": "standard",
-      "notes": "AS-IS Wall-Bounce default OpenAI provider key"
+      "notes": "AS-IS Wall-Bounce / Codex CLI default. Subscription via codex CLI."
+    },
+    {
+      "id": "gpt-5-mini",
+      "vendor": "openai",
+      "modelFamily": "gpt-5",
+      "displayName": "GPT-5 mini",
+      "status": "deprecated",
+      "deprecatedBy": "gpt-5.4-mini",
+      "tier": 2,
+      "roles": ["llm_analyze"],
+      "modalities": ["text"],
+      "presetDefault": "balanced",
+      "capabilities": {
+        "reasoning": "medium",
+        "toolUse": true,
+        "codegen": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["minimal", "low", "medium", "high"],
+          "default": "medium"
+        },
+        "verbosity": {
+          "supported": true,
+          "values": ["low", "medium", "high"],
+          "default": "medium"
+        },
+        "freeFormFunctionCalling": true,
+        "contextFreeGrammar": true
+      },
+      "transport": {
+        "invocationTypes": ["responses_api", "openai_sdk"],
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5-mini"
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "gpt-5-new-params-and-tools",
+          "url": "https://cookbook.openai.com/examples/gpt-5/gpt-5_new_params_and_tools",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
+      "costHint": "mini",
+      "notes": "Legacy GPT-5 series; superseded by GPT-5.4 mini in target catalog."
+    },
+    {
+      "id": "gpt-5-nano",
+      "vendor": "openai",
+      "modelFamily": "gpt-5",
+      "displayName": "GPT-5 nano",
+      "status": "deprecated",
+      "deprecatedBy": "gpt-5.4-nano",
+      "tier": 2,
+      "roles": ["llm_analyze"],
+      "modalities": ["text"],
+      "presetDefault": "fast",
+      "capabilities": {
+        "reasoning": "low",
+        "toolUse": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["minimal", "low", "medium"],
+          "default": "minimal"
+        },
+        "verbosity": { "supported": true, "values": ["low", "medium", "high"], "default": "low" }
+      },
+      "transport": {
+        "invocationTypes": ["responses_api"],
+        "preferredInvocation": "responses_api",
+        "nativeModelFlag": "gpt-5-nano"
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "gpt-5-new-params-and-tools",
+          "url": "https://cookbook.openai.com/examples/gpt-5/gpt-5_new_params_and_tools",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
+      "costHint": "nano"
     },
     {
       "id": "claude-sonnet-4-5-20250929",
       "vendor": "anthropic",
+      "modelFamily": "claude-sonnet-4",
       "displayName": "Claude Sonnet 4.5",
       "status": "active",
       "tier": 3,
       "roles": ["llm_analyze", "llm_agent_edit", "llm_aggregate"],
+      "modalities": ["text"],
       "presetDefault": "balanced",
       "capabilities": {
         "reasoning": "high",
@@ -165,10 +504,12 @@
     {
       "id": "claude-opus-4.1",
       "vendor": "anthropic",
+      "modelFamily": "claude-opus-4",
       "displayName": "Claude Opus 4.1",
       "status": "active",
       "tier": 5,
       "roles": ["llm_aggregate", "llm_cross_critique"],
+      "modalities": ["text"],
       "presetDefault": "critical",
       "capabilities": {
         "reasoning": "frontier",
@@ -186,10 +527,12 @@
     {
       "id": "gemini-2.5-pro",
       "vendor": "google",
+      "modelFamily": "gemini-2.5",
       "displayName": "Gemini 2.5 Pro",
       "status": "active",
       "tier": 1,
       "roles": ["llm_analyze"],
+      "modalities": ["text", "multimodal"],
       "presetDefault": "deep",
       "capabilities": {
         "reasoning": "high",
@@ -207,10 +550,12 @@
     {
       "id": "gemini-2.5-flash",
       "vendor": "google",
+      "modelFamily": "gemini-2.5",
       "displayName": "Gemini 2.5 Flash",
       "status": "active",
       "tier": 1,
       "roles": ["llm_analyze"],
+      "modalities": ["text", "multimodal"],
       "presetDefault": "fast",
       "capabilities": {
         "reasoning": "medium",
@@ -230,7 +575,22 @@
     "opus": "claude-opus-4.1",
     "gpt-5.5": "gpt-5.5",
     "gpt-5-codex": "gpt-5-codex",
+    "gpt-5-mini": "gpt-5-mini",
+    "gpt-5-nano": "gpt-5-nano",
     "gemini-pro": "gemini-2.5-pro",
     "gemini-flash": "gemini-2.5-flash"
+  },
+  "cookbookIndex": {
+    "gpt-5-prompting-guide": ["gpt-5.5", "gpt-5-mini"],
+    "gpt-5-new-params-and-tools": ["gpt-5.4-mini", "gpt-5.4-nano", "gpt-5-mini", "gpt-5-nano"],
+    "codex-prompting-guide": ["gpt-5-codex"],
+    "using-goals-in-codex": ["gpt-5-codex"],
+    "reasoning-items": ["gpt-5.5", "gpt-5.5-pro"],
+    "mcp-tool-guide": ["gpt-5.5", "gpt-5.4-mini"],
+    "vision-understanding": ["gpt-5.4-mini"],
+    "grounded-spatial-reasoning-layouts": ["gpt-5.5"],
+    "building-reliable-agents-memory-compaction": ["gpt-5-codex", "gpt-5.4-mini", "gpt-5.4-nano"],
+    "prompt-caching101": ["gpt-5.5", "gpt-5.4-mini"],
+    "model-selection-guide": ["gpt-5.5", "gpt-5.4-mini", "gpt-5.4-nano"]
   }
 }

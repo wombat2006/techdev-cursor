@@ -34,6 +34,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | API Routes | `src/routes/wall-bounce-api.ts` | [API_REFERENCE.md](docs/API_REFERENCE.md) |
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
 | System Architecture | `src/index.ts` | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| LLM Model Catalog | `config/llm-model-catalog.json` | [TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 
 ---
 

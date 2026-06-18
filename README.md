@@ -21,14 +21,28 @@ Model Context Protocol基盤の協調分析システム
 
 ### Multi-LLM MCP Orchestration
 
-> OpenAI model IDs: target catalog in [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md). Multi-vendor traits: [config/llm-model-catalog.json](./config/llm-model-catalog.json) ([TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)). **AS-IS code** may still show legacy names until backlog migration.
+> OpenAI model IDs: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md). Multi-vendor traits: [config/llm-model-catalog.json](./config/llm-model-catalog.json) ([TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)), enriched from [OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) (`apiFeatures`, `builtinTools`, `references[]`, `cookbookIndex`). **Invocation policy (Context7-verified):** catalog = transport channel + capabilities + `nativeModelFlag`; adapters (`src/adapters/*`) = concrete CLI/API calls — see [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md). **AS-IS code** may still show legacy names until backlog migration.
 
 - **Tier 0**: Stash/Context7 — reference / documentation layer (non-LLM)
 - **Tier 1**: Claude Code CLI — dev routing · unified MCP (`analyze_claude`)
 - **Tier 2**: Antigravity CLI (`agy`, Gemini) + **GPT-5.4 mini / nano** — high-volume / fast tasks (To-Be; Codex CLI today)
 - **Tier 3**: Claude Sonnet 4.5 + OpenRouter — complex analysis
-- **Tier 4**: **GPT-5.5** + Codex CLI — complex codegen / reasoning (API catalog To-Be)
+- **Tier 4**: **GPT-5.5** — Responses API preferred · Codex CLI for codex-family models (API catalog To-Be)
 - **Tier 5**: **GPT-5.5 Pro** + Claude Opus 4.1 — aggregation / hardest critique
+
+### LLM Model Catalog (TS-21)
+
+Three-layer split — do not conflate catalog with per-request knobs or adapter argv:
+
+| Layer | Artifact | Role |
+|-------|----------|------|
+| **LlmModelCatalog** | `config/llm-model-catalog.json` | **WHAT:** vendor/model traits, limits, transport channel, Cookbook refs |
+| **InferenceProfile** | `inference-profiles.json` ([TS-20](./docs/decisions/TECH_STACK_INFERENCE_PROFILES.md)) | **HOW:** effort, temperature, cot per request |
+| **Provider adapters** | `src/adapters/{claude,codex,agy}-adapter.ts` | **BIND:** exact CLI spawn / API body (versioned in code) |
+
+- JSON Schema: [config/schemas/llm-model-catalog.schema.json](./config/schemas/llm-model-catalog.schema.json)
+- Optional `transport.invocationBindingRef` (e.g. `openai:responses-v1`) — pointer only; no `spawnArgs` in catalog
+- Cookbook ↔ catalog sync: backlog Track F-7 · Codex MCP command alignment: Track F-8
 
 ### 🔗 MCP Services Infrastructure {#mcp-services}
 - **techsapo-providers** (Unified): Cursor 向け stdio MCP — `analyze_claude` / `analyze_codex` / `analyze_agy`
@@ -253,14 +267,16 @@ claude --print --model sonnet --effort low "Reply with only: ok"
 
 ### Codex CLI（OpenAI subscription）
 
+Non-interactive path used by `analyze_codex`: `codex exec --model <id> …` ([`codex-adapter.ts`](./src/adapters/codex-adapter.ts)). PM2 daemon for Codex MCP: verify CLI subcommand (`codex mcp-server` vs legacy `codex mcp serve`) — [Track F-8](./docs/PROVIDER_INTEGRATION_BACKLOG.md).
+
 ```bash
 npm install -g @openai/codex
 which codex      # WSL ネイティブパスであること
 codex login
 test -f ~/.codex/auth.json && echo "codex auth ok"
 
-# 動作確認
-codex --print "Reply with only: ok"
+# 動作確認（非対話 — MCP アダプタと同系）
+codex exec "Reply with only: ok"
 ```
 
 ### Antigravity CLI（Google Tier 1）

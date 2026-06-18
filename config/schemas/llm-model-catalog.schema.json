@@ -31,6 +31,14 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "cookbookIndex": {
+      "type": "object",
+      "description": "Optional reverse index: OpenAI Cookbook slug → model id[]",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
     }
   },
   "$defs": {
@@ -44,7 +52,120 @@
           "type": "string",
           "enum": ["subscription_cli", "api_key", "oauth_cli", "mixed"]
         },
-        "docsUrl": { "type": "string", "format": "uri" }
+        "docsUrl": { "type": "string", "format": "uri" },
+        "cookbookUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Vendor cookbook root (e.g. https://cookbook.openai.com)"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "required": ["type", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["cookbook", "platform_docs", "pricing", "adr"]
+        },
+        "title": { "type": "string" },
+        "slug": {
+          "type": "string",
+          "description": "Cookbook registry slug (registry.yaml)"
+        },
+        "url": { "type": "string", "format": "uri" },
+        "lastReviewed": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "modality": {
+      "type": "string",
+      "enum": ["text", "vision", "document", "audio", "multimodal"]
+    },
+    "promptingProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": ["minimal", "balanced", "structured", "agentic"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "paramSupport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "supported": { "type": "boolean" },
+        "values": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "default": { "type": "string" }
+      }
+    },
+    "apiFeatures": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "supportedEndpoints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["responses_api", "chat_completions", "realtime_api", "cli_only"]
+          }
+        },
+        "recommendedEndpoint": {
+          "type": "string",
+          "enum": ["responses_api", "chat_completions", "realtime_api", "cli_only"]
+        },
+        "reasoningEffort": { "$ref": "#/$defs/paramSupport" },
+        "verbosity": { "$ref": "#/$defs/paramSupport" },
+        "structuredOutputs": { "type": "boolean" },
+        "reasoningItems": {
+          "type": "boolean",
+          "description": "Responses API reasoning items stream (cookbook: reasoning-items)"
+        },
+        "promptCaching": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "supported": { "type": "boolean" },
+            "maxTtlHours": { "type": "number", "minimum": 0 },
+            "notes": { "type": "string" }
+          }
+        },
+        "parallelToolCalls": { "type": "boolean" },
+        "freeFormFunctionCalling": { "type": "boolean" },
+        "contextFreeGrammar": { "type": "boolean" },
+        "skillsApi": { "type": "boolean" },
+        "goals": {
+          "type": "boolean",
+          "description": "Codex Goals — persistent evidence-checked outcomes (cookbook: using-goals-in-codex)"
+        },
+        "adaptiveReasoning": {
+          "type": "boolean",
+          "description": "Codex auto-adjusts reasoning depth by task complexity"
+        }
+      }
+    },
+    "builtinTools": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mcp": { "type": "boolean" },
+        "computerUse": { "type": "boolean" },
+        "webSearch": { "type": "boolean" },
+        "fileSearch": { "type": "boolean" },
+        "codeInterpreter": { "type": "boolean" },
+        "customTool": { "type": "boolean" },
+        "terminal": { "type": "boolean" },
+        "applyPatch": { "type": "boolean" }
       }
     },
     "capabilities": {
@@ -65,7 +186,9 @@
           "enum": ["unknown", "fair", "good", "excellent"]
         },
         "codegen": { "type": "boolean" },
-        "longWorkflow": { "type": "boolean" }
+        "longWorkflow": { "type": "boolean" },
+        "spatialReasoning": { "type": "boolean" },
+        "documentUnderstanding": { "type": "boolean" }
       }
     },
     "limits": {
@@ -100,7 +223,11 @@
         },
         "nativeModelFlag": {
           "type": "string",
-          "description": "CLI/API flag value passed to provider (e.g. gpt-5.5, sonnet)"
+          "description": "CLI/API model id only (e.g. gpt-5.5, sonnet) — not full invocation recipe"
+        },
+        "invocationBindingRef": {
+          "type": "string",
+          "description": "Optional pointer to adapter binding implementation (e.g. openai:codex-exec-v1). Args/body live in code, not catalog."
         }
       }
     },
@@ -114,6 +241,10 @@
           "pattern": "^[a-z0-9][a-z0-9._-]*$"
         },
         "vendor": { "type": "string", "minLength": 1 },
+        "modelFamily": {
+          "type": "string",
+          "description": "Vendor model generation line (gpt-5.5, gpt-5.4, gpt-5-codex, claude-sonnet-4, …)"
+        },
         "displayName": { "type": "string" },
         "status": {
           "type": "string",
@@ -138,13 +269,25 @@
             ]
           }
         },
+        "modalities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/modality" }
+        },
         "presetDefault": {
           "type": "string",
           "enum": ["fast", "balanced", "deep", "critical"]
         },
+        "prompting": { "$ref": "#/$defs/promptingProfile" },
         "capabilities": { "$ref": "#/$defs/capabilities" },
+        "builtinTools": { "$ref": "#/$defs/builtinTools" },
+        "apiFeatures": { "$ref": "#/$defs/apiFeatures" },
         "limits": { "$ref": "#/$defs/limits" },
         "transport": { "$ref": "#/$defs/transport" },
+        "references": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/reference" }
+        },
         "costHint": {
           "type": "string",
           "enum": ["nano", "mini", "standard", "flagship", "frontier"]

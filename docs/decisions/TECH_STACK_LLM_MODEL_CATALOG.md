@@ -56,12 +56,19 @@ Each **`models[]`** entry includes:
 
 | Field group | Purpose |
 |-------------|---------|
-| **Identity** | `id`, `vendor`, `displayName`, `status`, optional `replaces` / `deprecatedBy` |
+| **Identity** | `id`, `vendor`, `modelFamily`, `displayName`, `status`, optional `replaces` / `deprecatedBy` |
 | **Routing** | `tier`, `roles[]` (align with P5 `ChildTaskKind`), `presetDefault` |
-| **Capabilities** | Structured flags: reasoning tier, toolUse, computerUse, compaction, multimodal, japaneseQuality |
+| **Modalities** | `modalities[]` — text, vision, document, audio, multimodal |
+| **Capabilities** | Structured flags: reasoning tier, toolUse, toolSearch, computerUse, compaction, spatial/document understanding |
+| **API features** | `apiFeatures` — reasoningEffort, verbosity, structuredOutputs, promptCaching TTL, parallelToolCalls, CFG, Codex goals/adaptiveReasoning |
+| **Builtin tools** | `builtinTools` — mcp, computerUse, terminal, applyPatch, fileSearch, … |
+| **Prompting** | `prompting.style` — minimal (Codex) vs structured (GPT-5.5); cookbook-derived notes |
 | **Limits** | `contextTokens`, optional `maxOutputTokens` |
-| **Transport** | `invocationTypes[]`, `preferredInvocation`, optional `apiSurface` (`responses_api`, …) |
+| **Transport** | `invocationTypes[]`, `preferredInvocation`, `apiSurface`, optional `invocationBindingRef` |
+| **References** | `references[]` — [OpenAI Cookbook](https://github.com/openai/openai-cookbook) slugs + URLs, platform docs, pricing |
 | **Notes** | Free text (e.g. "prompt caching 24h only") |
+
+Catalog root may include **`cookbookIndex`**: reverse map of Cookbook `registry.yaml` slug → model ids.
 
 Vendors are defined once in **`vendors{}`** (display name, subscription vs API-key policy).
 
@@ -96,10 +103,65 @@ Vendors are defined once in **`vendors{}`** (display name, subscription vs API-k
 - Pricing API sync or live quota — `costHint` enum only
 - Embedding model catalog — separate future schema if needed
 - Implementing catalog loader in TypeScript — backlog Track F
+- **Concrete invocation recipes** (CLI argv, HTTP body templates) — see §5
 
 ---
 
-## 5. References
+## 5. Invocation binding policy (Context7-verified, 2026-06-18)
+
+### 5.1 What belongs in the catalog vs adapters
+
+| Layer | Catalog (`llm-model-catalog.json`) | Adapter / binding code |
+|-------|-----------------------------------|-------------------------|
+| **Transport channel** | ✅ `transport.invocationTypes[]`, `preferredInvocation`, `apiSurface` | — |
+| **API model id / CLI `-m` value** | ✅ `transport.nativeModelFlag` (string, vendor-defined) | Adapter reads catalog → passes flag |
+| **Supported API params (capability)** | ✅ `apiFeatures.reasoningEffort.values`, `verbosity`, … | Adapter maps InferenceProfile → native params |
+| **Optional binding pointer** | ✅ `invocationBindingRef` (e.g. `openai:responses-v1`, `openai:codex-exec-v1`) | Implementation in `src/adapters/*` |
+| **CLI argv templates** | ❌ **Do not embed** | `codex-adapter.ts`, `claude-adapter.ts`, … |
+| **HTTP request body shape** | ❌ **Do not embed** | SDK wrapper / future Responses client |
+| **MCP spawn command** (`codex mcp-server` vs legacy `codex mcp serve`) | ❌ **Do not embed** | `ecosystem.config.cjs`, ops scripts; track CLI version |
+
+**Rationale:** Vendor CLIs and API shapes change frequently (flag renames, subcommand aliases, new params). Duplicating argv/body in JSON causes **double maintenance** and false confidence when only adapters were updated. The catalog answers **“which channel and which model id?”**; adapters answer **“exactly how to call today?”**.
+
+When invocation changes: update adapter + binding version bump; catalog changes only if transport channel or model id changes.
+
+### 5.2 Context7 verification — current TechSapo paths
+
+Sources: [OpenAI API docs](https://developers.openai.com/api/docs/guides/reasoning), [Codex CLI](https://developers.openai.com/codex/cli/features) via Context7 (`/websites/developers_openai_api`, `/websites/developers_openai`).
+
+| Path | Our implementation | Context7 / official | Verdict |
+|------|-------------------|---------------------|---------|
+| **OpenAI Responses API** | Catalog To-Be; not in adapters yet | `client.responses.create({ model, input, reasoning: { effort }, text: { verbosity } })` | ✅ Catalog shape correct; implement in Track E-4 |
+| **Reasoning effort values** | Catalog lists `minimal/low/medium/high` | API also supports `none`, `xhigh` (model-dependent) | ⚠️ Extend `apiFeatures.reasoningEffort.values` per model; avoid fixed global enum |
+| **Codex non-interactive** | `codex exec --model X -c approval_policy="never"` ([`codex-adapter.ts`](../../src/adapters/codex-adapter.ts)) | `codex exec "…"`; sandbox/approval via `--ask-for-approval never` or config `approval_policy = "never"` | ✅ Semantically correct; flag spelling may differ by CLI version |
+| **Codex model flag** | `--model gpt-5-codex` | `codex -m gpt-5.5`, `gpt-5.2-codex`, `gpt-5.1-codex-max` documented | ⚠️ Model ids evolve; keep in `nativeModelFlag`, not hardcoded adapter default long-term |
+| **Codex MCP daemon (PM2)** | `codex mcp serve` ([`ecosystem.config.cjs`](../../ecosystem.config.cjs)) | Official docs: `codex mcp-server` | ⚠️ **Ops mismatch** — verify installed CLI; align command (backlog) |
+| **Claude Code CLI** | `claude --print --model … --effort …` + stdin ([`claude-adapter.ts`](../../src/adapters/claude-adapter.ts)) | Non-interactive print pattern | ✅ Matches project README / Cursor MCP pattern |
+| **Antigravity `agy`** | `agy --print` + stdin ([`agy-adapter.ts`](../../src/adapters/agy-adapter.ts)) | Project-specific CLI | ✅ (no Context7 entry; WSL OAuth path) |
+| **GPT-5.4 mini via Codex CLI** | Catalog had `preferredInvocation: codex_cli` | Reasoning models: prefer **Responses API**; Codex CLI for codex-family models | ❌ Fixed → `responses_api` preferred |
+| **Chat Completions + GPT-5.4+** | Catalog lists `chat_completions` as supported | Tool calling limited when `reasoning: none`; migration to Responses recommended | ⚠️ Treat as **legacy/compat** in `apiFeatures`, not equal to Responses |
+
+### 5.3 Recommended schema fields (transport only)
+
+Keep in catalog:
+
+```json
+"transport": {
+  "invocationTypes": ["responses_api", "codex_cli"],
+  "preferredInvocation": "responses_api",
+  "apiSurface": "responses_api",
+  "nativeModelFlag": "gpt-5.5",
+  "invocationBindingRef": "openai:responses-v1"
+}
+```
+
+Do **not** add to catalog: `spawnArgs`, `requestTemplate`, `curlRecipe`.
+
+Future: optional **`config/invocation-bindings.json`** (separate schema, versioned per adapter) if multiple bindings per transport are needed — still not in model catalog.
+
+---
+
+## 6. References
 
 - [TECH_STACK_INFERENCE_PROFILES.md](./TECH_STACK_INFERENCE_PROFILES.md) (TS-20)
 - [OPENAI_MODEL_MATRIX.md](../OPENAI_MODEL_MATRIX.md)
