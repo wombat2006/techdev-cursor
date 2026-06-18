@@ -142,6 +142,7 @@ Higher ROI for token savings: InferenceProfile (`fast`, `cot: off`), Ask vs Agen
 | G1 | stdio transport only (TS-17) |
 | G3 | Team understands Cursor Agent vs MCP tool billing |
 | G7 | All three `analyze_*` tools succeed from Cursor |
+| G-MEM | [TS-22 Memory substrate](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) accepted before Track B |
 | G8 | `wall-bounce-analyzer` uses adapters (no nested MCP) |
 | G9 | `forkProfile.yaml`, `config/fork/` stubs, bootstrap layout — see [Fork bootstrap](#fork-bootstrap-mcp-implementation-ready) | |
 

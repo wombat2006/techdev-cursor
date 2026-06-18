@@ -27,7 +27,7 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 | Priority | Track | Scope | Start when | Blocks value? |
 |----------|-------|--------|------------|---------------|
 | **P0** | **A** | WSL CLI auth (A-0) → Cursor MCP register + smoke (A-1) → MCP profile args (A-2) → team template (A-3) | **Now** | **Yes** — primary user-facing path |
-| — | **Gate A→B** | G1–G7 (stdio, security, quota, three `analyze_*` invokes) | A complete | Required before B |
+| — | **Gate A→B** | G1–G7 + **G-MEM** (Memory substrate ADR) | A complete | Required before B |
 | **P1** | **B** | `inference-profiles.json`, Wall-Bounce API profiles, adapter wiring into `wall-bounce-analyzer.ts` | Gate A→B Pass | Yes for unified transport + presets |
 | — | **Gate B→C** | Schema boundary, adapter tests, profile on API | B complete | Required before C |
 | **P2** | **F** (code) | F-1 validate · F-2 catalog loader · F-12 cost-aware TaskRouter | Gate A→B Pass (F-1/F-2); F-12 with B | No — enhances routing/cost after MCP works |
@@ -114,7 +114,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
-| Gate A→B passed | `[ ]` | — |
+| Gate A→B passed | `[ ]` | G-MEM: TS-22 Memory substrate ADR committed 2026-06-18 |
 | Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -355,12 +355,11 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
    # Ctrl+C after no startup error; logs → logs/mcp-providers.log
    ```
 3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, agy OAuth token).
-4. **Register in Windows Cursor** (host on Windows, MCP spawn in WSL):
-   - Template: [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json)
-   - Confirm distro: `wsl.exe -l -v` (this env: **`AlmaLinux-9`**)
-   - Paste into **Cursor Settings → MCP** on Windows
+4. **Register MCP** — pick **one**:
+   - **WSL Remote** (window URI `vscode-remote://wsl+…`): use repo [`.cursor/mcp.json`](../.cursor/mcp.json) or [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) (`node` + Linux `cwd`) — **not** `wsl.exe`
+   - **Windows Cursor host** (folder not Remote): [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json)
+   - See [CURSOR_MCP_TEMPLATE.md § Which template?](./CURSOR_MCP_TEMPLATE.md#which-template-read-first)
    - Reload MCP → **Connected** → tools: `analyze_claude`, `analyze_codex`, `analyze_agy`
-   - WSL Remote variant: [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) — see [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md)
 5. **G7 smoke from Cursor Agent** (one invoke each):
 
 | Tool | CallTool args |
@@ -375,7 +374,9 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 
 | Symptom | Fix |
 |---------|-----|
-| MCP failed to start | Wrong WSL `-d` name; fix PATH in template `bash -lc` line |
+| `spawn … wsl.exe ENOENT` | **WSL Remote** — remove windows template; use Variant B or `.cursor/mcp.json` |
+| `Cannot find module /home/<user>/dist/...` | Relative `args` without effective `cwd` — use **absolute** path in `args` (see `.cursor/mcp.json`) |
+| MCP failed to start | Wrong WSL `-d` name (Windows host only); fix PATH in template `bash -lc` line |
 | Connected, 0 tools | stdout log corruption — ensure latest server (`configureLoggerForMcpStdio`) |
 | `analyze_codex` model error | Use `gpt-5.5` explicitly; default resolver now uses gpt-5.5 for codex |
 | `analyze_agy` timeout in repo | Add `workingDirectory: "/tmp"` for short smoke prompts (A-0.3) |
@@ -441,8 +442,9 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 | G5 | **Operability:** A-0 steps reproducible on clean WSL | | |
 | G6 | **A-0 sign-off:** All five checkboxes `[x]` | | |
 | G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | Adapter smoke OK 2026-06-18; Cursor UI pending |
+| G-MEM | **Memory substrate:** [TS-22](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) accepted; team agrees Layer A (OrchestrationSession) is mandatory before adapter/WB wiring | | |
 
-**Pass when:** G1–G7 all Yes.
+**Pass when:** G1–G7 and **G-MEM** all Yes.
 
 **Gate decision:** `[ ]` Pass → proceed to Track B  /  `[ ]` Fail → fix Track A, re-review
 
@@ -450,11 +452,44 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 ---
 
+## Memory substrate (Gate prerequisite for Track B)
+
+**ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22)  
+**Gate criterion:** [G-MEM](#gate-a--b-review-before-track-b)  
+**Rule:** Do **not** start Track B adapter / Wall-Bounce wiring without TS-22 accepted and G-MEM checked.
+
+### Why (one paragraph)
+
+Wall-Bounce and multi-LLM workflows require **durable orchestration transcript** (all rounds × all providers), optional **per-provider session** handles (latency), and **long-term retrieval** (Cipher/RAG). A-1 `analyze_*` is intentionally stateless until Track B connects `sessionId` to Layer A.
+
+### Three layers (summary)
+
+| Layer | Name | Mandatory? | AS-IS |
+|-------|------|------------|-------|
+| **A** | OrchestrationSession — append-only transcript | **Yes** | Partial (in-process summaries only) |
+| **B** | Provider session (`--resume`, `codex-reply`, agy cwd) | Optional | Legacy codex Redis only |
+| **C** | Cipher / RAG long-term knowledge | Optional retrieve | Cipher MCP external |
+
+### Track B memory deliverables (do not skip)
+
+| # | Task | Done when |
+|---|------|-----------|
+| M1 | `OrchestrationSessionStore` interface + Redis key layout (design in TS-22) | `[ ]` Interface in `src/types/` or `src/services/` |
+| M2 | `sessionId` on `AdapterRequest` + MCP `analyze_*` schema (A-2 overlap) | `[ ]` Types + schema documented |
+| M3 | Wall-Bounce round events append to Layer A | `[ ]` At least one round logged end-to-end |
+| M4 | Legacy codex session **not** a second source of truth — migrate under Layer A | `[ ]` Documented in B-1 memo |
+
+**AS-IS exception:** Until M2 ships, `analyze_*` without `sessionId` remains valid for smoke tests only — not for production user-facing analysis.
+
+**Reflection memo:** _Layer C (Cipher) retrieves into `context`; it does not replace Layer A._
+
+---
+
 ## Track B — InferenceProfile implementation (TS-20)
 
-**Start only after Gate A→B Pass.**
+**Start only after Gate A→B Pass (including G-MEM).**
 
-Reference: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
+References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) · [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md)
 
 ### B-0: Config + types
 

@@ -90,7 +90,8 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 | A-1 code | adapters + unified MCP server | ✅ implemented |
 | A-1 ops | Cursor MCP register + G7 smoke | `[~]` WSL smoke OK; Windows Settings paste pending |
 | A-2 | InferenceProfile in unified MCP schemas | ❌ |
-| B | wall-bounce-analyzer → adapters | ❌ |
+| TS-22 / G-MEM | Memory substrate ADR + Gate prerequisite | ✅ ADR 2026-06-18; G-MEM sign-off pending |
+| B | wall-bounce-analyzer → adapters + Layer A session | ❌ blocked until Gate A→B (incl. G-MEM) |
 | F (code) | catalog loader + cost routing | ❌ schema/stub only |
 | C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |
 | D / F-13 / P5+ | cache, Batch RAG, Grounding | ❌ low priority |
@@ -99,5 +100,6 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 
 - Fork design: `docs/FORK_CURSOR.md`
 - Runbook: `docs/CURSOR_MCP_TODO.md`
+- Memory substrate (TS-22): `docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md`
 - Architecture: `docs/ARCHITECTURE.md`
 - Wall-Bounce: `docs/WALL_BOUNCE_SYSTEM.md`

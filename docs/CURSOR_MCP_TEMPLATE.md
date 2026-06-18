@@ -7,6 +7,17 @@
 
 ---
 
+## Which template? (read first)
+
+| Your Cursor setup | Use | Do **not** use |
+|-------------------|-----|----------------|
+| Window connected via **WSL** (`vscode-remote://wsl+…` in path, or “WSL: AlmaLinux-9” in status bar) | **Variant B** — `node` direct, or repo [`.cursor/mcp.json`](../.cursor/mcp.json) | `cursor-mcp.windows.template.json` (`wsl.exe` → **ENOENT**) |
+| Cursor on **Windows**, folder opened as `C:\…` or `\\wsl$\…` without Remote | **Variant A** — `wsl.exe` spawn | `node` + Linux `cwd` only (may miss WSL PATH) |
+
+**Symptom:** `spawn C:\Windows\System32\wsl.exe ENOENT` → you are on **WSL Remote**; switch to Variant B.
+
+---
+
 ## Variant A — Windows Cursor host (WSL spawn)
 
 Cursor runs on **Windows**; MCP server runs **inside WSL** via `wsl.exe`.
@@ -45,19 +56,23 @@ Cursor runs on **Windows**; MCP server runs **inside WSL** via `wsl.exe`.
 
 Cursor workspace runs **inside WSL**; spawn `node` directly.
 
-Copy [config/cursor-mcp.template.json](../config/cursor-mcp.template.json). Replace `<USER>` with your WSL username.
+**Fastest:** enable project MCP — [.cursor/mcp.json](../.cursor/mcp.json) is committed for this fork (`cwd` = `/home/wombat/techdev-cursor`). Reload MCP in Settings.
+
+Or copy [config/cursor-mcp.template.json](../config/cursor-mcp.template.json). Replace `<USER>` with your WSL username.
 
 ```json
 {
   "mcpServers": {
     "techsapo-providers": {
-      "command": "node",
-      "args": ["dist/services/techsapo-providers-mcp-server.js"],
+      "command": "/home/<USER>/.nvm/versions/node/v22.22.3/bin/node",
+      "args": ["/home/<USER>/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
       "cwd": "/home/<USER>/techdev-cursor"
     }
   }
 }
 ```
+
+Use **absolute** `args` path — Cursor may ignore `cwd` and resolve relative `dist/...` from `$HOME` (error: `Cannot find module /home/<USER>/dist/...`).
 
 ---
 

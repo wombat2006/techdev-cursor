@@ -33,6 +33,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | Wall-Bounce Analysis | `src/services/wall-bounce-analyzer.ts` | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
 | MCP Integration | `src/services/mcp-integration-service.ts` | [MCP_SERVICES.md](docs/MCP_SERVICES.md) |
 | Cursor MCP runbook | Phase 0: WSL CLI + auth first | [CURSOR_MCP_TODO.md](docs/CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](docs/CURSOR_MCP_PLAN.md) |
+| Memory substrate (TS-22) | Before Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | Fork identity | — | [FORK_CURSOR.md](docs/FORK_CURSOR.md) |
 | API Routes | `src/routes/wall-bounce-api.ts` | [API_REFERENCE.md](docs/API_REFERENCE.md) |
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
@@ -52,6 +53,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | **Wall-Bounce** | **Constitution**: 2–5 rounds required, 2+ LLMs, confidence ≥ 0.7, consensus ≥ 0.6, via `wall-bounce-analyzer.ts` only | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
 | **Security** | CLI/SDK only (`agy` / `codex` / Anthropic SDK); no API keys in code or env | [SECURITY.md](docs/SECURITY.md) |
 | **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
+| **Memory** | Layer A orchestration transcript mandatory; Cipher/RAG = Layer C only | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | **Commit** | Include README and related docs in the same commit when changing behavior | [.cursor/rules/documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 | **Doc language** | Logic and rule docs (`AGENTS.md`, agent detail docs, `WALL_BOUNCE_SYSTEM.md`, etc.) in **English** | [documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 
@@ -80,6 +82,7 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 | Claude Code tool notes | [claude-code.md](docs/agents/claude-code.md) |
 | Development workflows | [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md) |
 | LLM model catalog (TS-21) | [decisions/TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
+| Memory substrate (TS-22) | [decisions/TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | OpenAI Cookbook integration | [OPENAI_COOKBOOK_INTEGRATION.md](docs/OPENAI_COOKBOOK_INTEGRATION.md) |
 | OpenAI prompt guidance | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
 | OpenAI Batch API for RAG ingest (optional, gated) | [OPENAI_BATCH_API_RAG.md](docs/OPENAI_BATCH_API_RAG.md) |
