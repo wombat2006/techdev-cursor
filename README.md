@@ -113,7 +113,7 @@ Three-layer orchestration memory — **Layer A mandatory** for Track B ([G-MEM c
 - **Stash MCP**: セマンティックコード検索・コンテキスト管理
 - **OpenRouter MCP**: 200+モデルAPIゲートウェイ
 - **Context7 MCP**: リアルタイムライブラリドキュメント統合
-- **Cipher MCP**: 高度暗号化・セキュリティサービス
+- **Cipher MCP**: 長期記憶
 - **Monitoring MCP**: システム監視・メトリクス収集
 
 ## 🔄 処理フロー（Processing Flow）
