@@ -36,6 +36,19 @@ APP_PID_FILE="/tmp/techsapo-app.pid"
 echo "🛑 TechSapo + Codex MCP Server Stop"
 echo "==================================="
 
+# PM2-managed daemons (preferred)
+if command -v pm2 &>/dev/null || [ -f "node_modules/.bin/pm2" ]; then
+    PM2_CMD="pm2"
+    command -v pm2 &>/dev/null || PM2_CMD="npx pm2"
+    if $PM2_CMD jlist 2>/dev/null | grep -q '"name":"techsapo"'; then
+        log_info "Stopping PM2-managed daemons..."
+        bash "$(dirname "$0")/pm2-stop.sh"
+        exit 0
+    fi
+fi
+
+# Legacy PID-file shutdown (nohup path)
+
 # TechSapo アプリケーション停止
 if [[ -f "$APP_PID_FILE" ]]; then
     APP_PID=$(cat "$APP_PID_FILE")

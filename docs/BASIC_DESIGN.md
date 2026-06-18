@@ -388,7 +388,7 @@ const cacheConfig = {
 NODE_OPTIONS='--max-old-space-size=1024 --expose-gc'
 
 # PM2クラスター構成
-pm2 start ecosystem.config.js --env production
+pm2 start ecosystem.config.cjs --env production
 ```
 
 ## 8. 運用・監視設計

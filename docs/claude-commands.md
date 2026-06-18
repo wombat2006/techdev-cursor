@@ -12,7 +12,10 @@ Command reference for TechSapo development and operations. For workflows, see [D
 npm install          # Install dependencies
 npm run build        # Build TypeScript → dist/
 npm run dev          # Hot reload development
-npm start            # Production server
+npm start            # PM2 daemons (techsapo + codex-mcp)
+npm run pm2:start    # Same as npm start
+npm run pm2:stop     # Stop PM2 daemons
+npm run start:legacy # Legacy nohup startup
 npm run lint         # Code quality check
 ```
 

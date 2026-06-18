@@ -13,11 +13,24 @@ TechSapoは包括的な監視スタックを提供し、リアルタイムでの
 
 ### 個別サービス管理
 ```bash
-# PM2プロセス管理
-pm2 start ecosystem.config.js
-pm2 monit
-pm2 logs techsapo
+# PM2 daemon 管理（推奨 — ecosystem.config.cjs）
+npm run pm2:start              # techsapo + codex-mcp
+npm run pm2:start:all          # + production-monitor
+npm run pm2:status
+npm run pm2:logs
+npm run pm2:stop
+npm run pm2:monit
+
+# 直接 PM2（上級者向け）
+pm2 start ecosystem.config.cjs --env development --only techsapo,codex-mcp
 pm2 restart techsapo
+
+# stdio MCP は PM2 対象外（Cursor spawn）:
+#   techsapo-providers-mcp-server, claude-code-mcp-server, codex-mcp-server.js
+
+# Legacy nohup + PID ファイル
+npm run start:legacy
+npm run stop:legacy
 
 # Docker監視スタック
 docker-compose -f docker/docker-compose.monitoring.yml up -d

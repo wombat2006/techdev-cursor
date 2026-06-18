@@ -153,12 +153,14 @@ cp .env.example .env
 
 ### 3. ビルドと起動
 ```bash
-# 完全監視スタック起動
-./scripts/start-monitoring.sh
+# .env に HUGGINGFACE_API_KEY 等を設定（pm2-start が起動前に検証）
+npm run build              # TypeScript ビルド + dist/config/*.json コピー
+npm run pm2:start          # techsapo + codex-mcp（= npm start）
+# npm run pm2:start:all    # + production-monitor
+# npm run pm2:status       # プロセス一覧
 
-# または手動起動
-npm run build
-npm start
+# legacy nohup + PID ファイル
+# npm run start:legacy
 ```
 
 ### 4. Cursor MCP 登録（オプション）
@@ -373,11 +375,33 @@ docker-compose -f docker/production/docker-compose.prod.yml up -d
 ./scripts/renew-certificates.sh
 ```
 
-### PM2プロセス管理
+### PM2 プロセス管理（daemon）
+
+長時間稼働プロセスは [ecosystem.config.cjs](./ecosystem.config.cjs) で PM2 管理します。詳細は [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md) を参照。
+
+| PM2 name | 役割 |
+|----------|------|
+| `techsapo` | メイン API (`dist/index.js`) |
+| `codex-mcp` | Codex MCP serve（ops / Wall-Bounce 連携） |
+| `production-monitor` | ヘルスポーリング（`pm2:start:all` のみ） |
+
+**stdio MCP は PM2 対象外**（Cursor が spawn）: `techsapo-providers`, `claude-code-mcp`, `codex-mcp-server.js`
+
+| npm script | 内容 |
+|------------|------|
+| `npm start` / `pm2:start` | techsapo + codex-mcp 起動 |
+| `npm stop` / `pm2:stop` | PM2 daemon 停止 |
+| `pm2:start:all` | production-monitor も起動 |
+| `pm2:status` / `pm2:logs` / `pm2:monit` | 監視 |
+| `start:legacy` / `stop:legacy` | nohup + PID ファイル方式 |
+
 ```bash
-pm2 start ecosystem.config.js
-pm2 monit
-pm2 logs techsapo
+npm run pm2:start
+npm run pm2:status
+npm run pm2:logs
+
+# 本番 env
+PM2_ENV=production npm run pm2:start
 ```
 
 ## 🔐 セキュリティ機能
