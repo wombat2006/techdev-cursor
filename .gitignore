@@ -133,9 +133,27 @@ config/keys.json
 # 注意: **/*key* は monkey-patch.ts 等を誤除外するため使用しない
 
 # MCP Configuration (may contain sensitive data)
+config/cursor-mcp.json
 # リポジトリ外パス — git では無効だが意図のメモとして残す
 # ~/.codex/
 # ~/.claude.json
+
+# OAuth / API credential files (use .env — see .env.example)
+credentials.json
+google-credentials.json
+config/credentials.json
+token.json
+**/token.json
+
+# Test fixtures & generated test output (tests/*.ts stays tracked)
+tests/fixtures/
+test-results/
+playwright-report/
+playwright/.cache/
+*-test-results.json
+
+# OpenAI Batch API JSONL (prompts / bulk request bodies — local only)
+*.jsonl
 
 # Local configuration overrides
 config/local.json
