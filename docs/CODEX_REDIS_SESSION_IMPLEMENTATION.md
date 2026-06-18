@@ -1,5 +1,7 @@
 # Codex Redis Session Implementation Guide
 
+> **Superseded for orchestration transcript (2026-06-18):** Multi-LLM and Wall-Bounce memory MUST use **Layer A** `OrchestrationSession` per [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22). This document describes the **legacy Codex-only** Redis path (`codex-session-manager.ts`). Do **not** add parallel `claude-session-manager` / `agy-session-manager` silos — migrate Codex history under Layer A (TS-22 §3). Keep this guide for legacy `codex-mcp` / `/api/codex/*` maintenance until B-M5.
+
 ## 🎯 概要
 
 Upstash Redisを使用してCodex MCPサーバーとClaude Codeの複数回やりとり（multi-turn session）を実現する完全な実装が完了しました。

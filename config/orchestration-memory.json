@@ -1,0 +1,22 @@
+{
+  "version": "1",
+  "description": "Layer A retention defaults (TS-22). Env overrides: ORCH_IDLE_TTL_SECONDS, ORCH_MAX_TTL_SECONDS.",
+  "layerA": {
+    "idleTtlSeconds": 604800,
+    "maxTtlSeconds": 2592000,
+    "touchOnRead": true,
+    "redisKeyPrefix": "orch:session",
+    "activeSetKey": "orch:active"
+  },
+  "compaction": {
+    "maxEventsBeforeSummarize": 500,
+    "maxBytesBeforeSummarize": 2097152
+  },
+  "layerB": {
+    "inheritsLayerATtl": true,
+    "legacyCodexSessionTtlSeconds": 3600
+  },
+  "layerC": {
+    "note": "Cipher/RAG retention is external; layer_c_retrieval events use per-event ts in Layer A"
+  }
+}

@@ -52,6 +52,22 @@ Examples: `effort: high` + `cot: off` → deep internal reasoning, concise answe
 
 Planned config: `config/inference-profiles.json`. API (To-Be): `profile` and optional `inference` per provider on analyze requests.
 
+### Memory substrate (mandatory for multi-round workflows)
+
+Wall-Bounce **requires durable orchestration memory** — constitution mandates **2–5 rounds** across **2+ providers**; in-process round summaries alone are insufficient for audit, continuation, and MCP `sessionId` wiring.
+
+**ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22 v1.1)
+
+| Layer | Role in Wall-Bounce |
+|-------|---------------------|
+| **A — OrchestrationSession** | Append-only transcript: every round × every peer + aggregator + consensus scores. **Source of truth.** |
+| **B — Provider handles** | Optional `--resume` / `codex-reply` / agy conversation id under `providerHandles` — latency only. |
+| **C — Cipher / RAG** | Retrieve into round context; verified write per P5 — not a transcript substitute. |
+
+**AS-IS gaps:** `wall-bounce-analyzer.ts` keeps in-process `accumulatedSummary` only; [`multi-llm-session-handler.ts`](../src/services/multi-llm-session-handler.ts) incorrectly uses Codex-only Redis. **Track B (Gate A→B + G-MEM):** wire rounds to Layer A before production adapter paths.
+
+**Forbidden:** Parallel `*-session-manager.ts` silos per provider; Codex Redis as authoritative multi-LLM history.
+
 ### LLM Provider Configuration
 
 Provider adapters map `InferenceProfile` → native CLI/MCP flags. Static defaults below; runtime values come from profiles.

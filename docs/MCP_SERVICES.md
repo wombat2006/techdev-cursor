@@ -290,9 +290,44 @@ Response → Adapter → Wall-Bounce
 
 ## Session Management
 
-### Redis-Based Persistence
+> **Direction (TS-22):** Production multi-LLM memory uses **three layers** — mandatory **Layer A** `OrchestrationSession` (append-only transcript), optional **Layer B** `providerHandles` (CLI resume tokens), optional **Layer C** Cipher/RAG retrieval. ADR: [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md). Track B deliverables: [CURSOR_MCP_TODO § Memory substrate](./CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b).
 
-**Schema**:
+### AS-IS (fragmented — legacy)
+
+| Component | Scope | Redis keys (typical) |
+|-----------|-------|----------------------|
+| [`session-manager.ts`](../src/services/session-manager.ts) | App user session | Generic session keys |
+| [`codex-session-manager.ts`](../src/services/codex-session-manager.ts) | **Codex only** — legacy `codex-mcp` | `codex:session:*` (see [CODEX_REDIS_SESSION_IMPLEMENTATION.md](./CODEX_REDIS_SESSION_IMPLEMENTATION.md)) |
+| Unified `analyze_*` (A-1) | Stateless | None until Track B `sessionId` |
+
+**Do not** treat Codex-only Redis as the orchestration source of truth. **Do not** add parallel `claude-session-manager` / `agy-session-manager` files.
+
+### To-Be — Layer A (OrchestrationSession)
+
+**Schema (direction)**:
+```typescript
+interface OrchestrationSession {
+  sessionId: string;
+  events: OrchestrationEvent[];     // append-only
+  providerHandles: {
+    claude?: { resumeId?: string };
+    codex?: { sessionId?: string; conversationId?: string };
+    agy?: { conversationId?: string; lastCwd?: string };
+  };
+  metadata?: Record<string, unknown>;
+}
+```
+
+**Redis Keys (To-Be)**:
+- `orch:session:{sessionId}` — Layer A orchestration transcript
+- `providerHandles` stored inside session document (not separate silos per provider)
+
+**Cleanup Policy (direction)**:
+- 24h active TTL default; archive before delete
+- Legacy `codex:session:*` retired or folded under Layer A during B-M1…B-M5 migration
+
+### Legacy MCPSession shape (codex-mcp era — reference only)
+
 ```typescript
 interface MCPSession {
   sessionId: string;
@@ -312,17 +347,9 @@ interface MCPSession {
 }
 ```
 
-**Redis Keys**:
-- `mcp:session:{sessionId}` - Session data
-- `mcp:active` - Set of active session IDs
-- `mcp:metrics:{provider}` - Provider-specific metrics
+### Session Lifecycle (legacy codex-mcp — reference only)
 
-**Cleanup Policy**:
-- Sessions expire after 1 hour of inactivity
-- Cleanup runs every 15 minutes
-- Persistent audit logs saved before deletion
-
-### Session Lifecycle
+Until Layer A ships (TS-22), legacy Codex MCP uses provider-local session APIs:
 
 ```typescript
 // Create session

@@ -70,7 +70,7 @@
 | **decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md** | stdio/MCP same-node; HTTP SSE at API boundary (TS-17) | Architects / core devs |
 | **decisions/TECH_STACK_CORE_VS_ADDON_COUPLING.md** | Loose add-ons; cohesive Wall-Bounce core (TS-18) | Architects / leads |
 | **decisions/TECH_STACK_INFERENCE_PROFILES.md** | Model, effort, CoT, temperature profiles (TS-20) | Architects / core devs |
-| **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | Orchestration transcript + provider sessions + long-term memory (TS-22) | Architects / core devs |
+| **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | Layer A/B/C; event `ts`/`tsEnd`/`seq`; TTL idle 7d / max 30d (TS-22 v1.3) | Architects / core devs |
 | **CURSOR_MCP_PLAN.md** | Cursor MCP plan; Phase 0 WSL CLI + auth prerequisite (TS-21) | Developers |
 | **FORK_CURSOR.md** | `techdev-cursor` — integrated Cursor dev env (coding accuracy/workload); not InfraOps/incident analysis | Developers |
 | **CURSOR_MCP_TODO.md** | Phased execution runbook — Track A/B/C + Gate reviews | Developers |

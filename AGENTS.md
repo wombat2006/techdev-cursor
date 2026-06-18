@@ -53,7 +53,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | **Wall-Bounce** | **Constitution**: 2–5 rounds required, 2+ LLMs, confidence ≥ 0.7, consensus ≥ 0.6, via `wall-bounce-analyzer.ts` only | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
 | **Security** | CLI/SDK only (`agy` / `codex` / Anthropic SDK); no API keys in code or env | [SECURITY.md](docs/SECURITY.md) |
 | **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
-| **Memory** | Layer A orchestration transcript mandatory; Cipher/RAG = Layer C only | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| **Memory** | Layer A `OrchestrationSession` mandatory; event `ts`/`tsEnd` UTC; session `clientTimezone` optional | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | **Commit** | Include README and related docs in the same commit when changing behavior | [.cursor/rules/documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 | **Doc language** | Logic and rule docs (`AGENTS.md`, agent detail docs, `WALL_BOUNCE_SYSTEM.md`, etc.) in **English** | [documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 

@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/orchestration-session.schema.json",
+  "title": "OrchestrationSession",
+  "description": "Layer A orchestration transcript (TS-22). Every event requires eventId, seq, and ts (ISO 8601 UTC).",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "sessionId",
+    "createdAt",
+    "updatedAt",
+    "expiresAt",
+    "events",
+    "providerHandles"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conversationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": { "$ref": "#/$defs/isoDateTimeUtc" },
+    "updatedAt": { "$ref": "#/$defs/isoDateTimeUtc" },
+    "expiresAt": { "$ref": "#/$defs/isoDateTimeUtc" },
+    "clientTimezone": {
+      "type": "string",
+      "minLength": 1,
+      "description": "IANA timezone, e.g. Asia/Tokyo — session display context; events remain UTC"
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/orchestrationEvent" }
+    },
+    "providerHandles": { "$ref": "#/$defs/providerHandles" },
+    "stats": { "$ref": "#/$defs/sessionStats" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "isoDateTimeUtc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC instant (prefer …Z suffix)"
+    },
+    "uuidV4": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventEnvelope": {
+      "type": "object",
+      "required": ["eventId", "seq", "ts", "type"],
+      "properties": {
+        "eventId": { "$ref": "#/$defs/uuidV4" },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Monotonic sequence within session"
+        },
+        "ts": {
+          "$ref": "#/$defs/isoDateTimeUtc",
+          "description": "Interval start (UTC), or sole instant when tsEnd omitted"
+        },
+        "tsEnd": {
+          "$ref": "#/$defs/isoDateTimeUtc",
+          "description": "Interval end (UTC); required on span event types"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Denormalized span; SHOULD equal tsEnd minus ts"
+        },
+        "type": { "type": "string" }
+      }
+    },
+    "inferenceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string" },
+        "temperature": { "type": "number", "minimum": 0, "maximum": 2 },
+        "effort": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "xhigh", "max", "minimal"]
+        },
+        "cot": {
+          "type": "string",
+          "enum": ["off", "brief", "full"]
+        }
+      }
+    },
+    "userPromptEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": ["type", "content"],
+          "properties": {
+            "type": { "const": "user_prompt" },
+            "content": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "providerInvokeEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": ["type", "provider", "profile", "promptHash"],
+          "properties": {
+            "type": { "const": "provider_invoke" },
+            "provider": {
+              "type": "string",
+              "enum": ["claude", "codex", "agy"]
+            },
+            "profile": { "$ref": "#/$defs/inferenceProfile" },
+            "promptHash": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    },
+    "providerResultEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "invokeEventId",
+            "provider",
+            "content",
+            "success",
+            "latencyMs",
+            "tsEnd"
+          ],
+          "properties": {
+            "type": { "const": "provider_result" },
+            "invokeEventId": { "$ref": "#/$defs/uuidV4" },
+            "provider": { "type": "string", "minLength": 1 },
+            "content": { "type": "string" },
+            "success": { "type": "boolean" },
+            "latencyMs": { "type": "number", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "roundConsensusEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "round",
+            "confidence",
+            "consensus",
+            "summary",
+            "tsEnd"
+          ],
+            "type": { "const": "round_consensus" },
+            "round": { "type": "integer", "minimum": 1 },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "consensus": { "type": "number", "minimum": 0, "maximum": 1 },
+            "summary": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "aggregatorEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": ["type", "model", "content"],
+          "properties": {
+            "type": { "const": "aggregator" },
+            "model": { "type": "string", "minLength": 1 },
+            "content": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "layerCRetrievalEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": ["type", "source", "refIds"],
+          "properties": {
+            "type": { "const": "layer_c_retrieval" },
+            "source": { "type": "string", "enum": ["cipher", "rag"] },
+            "refIds": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "sessionSummarizedEvent": {
+      "allOf": [
+        { "$ref": "#/$defs/eventEnvelope" },
+        {
+          "type": "object",
+          "required": ["type", "reason", "eventsBefore", "summary"],
+          "properties": {
+            "type": { "const": "session_summarized" },
+            "reason": {
+              "type": "string",
+              "enum": ["event_count", "size_bytes"]
+            },
+            "eventsBefore": { "type": "integer", "minimum": 1 },
+            "summary": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "orchestrationEvent": {
+      "oneOf": [
+        { "$ref": "#/$defs/userPromptEvent" },
+        { "$ref": "#/$defs/providerInvokeEvent" },
+        { "$ref": "#/$defs/providerResultEvent" },
+        { "$ref": "#/$defs/roundConsensusEvent" },
+        { "$ref": "#/$defs/aggregatorEvent" },
+        { "$ref": "#/$defs/layerCRetrievalEvent" },
+        { "$ref": "#/$defs/sessionSummarizedEvent" }
+      ]
+    },
+    "providerHandles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "claude": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "resumeId": { "type": "string" },
+            "lastModel": { "type": "string" },
+            "lastUsedAt": { "$ref": "#/$defs/isoDateTimeUtc" }
+          }
+        },
+        "codex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sessionId": { "type": "string" },
+            "conversationId": { "type": "string" },
+            "lastUsedAt": { "$ref": "#/$defs/isoDateTimeUtc" }
+          }
+        },
+        "agy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": { "type": "string" },
+            "lastCwd": { "type": "string" },
+            "lastUsedAt": { "$ref": "#/$defs/isoDateTimeUtc" }
+          }
+        }
+      }
+    },
+    "sessionStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventCount", "lastSeq"],
+      "properties": {
+        "eventCount": { "type": "integer", "minimum": 0 },
+        "lastSeq": { "type": "integer", "minimum": -1 },
+        "lastRound": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

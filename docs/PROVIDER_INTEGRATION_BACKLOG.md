@@ -71,6 +71,20 @@ ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.
 - [ ] **Vertex / enterprise auth** — if SDK Vertex path stabilizes ([issue #8](https://github.com/google-antigravity/antigravity-sdk-python/issues/8))
 - [ ] **Node-native SDK slots** — reserve adapter interface for Anthropic/OpenAI SDK paths where subscription allows (parallel to CLI adapters)
 
+### Memory substrate (TS-22)
+
+Gate **G-MEM** required before Track B. ADR: [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (v1.1).
+
+- [ ] **M1** — `OrchestrationSessionStore` + `orch:session:*` Redis layout
+- [ ] **M2** — `sessionId` / `continueProviderSession` on `AdapterRequest` + MCP schemas (A-2 overlap)
+- [ ] **M3** — Wall-Bounce rounds append Layer A events
+- [ ] **M4** — `multi-llm-session-handler` → Layer A (stop Codex-only store)
+- [ ] **M5** — Migrate `codex-session-manager` under Layer A (B-M1…B-M5); demote to Layer B helper
+- [ ] **M6** — Claude / agy `providerHandles` + opt-in continue
+- [ ] **Anti-pattern guard** — no new `claude-session-manager.ts` / `agy-session-manager.ts` parallel transcripts
+
+Runbook: [CURSOR_MCP_TODO § Memory substrate](./CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b)
+
 ### MCP / Cursor
 
 - [ ] **Gate A→B** — stdio smoke: `ListTools` + one `CallTool` per `analyze_*` from Cursor

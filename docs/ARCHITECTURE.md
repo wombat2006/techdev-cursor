@@ -180,6 +180,8 @@ Response to Wall-Bounce
 
 ### Data Layer
 - **Redis**: Session management, caching
+  - **AS-IS:** fragmented — app [`session-manager`](../src/services/session-manager.ts), legacy Codex-only [`codex-session-manager`](../src/services/codex-session-manager.ts)
+  - **To-Be (TS-22):** unified **Layer A** `OrchestrationSession` at `orch:session:{sessionId}` with `providerHandles` for optional Layer B CLI resume — see [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md)
 - **Vector Storage**: For RAG embeddings (future)
 
 ### LLM Integration

@@ -114,7 +114,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
-| Gate A→B passed | `[ ]` | G-MEM: TS-22 Memory substrate ADR committed 2026-06-18 |
+| Gate A→B passed | `[ ]` | G-MEM: TS-22 v1.3 (schema, TTL, ts/tsEnd) committed 2026-06-18 |
 | Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -442,7 +442,7 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 | G5 | **Operability:** A-0 steps reproducible on clean WSL | | |
 | G6 | **A-0 sign-off:** All five checkboxes `[x]` | | |
 | G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | Adapter smoke OK 2026-06-18; Cursor UI pending |
-| G-MEM | **Memory substrate:** [TS-22](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) accepted; team agrees Layer A (OrchestrationSession) is mandatory before adapter/WB wiring | | |
+| G-MEM | **Memory substrate:** [TS-22 v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — Layer A schema + TTL policy committed; team sign-off for Gate A→B | | |
 
 **Pass when:** G1–G7 and **G-MEM** all Yes.
 
@@ -454,7 +454,7 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 ## Memory substrate (Gate prerequisite for Track B)
 
-**ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22)  
+**ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22 v1.3)  
 **Gate criterion:** [G-MEM](#gate-a--b-review-before-track-b)  
 **Rule:** Do **not** start Track B adapter / Wall-Bounce wiring without TS-22 accepted and G-MEM checked.
 
@@ -466,22 +466,35 @@ Wall-Bounce and multi-LLM workflows require **durable orchestration transcript**
 
 | Layer | Name | Mandatory? | AS-IS |
 |-------|------|------------|-------|
-| **A** | OrchestrationSession — append-only transcript | **Yes** | Partial (in-process summaries only) |
-| **B** | Provider session (`--resume`, `codex-reply`, agy cwd) | Optional | Legacy codex Redis only |
+| **A** | OrchestrationSession — append-only transcript (`orch:session:*`) | **Yes** | Partial (in-process summaries only; no unified store) |
+| **B** | Provider handles in `providerHandles` (`--resume`, `codex-reply`, agy conversation id) | Optional | **Codex-only** [`codex-session-manager.ts`](../src/services/codex-session-manager.ts) — legacy, not final design |
 | **C** | Cipher / RAG long-term knowledge | Optional retrieve | Cipher MCP external |
+
+### AS-IS fragmentation (do not extend)
+
+| Module | Problem |
+|--------|---------|
+| `codex-session-manager.ts` | Codex-only Redis transcript; **not** used by unified `analyze_*` |
+| `multi-llm-session-handler.ts` | Misuses CodexSessionManager as sole Wall-Bounce conversation store |
+| `session-manager.ts` | App-generic Redis session — separate from orchestration |
+| Missing `claude-session-manager` / `agy-session-manager` | **Not** intentional parity gap — do **not** add parallel managers |
+
+**Forbidden (Track B+):** Three independent `*-session-manager.ts` files as parallel sources of truth. Use **one** `OrchestrationSessionStore` + `providerHandles` per TS-22 §2.0.
 
 ### Track B memory deliverables (do not skip)
 
 | # | Task | Done when |
 |---|------|-----------|
-| M1 | `OrchestrationSessionStore` interface + Redis key layout (design in TS-22) | `[ ]` Interface in `src/types/` or `src/services/` |
-| M2 | `sessionId` on `AdapterRequest` + MCP `analyze_*` schema (A-2 overlap) | `[ ]` Types + schema documented |
+| M1 | `OrchestrationSessionStore` + `orch:session:*` + [orchestration-session.schema.json](../config/schemas/orchestration-session.schema.json) v1.1 | `[~]` Types + schema + [orchestration-memory.json](../config/orchestration-memory.json) done; **Redis store pending** |
+| M2 | `sessionId` + `continueProviderSession` on `AdapterRequest` + MCP `analyze_*` schema (A-2 overlap) | `[ ]` Types + schema documented |
 | M3 | Wall-Bounce round events append to Layer A | `[ ]` At least one round logged end-to-end |
-| M4 | Legacy codex session **not** a second source of truth — migrate under Layer A | `[ ]` Documented in B-1 memo |
+| M4 | `multi-llm-session-handler` reads/writes Layer A (stop Codex-only store) | `[ ]` B-1 memo + code path identified |
+| M5 | `codex-session-manager` migration phases B-M1…B-M5 (TS-22 §3) | `[ ]` Legacy demoted to Layer B helper |
+| M6 | Claude / agy `providerHandles` + opt-in continue | `[ ]` Documented in adapter wiring memo |
 
 **AS-IS exception:** Until M2 ships, `analyze_*` without `sessionId` remains valid for smoke tests only — not for production user-facing analysis.
 
-**Reflection memo:** _Layer C (Cipher) retrieves into `context`; it does not replace Layer A._
+**Reflection memo:** _Layer C (Cipher) retrieves into `context`; it does not replace Layer A. Layer B reduces latency; Layer A remains authoritative._
 
 ---
 

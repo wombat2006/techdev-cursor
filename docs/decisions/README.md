@@ -15,7 +15,7 @@ Index of design decisions for TechSapo. Logic/rule ADRs are written in **English
 | TS-19 | [WALL_BOUNCE_P5_ARCHITECTURE.md §7](./WALL_BOUNCE_P5_ARCHITECTURE.md#7-形態素解析の位置づけ) | **Accepted (direction)** | Morphological analysis for PromptAnalyzer (Phase 0) |
 | TS-20 | [TECH_STACK_INFERENCE_PROFILES.md](./TECH_STACK_INFERENCE_PROFILES.md) | **Accepted (direction)** | InferenceProfile: model, effort, CoT, temperature |
 | TS-21 | [TECH_STACK_LLM_MODEL_CATALOG.md](./TECH_STACK_LLM_MODEL_CATALOG.md) | **Accepted (direction)** | Multi-vendor LLM model capability catalog schema |
-| TS-22 | [TECH_STACK_MEMORY_SUBSTRATE.md](./TECH_STACK_MEMORY_SUBSTRATE.md) | **Accepted (direction)** | Orchestration transcript + provider sessions + long-term memory layers |
+| TS-22 | [TECH_STACK_MEMORY_SUBSTRATE.md](./TECH_STACK_MEMORY_SUBSTRATE.md) | **Accepted (direction)** v1.3 | UTC events; session IANA TZ; `ts`/`tsEnd` spans |
 | — | [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) | **Preparation** | Tech stack refinement workspace |
 | — | [_TEMPLATE_TECH_STACK.md](./_TEMPLATE_TECH_STACK.md) | Template | New stack decision template |
 

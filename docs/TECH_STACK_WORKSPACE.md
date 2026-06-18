@@ -158,7 +158,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 | TS-19 | Morphological analysis | Japanese prompt parsing for PromptAnalyzer | regex-only (B5) | **MeCab-class parser, Phase 0** | [WALL_BOUNCE_P5_ARCHITECTURE.md §7](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#7-形態素解析の位置づけ) |
 | TS-20 | Inference profiles | Model, effort, CoT, temperature per task/provider | fragmented / hardcoded | **InferenceProfile + presets, Phase 0** | [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | TS-21 | Cursor MCP | Unified `techsapo-providers` in Cursor IDE | not registered | **Full-Fork `techdev-cursor`** → Phase 0 + unified MCP | [FORK_CURSOR.md](./FORK_CURSOR.md) · [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) |
-| TS-22 | Memory substrate | OrchestrationSession + provider sessions + long-term | fragmented / stateless MCP | **Layer A mandatory** before Track B wiring | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| TS-22 | Memory substrate | OrchestrationSession + `providerHandles` + Cipher/RAG | Codex-only Redis silo; stateless MCP | **Layer A mandatory**; unified store; no parallel `*-session-manager` silos | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.1 |
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Document type**: Architecture Decision Record (ADR)  
 **ID**: TS-22  
-**Version**: 1.0  
+**Version**: 1.3  
 **Date**: 2026-06-18  
 **Status**: **Accepted (direction)** — documentation and Gate A→B prerequisite; implementation starts Track B
 
@@ -19,26 +19,40 @@ Without durable memory:
 - Cursor MCP `analyze_*` tools remain stateless one-shots — disconnected from orchestration.
 - Cipher / RAG cannot be applied consistently (nothing to attach retrieval to).
 
-**AS-IS fragments (not a unified substrate):**
-
-| Component | What it stores | Gap |
-|-----------|----------------|-----|
-| `codex-session-manager.ts` + Redis | Codex-only session messages | Not orchestration transcript; not used by unified adapters |
-| `multi-llm-session-handler.ts` | Conversation history → Wall-Bounce prompt | Not wired to `techsapo-providers` MCP |
-| `wall-bounce-analyzer.ts` | Round summaries (`accumulatedSummary`) in-process | No durable append-only log of all provider I/O |
-| `inference-service.ts` | In-memory history (20 turns) | Not shared across services |
-| Cipher MCP | Long-term episodic knowledge | Retrieval layer — **not** a transcript store |
-| A-1 `analyze_*` adapters | Nothing | Stateless by design (temporary) |
-
 **Product requirement:** Conversation history retention and reference is **mandatory** for production Wall-Bounce and multi-LLM workflows. Track B adapter wiring MUST NOT proceed without this decision accepted.
 
 Related: [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md) · [MCP_SERVICES.md](../MCP_SERVICES.md) · [WALL_BOUNCE_P5_ARCHITECTURE.md](./WALL_BOUNCE_P5_ARCHITECTURE.md) (Cipher write policy)
 
 ---
 
+## 1.1 AS-IS inventory (fragmented — not final design)
+
+The repository does **not** implement a unified memory substrate today. Existing pieces are **historical increments**, not peer parity across providers.
+
+| Module | Scope | Role today | Used by unified `analyze_*`? |
+|--------|-------|------------|--------------------------------|
+| [`session-manager.ts`](../src/services/session-manager.ts) | App-generic | Redis user session + generic `conversationHistory` | No |
+| [`codex-session-manager.ts`](../src/services/codex-session-manager.ts) | **Codex only** | Legacy `codex` / `codex-reply` multi-turn; Redis messages | **No** |
+| `claude-session-manager` | — | **Does not exist** | — |
+| `agy-session-manager` | — | **Does not exist** | — |
+| [`multi-llm-session-handler.ts`](../src/services/multi-llm-session-handler.ts) | Misleading name | Uses **CodexSessionManager** as the only conversation store for Wall-Bounce turns | No |
+| [`wall-bounce-analyzer.ts`](../src/services/wall-bounce-analyzer.ts) | In-process | Round summaries (`accumulatedSummary`) only | N/A |
+| [`inference-service.ts`](../src/services/inference-service.ts) | In-memory | Up to 20 turns; not shared | No |
+| Claude / agy CLIs | On-disk native | `~/.claude` (`--resume`), `~/.gemini/antigravity-cli/` (conversations) | Adapters do not persist handles |
+| Cipher MCP | Long-term | `ask_cipher` retrieval | Manual; not wired to orchestration |
+| A-1 [`analyze_*` adapters](../src/adapters/) | None | Stateless one-shot (temporary) | Yes |
+
+### Why only `codex-session-manager` exists
+
+**Not intentional final architecture.** Legacy [Codex MCP](../src/services/codex-mcp-server.ts) was the first path to need explicit **continue** semantics (`codex-reply` tool) and Redis-backed history ([CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md)). Claude Code MCP and unified adapters were built as **spawn-per-request** without a TechSapo session wrapper. agy was never given a Redis layer.
+
+**Do not interpret** “Codex has a session manager, others don't” as product policy. It is **technical debt** to be folded under Layer A (below).
+
+---
+
 ## 2. Decision
 
-Introduce a **Memory Substrate** with three layers. **Layer A is the source of truth** for orchestration; Layers B and C are auxiliary.
+Introduce a **Memory Substrate** with three layers. **Layer A is the single source of truth** for orchestration; Layers B and C are auxiliary.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -48,14 +62,25 @@ Introduce a **Memory Substrate** with three layers. **Layer A is the source of t
                                 │ context injection
 ┌───────────────────────────────▼─────────────────────────────┐
 │ Layer A — OrchestrationSession (MANDATORY, append-only)         │
-│   sessionId, rounds, per-provider I/O, consensus, metadata      │
+│   sessionId, events[], providerHandles{}, consensus per round     │
 └───────────────────────────────┬─────────────────────────────┘
-                                │ optional per-provider handle
+                                │ optional native CLI handles
 ┌───────────────────────────────▼─────────────────────────────┐
-│ Layer B — Provider session (OPTIONAL, latency + local continuity)│
-│   Claude --resume, codex-reply, agy conversation id           │
+│ Layer B — Provider-native session (OPTIONAL, latency)          │
+│   claude --resume | codex continue | agy conversation id       │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+### 2.0 Anti-patterns (forbidden in Track B+)
+
+| Anti-pattern | Why forbidden | Instead |
+|--------------|---------------|---------|
+| Add `claude-session-manager.ts` + `agy-session-manager.ts` as **parallel sources of truth** | Three silos; no cross-provider transcript | **One** `OrchestrationSessionStore` (Layer A) |
+| Keep `codex-session-manager` as authoritative history for Wall-Bounce | Codex-only bias; breaks multi-LLM audit | Migrate Codex message list under Layer A; demote to Layer B adapter helper |
+| Use Cursor Agent chat as system memory | Not durable; not multi-provider | Layer A events |
+| Cipher write on every provider output without verification | Memory pollution (P5 B4) | Layer C verified-write policy |
+
+**Allowed:** Provider-specific **thin helpers** (e.g. `CodexSessionAdapter`) that read/write **only** `OrchestrationSession.providerHandles.codex` and append Layer A events — not standalone history stores.
 
 ### 2.1 Layer A — OrchestrationSession (source of truth)
 
@@ -63,41 +88,144 @@ Introduce a **Memory Substrate** with three layers. **Layer A is the source of t
 
 **Rules:**
 
-1. **Single issuer:** Orchestrator (Wall-Bounce API or future session service) creates `sessionId`; clients pass it on subsequent calls.
+1. **Single issuer:** Orchestrator creates `sessionId`; clients pass it on subsequent calls.
 2. **Append-only events** — no in-place mutation of historical provider outputs.
-3. **All transports** (Wall-Bounce API, unified MCP `analyze_*`, legacy codex-mcp) **read/write through Layer A** when `sessionId` is present — not private silos.
-4. **Multi-LLM transcript** includes cross-provider dialogue (what Gemini said, what Codex said, consensus) — not only user↔assistant dyad.
+3. **All transports** (Wall-Bounce API, unified MCP `analyze_*`, legacy codex-mcp) **read/write Layer A** when `sessionId` is present.
+4. **Multi-LLM transcript** includes cross-provider dialogue — not only user↔assistant dyad.
 
-**Proposed event types (implementation Track B+):**
+**Core document shape (direction):**
+
+```typescript
+interface OrchestrationSession {
+  schemaVersion: '1.1';
+  sessionId: string;
+  conversationId?: string;
+  createdAt: string;   // ISO 8601 UTC — session birth
+  updatedAt: string;   // ISO 8601 UTC — last touch (append or continue-read)
+  expiresAt: string;   // ISO 8601 UTC — min(createdAt + maxTtl, updatedAt + idleTtl) at write time
+  clientTimezone?: string;  // IANA, e.g. Asia/Tokyo — display / audit context; NOT duplicated per event
+  events: OrchestrationEvent[];
+  providerHandles: { /* … */ };
+  stats?: { eventCount: number; lastSeq: number; lastRound?: number };
+  metadata?: Record<string, unknown>;
+}
+```
+
+**Every event carries temporal + ordering metadata** (see §2.1.1–§2.1.2).
+
+**Event envelope (required on all event types):**
+
+```typescript
+interface OrchestrationEventBase {
+  eventId: string;     // UUID v4
+  seq: number;         // monotonic 0..n within session
+  ts: string;          // ISO 8601 UTC — interval **start** (or sole instant if no tsEnd)
+  tsEnd?: string;      // ISO 8601 UTC — interval **end**; omit for point-in-time events
+  durationMs?: number; // optional; SHOULD equal tsEnd−ts when both set (denormalized for queries)
+}
+```
+
+**Event types:**
 
 ```typescript
 type OrchestrationEvent =
-  | { type: 'user_prompt'; content: string; ts: string }
-  | { type: 'provider_invoke'; provider: 'claude' | 'codex' | 'agy'; profile: InferenceProfile; promptHash: string; ts: string }
-  | { type: 'provider_result'; provider: string; content: string; success: boolean; latencyMs: number; ts: string }
-  | { type: 'round_consensus'; round: number; confidence: number; consensus: number; summary: string; ts: string }
-  | { type: 'aggregator'; model: string; content: string; ts: string };
+  | (OrchestrationEventBase & { type: 'user_prompt'; content: string })  // ts only
+  | (OrchestrationEventBase & { type: 'provider_invoke'; provider: …; profile: …; promptHash: string })  // ts = spawn start; in-flight
+  | (OrchestrationEventBase & { type: 'provider_result'; invokeEventId: string; provider: string; content: string; success: boolean; latencyMs: number; tsEnd: string })  // ts = invoke start (denorm), tsEnd = completion
+  | (OrchestrationEventBase & { type: 'round_consensus'; round: number; confidence: number; consensus: number; summary: string; tsEnd: string })  // ts = round fan-out start, tsEnd = consensus done
+  | (OrchestrationEventBase & { type: 'aggregator'; model: string; content: string; tsEnd?: string })
+  | (OrchestrationEventBase & { type: 'layer_c_retrieval'; source: 'cipher' | 'rag'; refIds: string[] })
+  | (OrchestrationEventBase & { type: 'session_summarized'; reason: …; eventsBefore: number; summary: string });
 ```
 
-**Storage (direction):** Redis first (align with existing `codex-session-manager`, `session-manager`); audit/archive to MySQL or object storage later. TTL default **24h active**, configurable; archive before delete.
+### 2.1.1 Temporal metadata (mandatory)
 
-### 2.2 Layer B — Provider session (optional optimization)
-
-**Purpose:** Reduce CLI spawn overhead and preserve provider-native conversation state within one orchestration session.
-
-| Provider | Native mechanism | Scope |
-|----------|------------------|-------|
-| Claude | `--resume <id>` / `--continue` with `--print` | Same provider, same model/cwd policy |
-| Codex | `codex-reply` / session continue (legacy pattern) | Same sandbox/model |
-| agy | conversation id / stdin `--print` | Same cwd policy; smoke may use `/tmp` |
+| Field | Level | Required | Format | Purpose |
+|-------|-------|----------|--------|---------|
+| `createdAt` | Session | Yes | ISO 8601 UTC (`…Z`) | Session birth; **max TTL** anchor |
+| `updatedAt` | Session | Yes | ISO 8601 UTC | Last activity; **idle TTL** anchor |
+| `expiresAt` | Session | Yes | ISO 8601 UTC | Computed expiry at write |
+| `clientTimezone` | Session | No | IANA (`Area/City`) | User-local display; **not** stored per event |
+| `eventId` | Event | Yes | UUID v4 | Dedup, audit, cross-event links (`invokeEventId`) |
+| `seq` | Event | Yes | int ≥ 0 | Canonical order |
+| `ts` | Event | Yes | ISO 8601 UTC | Interval **start** or point instant |
+| `tsEnd` | Event | Conditional | ISO 8601 UTC | Interval **end** — required on `provider_result`, `round_consensus` |
+| `durationMs` | Event | No | int ≥ 0 | Denormalized span; SHOULD match `tsEnd − ts` |
+| `invokeEventId` | `provider_result` | Yes | UUID v4 | Links result → `provider_invoke` (append-only pair) |
+| `lastUsedAt` | `providerHandles.*` | Optional | ISO 8601 UTC | Layer B handle freshness |
 
 **Rules:**
 
-1. Layer B handles are **children of** `sessionId` — stored in Layer A metadata, not a second source of truth.
-2. Unrelated MCP tasks MUST NOT share a provider session unless explicitly continuing the same `sessionId`.
-3. Provider session reuse is **opt-in** per invoke (`continue: true` or explicit `providerSessionId`).
+1. **All instants stored as UTC** (`…Z`). Single canonical timeline for ordering, TTL, and merge.
+2. **`seq` assigned by `OrchestrationSessionStore`** — strictly +1 per append.
+3. **Point events** (`user_prompt`, `layer_c_retrieval`, `session_summarized`): `ts` only; omit `tsEnd`.
+4. **Provider span (split append-only):** `provider_invoke` sets `ts` = spawn start. `provider_result` sets `ts` = same start (denormalized), `tsEnd` = completion, `latencyMs`, `invokeEventId`. Do **not** PATCH invoke when result arrives.
+5. **Round span:** `round_consensus` sets `ts` = round fan-out start, `tsEnd` = consensus computed, `durationMs` optional.
+6. **Validation:** when `tsEnd` present, `tsEnd ≥ ts`; warn if `durationMs` disagrees with wall clock by >1s.
+7. **Session `updatedAt` + idle TTL** refresh on append and continue-read.
+8. **Event count does not expire sessions** — triggers `session_summarized` only (§2.4).
 
-**Does not replace Layer A:** Even with warm CLI sessions, every provider I/O is logged to Layer A.
+### 2.1.2 Timezone policy (UTC canonical; TZ session-scoped)
+
+| Approach | Verdict |
+|----------|---------|
+| UTC only on every event | **Yes** — required |
+| TZ offset duplicated on every event | **No** — redundant (~30–50 bytes × N events); drifts if user travels |
+| IANA `clientTimezone` once per session | **Yes (optional)** — UI, logs (“user was in JST”), compliance context |
+| Store local time + UTC per event | **No** — derive `UTC → local` via `clientTimezone` at display time |
+
+**Not over-engineering:** `ts` + `tsEnd` on span events is ~50 bytes and avoids walking the event graph for latency dashboards. **Is over-engineering:** per-event TZ, or mutating `provider_invoke` to add `tsEnd` in place (breaks append-only).
+
+**Display:** `formatEventLocal(event.ts, session.clientTimezone)` in UI layer — not in Redis payload per event.
+
+**Why `ts` is not optional:** (unchanged) audit, replay, compaction safety.
+
+**Schema artifacts:** [orchestration-session.schema.json](../../config/schemas/orchestration-session.schema.json) (v1.1) · [orchestration-memory.json](../../config/orchestration-memory.json) · [orchestration-session.ts](../../src/types/orchestration-session.ts)
+
+**Storage (direction):**
+
+- **Primary:** Redis — key prefix `orch:session:{sessionId}` (new; distinct from legacy `codex:session:*`).
+- **Reuse:** Generic [`session-manager.ts`](../src/services/session-manager.ts) patterns where applicable; do **not** conflate app user session with orchestration session.
+- **Archive:** MySQL / object storage before TTL delete (future).
+- **TTL policy:** See §2.4 (idle + max; not event-count expiry).
+
+**Service (Track B):** `OrchestrationSessionStore` in `src/services/` (name fixed at implementation).
+
+### 2.4 Retention and TTL policy (design defaults)
+
+**Formula:** `expiresAt = min(createdAt + maxTtl, updatedAt + idleTtl)` — recomputed on every touch.
+
+| Parameter | Layer | Default | Role |
+|-----------|-------|---------|------|
+| `idleTtlSeconds` | **A** | **604800** (7 days) | Sliding — absorbs sleep, weekends, “continue tomorrow” |
+| `maxTtlSeconds` | **A** | **2592000** (30 days) | Absolute cap — abandoned sessions |
+| `touchOnRead` | **A** | `true` | Continue with `sessionId` refreshes idle TTL |
+| `maxEventsBeforeSummarize` | **A** | **500** | Triggers `session_summarized` — **not** expiry |
+| `maxBytesBeforeSummarize` | **A** | **2097152** (2 MiB) | Same |
+| — | **B** | inherits **A** | `providerHandles` live inside session document |
+| — | **C** | external | Cipher/RAG own retention; `layer_c_retrieval` events use event `ts` |
+
+Config file: [config/orchestration-memory.json](../../config/orchestration-memory.json). Legacy `codex:session:*` keeps **1h** until B-M5 migration.
+
+**Event count vs time:** Time drives expiry; event count drives **summarization** only. This avoids punishing long pauses while bounding Redis size.
+
+### 2.2 Layer B — Provider-native session (optional optimization)
+
+**Purpose:** Reduce CLI spawn overhead; hold provider CLI resume tokens **under** Layer A `providerHandles`.
+
+| Provider | Native mechanism | TechSapo AS-IS | To-Be |
+|----------|------------------|----------------|-------|
+| **claude** | `--resume <id>` / `--continue` + `--print` | CLI disk only; adapter ignores | Store `resumeId` in `providerHandles.claude`; opt-in `continueProviderSession` |
+| **codex** | `codex-reply` / session continue | `codex-session-manager` Redis | **Fold into** Layer A; helper wraps legacy manager during migration |
+| **agy** | Antigravity conversation id; `cwd` | `workingDirectory` on spawn only | Store `conversationId` + `lastCwd` in `providerHandles.agy` |
+
+**Rules:**
+
+1. Layer B handles are **children of** `sessionId` — never authoritative without Layer A events.
+2. Unrelated MCP tasks MUST NOT share a provider handle unless same `sessionId`.
+3. Reuse is **opt-in** per invoke (`continueProviderSession: true`).
+
+**Parity rule:** All three peers **may** have Layer B handles; absence of `claude-session-manager.ts` / `agy-session-manager.ts` today is **not** a goal state — but new code MUST NOT duplicate Codex's silo pattern. Use `providerHandles` + thin adapters.
 
 ### 2.3 Layer C — Long-term knowledge (Cipher, RAG)
 
@@ -105,104 +233,133 @@ type OrchestrationEvent =
 
 **Rules:**
 
-1. Cipher `ask_cipher` is **retrieval before invoke** — inject into `context` / Layer A preamble; not a substitute for Layer A transcript.
-2. Cipher **writes** follow P5 verified-write policy ([WALL_BOUNCE_P5_ARCHITECTURE.md](./WALL_BOUNCE_P5_ARCHITECTURE.md)) — no unverified auto-write from raw provider output.
-3. RAG / Google Drive connectors supply static or semi-static corpora; orchestration events may **reference** chunk IDs in Layer A.
+1. Cipher `ask_cipher` — **retrieve before invoke**; inject into `context` / Layer A preamble.
+2. Cipher **writes** — P5 verified-write policy only.
+3. RAG chunk refs may be recorded as `layer_c_retrieval` events in Layer A.
 
 ---
 
-## 3. API contract (direction — implement Track B)
+## 3. Migration: `codex-session-manager` → Layer A
 
-### 3.1 Shared identifiers
+| Phase | Action |
+|-------|--------|
+| **B-M1** | Introduce `OrchestrationSessionStore`; new sessions use `orch:session:*` only |
+| **B-M2** | On Codex invoke with `sessionId`, append Layer A events; copy `providerHandles.codex` from CLI response |
+| **B-M3** | `multi-llm-session-handler` reads/writes Layer A — stop using CodexSessionManager as global conversation store |
+| **B-M4** | Legacy `codex-mcp` / `/api/codex/*` routes delegate to Layer A (deprecate duplicate history) |
+| **B-M5** | Retire or shrink `codex-session-manager` to thin Layer B helper (no standalone transcript) |
+
+Until B-M3, treat `codex-session-manager` as **legacy Layer B prototype**, not orchestration memory.
+
+---
+
+## 4. API contract (direction — implement Track B)
+
+### 4.1 Shared identifiers
 
 | ID | Issued by | Used by |
 |----|-----------|---------|
 | `sessionId` | Orchestrator | Wall-Bounce API, MCP `analyze_*`, audit |
-| `conversationId` | Optional alias / external client ref | Maps 1:1 to `sessionId` |
-| `providerSessionId` | Provider CLI | Layer B only; scoped under `sessionId` |
+| `conversationId` | Optional client alias | Maps 1:1 to `sessionId` |
+| `providerHandles.*` | Updated by adapters after each invoke | Layer B only |
 
-### 3.2 MCP `analyze_*` (To-Be — extends A-2)
-
-Current `inputSchema` has `context` and `workingDirectory` but **no durable session**. Track B adds:
+### 4.2 MCP `analyze_*` (extends A-2)
 
 ```typescript
 interface AnalyzeToolInput {
   prompt: string;
   context?: string;
-  sessionId?: string;           // attach to OrchestrationSession
-  continueProviderSession?: boolean;  // Layer B opt-in
-  // … existing InferenceProfile fields
+  sessionId?: string;
+  continueProviderSession?: boolean;
+  // … InferenceProfile fields
+}
+
+interface AdapterRequest {
+  prompt: string;
+  context?: string;
+  profile: InferenceProfile;
+  workingDirectory?: string;
+  sessionId?: string;              // Layer A attach
+  continueProviderSession?: boolean;
 }
 ```
 
-**AS-IS (A-1):** `sessionId` ignored — stateless smoke only. Documented exception until B-2.
+**AS-IS (A-1):** `sessionId` ignored — smoke only.
 
-### 3.3 Wall-Bounce API (To-Be)
+### 4.3 Wall-Bounce API (To-Be)
 
-Request may include `sessionId`; response returns `sessionId` (new or echoed). Each round appends Layer A events before returning SSE complete.
+Request may include `sessionId`; response returns `sessionId`. Each round appends Layer A events before SSE complete.
 
 ---
 
-## 4. AS-IS vs To-Be
+## 5. AS-IS vs To-Be (summary)
 
 | Area | AS-IS | To-Be (Track B+) |
 |------|-------|------------------|
-| `analyze_*` MCP | Stateless one-shot | Optional `sessionId`; logs to Layer A |
-| Wall-Bounce rounds | In-process summary injection | Layer A transcript + summary |
-| Codex legacy MCP | Redis session only | Migrated under Layer A |
-| Cipher | External MCP, manual | Retrieve hook in orchestrator pre-invoke |
-| Response cache (Track D) | Not implemented | Layer on top of Layer A read path |
+| Orchestration memory | Fragmented; Codex-only Redis silo | **Layer A** `OrchestrationSessionStore` |
+| Provider session parity | Codex manager only; Claude/agy CLI-native only | **Layer B** `providerHandles` for all peers |
+| `analyze_*` MCP | Stateless | `sessionId` + Layer A append |
+| `multi-llm-session-handler` | CodexSessionManager as store | Layer A |
+| Cipher / RAG | External, manual | Layer C + `layer_c_retrieval` events |
+| Response cache (Track D) | None | Hash Layer A reads; not a transcript |
 
 ---
 
-## 5. Consequences
+## 6. Consequences
 
 ### Positive
 
-- Multi-LLM workflows remain auditable and continuable.
-- Track B adapter wiring has a stable contract (`sessionId` on `AdapterRequest`).
-- Cipher/RAG roles are bounded — less "memory pollution" risk.
+- Multi-LLM workflows auditable and continuable.
+- Stable `sessionId` contract for Track B adapters.
+- Codex legacy investment migrates instead of diverging further.
 
 ### Negative / trade-offs
 
-- Storage growth — require summarization/archival policy per session.
-- Latency: Layer A writes add I/O; mitigate with async append + Redis.
-- Provider session reuse risks context bleed — strict scoping under `sessionId`.
+- Migration touches legacy codex-mcp and multi-llm paths.
+- Storage growth — summarization / archival required.
+- Layer B reuse risks context bleed — strict `sessionId` scoping.
 
 ### Forbidden
 
-- Using **only** Layer B or Layer C without Layer A for production Wall-Bounce paths.
-- Treating Cursor Agent chat history as the system transcript.
-- Single-round Wall-Bounce to "save memory" (constitution violation).
+- Layer B or C **without** Layer A on production Wall-Bounce paths.
+- Three independent `*-session-manager.ts` files as parallel transcripts.
+- Cursor chat as system of record.
 
 ---
 
-## 6. Implementation tracks (mapping)
+## 7. Implementation tracks (mapping)
 
 | Track | Memory work |
 |-------|-------------|
-| **Gate A→B** | **G-MEM:** This ADR accepted; team agrees Layer A is mandatory |
-| **B-0 / B-1** | Extend `AdapterRequest` + types; stub `OrchestrationSessionStore` interface |
-| **B-2** | Wall-Bounce round logging to Layer A; MCP `sessionId` pass-through |
-| **B-3** | File-backed InferenceProfile + session-aware prompt build |
-| **Track D** | Response cache reads Layer A hash; does not replace transcript |
-| **Track C / P5** | Cipher verified write; morphological + PromptAnalyzer use session context |
+| **Gate A→B** | **G-MEM:** TS-22 accepted; Layer A mandatory; no new provider silos |
+| **M1** | `OrchestrationSessionStore` + `orch:session:*` + schema v1.0 ([types](../../src/types/orchestration-session.ts), [schema](../../config/schemas/orchestration-session.schema.json)) |
+| **M2** | `sessionId` on `AdapterRequest` + MCP schema |
+| **M3** | Wall-Bounce rounds append Layer A events |
+| **M4–M5** | `codex-session-manager` migration (§3) |
+| **M6** | Claude / agy `providerHandles` + opt-in continue |
+| **Track D** | Response cache on Layer A read path |
+| **Track C / P5** | Cipher verified write; PromptAnalyzer session context |
+
+Runbook detail: [CURSOR_MCP_TODO.md § Memory substrate](../CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b).
 
 ---
 
-## 7. Related documents
+## 8. Related documents
 
 | Document | Relationship |
 |----------|--------------|
-| [TS-17 LLM Provider Transport](./TECH_STACK_LLM_PROVIDER_TRANSPORT.md) | Inter-round = text in prompts from Layer A |
-| [TS-20 Inference Profiles](./TECH_STACK_INFERENCE_PROFILES.md) | Profile stored per `provider_invoke` event |
-| [CURSOR_MCP_TODO.md § Memory substrate](../CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b) | Runbook steps |
-| [CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md) | Legacy Layer B reference |
+| [TS-17 LLM Provider Transport](./TECH_STACK_LLM_PROVIDER_TRANSPORT.md) | Inter-round text from Layer A |
+| [TS-20 Inference Profiles](./TECH_STACK_INFERENCE_PROFILES.md) | Profile on `provider_invoke` events |
+| [CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md) | **Legacy** — superseded by Layer A for transcript |
+| [MCP_SERVICES.md § Session](../MCP_SERVICES.md#session-management) | AS-IS vs To-Be summary |
 
 ---
 
-## 8. Status log
+## 9. Status log
 
 | Date | Change |
 |------|--------|
-| 2026-06-18 | TS-22 accepted (direction); Gate A→B prerequisite before Track B implementation |
+| 2026-06-18 | v1.0 — TS-22 accepted (direction); Gate A→B prerequisite |
+| 2026-06-18 | v1.1 — AS-IS inventory; codex-only legacy clarified; anti-patterns; `providerHandles`; codex migration phases; no parallel claude/agy session managers |
+| 2026-06-18 | v1.2 — Mandatory event `ts` / `eventId` / `seq`; session `expiresAt`; idle 7d / max 30d TTL; JSON Schema + config defaults |
+| 2026-06-18 | v1.3 — `ts`+`tsEnd` span model; `invokeEventId`; session `clientTimezone` (IANA); UTC-only per event |
