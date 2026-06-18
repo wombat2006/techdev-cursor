@@ -589,5 +589,5 @@ When contributing to the Codex MCP implementation:
 - [OpenAI Codex Advanced Documentation](https://github.com/openai/codex/blob/main/docs/advanced.md)
 - [OpenAI Codex README](https://github.com/openai/codex/blob/main/README.md)
 - [Model Context Protocol Specification](../mcp-prompts-specification.md)
-- [TechSapo Wall-Bounce Analysis System](../claude-code-guide.md)
+- [TechSapo Wall-Bounce Analysis System](./agents/claude-code.md)
 - [MCP Resources Specification](../mcp-resources-specification.md)

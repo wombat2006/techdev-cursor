@@ -363,5 +363,5 @@ The recommended phased approach allows for gradual integration while maintaining
 - [OpenAI Agents JS Tools Guide](https://openai.github.io/openai-agents-js/guides/tools/)
 - [OpenAI Agents JS Agents Guide](https://openai.github.io/openai-agents-js/guides/agents/)
 - [TechSapo Codex MCP Implementation](./codex-mcp-implementation.md)
-- [TechSapo Wall-Bounce Analysis System](./claude-code-guide.md)
+- [TechSapo Wall-Bounce Analysis System](./agents/claude-code.md)
 - [Model Context Protocol Specification](./mcp-prompts-specification.md)

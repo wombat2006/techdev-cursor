@@ -41,7 +41,7 @@ export const SLIDES = [
     leftTitle: 'CLAUDE.md（骨格のみ）',
     left: [
       'Quick Navigation · Mandatory Rules 要約',
-      '詳細は docs/claude-*.md へリンク',
+      '詳細は docs/agents/*.md へリンク',
       '肥大化禁止 — AI エージェント精度維持',
       'Provider Tiers: agy / codex / Sonnet / Opus',
     ],

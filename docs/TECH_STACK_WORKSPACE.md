@@ -168,7 +168,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 - [ ] `docs/ARCHITECTURE.md` Technology Stack section
 - [ ] `README.md` + `README_ja.md` prerequisites
 - [ ] `CLAUDE.md` summary (if provider/runtime rule changes)
-- [ ] `docs/claude-development-notes.md` if dev workflow changes
+- [ ] `docs/agents/development-notes.md` if dev workflow changes
 - [ ] Implementation ticket / phase mapping (P5+ if applicable)
 
 ---

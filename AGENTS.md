@@ -6,7 +6,7 @@
 
 > **Skeleton only.** See linked docs for commands, MCP rules, and details. Do not bloat this file — accuracy degrades when it grows.
 
-> **Plan A:** P0–P1 done — this file is the **neutral top** for all coding agents. [CLAUDE.md](CLAUDE.md) is a Claude Code shim only. Detail docs move to `docs/agents/` in Phase P2. Cursor rules: [.cursor/rules/](.cursor/rules/) (Phase P3).
+> **Plan A:** P0–P2 done — this file is the **neutral top** for all coding agents. [CLAUDE.md](CLAUDE.md) is a Claude Code shim only. Detail docs: [docs/agents/](docs/agents/). Cursor rules: [.cursor/rules/](.cursor/rules/) (Phase P3).
 
 ---
 
@@ -51,7 +51,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 |------|-------------|---------|
 | **Wall-Bounce** | **Constitution**: 2–5 rounds required, 2+ LLMs, confidence ≥ 0.7, consensus ≥ 0.6, via `wall-bounce-analyzer.ts` only | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
 | **Security** | CLI/SDK only (`agy` / `codex` / Anthropic SDK); no API keys in code or env | [SECURITY.md](docs/SECURITY.md) |
-| **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [claude-mcp-rules.md](docs/claude-mcp-rules.md) |
+| **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
 | **Commit** | Include README and related docs in the same commit when changing behavior | [.cursor/rules/documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 | **Doc language** | Logic and rule docs (`AGENTS.md`, agent detail docs, `WALL_BOUNCE_SYSTEM.md`, etc.) in **English** | [documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
 
@@ -72,13 +72,12 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 
 ## Agent Detail Documents
 
-> **Phase P2 (Plan A):** These paths move to `docs/agents/*.md`. Until then, use the links below.
-
 | Topic | Document |
 |-------|----------|
-| Commands (dev / test / MCP / monitoring / emergency) | [claude-commands.md](docs/claude-commands.md) |
-| MCP usage rules | [claude-mcp-rules.md](docs/claude-mcp-rules.md) |
-| Dev notes, common tasks, environment checks | [claude-development-notes.md](docs/claude-development-notes.md) |
+| Commands (dev / test / MCP / monitoring / emergency) | [commands.md](docs/agents/commands.md) |
+| MCP usage rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
+| Dev notes, common tasks, environment checks | [development-notes.md](docs/agents/development-notes.md) |
+| Claude Code tool notes | [claude-code.md](docs/agents/claude-code.md) |
 | Development workflows | [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md) |
 | LLM model catalog (TS-21) | [decisions/TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | OpenAI Cookbook integration | [OPENAI_COOKBOOK_INTEGRATION.md](docs/OPENAI_COOKBOOK_INTEGRATION.md) |

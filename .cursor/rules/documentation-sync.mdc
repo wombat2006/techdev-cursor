@@ -9,32 +9,34 @@ When features, configuration, architecture, providers, or CLI requirements chang
 
 ## Pre-commit Checklist
 
-1. **README sync**: Update both `README.md` and `README_ja.md` (never one without the other)
-2. **Navigation**: Add new docs to `CLAUDE.md` (skeleton only), `docs/claude-*.md` (details), and `docs/DOCUMENTATION_INDEX.md`. Do not add detail to `CLAUDE.md`
+1. **README sync**: Update both [README.md](../../README.md) and [README_ja.md](../../README_ja.md) (never one without the other)
+2. **Navigation**: Add new docs to [AGENTS.md](../../AGENTS.md) (skeleton only), [docs/agents/](../../docs/agents/) (details), and [docs/DOCUMENTATION_INDEX.md](../../docs/DOCUMENTATION_INDEX.md). Do not add detail to `AGENTS.md` or edit stub files under `docs/claude-*.md`
 3. **Proposals**: If customer-facing content changes, update `docs/proposals/` and `scripts/pptx-gen/slide-data.mjs` (regenerate PPTX if needed)
-4. **ADR**: Record design decisions in `docs/decisions/`
+4. **ADR**: Record design decisions in [docs/decisions/](../../docs/decisions/)
 
 ## What to Update
 
 | Change | Minimum docs to update |
 |--------|------------------------|
-| LLM / CLI provider | `CLAUDE.md` (summary only), `docs/claude-development-notes.md`, `docs/ARCHITECTURE.md`, both READMEs, relevant integration guide |
-| API / endpoints | `docs/API_REFERENCE.md`, `DEVELOPMENT_GUIDE.md` |
-| Security policy | `docs/SECURITY.md`, `CLAUDE.md` |
-| Wall-Bounce behavior | `docs/WALL_BOUNCE_SYSTEM.md`, related ADR |
-| Tech stack | `docs/TECH_STACK_WORKSPACE.md`, `docs/decisions/TECH_STACK_*.md`, `docs/ARCHITECTURE.md` |
+| LLM / CLI provider | [AGENTS.md](../../AGENTS.md) (summary only), [docs/agents/development-notes.md](../../docs/agents/development-notes.md), [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), both READMEs, relevant integration guide |
+| OpenAI catalog / prompt guidance | [config/llm-model-catalog.json](../../config/llm-model-catalog.json), [docs/OPENAI_PROMPT_GUIDANCE.md](../../docs/OPENAI_PROMPT_GUIDANCE.md), [docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md](../../docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md), both READMEs |
+| API / endpoints | [docs/API_REFERENCE.md](../../docs/API_REFERENCE.md), [docs/DEVELOPMENT_GUIDE.md](../../docs/DEVELOPMENT_GUIDE.md) |
+| Security policy | [docs/SECURITY.md](../../docs/SECURITY.md), [AGENTS.md](../../AGENTS.md) |
+| Wall-Bounce behavior | [docs/WALL_BOUNCE_SYSTEM.md](../../docs/WALL_BOUNCE_SYSTEM.md), related ADR |
+| Tech stack | [docs/TECH_STACK_WORKSPACE.md](../../docs/TECH_STACK_WORKSPACE.md), [docs/decisions/TECH_STACK_*.md](../../docs/decisions/), [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md) |
 
-## CLAUDE.md Policy
+## AGENTS.md Policy
 
-- `CLAUDE.md` is skeleton only (Quick Nav + Mandatory Rules summary + link table)
-- Put details in `docs/claude-commands.md`, `claude-mcp-rules.md`, `claude-development-notes.md`
+- [AGENTS.md](../../AGENTS.md) is skeleton only (Quick Nav + Mandatory Rules summary + link table)
+- [CLAUDE.md](../../CLAUDE.md) is shim only — link to AGENTS.md; do not restore full rules there
+- Put details in [docs/agents/commands.md](../../docs/agents/commands.md), [mcp-rules.md](../../docs/agents/mcp-rules.md), [development-notes.md](../../docs/agents/development-notes.md)
 
 ## Logic Documentation Language
 
 **Logic and rule docs MUST be written in English**, including:
 
-- `CLAUDE.md`, `docs/claude-*.md`
-- `docs/WALL_BOUNCE_SYSTEM.md`, `docs/ANTIGRAVITY_CLI_MIGRATION.md`
+- [AGENTS.md](../../AGENTS.md), [docs/agents/*.md](../../docs/agents/)
+- [docs/WALL_BOUNCE_SYSTEM.md](../../docs/WALL_BOUNCE_SYSTEM.md), [docs/ANTIGRAVITY_CLI_MIGRATION.md](../../docs/ANTIGRAVITY_CLI_MIGRATION.md)
 - `.cursor/rules/*.mdc` (agent rules)
 
 Customer-facing proposals (`docs/proposals/`) and `README_ja.md` may remain in Japanese.

@@ -9,7 +9,7 @@
 ### 👩‍💻 Developer
 1. **[AGENTS.md](../AGENTS.md)** - Neutral agent navigation (entry point)
 2. **[CLAUDE.md](../CLAUDE.md)** - Claude Code shim → AGENTS.md
-3. **docs/claude-commands.md** · **claude-mcp-rules.md** · **claude-development-notes.md** - Agent detail docs (English; → `docs/agents/` in Plan A P2)
+3. **docs/agents/commands.md** · **mcp-rules.md** · **development-notes.md** - Agent detail docs (English)
 4. **docs/CURSOR_MCP_TODO.md** - Phased execution runbook (Track A → B → C)
 5. **docs/FORK_CURSOR.md** - `techdev-cursor` identity (integrated dev env for coding accuracy/workload; not IT incident analysis)
 6. **docs/ARCHITECTURE.md** - System design
@@ -39,9 +39,10 @@
 |----------|---------|----------|
 | **../AGENTS.md** | Neutral top (constitution + Quick Nav) | All AI agents / developers |
 | **../CLAUDE.md** | Claude Code shim → AGENTS.md | Claude Code |
-| **claude-commands.md** | dev / test / MCP / monitoring / emergency commands | Developers |
-| **claude-mcp-rules.md** | Serena / Cipher / Codex / Context7 rules | AI agents |
-| **claude-development-notes.md** | Common tasks, structure, API summary | Developers |
+| **agents/commands.md** | dev / test / MCP / monitoring / emergency commands | Developers |
+| **agents/mcp-rules.md** | Serena / Cipher / Codex / Context7 rules | AI agents |
+| **agents/development-notes.md** | Common tasks, structure, API summary | Developers |
+| **agents/claude-code.md** | Claude Code tool notes | Claude Code users |
 
 ### Core Architecture
 | Document | Purpose | Audience |

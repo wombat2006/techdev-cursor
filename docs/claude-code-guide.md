@@ -1,12 +1,5 @@
-# Claude Code Guide (Legacy Redirect)
+# Moved — Claude Code Tool Notes
 
-> **Backward-compatibility redirect.** Use the links below for current navigation.
+**Canonical:** [docs/agents/claude-code.md](./agents/claude-code.md)
 
-| Purpose | Document |
-|---------|----------|
-| **Neutral top (all agents)** | [../AGENTS.md](../AGENTS.md) |
-| **Claude Code shim** | [../CLAUDE.md](../CLAUDE.md) |
-| Commands | [claude-commands.md](./claude-commands.md) |
-| MCP usage rules | [claude-mcp-rules.md](./claude-mcp-rules.md) |
-| Dev notes and structure | [claude-development-notes.md](./claude-development-notes.md) |
-| Full documentation index | [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) |
+Backward-compatibility stub (Plan A P2). Do not edit — update the canonical path above.
