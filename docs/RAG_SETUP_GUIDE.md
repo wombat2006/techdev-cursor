@@ -101,6 +101,8 @@ Content-Type: application/json
 }
 ```
 
+> **`batch_size` ≠ OpenAI Batch API.** This parameter controls **parallel document processing** in the connector (default 5). The async [OpenAI Batch API](https://github.com/openai/openai-cookbook/blob/main/examples/batch_processing.ipynb) for bulk LLM enrichment during ingest is **optional, not implemented**, and should only be adopted after cost/volume gates — see [OPENAI_BATCH_API_RAG.md](./OPENAI_BATCH_API_RAG.md).
+
 レスポンス例:
 ```json
 {

@@ -31,7 +31,21 @@
       "presetDefault": "deep",
       "prompting": {
         "style": "structured",
-        "notes": "Responses API; long-running agent workflows. See gpt-5 prompting lineage in cookbook."
+        "approach": "outcome_first",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.5.md",
+        "platformGuideModel": "gpt-5.5",
+        "guidanceTopics": [
+          "personality-behavior",
+          "preamble-streaming",
+          "outcome-first-stopping",
+          "formatting-verbosity",
+          "retrieval-budget-citations",
+          "creative-guardrails",
+          "frontend-quality",
+          "validation-loops",
+          "assistant-phase"
+        ],
+        "notes": "Shorter outcome-first prompts vs GPT-5.4 stacks; re-evaluate low/medium effort before escalating."
       },
       "capabilities": {
         "reasoning": "frontier",
@@ -75,9 +89,26 @@
         "parallelToolCalls": true,
         "freeFormFunctionCalling": true,
         "contextFreeGrammar": true,
-        "skillsApi": true
+        "skillsApi": true,
+        "assistantPhase": {
+          "supported": true,
+          "values": ["commentary", "final_answer"]
+        }
       },
-      "limits": { "contextTokens": 1000000 },
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 5, "cachedInputUsd": 0.5, "outputUsd": 30 },
+        "batch": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
+        "flex": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
+        "priority": { "inputUsd": 12.5, "cachedInputUsd": 1.25, "outputUsd": 75 }
+      },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
         "preferredInvocation": "responses_api",
@@ -108,12 +139,19 @@
           "lastReviewed": "2026-06-18"
         },
         {
+          "type": "platform_docs",
+          "title": "GPT-5.5 Prompt guidance",
+          "slug": "prompt-guidance",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance",
+          "lastReviewed": "2026-06-18"
+        },
+        {
           "type": "pricing",
           "url": "https://openai.com/api/pricing/"
         }
       ],
       "costHint": "flagship",
-      "notes": "Flagship general model — complex reasoning, tools, long workflows. Prefer Responses API."
+      "notes": "Flagship general model — complex reasoning, tools, long workflows. Prefer Responses API. Prompt: outcome-first (platform guide)."
     },
     {
       "id": "gpt-5.5-pro",
@@ -125,7 +163,18 @@
       "roles": ["llm_aggregate", "llm_cross_critique"],
       "modalities": ["text", "multimodal"],
       "presetDefault": "critical",
-      "prompting": { "style": "structured" },
+      "prompting": {
+        "style": "structured",
+        "approach": "outcome_first",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.5.md",
+        "platformGuideModel": "gpt-5.5",
+        "guidanceTopics": [
+          "outcome-first-stopping",
+          "formatting-verbosity",
+          "validation-loops",
+          "assistant-phase"
+        ]
+      },
       "capabilities": {
         "reasoning": "frontier",
         "toolUse": true,
@@ -146,6 +195,10 @@
         },
         "structuredOutputs": true,
         "reasoningItems": true,
+        "assistantPhase": {
+          "supported": true,
+          "values": ["commentary", "final_answer"]
+        },
         "promptCaching": {
           "supported": true,
           "maxTtlHours": 24
@@ -165,12 +218,218 @@
           "lastReviewed": "2026-06-18"
         },
         {
+          "type": "platform_docs",
+          "title": "GPT-5.5 Prompt guidance",
+          "slug": "prompt-guidance",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance",
+          "lastReviewed": "2026-06-18"
+        },
+        {
           "type": "pricing",
           "url": "https://openai.com/api/pricing/"
         }
       ],
       "costHint": "frontier",
-      "notes": "Higher-compute tier above GPT-5.5 for hardest problems."
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 30, "outputUsd": 180 },
+        "batch": { "inputUsd": 15, "outputUsd": 90 },
+        "flex": { "inputUsd": 15, "outputUsd": 90 }
+      },
+      "notes": "Higher-compute tier above GPT-5.5 for hardest problems. Outcome-first prompting (platform guide)."
+    },
+    {
+      "id": "gpt-5.4",
+      "vendor": "openai",
+      "modelFamily": "gpt-5.4",
+      "displayName": "GPT-5.4",
+      "status": "planned",
+      "tier": 3,
+      "roles": ["llm_analyze", "llm_agent_edit", "llm_cross_critique"],
+      "modalities": ["text", "vision", "document", "multimodal"],
+      "presetDefault": "balanced",
+      "prompting": {
+        "style": "structured",
+        "approach": "balanced",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+        "platformGuideModel": "gpt-5.4",
+        "guidanceTopics": [
+          "output-contract",
+          "follow-through-policy",
+          "instruction-priority",
+          "missing-context-gating",
+          "formatting-verbosity",
+          "validation-loops",
+          "assistant-phase",
+          "retrieval-budget-citations",
+          "tool-persistence"
+        ],
+        "notes": "Output contracts + explicit completion criteria; preserve assistant phase on replay. Cost-effective vs GPT-5.5."
+      },
+      "capabilities": {
+        "reasoning": "high",
+        "toolUse": true,
+        "toolSearch": true,
+        "computerUse": true,
+        "compaction": true,
+        "multimodal": true,
+        "documentUnderstanding": true,
+        "longWorkflow": true,
+        "codegen": true
+      },
+      "builtinTools": {
+        "mcp": true,
+        "computerUse": true,
+        "webSearch": true,
+        "fileSearch": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["none", "minimal", "low", "medium", "high"],
+          "default": "medium"
+        },
+        "verbosity": {
+          "supported": true,
+          "values": ["low", "medium", "high"],
+          "default": "medium"
+        },
+        "structuredOutputs": true,
+        "reasoningItems": true,
+        "assistantPhase": {
+          "supported": true,
+          "values": ["commentary", "final_answer"]
+        },
+        "promptCaching": { "supported": true },
+        "parallelToolCalls": true,
+        "freeFormFunctionCalling": true,
+        "contextFreeGrammar": true
+      },
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
+        "batch": { "inputUsd": 1.25, "cachedInputUsd": 0.13, "outputUsd": 7.5 },
+        "flex": { "inputUsd": 1.25, "cachedInputUsd": 0.13, "outputUsd": 7.5 },
+        "priority": { "inputUsd": 5, "cachedInputUsd": 0.5, "outputUsd": 30 }
+      },
+      "transport": {
+        "invocationTypes": ["responses_api"],
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5.4",
+        "invocationBindingRef": "openai:responses-v1"
+      },
+      "references": [
+        {
+          "type": "platform_docs",
+          "title": "GPT-5.4 Prompt guidance",
+          "slug": "prompt-guidance-gpt-5.4",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
+      "costHint": "standard",
+      "notes": "Lower cost than GPT-5.5; strong long-running agents. Primary downgrade target when quality threshold met."
+    },
+    {
+      "id": "gpt-5.4-pro",
+      "vendor": "openai",
+      "modelFamily": "gpt-5.4",
+      "displayName": "GPT-5.4 Pro",
+      "status": "planned",
+      "tier": 4,
+      "roles": ["llm_aggregate", "llm_cross_critique"],
+      "modalities": ["text", "multimodal"],
+      "presetDefault": "deep",
+      "prompting": {
+        "style": "structured",
+        "approach": "balanced",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+        "platformGuideModel": "gpt-5.4",
+        "guidanceTopics": [
+          "output-contract",
+          "validation-loops",
+          "assistant-phase",
+          "tool-persistence"
+        ],
+        "notes": "Shares GPT-5.4 prompt patterns; higher reasoning tier for hard synthesis."
+      },
+      "capabilities": {
+        "reasoning": "frontier",
+        "toolUse": true,
+        "longWorkflow": true,
+        "multimodal": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api"],
+        "recommendedEndpoint": "responses_api",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["medium", "high"],
+          "default": "high"
+        },
+        "structuredOutputs": true,
+        "assistantPhase": {
+          "supported": true,
+          "values": ["commentary", "final_answer"]
+        }
+      },
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 30, "outputUsd": 180 },
+        "batch": { "inputUsd": 15, "outputUsd": 90 },
+        "flex": { "inputUsd": 15, "outputUsd": 90 }
+      },
+      "transport": {
+        "invocationTypes": ["responses_api"],
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5.4-pro"
+      },
+      "references": [
+        {
+          "type": "platform_docs",
+          "slug": "prompt-guidance-gpt-5.4",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "pricing",
+          "url": "https://developers.openai.com/api/docs/pricing",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
+      "costHint": "frontier",
+      "notes": "Between GPT-5.4 and GPT-5.5 Pro on cost; use when 5.5 Pro is overkill."
     },
     {
       "id": "gpt-5.4-mini",
@@ -184,7 +443,17 @@
       "presetDefault": "balanced",
       "prompting": {
         "style": "balanced",
-        "notes": "Suited for conversational chat and high-volume tasks."
+        "approach": "balanced",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+        "platformGuideModel": "gpt-5.4",
+        "guidanceTopics": [
+          "output-contract",
+          "formatting-verbosity",
+          "missing-context-gating",
+          "validation-loops",
+          "assistant-phase"
+        ],
+        "notes": "GPT-5.4 family small-model section in platform guide; high-volume cost tier."
       },
       "capabilities": {
         "reasoning": "medium",
@@ -220,7 +489,25 @@
         "promptCaching": { "supported": true },
         "parallelToolCalls": true,
         "freeFormFunctionCalling": true,
-        "contextFreeGrammar": true
+        "contextFreeGrammar": true,
+        "batchApi": {
+          "supported": true,
+          "notes": "Optional RAG ingest enrichment only — see OPENAI_BATCH_API_RAG.md; adopt gated by volume"
+        }
+      },
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 0.75, "cachedInputUsd": 0.075, "outputUsd": 4.5 },
+        "batch": { "inputUsd": 0.375, "cachedInputUsd": 0.0375, "outputUsd": 2.25 },
+        "flex": { "inputUsd": 0.375, "cachedInputUsd": 0.0375, "outputUsd": 2.25 },
+        "priority": { "inputUsd": 1.5, "cachedInputUsd": 0.15, "outputUsd": 9 }
       },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
@@ -230,6 +517,13 @@
         "invocationBindingRef": "openai:responses-v1"
       },
       "references": [
+        {
+          "type": "platform_docs",
+          "title": "GPT-5.4 Prompt guidance (mini notes)",
+          "slug": "prompt-guidance-gpt-5.4",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+          "lastReviewed": "2026-06-18"
+        },
         {
           "type": "cookbook",
           "slug": "vision-understanding",
@@ -244,12 +538,19 @@
           "lastReviewed": "2026-06-18"
         },
         {
+          "type": "cookbook",
+          "slug": "batch-processing",
+          "title": "Batch processing with the Batch API",
+          "url": "https://cookbook.openai.com/examples/batch_processing",
+          "lastReviewed": "2026-06-18"
+        },
+        {
           "type": "pricing",
-          "url": "https://openai.com/api/pricing/"
+          "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
       "costHint": "mini",
-      "notes": "GPT-5.4-class; fast, low-cost, high volume; tool search + computer use + compaction."
+      "notes": "GPT-5.4-class; fast, low-cost, high volume; tool search + computer use + compaction. OpenAI Batch API candidate for bulk ingest enrichment (optional)."
     },
     {
       "id": "gpt-5.4-nano",
@@ -263,7 +564,11 @@
       "presetDefault": "fast",
       "prompting": {
         "style": "minimal",
-        "notes": "Use reasoning effort minimal for extraction/formatting (cookbook pattern)."
+        "approach": "minimal",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
+        "platformGuideModel": "gpt-5.4",
+        "guidanceTopics": ["output-contract", "formatting-verbosity"],
+        "notes": "Minimal reasoning; nano tier in GPT-5.4 guide. No tool search / computer use."
       },
       "capabilities": {
         "reasoning": "low",
@@ -287,7 +592,24 @@
         },
         "promptCaching": { "supported": true },
         "parallelToolCalls": false,
-        "freeFormFunctionCalling": false
+        "freeFormFunctionCalling": false,
+        "batchApi": {
+          "supported": true,
+          "notes": "Default Batch model for cheap chunk summaries/tags — gated adoption only"
+        }
+      },
+      "limits": {
+        "contextTokens": 272000,
+        "pricingContextNote": "<272K context length (pricing tier)"
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-18",
+        "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+        "standard": { "inputUsd": 0.2, "cachedInputUsd": 0.02, "outputUsd": 1.25 },
+        "batch": { "inputUsd": 0.1, "cachedInputUsd": 0.01, "outputUsd": 0.625 },
+        "flex": { "inputUsd": 0.1, "cachedInputUsd": 0.01, "outputUsd": 0.625 }
       },
       "transport": {
         "invocationTypes": ["responses_api", "codex_cli"],
@@ -304,12 +626,101 @@
           "lastReviewed": "2026-06-18"
         },
         {
+          "type": "cookbook",
+          "slug": "batch-processing",
+          "url": "https://cookbook.openai.com/examples/batch_processing",
+          "lastReviewed": "2026-06-18"
+        },
+        {
           "type": "pricing",
-          "url": "https://openai.com/api/pricing/"
+          "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
       "costHint": "nano",
-      "notes": "Lightest tier; compaction yes; no tool search / computer use."
+      "notes": "Lightest tier; compaction yes; no tool search / computer use. Cheapest OpenAI Batch API tier for ingest enrichment."
+    },
+    {
+      "id": "gpt-5.3-codex",
+      "vendor": "openai",
+      "modelFamily": "gpt-5.3-codex",
+      "displayName": "GPT-5.3 Codex",
+      "status": "planned",
+      "replaces": "gpt-5-codex",
+      "tier": 2,
+      "roles": ["llm_codegen", "llm_agent_edit"],
+      "modalities": ["text"],
+      "presetDefault": "balanced",
+      "prompting": {
+        "style": "minimal",
+        "approach": "minimal",
+        "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.3-codex.md",
+        "platformGuideModel": "gpt-5.3-codex",
+        "guidanceTopics": [
+          "codex-autonomy",
+          "avoid-upfront-preamble",
+          "phase-required",
+          "compaction-guidance",
+          "context-gathering-batch",
+          "validation-loops"
+        ],
+        "notes": "Do NOT use GPT-5.5 outcome-first/preamble stack. Remove upfront plan instructions. Default reasoning effort: medium."
+      },
+      "capabilities": {
+        "reasoning": "high",
+        "toolUse": true,
+        "compaction": true,
+        "codegen": true,
+        "longWorkflow": true
+      },
+      "builtinTools": {
+        "terminal": true,
+        "applyPatch": true,
+        "mcp": true,
+        "customTool": true
+      },
+      "apiFeatures": {
+        "supportedEndpoints": ["responses_api", "cli_only"],
+        "recommendedEndpoint": "cli_only",
+        "reasoningEffort": {
+          "supported": true,
+          "values": ["medium", "high", "xhigh"],
+          "default": "medium"
+        },
+        "adaptiveReasoning": true,
+        "goals": true,
+        "structuredOutputs": true,
+        "promptCaching": { "supported": true },
+        "parallelToolCalls": true,
+        "freeFormFunctionCalling": true,
+        "assistantPhase": {
+          "supported": true,
+          "values": ["commentary", "final_answer"]
+        }
+      },
+      "transport": {
+        "invocationTypes": ["codex_cli", "responses_api"],
+        "preferredInvocation": "codex_cli",
+        "apiSurface": "cli_only",
+        "nativeModelFlag": "gpt-5.3-codex",
+        "invocationBindingRef": "openai:codex-exec-v1"
+      },
+      "references": [
+        {
+          "type": "platform_docs",
+          "title": "GPT-5.3 Codex Prompt guidance",
+          "slug": "prompt-guidance-gpt-5.3-codex",
+          "url": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.3-codex.md",
+          "lastReviewed": "2026-06-18"
+        },
+        {
+          "type": "cookbook",
+          "slug": "codex-prompting-guide",
+          "url": "https://cookbook.openai.com/examples/gpt-5/codex_prompting_guide",
+          "lastReviewed": "2026-06-18"
+        }
+      ],
+      "costHint": "standard",
+      "notes": "Target Codex CLI model. phase preservation required on Responses API replay. Subscription CLI primary billing."
     },
     {
       "id": "gpt-5-codex",
@@ -317,14 +728,16 @@
       "modelFamily": "gpt-5-codex",
       "displayName": "GPT-5 Codex",
       "status": "active",
-      "deprecatedBy": "gpt-5.4-mini",
+      "deprecatedBy": "gpt-5.3-codex",
       "tier": 2,
       "roles": ["llm_codegen", "llm_agent_edit"],
       "modalities": ["text"],
       "presetDefault": "balanced",
       "prompting": {
         "style": "minimal",
-        "notes": "Less-is-more prompting; avoid verbose instructions (cookbook: codex-prompting-guide)."
+        "approach": "minimal",
+        "guidanceTopics": ["validation-loops"],
+        "notes": "Less-is-more prompting; avoid verbose instructions (cookbook: codex-prompting-guide). Not GPT-5.5 outcome-first stack."
       },
       "capabilities": {
         "reasoning": "high",
@@ -574,6 +987,8 @@
     "sonnet": "claude-sonnet-4-5-20250929",
     "opus": "claude-opus-4.1",
     "gpt-5.5": "gpt-5.5",
+    "gpt-5.4": "gpt-5.4",
+    "gpt-5.3-codex": "gpt-5.3-codex",
     "gpt-5-codex": "gpt-5-codex",
     "gpt-5-mini": "gpt-5-mini",
     "gpt-5-nano": "gpt-5-nano",
@@ -583,7 +998,7 @@
   "cookbookIndex": {
     "gpt-5-prompting-guide": ["gpt-5.5", "gpt-5-mini"],
     "gpt-5-new-params-and-tools": ["gpt-5.4-mini", "gpt-5.4-nano", "gpt-5-mini", "gpt-5-nano"],
-    "codex-prompting-guide": ["gpt-5-codex"],
+    "codex-prompting-guide": ["gpt-5.3-codex", "gpt-5-codex"],
     "using-goals-in-codex": ["gpt-5-codex"],
     "reasoning-items": ["gpt-5.5", "gpt-5.5-pro"],
     "mcp-tool-guide": ["gpt-5.5", "gpt-5.4-mini"],
@@ -591,6 +1006,28 @@
     "grounded-spatial-reasoning-layouts": ["gpt-5.5"],
     "building-reliable-agents-memory-compaction": ["gpt-5-codex", "gpt-5.4-mini", "gpt-5.4-nano"],
     "prompt-caching101": ["gpt-5.5", "gpt-5.4-mini"],
-    "model-selection-guide": ["gpt-5.5", "gpt-5.4-mini", "gpt-5.4-nano"]
+    "model-selection-guide": ["gpt-5.5", "gpt-5.4-mini", "gpt-5.4-nano"],
+    "batch-processing": ["gpt-5.4-mini", "gpt-5.4-nano"]
+  },
+  "promptGuidanceIndex": {
+    "personality-behavior": ["gpt-5.5"],
+    "preamble-streaming": ["gpt-5.5", "gpt-5.5-pro"],
+    "outcome-first-stopping": ["gpt-5.5", "gpt-5.5-pro"],
+    "formatting-verbosity": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-mini", "gpt-5.4-nano"],
+    "retrieval-budget-citations": ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini"],
+    "creative-guardrails": ["gpt-5.5"],
+    "frontend-quality": ["gpt-5.5"],
+    "validation-loops": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-mini", "gpt-5.3-codex", "gpt-5-codex"],
+    "assistant-phase": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini"],
+    "output-contract": ["gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini", "gpt-5.4-nano"],
+    "follow-through-policy": ["gpt-5.4", "gpt-5.4-pro"],
+    "instruction-priority": ["gpt-5.4", "gpt-5.4-pro"],
+    "missing-context-gating": ["gpt-5.4", "gpt-5.4-mini"],
+    "tool-persistence": ["gpt-5.4", "gpt-5.4-pro"],
+    "codex-autonomy": ["gpt-5.3-codex"],
+    "avoid-upfront-preamble": ["gpt-5.3-codex"],
+    "phase-required": ["gpt-5.3-codex"],
+    "compaction-guidance": ["gpt-5.3-codex", "gpt-5.4-mini", "gpt-5.4-nano"],
+    "context-gathering-batch": ["gpt-5.3-codex"]
   }
 }

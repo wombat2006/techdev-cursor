@@ -43,6 +43,35 @@ export type ReasoningTier =
 
 export type PromptingStyle = 'minimal' | 'balanced' | 'structured' | 'agentic';
 
+export type PromptingApproach =
+  | 'outcome_first'
+  | 'minimal'
+  | 'balanced'
+  | 'process_heavy_legacy';
+
+export type PromptGuidanceTopic =
+  | 'personality-behavior'
+  | 'preamble-streaming'
+  | 'outcome-first-stopping'
+  | 'formatting-verbosity'
+  | 'retrieval-budget-citations'
+  | 'creative-guardrails'
+  | 'frontend-quality'
+  | 'validation-loops'
+  | 'assistant-phase'
+  | 'output-contract'
+  | 'follow-through-policy'
+  | 'instruction-priority'
+  | 'missing-context-gating'
+  | 'tool-persistence'
+  | 'codex-autonomy'
+  | 'avoid-upfront-preamble'
+  | 'phase-required'
+  | 'compaction-guidance'
+  | 'context-gathering-batch';
+
+export type AssistantPhaseValue = 'commentary' | 'final_answer';
+
 export type CatalogReferenceType = 'cookbook' | 'platform_docs' | 'pricing' | 'adr';
 
 export interface VendorDescriptor {
@@ -86,6 +115,15 @@ export interface ApiFeatures {
   skillsApi?: boolean;
   goals?: boolean;
   adaptiveReasoning?: boolean;
+  assistantPhase?: {
+    supported?: boolean;
+    values?: AssistantPhaseValue[];
+  };
+  /** OpenAI async Batch API — offline bulk ingest/eval only */
+  batchApi?: {
+    supported?: boolean;
+    notes?: string;
+  };
 }
 
 export interface BuiltinTools {
@@ -101,7 +139,29 @@ export interface BuiltinTools {
 
 export interface PromptingProfile {
   style?: PromptingStyle;
+  approach?: PromptingApproach;
+  platformGuideUrl?: string;
+  /** Content-switcher key on OpenAI prompt-guidance page */
+  platformGuideModel?: string;
+  guidanceTopics?: PromptGuidanceTopic[];
   notes?: string;
+}
+
+export interface TokenPricingRates {
+  inputUsd?: number;
+  cachedInputUsd?: number;
+  outputUsd?: number;
+}
+
+export interface ApiPricing {
+  currency?: 'USD';
+  unit?: 'per_1m_tokens';
+  lastReviewed?: string;
+  pricingUrl?: string;
+  standard?: TokenPricingRates;
+  batch?: TokenPricingRates;
+  flex?: TokenPricingRates;
+  priority?: TokenPricingRates;
 }
 
 export interface ModelCapabilities {
@@ -121,6 +181,7 @@ export interface ModelCapabilities {
 export interface ModelLimits {
   contextTokens?: number;
   maxOutputTokens?: number;
+  pricingContextNote?: string;
 }
 
 export interface ModelTransport {
@@ -152,6 +213,8 @@ export interface ModelCatalogEntry {
   transport: ModelTransport;
   references?: CatalogReference[];
   costHint?: 'nano' | 'mini' | 'standard' | 'flagship' | 'frontier';
+  /** API token pricing for cost-aware TaskRouter (OpenAI models) */
+  apiPricing?: ApiPricing;
   notes?: string;
 }
 
@@ -162,4 +225,6 @@ export interface LlmModelCatalog {
   aliases?: Record<string, string>;
   /** OpenAI Cookbook slug → model ids (from registry.yaml) */
   cookbookIndex?: Record<string, string[]>;
+  /** Platform prompt-guidance topic slug → model ids */
+  promptGuidanceIndex?: Record<string, string[]>;
 }

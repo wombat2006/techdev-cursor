@@ -60,15 +60,18 @@ Each **`models[]`** entry includes:
 | **Routing** | `tier`, `roles[]` (align with P5 `ChildTaskKind`), `presetDefault` |
 | **Modalities** | `modalities[]` — text, vision, document, audio, multimodal |
 | **Capabilities** | Structured flags: reasoning tier, toolUse, toolSearch, computerUse, compaction, spatial/document understanding |
-| **API features** | `apiFeatures` — reasoningEffort, verbosity, structuredOutputs, promptCaching TTL, parallelToolCalls, CFG, Codex goals/adaptiveReasoning |
+| **API features** | `apiFeatures` — reasoningEffort, verbosity, structuredOutputs, promptCaching TTL, parallelToolCalls, CFG, Codex goals/adaptiveReasoning, **`batchApi.supported`** (flag only — no JSONL templates) |
 | **Builtin tools** | `builtinTools` — mcp, computerUse, terminal, applyPatch, fileSearch, … |
-| **Prompting** | `prompting.style` — minimal (Codex) vs structured (GPT-5.5); cookbook-derived notes |
+| **Prompting** | `prompting.style`, `approach`, `guidanceTopics[]`, `platformGuideUrl` — see [OPENAI_PROMPT_GUIDANCE.md](../OPENAI_PROMPT_GUIDANCE.md) |
 | **Limits** | `contextTokens`, optional `maxOutputTokens` |
 | **Transport** | `invocationTypes[]`, `preferredInvocation`, `apiSurface`, optional `invocationBindingRef` |
+| **Pricing** | `apiPricing` — USD per 1M tokens (standard/batch/flex/priority) for cost-aware routing |
 | **References** | `references[]` — [OpenAI Cookbook](https://github.com/openai/openai-cookbook) slugs + URLs, platform docs, pricing |
 | **Notes** | Free text (e.g. "prompt caching 24h only") |
 
 Catalog root may include **`cookbookIndex`**: reverse map of Cookbook `registry.yaml` slug → model ids.
+
+Catalog root may include **`promptGuidanceIndex`**: reverse map of [platform prompt-guidance](https://developers.openai.com/api/docs/guides/prompt-guidance) topic slug → model ids. Details: [OPENAI_PROMPT_GUIDANCE.md](../OPENAI_PROMPT_GUIDANCE.md).
 
 Vendors are defined once in **`vendors{}`** (display name, subscription vs API-key policy).
 
@@ -165,6 +168,7 @@ Future: optional **`config/invocation-bindings.json`** (separate schema, version
 
 - [TECH_STACK_INFERENCE_PROFILES.md](./TECH_STACK_INFERENCE_PROFILES.md) (TS-20)
 - [OPENAI_MODEL_MATRIX.md](../OPENAI_MODEL_MATRIX.md)
+- [OPENAI_PROMPT_GUIDANCE.md](../OPENAI_PROMPT_GUIDANCE.md)
 - [FORK_CURSOR.md § Fork schemas](../FORK_CURSOR.md#fork-schemas)
 - Schema: [config/schemas/llm-model-catalog.schema.json](../../config/schemas/llm-model-catalog.schema.json)
 - Stub: [config/llm-model-catalog.json](../../config/llm-model-catalog.json)

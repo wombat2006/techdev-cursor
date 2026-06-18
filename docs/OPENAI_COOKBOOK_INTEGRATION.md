@@ -4,7 +4,7 @@
 
 This guide integrates advanced techniques from the [OpenAI Cookbook](https://cookbook.openai.com) ([GitHub](https://github.com/openai/openai-cookbook)) into TechSapo's architecture, filling gaps in our current implementation and enhancing AI capabilities.
 
-> **Model traits (machine-readable):** OpenAI Cookbook findings are normalized into [config/llm-model-catalog.json](../config/llm-model-catalog.json) per [TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) — `apiFeatures`, `builtinTools`, `references[]`, and `cookbookIndex` (from `registry.yaml` slugs). Human summary: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md).
+> **Model traits (machine-readable):** OpenAI Cookbook findings are normalized into [config/llm-model-catalog.json](../config/llm-model-catalog.json) per [TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) — `apiFeatures`, `builtinTools`, `references[]`, and `cookbookIndex` (from `registry.yaml` slugs). **Platform prompt guidance** ([GPT-5.5](https://developers.openai.com/api/docs/guides/prompt-guidance)) → `prompting.approach`, `guidanceTopics[]`, `promptGuidanceIndex`. Human summaries: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) · [OPENAI_PROMPT_GUIDANCE.md](./OPENAI_PROMPT_GUIDANCE.md).
 
 ## 📚 Cookbook Topics Integration Status
 
@@ -24,6 +24,7 @@ This guide integrates advanced techniques from the [OpenAI Cookbook](https://coo
 - **Current**: Google Drive integration for document retrieval
 - **Enhancement**: Vector store optimization, semantic chunking
 - **Cookbook Value**: Advanced retrieval strategies, context ranking
+- **Batch API (optional, gated)**: [OPENAI_BATCH_API_RAG.md](./OPENAI_BATCH_API_RAG.md) — offline ingest enrichment only; [batch_processing.ipynb](https://github.com/openai/openai-cookbook/blob/main/examples/batch_processing.ipynb). **Do not implement until volume/cost gates pass.**
 
 ### ❌ Missing Critical Components
 

@@ -51,6 +51,10 @@ Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wirin
 - [ ] **F-7** — Cookbook sync job: diff `registry.yaml` tags (gpt-5*, codex) vs `cookbookIndex` / `references[]`
 - [ ] **F-8** — Align Codex MCP daemon command with official CLI (`codex mcp-server` vs `codex mcp serve`); verify via Context7/docs
 - [ ] **F-9** — Optional `config/invocation-bindings.json` (versioned adapter recipes; separate from model catalog)
+- [ ] **F-10** — Wire catalog `prompting.guidanceTopics` + per-model platform MD into InferenceProfile / PromptAnalyzer ([OPENAI_PROMPT_GUIDANCE.md](./OPENAI_PROMPT_GUIDANCE.md))
+- [ ] **F-11** — Sync `prompt-guidance/{model}.md` + pricing page → `docs/vendor/openai/`; diff `lastReviewed`
+- [ ] **F-12** — Cost-aware TaskRouter: rank candidates by `apiPricing` + capability filters ([OPENAI_PROMPT_GUIDANCE.md § Implementation](./OPENAI_PROMPT_GUIDANCE.md#implementation-considerations-to-be))
+- [ ] **F-13** — RAG ingest OpenAI Batch enrichment (**gated** — Phase 1 script only; no worker until volume gates pass) · [OPENAI_BATCH_API_RAG.md](./OPENAI_BATCH_API_RAG.md)
 
 OpenAI source: [openai/openai-cookbook](https://github.com/openai/openai-cookbook) · [cookbook.openai.com](https://cookbook.openai.com) · Context7 `/websites/developers_openai_api`
 

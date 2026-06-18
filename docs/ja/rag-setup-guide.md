@@ -279,6 +279,8 @@ curl -X POST http://localhost:4000/api/v1/rag/sync-folder \
   }'
 ```
 
+> **`batch_size` ≠ OpenAI Batch API.** コネクタ内の**並列ドキュメント処理数**（既定 5）。取り込み時の LLM 一括 enrichment 用 [OpenAI Batch API](https://github.com/openai/openai-cookbook/blob/main/examples/batch_processing.ipynb) は**任意・未実装**。導入はコスト/件数ゲート通過後のみ — [OPENAI_BATCH_API_RAG.md](../OPENAI_BATCH_API_RAG.md)（英語）参照。
+
 ### 同期結果確認
 ```bash
 # 同期ステータス確認

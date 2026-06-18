@@ -35,6 +35,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
 | System Architecture | `src/index.ts` | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | LLM Model Catalog | `config/llm-model-catalog.json` | [TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
+| OpenAI prompt guidance | `prompting.*` in catalog | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
 
 ---
 
@@ -71,6 +72,8 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 | MCP usage rules for Claude Code | [claude-mcp-rules.md](docs/claude-mcp-rules.md) |
 | Dev notes, common tasks, environment checks | [claude-development-notes.md](docs/claude-development-notes.md) |
 | LLM model catalog (TS-21) | [decisions/TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
+| OpenAI prompt guidance | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
+| OpenAI Batch API for RAG ingest (optional, gated) | [OPENAI_BATCH_API_RAG.md](docs/OPENAI_BATCH_API_RAG.md) |
 | Project structure and tech stack | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Testing | [TESTING_GUIDE.md](docs/TESTING_GUIDE.md) |
 | Tech stack refinement (prep) | [TECH_STACK_WORKSPACE.md](docs/TECH_STACK_WORKSPACE.md) |

@@ -18,7 +18,7 @@
 
 ### マルチLLMオーケストレーション
 
-> OpenAI モデル ID: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)。マルチベンダー特性: [config/llm-model-catalog.json](./config/llm-model-catalog.json)（[TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)）、[OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) 由来の `apiFeatures` / `references[]` / `cookbookIndex` を含む。**呼び出し方針（Context7 照合済）:** カタログ = 経路チャネル + 能力 + `nativeModelFlag`；アダプタ（`src/adapters/*`）= 具体 CLI/API — [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)。**AS-IS コード**は legacy 名のままの箇所あり。
+> OpenAI モデル ID: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)。マルチベンダー特性: [config/llm-model-catalog.json](./config/llm-model-catalog.json)（[TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)）、[OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) と [platform prompt guidance](./docs/OPENAI_PROMPT_GUIDANCE.md)（`prompting.guidanceTopics` / `promptGuidanceIndex`）を含む。**呼び出し方針（Context7 照合済）:** カタログ = 経路チャネル + 能力 + `nativeModelFlag`；アダプタ（`src/adapters/*`）= 具体 CLI/API — [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)。**AS-IS コード**は legacy 名のままの箇所あり。
 
 - **Tier 0**: Context7 / Stash — リファレンス層（非 LLM）
 - **Tier 1**: Claude Code CLI — 開発 routing · Unified MCP
@@ -39,7 +39,11 @@
 
 - JSON Schema: [config/schemas/llm-model-catalog.schema.json](./config/schemas/llm-model-catalog.schema.json)
 - `transport.invocationBindingRef` は実装へのポインタのみ（`spawnArgs` はカタログに書かない）
-- Cookbook 同期: Track F-7 · Codex MCP コマンド整合: Track F-8
+- **モデル（OpenAI スライス）:** GPT-5.5 / 5.4 / 5.4-pro / mini / nano / **gpt-5.3-codex** — [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)
+- **Per-model prompt guidance**: [OPENAI_PROMPT_GUIDANCE.md](./docs/OPENAI_PROMPT_GUIDANCE.md) — GPT-5.5 / 5.4 / 5.3-Codex · `promptGuidanceIndex`
+- **`apiPricing`**: standard / batch / flex / priority（100万トークンあたり USD）— コスト見合いルーティング（F-12）
+- **`apiFeatures.batchApi`**: RAG 取り込み enrichment 用フラグのみ — [OPENAI_BATCH_API_RAG.md](./docs/OPENAI_BATCH_API_RAG.md)（ゲート付き・Phase 0 未実装）
+- Cookbook 同期: Track F-7 · Codex MCP コマンド整合: Track F-8 · RAG Batch enrichment: Track F-13
 
 ## 🔄 処理フロー
 
@@ -111,6 +115,8 @@ flowchart TB
 ### C. RAG / Grounding フロー
 
 **取り込み:** Google Drive Webhook → DL → Vector Store（`googledrive-webhook-handler.ts`）。**AS-IS では Embedding 前に形態素解析しない。**
+
+**To-Be（任意・ゲート付き）:** 大量 ingest 時のみ [OpenAI Batch API](./docs/OPENAI_BATCH_API_RAG.md) でチャンク要約・タグ付け — **Phase 0 では実装しない**（`batch_size` は並列数のみ。OpenAI Batch API とは別物）。
 
 **クエリ時:**
 
@@ -490,6 +496,9 @@ npm run test:integration
 - **[デプロイメントガイド](./DEPLOYMENT_GUIDE_ja.md)**: 本番環境デプロイメント手順書
 - **[Prometheus設計](./docs/ja/prometheus-monitoring-design.md)**: 詳細なメトリクスアーキテクチャ
 - **[RAGセットアップガイド](./docs/ja/rag-setup-guide.md)**: GoogleDrive統合
+- **[OpenAI Prompt Guidance](./docs/OPENAI_PROMPT_GUIDANCE.md)**: GPT-5.5 / 5.4 / 5.3-Codex 公式ガイダンス統合
+- **[OpenAI Model Matrix](./docs/OPENAI_MODEL_MATRIX.md)**: モデル ID・pricing・preset マッピング
+- **[OpenAI Batch API for RAG ingest](./docs/OPENAI_BATCH_API_RAG.md)**: 任意の取り込み enrichment（ゲート付き・Phase 0 未実装）
 - **[CLAUDE.md](./CLAUDE.md)**: システム設定と要件
 
 ## 🔧 設定ファイル構成

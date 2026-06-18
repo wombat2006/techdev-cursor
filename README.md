@@ -21,7 +21,7 @@ Model Context Protocol基盤の協調分析システム
 
 ### Multi-LLM MCP Orchestration
 
-> OpenAI model IDs: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md). Multi-vendor traits: [config/llm-model-catalog.json](./config/llm-model-catalog.json) ([TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)), enriched from [OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) (`apiFeatures`, `builtinTools`, `references[]`, `cookbookIndex`). **Invocation policy (Context7-verified):** catalog = transport channel + capabilities + `nativeModelFlag`; adapters (`src/adapters/*`) = concrete CLI/API calls — see [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md). **AS-IS code** may still show legacy names until backlog migration.
+> OpenAI model IDs: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md). Multi-vendor traits: [config/llm-model-catalog.json](./config/llm-model-catalog.json) ([TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)), enriched from [OpenAI Cookbook](./docs/OPENAI_COOKBOOK_INTEGRATION.md) and [platform prompt guidance](./docs/OPENAI_PROMPT_GUIDANCE.md) (`prompting.guidanceTopics`, `promptGuidanceIndex`). **Invocation policy (Context7-verified):** catalog = transport channel + capabilities + `nativeModelFlag`; adapters (`src/adapters/*`) = concrete CLI/API calls — see [TS-21 §5](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md). **AS-IS code** may still show legacy names until backlog migration.
 
 - **Tier 0**: Stash/Context7 — reference / documentation layer (non-LLM)
 - **Tier 1**: Claude Code CLI — dev routing · unified MCP (`analyze_claude`)
@@ -42,7 +42,11 @@ Three-layer split — do not conflate catalog with per-request knobs or adapter 
 
 - JSON Schema: [config/schemas/llm-model-catalog.schema.json](./config/schemas/llm-model-catalog.schema.json)
 - Optional `transport.invocationBindingRef` (e.g. `openai:responses-v1`) — pointer only; no `spawnArgs` in catalog
-- Cookbook ↔ catalog sync: backlog Track F-7 · Codex MCP command alignment: Track F-8
+- **Models (OpenAI slice):** GPT-5.5 / 5.4 / 5.4-pro / mini / nano / **gpt-5.3-codex** — see [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)
+- **Per-model prompt guidance**: [OPENAI_PROMPT_GUIDANCE.md](./docs/OPENAI_PROMPT_GUIDANCE.md) — GPT-5.5 / 5.4 / 5.3-Codex via `platformGuideModel` + `promptGuidanceIndex`
+- **`apiPricing`**: standard / batch / flex / priority (USD per 1M tokens) for cost-aware routing (F-12)
+- **`apiFeatures.batchApi`**: flag only for optional RAG ingest enrichment — [OPENAI_BATCH_API_RAG.md](./docs/OPENAI_BATCH_API_RAG.md) (gated; Phase 0 not implemented)
+- Cookbook ↔ catalog sync: Track F-7 · Codex MCP command alignment: Track F-8 · RAG Batch enrichment: Track F-13
 
 ### 🔗 MCP Services Infrastructure {#mcp-services}
 - **techsapo-providers** (Unified): Cursor 向け stdio MCP — `analyze_claude` / `analyze_codex` / `analyze_agy`
@@ -142,7 +146,8 @@ Cursor → MCP CallTool(analyze_codex) → codex-adapter → codex exec（非対
 | 2 | ファイル DL → Vector Store 投入 | `googledrive-webhook-handler.ts` → `googledrive-connector.ts` |
 | 3 | メタデータ記録 | Redis / mapping |
 
-**AS-IS:** 生テキストをそのまま Embedding。**形態素解析はこのフェーズでは行わない**（後述）。
+**AS-IS:** 生テキストをそのまま Embedding。**形態素解析はこのフェーズでは行わない**（後述）。  
+**To-Be (optional, gated):** 大量 ingest 時のみ [OpenAI Batch API](./docs/OPENAI_BATCH_API_RAG.md) でチャンク要約・タグ付け — **Phase 0 では実装しない**（`batch_size` は並列数のみ）。
 
 #### C-2. 検索・回答（クエリ時）
 
@@ -628,6 +633,9 @@ npm run test:integration
 - **[監視セットアップ](./MONITORING_SETUP.md)**: 完全なPrometheus監視ガイド
 - **[Prometheus設計](./docs/prometheus-monitoring-design.md)**: 詳細なメトリクスアーキテクチャ
 - **[RAGセットアップガイド](./docs/RAG_SETUP_GUIDE.md)**: GoogleDrive統合
+- **[OpenAI Prompt Guidance](./docs/OPENAI_PROMPT_GUIDANCE.md)**: GPT-5.5 / 5.4 / 5.3-Codex 公式ガイダンス統合
+- **[OpenAI Model Matrix](./docs/OPENAI_MODEL_MATRIX.md)**: モデル ID・pricing・preset マッピング
+- **[OpenAI Batch API for RAG ingest](./docs/OPENAI_BATCH_API_RAG.md)**: 任意の取り込み enrichment（ゲート付き・Phase 0 未実装）
 - **[CLAUDE.md](./CLAUDE.md)**: システム設定と要件
 
 ## 🔧 設定ファイル

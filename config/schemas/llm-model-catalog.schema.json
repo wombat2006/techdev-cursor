@@ -39,6 +39,14 @@
         "type": "array",
         "items": { "type": "string" }
       }
+    },
+    "promptGuidanceIndex": {
+      "type": "object",
+      "description": "Optional reverse index: platform prompt-guidance topic slug → model id[]",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
     }
   },
   "$defs": {
@@ -92,6 +100,48 @@
         "style": {
           "type": "string",
           "enum": ["minimal", "balanced", "structured", "agentic"]
+        },
+        "approach": {
+          "type": "string",
+          "enum": ["outcome_first", "minimal", "balanced", "process_heavy_legacy"],
+          "description": "Platform prompt guidance: GPT-5.5 prefers outcome_first; Codex prefers minimal"
+        },
+        "platformGuideUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Per-model prompt guidance MD (e.g. …/prompt-guidance/gpt-5.4.md)"
+        },
+        "platformGuideModel": {
+          "type": "string",
+          "description": "Content-switcher value on prompt-guidance page (e.g. gpt-5.4, gpt-5.3-codex)"
+        },
+        "guidanceTopics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "personality-behavior",
+              "preamble-streaming",
+              "outcome-first-stopping",
+              "formatting-verbosity",
+              "retrieval-budget-citations",
+              "creative-guardrails",
+              "frontend-quality",
+              "validation-loops",
+              "assistant-phase",
+              "output-contract",
+              "follow-through-policy",
+              "instruction-priority",
+              "missing-context-gating",
+              "tool-persistence",
+              "codex-autonomy",
+              "avoid-upfront-preamble",
+              "phase-required",
+              "compaction-guidance",
+              "context-gathering-batch"
+            ]
+          }
         },
         "notes": { "type": "string" }
       }
@@ -151,6 +201,31 @@
         "adaptiveReasoning": {
           "type": "boolean",
           "description": "Codex auto-adjusts reasoning depth by task complexity"
+        },
+        "assistantPhase": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Responses API assistant-item phase (GPT-5.4+ streaming / replay)",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "values": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": ["commentary", "final_answer"]
+              }
+            }
+          }
+        },
+        "batchApi": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "OpenAI async Batch API — offline bulk only (not sync batch_size parallelism)",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
         }
       }
     },
@@ -196,7 +271,35 @@
       "additionalProperties": false,
       "properties": {
         "contextTokens": { "type": "integer", "minimum": 1 },
-        "maxOutputTokens": { "type": "integer", "minimum": 1 }
+        "maxOutputTokens": { "type": "integer", "minimum": 1 },
+        "pricingContextNote": {
+          "type": "string",
+          "description": "Pricing tier qualifier (e.g. <272K context length)"
+        }
+      }
+    },
+    "tokenPricingRates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inputUsd": { "type": "number", "minimum": 0 },
+        "cachedInputUsd": { "type": "number", "minimum": 0 },
+        "outputUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "apiPricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OpenAI API token pricing (USD per 1M tokens) — for cost-aware routing",
+      "properties": {
+        "currency": { "type": "string", "enum": ["USD"] },
+        "unit": { "type": "string", "enum": ["per_1m_tokens"] },
+        "lastReviewed": { "type": "string", "format": "date" },
+        "pricingUrl": { "type": "string", "format": "uri" },
+        "standard": { "$ref": "#/$defs/tokenPricingRates" },
+        "batch": { "$ref": "#/$defs/tokenPricingRates" },
+        "flex": { "$ref": "#/$defs/tokenPricingRates" },
+        "priority": { "$ref": "#/$defs/tokenPricingRates" }
       }
     },
     "transport": {
@@ -292,6 +395,7 @@
           "type": "string",
           "enum": ["nano", "mini", "standard", "flagship", "frontier"]
         },
+        "apiPricing": { "$ref": "#/$defs/apiPricing" },
         "notes": { "type": "string" }
       }
     }
