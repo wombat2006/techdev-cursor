@@ -1,8 +1,9 @@
 # 🏓 TechSapo - Enhanced MCP Orchestration with Wall-Bounce Analysis
 
 > **PRIMARY REPO — `techdev-cursor`**  
-> **What is this repo?** An **integrated Cursor IDE development-environment project** — forked from upstream [wombat2006/techdev](https://github.com/wombat2006/techdev) (Wall-Bounce platform). **Goals:** improve **coding accuracy** and **reduce coding workload** via multi-LLM Wall-Bounce, subscription CLIs (`claude` / `codex` / `agy`), and unified MCP. **Not** an IT incident/troubleshooting analysis project (that is the upstream InfraOps fork line).  
-> Upstream reference: [wombat2006/techdev](https://github.com/wombat2006/techdev) · Bootstrap: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · Runbook: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · Backlog: [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
+> **One line:** Build software solutions **accurately, efficiently, and at subscription-scale cost** — multi-LLM dev orchestration in Cursor (not a single-vendor chat wrapper).  
+> **Details:** Fork of [wombat2006/techdev](https://github.com/wombat2006/techdev) (Wall-Bounce). **Goals:** coding **accuracy** + **workload reduction** via unified MCP and subscription CLIs (`claude` / `codex` / `agy`). **Not** IT incident analysis (upstream InfraOps fork).  
+> **Reviewers:** [Design depth § 60-second read](#for-reviewers--60-second-read) · Engineers: [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
 
 [![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests/)
 [![MCP Services](https://img.shields.io/badge/MCP%20services-7+-blue.svg)](#mcp-services)
@@ -698,7 +699,44 @@ MITライセンス - エンタープライズ利用可。詳細は[LICENSE](LICE
 
 ## Design depth（設計上のこだわり）
 
-> 外部レビュー向け — このリポジトリで**何を・どこまで設計として固定しているか**の概要。実装タスク一覧ではありません（内部 runbook: [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)）。
+> **For recruiters & external reviewers** — design intent and maturity at a glance. Not an internal task board ([runbook](./docs/CURSOR_MCP_TODO.md) for engineers).
+
+### For reviewers — 60-second read
+
+**What this is**  
+A **Cursor-integrated development platform** that helps teams **build software solutions** for real problems — **accurately, efficiently, and at subscription-scale cost** — by orchestrating multiple LLMs (Claude, Codex, Gemini via Antigravity) instead of betting on a single model.
+
+**Problem it targets**
+
+| Pain | How this repo addresses it |
+|------|----------------------------|
+| Single-LLM coding is fast but error-prone | **Wall-Bounce** — multi-LLM consensus with quality thresholds (when analysis must be trustworthy) |
+| Ad-hoc model usage → cost blow-ups | **TS-21 catalog** — model traits, pricing tiers, and routing rules in structured JSON |
+| Tool sprawl (Claude / Codex / Gemini each different) | **Unified MCP** (`techsapo-providers`) — one Cursor integration, peer provider adapters |
+| Secrets in repos | **CLI/OAuth only** — no API keys in code ([SECURITY.md](./docs/SECURITY.md)) |
+
+**What makes the engineering thoughtful**
+
+- **Separation of concerns:** catalog (WHAT) · InferenceProfile (HOW per request) · adapters (BIND to CLI)
+- **Architecture Decision Records** in `docs/decisions/` — stack choices are documented, not tribal knowledge
+- **Fork with a clear scope:** coding assistance in Cursor — **not** an IT incident-analysis product line
+- **Agent docs (Plan A):** neutral [AGENTS.md](./AGENTS.md) + tool-specific shims — maintainable AI-agent instructions
+
+**Honest maturity (AS-IS vs To-Be)**
+
+| Area | AS-IS (today) | To-Be (planned) |
+|------|---------------|-----------------|
+| Unified MCP + adapters | **Implemented** in code | Cursor team registration + daily smoke (Track A) |
+| Daily Cursor coding | Single-provider MCP path | Same — by design |
+| Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
+| Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
+| OpenAI vendor depth | Cookbook / prompt guidance in catalog | Anthropic / Google same pattern next |
+
+**What this is not**
+
+- Not a no-code “build any business system” generator — it **accelerates professional software development**
+- Not an InfraOps / on-call incident platform (upstream fork line)
+- Not “ChatGPT with extra steps” — explicit governance, ADRs, and multi-vendor integration discipline
 
 ### Multi-vendor integration maturity（進行中）
 
@@ -727,6 +765,20 @@ Google     ██░░░░░░░░  順次（Gemini / Antigravity 公式�
 | **セキュリティ** | subscription CLI / SDK のみ · コード・リポジトリに API key を置かない | [SECURITY.md](./docs/SECURITY.md) |
 | **OpenAI 統合（先行）** | 公式 prompt guidance · Cookbook · コスト tier · RAG Batch はゲート付き任意 | [OPENAI_COOKBOOK_INTEGRATION.md](./docs/OPENAI_COOKBOOK_INTEGRATION.md) · [OPENAI_PROMPT_GUIDANCE.md](./docs/OPENAI_PROMPT_GUIDANCE.md) |
 | **ADR** | スタック判断を `docs/decisions/` に記録し README / 実装と同期 | [decisions/README.md](./docs/decisions/README.md) |
+
+### Execution priority（DevAssist — ロードマップ要約）
+
+> 採用担当者向け要約。**詳細チェックリスト**は [CURSOR_MCP_TODO.md § Track priority](./docs/CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review)。Gate 順 **A → B → C** は固定。
+
+| 優先 | 意味（非エンジニア向け） | Track |
+|------|-------------------------|-------|
+| **P0** | Cursor から AI ツールを**実際に使える**状態にする | A |
+| **P1** | 分析 API も同じ adapter で統一 · モデル preset 本番化 | B |
+| **P2** | コストを見ながらモデル選定 · カタログを runtime に接続 | E / F |
+| **P3** | 品質ルールをコードで強制 · オーケストレータ統合 | C |
+| **P4** | キャッシュ · 大量 RAG · 法令 Grounding 等（任意） | D / P5+ |
+
+日常の Cursor コーディングは **単一 MCP で可**。複数 LLM の合意が必要な分析だけ **Wall-Bounce API**（2–5 ラウンド）。コードでの強制は Track C（To-Be）。
 
 ---
 

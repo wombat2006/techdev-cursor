@@ -16,6 +16,44 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 
 **Progression rule:** Complete **Track A** → Gate A→B → **Track B** → Gate B→C → **Track C**. At each Gate, review logic and methodology before continuing.
 
+**Gate rule (non-negotiable):** Do **not** skip Gates or reorder A → B → C. Parallel work is allowed only where noted below.
+
+---
+
+## Track priority (DevAssist — 2026-06 review)
+
+**Product goal:** Ship **accurate, low-cost coding assistance in Cursor** first; harden multi-LLM Wall-Bounce platform second.
+
+| Priority | Track | Scope | Start when | Blocks value? |
+|----------|-------|--------|------------|---------------|
+| **P0** | **A** | WSL CLI auth (A-0) → Cursor MCP register + smoke (A-1) → MCP profile args (A-2) → team template (A-3) | **Now** | **Yes** — primary user-facing path |
+| — | **Gate A→B** | G1–G7 (stdio, security, quota, three `analyze_*` invokes) | A complete | Required before B |
+| **P1** | **B** | `inference-profiles.json`, Wall-Bounce API profiles, adapter wiring into `wall-bounce-analyzer.ts` | Gate A→B Pass | Yes for unified transport + presets |
+| — | **Gate B→C** | Schema boundary, adapter tests, profile on API | B complete | Required before C |
+| **P2** | **F** (code) | F-1 validate · F-2 catalog loader · F-12 cost-aware TaskRouter | Gate A→B Pass (F-1/F-2); F-12 with B | No — enhances routing/cost after MCP works |
+| **P2** | **E** | OpenAI model ID migration in adapters / `llm-providers.json` | A-2 or B-0 (profiles file) | No — doc catalog already ahead of code |
+| **P3** | **C** | P5 Phase 0 — Hard gate, PromptAnalyzer, constitution enforce, orchestrator merge | Gate B→C Pass only | No for daily Cursor dev |
+| **P4** | **D** | Tokenizer, response cache, CLI usage metrics | Optional | No |
+| **P4** | **F-13** | Batch RAG ingest enrichment | Volume gates only | No |
+| **P4** | **P5 Phase 1+** | Grounding, NDL, hybrid RAG, AWS peripheral | After Track C | No |
+
+**Parallel (non-blocking):**
+
+| Work | Notes |
+|------|--------|
+| **F-7 / F-11** (Cookbook · vendor doc sync) | Doc/catalog enrichment — **does not** replace P0 A-1 registration |
+| **TS-21 README maturity bars** | External narrative; separate from execution priority |
+| **Plan A doc stubs** | Remove in Plan A P5 when external links expire |
+
+**Dev loop vs constitution (no conflict):**
+
+- **Daily coding in Cursor:** single-provider MCP (`analyze_*`) when one LLM suffices — [README § Processing Flow](./README.md) AS-IS path.
+- **Multi-LLM analysis / production API:** Wall-Bounce only — ≥2 providers, 2–5 rounds, thresholds per [AGENTS.md](../AGENTS.md#constitution). Round **enforcement in code** remains **Track C** (To-Be).
+
+Reference: [PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md) · [FORK_CURSOR.md § MCP sequence](./FORK_CURSOR.md#mcp-server-implementation-sequence-fork)
+
+---
+
 ```mermaid
 flowchart TD
   subgraph trackA [Track A Cursor MCP TS-21]
@@ -66,14 +104,18 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 
 | Item | Status | Notes |
 |------|--------|-------|
-| `claude` WSL native | `[x]` | Done on WSL before fork; verify in fork clone |
-| `codex` WSL native | `[ ]` | **After fork** — see [A-0.2](#a-02-codex-openai-subscription); Windows shim on PATH today |
-| `agy` WSL native | `[~]` | **After fork** — binary OK; auth verify in fork clone |
-| Fork `techdev-cursor` Day 0 | `[ ]` | [FORK_CURSOR § Fork bootstrap](./FORK_CURSOR.md#fork-bootstrap-mcp-implementation-ready) |
-| Cursor MCP registered | `[ ]` | Phase 1 not started |
-| Track A complete | `[ ]` | — |
+| `claude` WSL native | `[x]` | Verify in fork clone |
+| `codex` WSL native | `[ ]` | A-0.2 — WSL install + `~/.codex/auth.json` |
+| `agy` WSL native | `[~]` | Binary OK; auth probe pending |
+| Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
+| A-1 code (adapters + unified MCP) | `[x]` | `src/adapters/*`, `techsapo-providers-mcp-server.ts` — see [backlog § A-1](./PROVIDER_INTEGRATION_BACKLOG.md#track-a-1-current-baseline) |
+| A-1 Cursor MCP registered | `[ ]` | G7 — three `analyze_*` invokes from Cursor |
+| A-2 InferenceProfile in MCP | `[ ]` | Extend unified MCP tool schemas (not legacy dual servers) |
+| A-3 template committed | `[x]` | `config/cursor-mcp.template.json` |
+| A-3 team registration | `[ ]` | At least one dev registered |
+| Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
 | Gate A→B passed | `[ ]` | — |
-| Track B complete | `[ ]` | — |
+| Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
 
@@ -239,7 +281,7 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
    ```
 3. Project build:
    ```bash
-   cd ~/techdev && npm run build
+   cd ~/techdev-cursor && npm run build
    ```
 
 **A-0 sign-off (all required before A-1):**
@@ -286,11 +328,12 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
    ```
 5. Reload Cursor; confirm tools: `analyze_claude`, `analyze_codex`, `analyze_agy`.
 6. Invoke each once from Cursor Agent.
-7. **AS-IS:** Until fork implements unified server, this step is blocked — legacy dual MCP in upstream is superseded.
 
 **Done when:** `[ ]` Unified server visible in Cursor; `[ ]` all three `analyze_*` tools invoke successfully.
 
 **Reflection memo:** _Cursor Agent planning still uses Cursor quota; MCP tools use subscription — see Token & Quota Operations Guide._
+
+**AS-IS (fork):** Unified server is **implemented** — remaining work is A-0 auth + Cursor registration + Gate G7 smoke, not greenfield coding.
 
 <details>
 <summary>Legacy A-1 (dual-server — superseded)</summary>
@@ -307,10 +350,8 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 **Steps:**
 
-1. Claude MCP — extend tool schema to accept optional `model`, `effort`, `cot`; map to CLI `--model`, `--effort`, prompt policy.
-   - File: [src/services/claude-code-mcp-server.ts](../src/services/claude-code-mcp-server.ts)
-2. Codex MCP — pass `reasoning_effort` from tool args (already partial).
-   - Files: [src/services/codex-mcp-server.ts](../src/services/codex-mcp-server.ts), [codex-mcp-integration.ts](../src/services/codex-mcp-integration.ts)
+1. Extend [techsapo-providers-mcp-server.ts](../src/services/techsapo-providers-mcp-server.ts) tool `inputSchema` — optional `model`, `effort`, `cot` (and Codex `reasoning_effort`).
+2. Map args through [src/adapters/](../src/adapters/) (`claude-adapter`, `codex-adapter`, `agy-adapter`) — **not** legacy `claude-code-mcp-server` / dual registration.
 3. Manual test from Cursor:
    - Claude: `model: sonnet`, `effort: medium`, `cot: brief`
    - Codex: `reasoning_effort: medium`
@@ -333,6 +374,8 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 3. Update this runbook **Known state** when registered.
 
 **Done when:** `[ ]` Template committed; `[ ]` At least one developer registered from template.
+
+**AS-IS:** Template is committed (`[x]`). Registration remains `[ ]` until a developer completes Cursor MCP setup.
 
 ---
 
@@ -368,13 +411,15 @@ Reference: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_P
 
 **Purpose:** Single schema for model, effort, CoT, temperature.
 
+**AS-IS:** `src/types/inference-profile.ts` and hardcoded [inference-profile-resolver.ts](../src/adapters/inference-profile-resolver.ts) exist (A-1). Remaining: file-backed presets.
+
 **Steps:**
 
 1. Add `config/inference-profiles.json` with presets: `fast`, `balanced`, `deep`, `critical`.
-2. Add `src/types/inference-profile.ts` with `InferenceProfile` interface.
-3. Loader utility (minimal): resolve preset → merge overrides.
+2. Extend loader: resolve preset → merge overrides (replace hardcode in resolver when ready).
+3. JSON Schema under `config/schemas/` (optional same commit).
 
-**Done when:** `[ ]` JSON validates; `[ ]` types imported without circular deps.
+**Done when:** `[ ]` JSON validates; `[ ]` resolver loads file; `[ ]` no circular deps.
 
 **Verify:**
 ```bash
@@ -385,25 +430,43 @@ npm run build
 
 ---
 
-### B-1: Provider adapters
+### B-1: Provider adapters (Wall-Bounce wiring)
 
-**Purpose:** Map `InferenceProfile` → native CLI/MCP flags; no logic in orchestrator.
+**Purpose:** Wall-Bounce uses the same adapters as unified MCP; no nested MCP spawn.
 
-| Provider | File(s) | Maps |
-|----------|---------|------|
-| Claude | `claude-code-mcp-server.ts` | `--model`, `--effort`, cot → prompt |
-| Codex | `codex-mcp-server.ts`, `codex-gpt5-provider.ts` | `reasoning_effort`, cot |
-| agy | `wall-bounce-analyzer.ts` or new adapter | `--model`, temperature, cot |
+**AS-IS:** Standalone adapters in `src/adapters/*` serve unified MCP (A-1). Wall-Bounce still uses legacy spawn paths.
+
+| Provider | Adapter | Wall-Bounce wiring |
+|----------|---------|-------------------|
+| Claude | [claude-adapter.ts](../src/adapters/claude-adapter.ts) | Replace nested MCP / direct spawn in analyzer |
+| Codex | [codex-adapter.ts](../src/adapters/codex-adapter.ts) | Same |
+| agy | [agy-adapter.ts](../src/adapters/agy-adapter.ts) | Replace legacy `gemini` spawn where applicable |
 
 **Steps:**
 
-1. Implement pass-through for each provider.
-2. Unit or integration test per adapter.
-3. Avoid duplicating spawn logic — share with Wall-Bounce where possible.
+1. Refactor [wall-bounce-analyzer.ts](../src/services/wall-bounce-analyzer.ts) to call adapters.
+2. Unit or integration test per adapter path from Wall-Bounce.
+3. Deprecate nested MCP client spawn for provider inference.
 
-**Done when:** `[ ]` Each adapter has one test or documented manual probe.
+**Done when:** `[ ]` Wall-Bounce uses adapters; `[ ]` each path has one test or documented manual probe.
 
 **Reflection memo:** _CoT independent of effort — test `effort: high` + `cot: off` case._
+
+---
+
+### B-1 legacy note (superseded paths)
+
+<details>
+<summary>Old B-1 file list (legacy MCP servers — do not extend for Cursor)</summary>
+
+| Provider | Legacy file(s) |
+|----------|----------------|
+| Claude | `claude-code-mcp-server.ts` |
+| Codex | `codex-mcp-server.ts`, `codex-gpt5-provider.ts` |
+
+Use adapters only for new work.
+
+</details>
 
 ---
 

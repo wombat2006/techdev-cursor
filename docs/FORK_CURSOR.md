@@ -401,7 +401,7 @@ Not required for Gate A→B.
 
 ## MCP server implementation sequence (fork)
 
-Execute in the fork repo after Fork Day 0 checklist.
+Execute in the fork repo after Fork Day 0 checklist. **Priority:** [CURSOR_MCP_TODO § Track priority](./CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review) — finish **Track A** (Cursor register) before **Track B** wiring.
 
 ```mermaid
 flowchart LR

@@ -1,8 +1,10 @@
 # Provider Integration Backlog
 
-**Status**: Living document — future expansion margin; items are **not strictly prioritized**  
+**Status**: Living document — future expansion margin  
 **Owner**: TechSapo Development Team  
 **Related**: [FORK_CURSOR.md](./FORK_CURSOR.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)
+
+**Execution priority:** See [CURSOR_MCP_TODO § Track priority](./CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review). Gate order **A → B → C** is fixed; items below are **not** strictly ordered unless tied to a Track.
 
 ---
 

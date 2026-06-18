@@ -81,16 +81,19 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 
 ## Execution Tracks (from CURSOR_MCP_TODO)
 
+**Priority (2026-06):** P0 **Track A** (finish A-0 auth + Cursor register) → Gate A→B → P1 **Track B** → Gate B→C → P3 **Track C**. P2 **E/F code** and P4 **D / Batch / P5+** — see [runbook § Track priority](../docs/CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review).
+
 | Track | Tree impact | Status |
 |-------|-------------|--------|
-| Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed (`3232b194`) |
-| A-0 | WSL CLI auth (claude/codex/agy) | Partial (codex/agy pending) |
-| A-1 | adapters + unified MCP server | ✅ implemented; Cursor register pending |
-| A-2 | inference-profiles.json + MCP schemas | ❌ |
-| E | OpenAI model catalog → code (`OPENAI_MODEL_MATRIX.md`) | ❌ doc only |
-| F | LLM model catalog schema (TS-21) → loader / TaskRouter | ❌ schema + stub only |
-| B | wall-bounce-analyzer uses adapters | ❌ |
+| Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed |
+| A-0 | WSL CLI auth (claude/codex/agy) | Partial — codex/agy pending |
+| A-1 code | adapters + unified MCP server | ✅ implemented |
+| A-1 ops | Cursor MCP register + G7 smoke | ❌ |
+| A-2 | InferenceProfile in unified MCP schemas | ❌ |
+| B | wall-bounce-analyzer → adapters | ❌ |
+| F (code) | catalog loader + cost routing | ❌ schema/stub only |
 | C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |
+| D / F-13 / P5+ | cache, Batch RAG, Grounding | ❌ low priority |
 
 ## Key References
 
