@@ -114,7 +114,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
-| Gate A→B passed | `[ ]` | G-MEM: TS-22 v1.3 (schema, TTL, ts/tsEnd) committed 2026-06-18 |
+| Gate A→B passed | `[ ]` | **G-MEM closed** 2026-06-18; G1–G7 still open |
 | Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -442,21 +442,23 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 | G5 | **Operability:** A-0 steps reproducible on clean WSL | | |
 | G6 | **A-0 sign-off:** All five checkboxes `[x]` | | |
 | G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | Adapter smoke OK 2026-06-18; Cursor UI pending |
-| G-MEM | **Memory substrate:** [TS-22 v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — Layer A schema + TTL policy committed; team sign-off for Gate A→B | | |
+| G-MEM | **Memory substrate:** [TS-22 v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — Layer A design accepted (schema, TTL, temporal model) | **Yes** | **Closed 2026-06-18** — implementation (M1 store) deferred to Track B |
 
-**Pass when:** G1–G7 and **G-MEM** all Yes.
+**Pass when:** G1–G7 and **G-MEM** all Yes. (**G-MEM:** closed 2026-06-18; remaining criteria open.)
 
 **Gate decision:** `[ ]` Pass → proceed to Track B  /  `[ ]` Fail → fix Track A, re-review
 
-**Reviewer / date:** _______________
+**Reviewer / date:** G-MEM — team sign-off **2026-06-18** (design gate); full Gate A→B pending G1–G7
 
 ---
 
 ## Memory substrate (Gate prerequisite for Track B)
 
+**G-MEM status:** **Closed 2026-06-18** — TS-22 v1.3 design accepted. `OrchestrationSessionStore` (M1 Redis) and adapter `sessionId` wiring remain **Track B** work; revisit implementation details as needed.
+
 **ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22 v1.3)  
-**Gate criterion:** [G-MEM](#gate-a--b-review-before-track-b)  
-**Rule:** Do **not** start Track B adapter / Wall-Bounce wiring without TS-22 accepted and G-MEM checked.
+**Gate criterion:** [G-MEM](#gate-a--b-review-before-track-b) — **signed off**  
+**Rule:** Track B memory **implementation** follows accepted TS-22; do not add parallel `*-session-manager` silos. Full **Gate A→B** still requires G1–G7.
 
 ### Why (one paragraph)
 

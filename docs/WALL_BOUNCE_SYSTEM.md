@@ -64,7 +64,7 @@ Wall-Bounce **requires durable orchestration memory** — constitution mandates 
 | **B — Provider handles** | Optional `--resume` / `codex-reply` / agy conversation id under `providerHandles` — latency only. |
 | **C — Cipher / RAG** | Retrieve into round context; verified write per P5 — not a transcript substitute. |
 
-**AS-IS gaps:** `wall-bounce-analyzer.ts` keeps in-process `accumulatedSummary` only; [`multi-llm-session-handler.ts`](../src/services/multi-llm-session-handler.ts) incorrectly uses Codex-only Redis. **Track B (Gate A→B + G-MEM):** wire rounds to Layer A before production adapter paths.
+**AS-IS gaps:** `wall-bounce-analyzer.ts` keeps in-process `accumulatedSummary` only; [`multi-llm-session-handler.ts`](../src/services/multi-llm-session-handler.ts) incorrectly uses Codex-only Redis. **Track B:** wire rounds to Layer A (G-MEM design closed 2026-06-18).
 
 **Forbidden:** Parallel `*-session-manager.ts` silos per provider; Codex Redis as authoritative multi-LLM history.
 

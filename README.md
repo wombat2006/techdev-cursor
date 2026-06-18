@@ -51,7 +51,7 @@ Three-layer split — do not conflate catalog with per-request knobs or adapter 
 
 ### Memory substrate (TS-22)
 
-Three-layer orchestration memory — **Layer A mandatory** before Track B wiring ([Gate G-MEM](./docs/CURSOR_MCP_TODO.md#gate-a--b-review-before-track-b)):
+Three-layer orchestration memory — **Layer A mandatory** for Track B ([G-MEM closed 2026-06-18](./docs/CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b); full Gate A→B pending G1–G7):
 
 | Layer | Role | AS-IS | To-Be |
 |-------|------|-------|-------|
@@ -755,7 +755,7 @@ A **Cursor-integrated development platform** that helps teams **build software s
 | Daily Cursor coding | Single-provider MCP path | Same — by design |
 | Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
-| Memory substrate (TS-22) | ADR + schema + types; **no Redis store yet** | `OrchestrationSessionStore` + `sessionId` (Track B, Gate G-MEM) |
+| Memory substrate (TS-22) | ADR + schema + types; G-MEM closed | `OrchestrationSessionStore` + `sessionId` (Track B M1) |
 | OpenAI vendor depth | Cookbook / prompt guidance in catalog | Anthropic / Google same pattern next |
 
 **What this is not**

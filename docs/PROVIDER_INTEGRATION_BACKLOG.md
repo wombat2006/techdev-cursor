@@ -73,7 +73,7 @@ ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.
 
 ### Memory substrate (TS-22)
 
-Gate **G-MEM** required before Track B. ADR: [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (v1.1).
+Gate **G-MEM** **closed 2026-06-18** (design). ADR: [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (v1.3). M1 Redis store — Track B.
 
 - [ ] **M1** — `OrchestrationSessionStore` + `orch:session:*` Redis layout
 - [ ] **M2** — `sessionId` / `continueProviderSession` on `AdapterRequest` + MCP schemas (A-2 overlap)

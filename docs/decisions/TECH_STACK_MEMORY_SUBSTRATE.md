@@ -4,7 +4,7 @@
 **ID**: TS-22  
 **Version**: 1.3  
 **Date**: 2026-06-18  
-**Status**: **Accepted (direction)** — documentation and Gate A→B prerequisite; implementation starts Track B
+**Status**: **Accepted** — G-MEM design sign-off **2026-06-18**; Redis store implementation starts Track B (M1)
 
 ---
 
@@ -331,7 +331,7 @@ Request may include `sessionId`; response returns `sessionId`. Each round append
 
 | Track | Memory work |
 |-------|-------------|
-| **Gate A→B** | **G-MEM:** TS-22 accepted; Layer A mandatory; no new provider silos |
+| **Gate A→B** | **G-MEM:** closed 2026-06-18; TS-22 accepted; Layer A mandatory; no new provider silos |
 | **M1** | `OrchestrationSessionStore` + `orch:session:*` + schema v1.0 ([types](../../src/types/orchestration-session.ts), [schema](../../config/schemas/orchestration-session.schema.json)) |
 | **M2** | `sessionId` on `AdapterRequest` + MCP schema |
 | **M3** | Wall-Bounce rounds append Layer A events |
@@ -363,3 +363,4 @@ Runbook detail: [CURSOR_MCP_TODO.md § Memory substrate](../CURSOR_MCP_TODO.md#m
 | 2026-06-18 | v1.1 — AS-IS inventory; codex-only legacy clarified; anti-patterns; `providerHandles`; codex migration phases; no parallel claude/agy session managers |
 | 2026-06-18 | v1.2 — Mandatory event `ts` / `eventId` / `seq`; session `expiresAt`; idle 7d / max 30d TTL; JSON Schema + config defaults |
 | 2026-06-18 | v1.3 — `ts`+`tsEnd` span model; `invokeEventId`; session `clientTimezone` (IANA); UTC-only per event |
+| 2026-06-18 | **G-MEM closed** — design sign-off; M1 Redis store deferred to Track B |

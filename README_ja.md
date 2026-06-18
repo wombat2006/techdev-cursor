@@ -48,7 +48,7 @@
 
 ### 記憶基盤（TS-22）
 
-オーケストレーション記憶の 3 層 — **Layer A は Track B 前に必須**（[Gate G-MEM](./docs/CURSOR_MCP_TODO.md#gate-a--b-review-before-track-b)）:
+オーケストレーション記憶の 3 層 — **Layer A は Track B で必須**（[G-MEM 完了 2026-06-18](./docs/CURSOR_MCP_TODO.md#memory-substrate-gate-prerequisite-for-track-b)；Gate A→B 全体は G1–G7 待ち）:
 
 | 層 | 役割 | AS-IS | To-Be |
 |----|------|-------|-------|
@@ -656,7 +656,7 @@ curl -X POST localhost:4000/api/v1/generate \
 | 日常の Cursor 開発 | 単一 MCP 経路 | 同左 — 意図的な設計 |
 | 本格マルチ LLM 分析 | Wall-Bounce API あり | 憲法のコード enforce（Track C） |
 | モデルカタログ（TS-21） | JSON + schema 充実 | loader · コスト aware routing（Track F） |
-| 記憶基盤（TS-22） | ADR + schema + 型 · **Redis ストア未実装** | `OrchestrationSessionStore` + `sessionId`（Track B · Gate G-MEM） |
+| 記憶基盤（TS-22） | ADR + schema + 型 · G-MEM 完了 | `OrchestrationSessionStore` + `sessionId`（Track B M1） |
 | OpenAI 深掘り | Cookbook / prompt guidance 反映済 | Anthropic / Google へ同パターン展開 |
 
 **これは何ではないか**
