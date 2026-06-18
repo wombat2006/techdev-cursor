@@ -3,7 +3,7 @@
     "techsapo-providers": {
       "command": "node",
       "args": ["dist/services/techsapo-providers-mcp-server.js"],
-      "cwd": "/home/wombat/techdev-cursor"
+      "cwd": "/home/<USER>/techdev-cursor"
     }
   }
 }

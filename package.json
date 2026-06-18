@@ -36,6 +36,8 @@
     "codex-mcp-restart": "./scripts/start-codex-mcp.sh -r",
     "codex-mcp-test": "./scripts/start-codex-mcp.sh -t",
     "techsapo-providers-mcp": "node dist/services/techsapo-providers-mcp-server.js",
+    "mcp:list-tools-smoke": "node scripts/mcp-list-tools-smoke.js",
+    "g7:adapter-smoke": "node scripts/g7-adapter-smoke.js",
     "mcp-performance": "node -e \"require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getPerformanceSummary()\"",
     "mcp-metrics": "node -e \"console.log(JSON.stringify(require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getLatestMetrics(), null, 2))\"",
     "mcp-alerts": "node -e \"console.log(JSON.stringify(require('./dist/services/mcp-performance-monitor').mcpPerformanceMonitor.getActiveAlerts(), null, 2))\"",

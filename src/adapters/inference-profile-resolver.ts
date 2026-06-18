@@ -19,6 +19,28 @@ const PROVIDER_DEFAULT_PRESET: Record<ProviderId, InferencePreset> = {
   agy: 'fast',
 };
 
+/** Provider-native default models per preset (shared PRESETS.model is legacy placeholder). */
+const PROVIDER_PRESET_MODEL: Record<ProviderId, Record<InferencePreset, string>> = {
+  claude: {
+    fast: 'haiku',
+    balanced: 'sonnet',
+    deep: 'sonnet',
+    critical: 'opus',
+  },
+  codex: {
+    fast: 'gpt-5.5',
+    balanced: 'gpt-5.5',
+    deep: 'gpt-5.5',
+    critical: 'gpt-5.5',
+  },
+  agy: {
+    fast: 'gemini-2.5-flash',
+    balanced: 'gemini-2.5-flash',
+    deep: 'gemini-2.5-pro',
+    critical: 'gemini-2.5-pro',
+  },
+};
+
 const CLAUDE_MODEL_ALIASES: Record<string, string> = {
   haiku: 'haiku',
   sonnet: 'sonnet',
@@ -31,6 +53,7 @@ const CODEX_MODEL_ALIASES: Record<string, string> = {
   codex: 'gpt-5-codex',
   'gpt-5-codex': 'gpt-5-codex',
   'gpt-5': 'gpt-5',
+  'gpt-5.5': 'gpt-5.5',
 };
 
 const AGY_MODEL_ALIASES: Record<string, string> = {
@@ -67,8 +90,8 @@ export function resolveInferenceProfile(
 
   if (input.model) {
     base.model = resolveModelAlias(provider, input.model);
-  } else if (base.model) {
-    base.model = resolveModelAlias(provider, base.model);
+  } else {
+    base.model = resolveModelAlias(provider, PROVIDER_PRESET_MODEL[provider][presetName]);
   }
 
   if (input.effort) {

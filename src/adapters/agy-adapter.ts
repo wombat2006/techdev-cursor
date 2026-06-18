@@ -11,9 +11,10 @@ export class AgyAdapter implements ProviderAdapter {
     const start = Date.now();
     const model = request.profile.model ?? DEFAULT_MODEL;
     const fullPrompt = buildFullPrompt(request.prompt, request.context, request.profile.cot);
+    const cwd = request.workingDirectory ?? process.cwd();
 
     try {
-      const { content, stderr } = await executeAgyPrint(fullPrompt, { model });
+      const { content, stderr } = await executeAgyPrint(fullPrompt, { model, cwd });
       if (stderr) {
         // Non-fatal diagnostic output from agy
       }

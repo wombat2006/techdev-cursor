@@ -13,6 +13,18 @@ describe('inference-profile-resolver', () => {
     expect(profile.effort).toBe('medium');
   });
 
+  it('resolves codex balanced default with gpt-5.5', () => {
+    const profile = resolveInferenceProfile('codex', {});
+    expect(profile.model).toBe('gpt-5.5');
+    expect(profile.effort).toBe('medium');
+  });
+
+  it('resolves codex fast preset with gpt-5.5', () => {
+    const profile = resolveInferenceProfile('codex', { preset: 'fast' });
+    expect(profile.model).toBe('gpt-5.5');
+    expect(profile.cot).toBe('off');
+  });
+
   it('maps sonnet alias for claude', () => {
     expect(resolveModelAlias('claude', 'sonnet-4.5')).toBe('sonnet');
   });

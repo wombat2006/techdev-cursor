@@ -74,18 +74,14 @@ unset ANTHROPIC_API_KEY
 test -f ~/.claude/.credentials.json || test -f ~/.claude/session  # Claude OAuth
 test -f ~/.codex/auth.json && echo "codex auth ok"
 test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth ok"
-# agy smoke (from /tmp — not repo root): cd /tmp && echo 'ok' | agy --print --model gemini-2.5-flash
-redis-cli ping
-```
-
-Details: [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) · [DEVELOPMENT_GUIDE.md](../DEVELOPMENT_GUIDE.md#wsl-native-cli-prerequisites-cursor-mcp-phase-0)
-
-```bash
+npm run build && npm run mcp:list-tools-smoke && npm run g7:adapter-smoke
 which agy             # Antigravity CLI (required)
 which codex           # Codex CLI (required for GPT-5)
 redis-cli ping        # Redis must be running
 sudo systemctl status techsapo
 ```
+
+Details: [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TEMPLATE.md](../CURSOR_MCP_TEMPLATE.md)
 
 Antigravity migration: [ANTIGRAVITY_CLI_MIGRATION.md](../ANTIGRAVITY_CLI_MIGRATION.md)
 

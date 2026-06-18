@@ -18,6 +18,7 @@ import {
 } from '../adapters/inference-profile-resolver';
 import type { ProviderAdapter } from '../types/adapter-types';
 import type { AnalyzeToolInput } from '../types/inference-profile';
+import { configureLoggerForMcpStdio } from '../utils/mcp-stdio-logging';
 import { logger } from '../utils/logger';
 
 const ANALYZE_INPUT_SCHEMA = {
@@ -97,6 +98,7 @@ function adapterResultToMcpContent(result: Awaited<ReturnType<ProviderAdapter['i
 }
 
 export async function startTechsapoProvidersMcpServer(): Promise<void> {
+  configureLoggerForMcpStdio();
   logger.info('Starting techsapo-providers MCP server (stdio)');
 
   const server = new Server(

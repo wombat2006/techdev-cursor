@@ -170,17 +170,11 @@ Record in team notes or issue when complete:
 
 Example **Cursor Settings → MCP** (fork clone):
 
-```json
-{
-  "mcpServers": {
-    "techsapo-providers": {
-      "command": "node",
-      "args": ["dist/services/techsapo-providers-mcp-server.js"],
-      "cwd": "/home/<user>/techdev-cursor"
-    }
-  }
-}
-```
+**Windows host (WSL spawn):** [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json) — `wsl.exe` + explicit PATH.
+
+**WSL Remote:** [config/cursor-mcp.template.json](../config/cursor-mcp.template.json)
+
+Full walkthrough: [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md)
 
 **Phase 1 tasks (in fork):**
 

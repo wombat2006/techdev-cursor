@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "techsapo-providers": {
+      "command": "C:\\Windows\\System32\\wsl.exe",
+      "args": [
+        "-d",
+        "AlmaLinux-9",
+        "bash",
+        "-lc",
+        "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin\" && cd /home/wombat/techdev-cursor && exec node dist/services/techsapo-providers-mcp-server.js"
+      ]
+    }
+  }
+}

@@ -270,10 +270,14 @@ echo "Reply with only: ok" | agy --print --model gemini-2.5-pro
 
 ```bash
 npm run build
-npm run techsapo-providers-mcp   # 起動確認（Cursor 登録は template 参照）
+npm run mcp:list-tools-smoke   # stdio + tools/list
+npm run g7:adapter-smoke       # adapter-path G7（WSL）
+npm run techsapo-providers-mcp # 手動起動確認（Ctrl+C）
 ```
 
-詳細: [config/cursor-mcp.template.json](./config/cursor-mcp.template.json) · [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
+**Windows Cursor（ホスト）:** [config/cursor-mcp.windows.template.json](./config/cursor-mcp.windows.template.json) を Settings → MCP に貼り付け（`wsl.exe` + AlmaLinux-9）。  
+**WSL Remote:** [config/cursor-mcp.template.json](./config/cursor-mcp.template.json)。  
+詳細: [docs/CURSOR_MCP_TEMPLATE.md](./docs/CURSOR_MCP_TEMPLATE.md) · [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)
 
 ## 🛠 クイックスタート
 

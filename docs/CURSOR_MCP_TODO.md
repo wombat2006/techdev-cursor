@@ -108,10 +108,10 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | `codex` WSL native | `[x]` | A-0.2 done — WSL `@openai/codex@0.141.0`; auth symlink `~/.codex/auth.json` → Windows; `codex exec` probe OK |
 | `agy` WSL native | `[x]` | A-0.3 done — `~/.local/bin/agy` 1.0.9; OAuth token; `/tmp` + stdin probe OK (~8s) |
 | Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
-| A-1 code (adapters + unified MCP) | `[x]` | `src/adapters/*`, `techsapo-providers-mcp-server.ts` — see [backlog § A-1](./PROVIDER_INTEGRATION_BACKLOG.md#track-a-1-current-baseline) |
-| A-1 Cursor MCP registered | `[ ]` | G7 — three `analyze_*` invokes from Cursor |
+| A-1 code (adapters + unified MCP) | `[x]` | stdio-safe logging, provider preset models, agy cwd; smoke scripts |
+| A-1 Cursor MCP registered | `[~]` | WSL preflight + `g7:adapter-smoke` OK 2026-06-18; **paste** [windows template](../config/cursor-mcp.windows.template.json) in Windows Cursor Settings → MCP |
 | A-2 InferenceProfile in MCP | `[ ]` | Extend unified MCP tool schemas (not legacy dual servers) |
-| A-3 template committed | `[x]` | `config/cursor-mcp.template.json` |
+| A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
 | Gate A→B passed | `[ ]` | — |
@@ -335,44 +335,54 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 
 ### A-1: Cursor MCP registration (Unified — in fork)
 
-**Prerequisite met (A-0 sign-off 2026-06-18)** — register Cursor MCP per steps below. Do not skip G7 smoke after registration.
+**Prerequisite met (A-0 sign-off 2026-06-18)** — register Cursor MCP per steps below. G7 requires three `analyze_*` invokes **from Cursor Agent** after registration.
 
 **Purpose:** Cursor Agent tool calls route to **single unified** MCP server `techsapo-providers` (subscription quota for tool execution).
 
-**Prerequisite:** Fork cloned — [FORK_CURSOR.md](./FORK_CURSOR.md). Complete [Fork bootstrap](./FORK_CURSOR.md#fork-bootstrap-mcp-implementation-ready) (Day 0 config + directory layout) before coding. Work in `~/techdev-cursor`, not upstream `~/techdev`.
+**Prerequisite:** Fork cloned — [FORK_CURSOR.md](./FORK_CURSOR.md). Work in `~/techdev-cursor`, not upstream `~/techdev`.
 
 **Steps:**
 
-1. Build (fork):
+1. Build + WSL preflight (fork):
    ```bash
    cd ~/techdev-cursor && npm run build
+   npm run mcp:list-tools-smoke    # stdio JSON-RPC; tools listed without stdout corruption
+   npm run g7:adapter-smoke        # optional: same adapter path as MCP (2026-06-18: all OK)
    ```
-2. Verify stdio server starts (fork — **not** `npm run codex-mcp` daemon):
+2. Verify stdio server starts manually (optional):
    ```bash
    node dist/services/techsapo-providers-mcp-server.js
-   # Ctrl+C after confirming no startup error; Cursor will spawn this via MCP config
+   # Ctrl+C after no startup error; logs → logs/mcp-providers.log
    ```
-3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, `~/.gemini/antigravity-cli/antigravity-oauth-token` + `/tmp` agy probe).
-4. Register in **Cursor Settings → MCP**. Template: fork [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) — unified `techsapo-providers`, **`node` direct**:
-   ```json
-   {
-     "mcpServers": {
-       "techsapo-providers": {
-         "command": "node",
-         "args": ["dist/services/techsapo-providers-mcp-server.js"],
-         "cwd": "/home/<user>/techdev-cursor"
-       }
-     }
-   }
-   ```
-5. Reload Cursor; confirm tools: `analyze_claude`, `analyze_codex`, `analyze_agy`.
-6. Invoke each once from Cursor Agent.
+3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, agy OAuth token).
+4. **Register in Windows Cursor** (host on Windows, MCP spawn in WSL):
+   - Template: [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json)
+   - Confirm distro: `wsl.exe -l -v` (this env: **`AlmaLinux-9`**)
+   - Paste into **Cursor Settings → MCP** on Windows
+   - Reload MCP → **Connected** → tools: `analyze_claude`, `analyze_codex`, `analyze_agy`
+   - WSL Remote variant: [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) — see [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md)
+5. **G7 smoke from Cursor Agent** (one invoke each):
 
-**Done when:** `[ ]` Unified server visible in Cursor; `[ ]` all three `analyze_*` tools invoke successfully.
+| Tool | CallTool args |
+|------|----------------|
+| `analyze_claude` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "haiku" }` |
+| `analyze_codex` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "gpt-5.5" }` |
+| `analyze_agy` | `{ "prompt": "You are text-only. Reply with exactly one word: ok", "preset": "fast", "model": "gemini-2.5-flash", "workingDirectory": "/tmp" }` |
+
+**Done when:** `[x]` WSL preflight + adapter smoke; `[ ]` Unified server **Connected** in Windows Cursor; `[ ]` G7 — all three `analyze_*` from Cursor UI.
+
+**Troubleshoot:**
+
+| Symptom | Fix |
+|---------|-----|
+| MCP failed to start | Wrong WSL `-d` name; fix PATH in template `bash -lc` line |
+| Connected, 0 tools | stdout log corruption — ensure latest server (`configureLoggerForMcpStdio`) |
+| `analyze_codex` model error | Use `gpt-5.5` explicitly; default resolver now uses gpt-5.5 for codex |
+| `analyze_agy` timeout in repo | Add `workingDirectory: "/tmp"` for short smoke prompts (A-0.3) |
 
 **Reflection memo:** _Cursor Agent planning still uses Cursor quota; MCP tools use subscription — see Token & Quota Operations Guide._
 
-**AS-IS (fork):** Unified server is **implemented** — remaining work is A-0 auth + Cursor registration + Gate G7 smoke, not greenfield coding.
+**AS-IS (fork):** Unified server implemented; A-1 ops = Windows template paste + G7 from Cursor UI.
 
 <details>
 <summary>Legacy A-1 (dual-server — superseded)</summary>
@@ -430,7 +440,7 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 | G4 | **Provider parity:** claude / codex / agy treated as peer Tier 1–3; Opus aggregator-only | | |
 | G5 | **Operability:** A-0 steps reproducible on clean WSL | | |
 | G6 | **A-0 sign-off:** All five checkboxes `[x]` | | |
-| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | |
+| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | Adapter smoke OK 2026-06-18; Cursor UI pending |
 
 **Pass when:** G1–G7 all Yes.
 

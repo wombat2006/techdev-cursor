@@ -11,6 +11,7 @@ const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000;
 
 export interface AgyExecuteOptions {
   model: string;
+  cwd?: string;
   timeoutMs?: number;
   onChunk?: (chunk: string) => void;
 }
@@ -67,6 +68,7 @@ export async function executeAgyPrint(
 
   return new Promise((resolve, reject) => {
     const child = spawn(DEFAULT_BIN, args, {
+      cwd: options.cwd,
       stdio: ['pipe', 'pipe', 'pipe'],
       env: { ...process.env },
     });
