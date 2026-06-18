@@ -122,47 +122,52 @@ Three-layer orchestration memory — **Layer A mandatory** for Track B ([G-MEM c
 
 ### 全体像
 
+> **読み方:** 実線・✅ AS-IS = 現行コード。**点線・To-Be** = Track B/C 計画。憲法の「2〜5 ラウンド · Hard Gate ループ」は **AS-IS 未実装**（Track C）。
+
 ```mermaid
 flowchart TB
-  subgraph cursor [Cursor IDE — 主経路]
+  subgraph cursor [Cursor IDE — 主経路 ✅ AS-IS]
     U[開発者プロンプト]
     U --> MCP{単一 LLM で足りる?}
     MCP -->|Yes| UP[techsapo-providers MCP]
-    UP --> AC[analyze_claude]
-    UP --> AX[analyze_codex]
-    UP --> AG[analyze_agy]
-    AC & AX & AG --> CR[コード提案 / 修正 / 説明]
+    UP --> TOOL["analyze_claude / codex / agy<br/>(いずれか1ツール)"]
+    TOOL --> CR[コード提案 / 修正 / 説明]
   end
 
-  subgraph ingress [リクエスト入口 — API / 本番分析]
+  subgraph api_as_is [Wall-Bounce API — ✅ AS-IS]
     U2[ユーザープロンプト]
-    U2 --> PA{{PromptAnalyzer<br/>形態素解析 To-Be}}
-    PA --> TR[TaskRouter + InferenceProfile]
-    TR --> RAGQ{RAG / Grounding<br/>必要?}
+    U2 --> WAPI["/api/v1/wall-bounce"]
+    WAPI --> WBA[wall-bounce-analyzer.ts]
+    WBA --> P1["2+ Provider 並列 or 逐次<br/>1パス実行"]
+    P1 --> AGG["Aggregator 1回<br/>Sonnet / Opus"]
+    AGG --> OUT[日本語回答 / SSE]
   end
 
-  subgraph grounding [Grounding / RAG]
-    RAGQ -->|Yes| GQ[RAG 検索クエリ生成<br/>parse 結果 + 辞書 v0]
-    GQ --> VS[(Vector Store<br/>Google Drive 同期)]
-    GQ --> C7[Context7 / 独自 DB 等 To-Be]
-    GQ --> GB[Grounding Bundle]
-    RAGQ -->|No| WBIN[Wall-Bounce 入力]
-    GB --> WBIN
+  subgraph rag_as_is [RAG /search — ✅ AS-IS 経路分離]
+    RQ[クエリ] --> VS[(Vector Store<br/>Google Drive 同期)]
+    VS --> LMCP["legacy MCP 並列<br/>gpt-5 + gemini"]
+    LMCP --> ROUT["統合回答<br/>(analyzer 非経由)"]
   end
 
-  subgraph wallbounce [Wall-Bounce — 2〜5 ラウンド]
-    WBIN --> P1[Provider 1..N 並列/逐次]
-    P1 --> CE[Consensus Engine]
-    CE --> HG{Hard Gate<br/>confidence ≥0.7<br/>consensus ≥0.6}
-    HG -->|未達| P1
-    HG -->|達成| AGG[Aggregator<br/>Sonnet / Opus]
+  subgraph api_tobe [API 入口 + Grounding — To-Be]
+    PA{{"PromptAnalyzer<br/>形態素解析"}}
+    TR[TaskRouter + InferenceProfile]
+    RAGQ{RAG / Grounding 必要?}
+    GQ["RAG クエリ生成<br/>parse + 辞書 v0"] --> GB[Grounding Bundle]
+    GB --> WBLOOP["Wall-Bounce 2〜5 ラウンド<br/>Hard Gate ループ<br/>confidence ≥0.7 · consensus ≥0.6"]
   end
 
-  AGG --> OUT[日本語回答 / SSE]
   CR --> OUT2[Cursor エディタ反映]
-
-  U -.->|複雑・多 LLM 合意| U2
+  U -.->|"手動 / API 呼び出し<br/>自動ルーティングなし"| U2
 ```
+
+| 経路 | AS-IS | To-Be |
+|------|-------|-------|
+| Cursor → 単一 MCP | ✅ `techsapo-providers` | 同左 |
+| Cursor → Wall-Bounce API | ❌ 自動連携なし（別途 API） | 任意統合 |
+| Wall-Bounce 実行 | ✅ 1パス · 2+ provider · aggregator | 憲法ラウンド + Hard Gate ループ（Track C） |
+| RAG → 多 LLM | ✅ legacy MCP 並列（`rag-endpoint.ts`） | `wall-bounce-analyzer` + Orchestrator 統合 |
+| API 入口 PromptAnalyzer / TaskRouter | ❌ | Track C / P5 |
 
 ### A. Cursor 開発支援フロー（本フォークの主経路）
 
@@ -182,16 +187,17 @@ Cursor → MCP CallTool(analyze_codex) → codex-adapter → codex exec（非対
 
 ### B. Wall-Bounce 多 LLM 分析フロー
 
-憲法: **2〜5 ラウンド** · **2+ LLM** · confidence ≥ 0.7 · consensus ≥ 0.6 · `wall-bounce-analyzer.ts` 経由のみ。
+**憲法（目標）:** 2〜5 ラウンド · 2+ LLM · confidence ≥ 0.7 · consensus ≥ 0.6 · `wall-bounce-analyzer.ts` 経由のみ。  
+**AS-IS:** 上記の **ラウンドループ・Hard Gate 再実行は未実装**。1 回の provider 実行（parallel / sequential）→ aggregator 1 回。`WALL_BOUNCE_MIN_PROVIDERS` デフォルトは `1`（憲法の 2+ と乖離 — Track C で enforce 予定）。
 
 | Step | 処理 | AS-IS | To-Be |
 |------|------|-------|-------|
-| 1 | プロンプト受信 | API / SSE | + **PromptAnalyzer（形態素解析）** |
+| 1 | プロンプト受信 | API / SSE（`wall-bounce-api.ts`） | + **PromptAnalyzer（形態素解析）** |
 | 2 | タスク種別・複雑度判定 | regex + ヒューリスティック | parse 特徴量 + 辞書 v0 + TaskRouter |
-| 3 | InferenceProfile 解決 | ハードコード preset | `inference-profiles.json`（Track A-2） |
+| 3 | InferenceProfile 解決 | MCP: resolver 内ハードコード preset | `inference-profiles.json`（Track B-0） |
 | 4 | Provider 順序決定 | `getProviderOrder(taskType)` | Orchestrator + `devassist-task-router.json` |
-| 5 | 2+ LLM 分析（agy / codex / claude SDK 等） | ✅ | adapter 統一（Track B） |
-| 6 | コンセンサス・Hard Gate | 部分実装 | 憲法ラウンド enforce（Track C） |
+| 5 | 2+ LLM 分析（agy / codex / claude SDK 等） | ✅ 1パス（legacy spawn） | adapter 統一（Track B-1） |
+| 6 | コンセンサス・Hard Gate | 閾値計算のみ · **再ラウンドなし** | 憲法ラウンド enforce（Track C） |
 | 7 | Aggregator 合成 → 日本語出力 | ✅ | — |
 
 ### C. RAG / Grounding フロー
@@ -216,7 +222,7 @@ Cursor → MCP CallTool(analyze_codex) → codex-adapter → codex exec（非対
 | 3 | RAG 検索クエリ生成 | 生クエリ / 簡易プロンプト | parse 結果 + 専門語展開 → hybrid search term |
 | 4 | Vector Store / MCP 検索 | `file_search` + Google Drive MCP | + hybrid RAG（Phase 2） |
 | 5 | Grounding Bundle 構築 | 部分 | GroundingOrchestrator（Phase 1） |
-| 6 | Wall-Bounce で根拠付き回答 | ✅（経路分離あり B2） | Orchestrator 統合 |
+| 6 | 根拠付き多 LLM 回答 | legacy MCP 並列 + 文字列統合（`rag-endpoint.ts` · **analyzer 非経由**） | `wall-bounce-analyzer` + Orchestrator 統合 |
 
 ### D. 形態素解析（PromptAnalyzer）の位置づけ
 
