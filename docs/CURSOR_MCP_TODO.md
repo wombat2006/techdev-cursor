@@ -109,12 +109,12 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | `agy` WSL native | `[x]` | A-0.3 done — `~/.local/bin/agy` 1.0.9; OAuth token; `/tmp` + stdin probe OK (~8s) |
 | Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
 | A-1 code (adapters + unified MCP) | `[x]` | stdio-safe logging, provider preset models, agy cwd; smoke scripts |
-| A-1 Cursor MCP registered | `[~]` | WSL preflight + `g7:adapter-smoke` OK 2026-06-18; **paste** [windows template](../config/cursor-mcp.windows.template.json) in Windows Cursor Settings → MCP |
+| A-1 Cursor MCP registered | `[~]` | WSL preflight + smoke OK; G1–G6 gate 2026-06-18; **G7 Cursor UI deferred** |
 | A-2 InferenceProfile in MCP | `[ ]` | Extend unified MCP tool schemas (not legacy dual servers) |
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
-| Gate A→B passed | `[ ]` | **G-MEM closed** 2026-06-18; G1–G7 still open |
+| Gate A→B passed | `[ ]` | G1–G6 **Yes** 2026-06-18; **G7 deferred** (Cursor UI invoke — intentional) |
 | Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -433,22 +433,24 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 **Do not start Track B until all Pass conditions are met.**
 
+> **2026-06-18:** G1–G6 verified and marked **Yes**. **G7 intentionally deferred** — complete Cursor UI `analyze_*` ×3 in a separate step after review (adapter smoke already OK).
+
 | # | Criterion (logic / methodology) | Yes | Memo |
 |---|----------------------------------|-----|------|
-| G1 | **Transport:** MCP stdio matches [TS-17](./decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md) (no HTTP between co-located providers) | | |
-| G2 | **Security:** No API keys in code/env for Claude; CLI/OAuth only | | |
-| G3 | **Quota:** Team understands Cursor Agent vs MCP tool billing | | |
-| G4 | **Provider parity:** claude / codex / agy treated as peer Tier 1–3; Opus aggregator-only | | |
-| G5 | **Operability:** A-0 steps reproducible on clean WSL | | |
-| G6 | **A-0 sign-off:** All five checkboxes `[x]` | | |
-| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | Adapter smoke OK 2026-06-18; Cursor UI pending |
+| G1 | **Transport:** MCP stdio matches [TS-17](./decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md) (no HTTP between co-located providers) | **Yes** | `techsapo-providers` stdio only; adapters `spawn` CLI — no HTTP in `src/adapters/`; `mcp:list-tools-smoke` OK 2026-06-18 |
+| G2 | **Security:** No API keys in code/env for Claude; CLI/OAuth only | **Yes** | `claude-adapter` deletes `ANTHROPIC_API_KEY`; shell unset verified; peer path CLI/OAuth (RAG/OpenAI API paths separate — not MCP peer) |
+| G3 | **Quota:** Team understands Cursor Agent vs MCP tool billing | **Yes** | Sign-off 2026-06-18: Agent planning = Cursor quota; MCP `analyze_*` = subscription CLI spawn ([§ Token & Quota](#token--quota-operations-guide)) |
+| G4 | **Provider parity:** claude / codex / agy treated as peer Tier 1–3; Opus aggregator-only | **Yes** | Unified MCP exposes only `analyze_claude` / `analyze_codex` / `analyze_agy`; no Opus analyze tool |
+| G5 | **Operability:** A-0 steps reproducible on clean WSL | **Yes** | Dev WSL re-verified 2026-06-18: `npm run build`, `type -a` WSL-first paths, three CLIs; clean-room second machine optional |
+| G6 | **A-0 sign-off:** All five checkboxes `[x]` | **Yes** | A-0 sign-off block complete 2026-06-18 |
+| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | **Deferred** — adapter smoke OK; Cursor UI ×3 intentionally after G1–G6 review |
 | G-MEM | **Memory substrate:** [TS-22 v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — Layer A design accepted (schema, TTL, temporal model) | **Yes** | **Closed 2026-06-18** — implementation (M1 store) deferred to Track B |
 
-**Pass when:** G1–G7 and **G-MEM** all Yes. (**G-MEM:** closed 2026-06-18; remaining criteria open.)
+**Pass when:** G1–G7 and **G-MEM** all Yes. (**G-MEM:** closed 2026-06-18. **G1–G6:** Yes 2026-06-18. **G7:** open — deferred.)
 
 **Gate decision:** `[ ]` Pass → proceed to Track B  /  `[ ]` Fail → fix Track A, re-review
 
-**Reviewer / date:** G-MEM — team sign-off **2026-06-18** (design gate); full Gate A→B pending G1–G7
+**Reviewer / date:** G-MEM — 2026-06-18 · G1–G6 — verified 2026-06-18 · G7 — pending (Cursor UI)
 
 ---
 
