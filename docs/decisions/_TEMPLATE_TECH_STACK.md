@@ -55,7 +55,7 @@ Current state in repo (versions, files, behavior).
 - [ ] `docs/TECH_STACK_WORKSPACE.md` — Target column for TS-XX
 - [ ] `docs/ARCHITECTURE.md`
 - [ ] `README.md` + `README_ja.md`
-- [ ] `CLAUDE.md` (if rule-level change)
+- [ ] `AGENTS.md` (if rule-level change)
 - [ ] Implementation (separate PR if large)
 
 ---

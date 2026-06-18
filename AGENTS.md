@@ -6,7 +6,7 @@
 
 > **Skeleton only.** See linked docs for commands, MCP rules, and details. Do not bloat this file — accuracy degrades when it grows.
 
-> **Plan A:** P0–P2 done — this file is the **neutral top** for all coding agents. [CLAUDE.md](CLAUDE.md) is a Claude Code shim only. Detail docs: [docs/agents/](docs/agents/). Cursor rules: [.cursor/rules/](.cursor/rules/) (Phase P3).
+> **Plan A:** P0–P3 done — this file is the **neutral top** for all coding agents. [CLAUDE.md](CLAUDE.md) is a Claude Code shim only. Detail docs: [docs/agents/](docs/agents/). Cursor rules: [.cursor/rules/](.cursor/rules/) (`wall-bounce-constitution.mdc`, `documentation-sync.mdc`, `llm-catalog-edits.mdc`).
 
 ---
 
@@ -99,7 +99,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 |------|-------|------|
 | **All agents** | `AGENTS.md` (this file) | Neutral constitution + navigation |
 | **Claude Code** | [CLAUDE.md](CLAUDE.md) | Native shim → AGENTS.md (P1 done) |
-| **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` / globs only (Phase P3) |
+| **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog (P3 done) |
 | **Codex / Copilot** | `AGENTS.md` | Primary; no extra root file required |
 | **Humans** | [README.md](README.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
 

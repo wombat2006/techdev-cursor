@@ -21,7 +21,8 @@
 ```
 techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 ├── forkProfile.yaml               # Fork manifest (DevAssist-Cursor)
-├── CLAUDE.md                      # Agent nav skeleton
+├── AGENTS.md                      # Neutral agent top (constitution + nav)
+├── CLAUDE.md                      # Claude Code shim → AGENTS.md
 ├── README.md / README_ja.md       # Fork-primary banner present
 ├── package.json                   # name: techdev-cursor; techsapo-providers-mcp script
 ├── config/

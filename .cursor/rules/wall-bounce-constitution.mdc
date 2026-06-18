@@ -1,0 +1,16 @@
+---
+description: Wall-Bounce constitution summary — link to AGENTS.md and WALL_BOUNCE_SYSTEM.md
+alwaysApply: true
+---
+
+# Wall-Bounce Constitution (summary)
+
+Supreme rules for this repository. **Do not duplicate** full text here — see linked docs.
+
+1. **Always use Wall-Bounce** — no single-LLM bypass
+2. **Round count: 2 to 5** — single-round wall-bounce is forbidden
+3. **Quality thresholds** — confidence ≥ 0.7, consensus ≥ 0.6 (add rounds or escalate if not met)
+4. **Implementation path** — only via `src/services/wall-bounce-analyzer.ts`
+5. **Output language** — Japanese for user-facing content
+
+Details: [AGENTS.md § Constitution](../../AGENTS.md#constitution) · [WALL_BOUNCE_SYSTEM.md](../../docs/WALL_BOUNCE_SYSTEM.md)

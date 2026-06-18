@@ -31,6 +31,16 @@ When features, configuration, architecture, providers, or CLI requirements chang
 - [CLAUDE.md](../../CLAUDE.md) is shim only — link to AGENTS.md; do not restore full rules there
 - Put details in [docs/agents/commands.md](../../docs/agents/commands.md), [mcp-rules.md](../../docs/agents/mcp-rules.md), [development-notes.md](../../docs/agents/development-notes.md)
 
+## Cursor Rules (`.cursor/rules/*.mdc`)
+
+Thin hooks only — link to AGENTS.md / domain docs; do not duplicate constitution or catalog text.
+
+| Rule | Scope |
+|------|--------|
+| [wall-bounce-constitution.mdc](./wall-bounce-constitution.mdc) | `alwaysApply` — constitution summary + links |
+| [documentation-sync.mdc](./documentation-sync.mdc) | `alwaysApply` — commit checklist |
+| [llm-catalog-edits.mdc](./llm-catalog-edits.mdc) | globs: `config/llm-model-catalog.json`, schema |
+
 ## Logic Documentation Language
 
 **Logic and rule docs MUST be written in English**, including:

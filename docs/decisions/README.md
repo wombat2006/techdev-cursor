@@ -36,4 +36,5 @@ Tech stack decisions will be added as `TECH_STACK_<topic>.md` when accepted. See
 ## Related
 
 - [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
-- [CLAUDE.md](../../CLAUDE.md)
+- [AGENTS.md](../../AGENTS.md)
+- [CLAUDE.md](../../CLAUDE.md) (Claude Code shim)

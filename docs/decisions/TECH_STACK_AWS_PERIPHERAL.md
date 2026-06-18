@@ -104,7 +104,7 @@ S3 bucket names and KMS key aliases remain TBD (TS-16). Use region prefix in nam
 - [x] `docs/TECH_STACK_WORKSPACE.md` — AWS peripheral section + backlog
 - [ ] `docs/ARCHITECTURE.md` — peripheral services diagram (stub added)
 - [ ] `README.md` + `README_ja.md` — when implementation starts
-- [ ] `CLAUDE.md` — if security rule text changes
+- [ ] `AGENTS.md` — if security rule text changes
 
 ---
 

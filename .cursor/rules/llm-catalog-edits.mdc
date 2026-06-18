@@ -1,0 +1,16 @@
+---
+description: LLM model catalog edit checklist — TS-21 schema, ADR, and prompt guidance links
+globs: config/llm-model-catalog.json,config/schemas/llm-model-catalog.schema.json
+alwaysApply: false
+---
+
+# LLM Model Catalog Edits (TS-21)
+
+When editing [llm-model-catalog.json](../../config/llm-model-catalog.json) or its [JSON Schema](../../config/schemas/llm-model-catalog.schema.json):
+
+1. Keep catalog aligned with [TECH_STACK_LLM_MODEL_CATALOG.md](../../docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) (TS-21 ADR)
+2. Update [OPENAI_PROMPT_GUIDANCE.md](../../docs/OPENAI_PROMPT_GUIDANCE.md) when `prompting.*` fields change
+3. Same commit: both READMEs if customer-facing model IDs or tiers change — see [documentation-sync.mdc](./documentation-sync.mdc)
+4. Do not bypass Wall-Bounce constitution for routing/analysis changes affecting production behavior
+
+Related: [AGENTS.md](../../AGENTS.md) · [OPENAI_MODEL_MATRIX.md](../../docs/OPENAI_MODEL_MATRIX.md)

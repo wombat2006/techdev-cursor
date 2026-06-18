@@ -93,7 +93,7 @@ Gateway wraps CLI/MCP internally — not a replacement for CLI/SDK security poli
 - [x] `docs/TECH_STACK_WORKSPACE.md` — TS-17 + inventory
 - [x] `docs/ARCHITECTURE.md` — data flow note
 - [ ] `README.md` — when Gateway implemented
-- [ ] `CLAUDE.md` — no change (no new mandatory rule)
+- [ ] `AGENTS.md` — no change (no new mandatory rule)
 
 ---
 

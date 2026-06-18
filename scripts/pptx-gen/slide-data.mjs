@@ -23,7 +23,7 @@ export const SLIDES = [
       'P5+ で e-Gov 法令 API・NDL・社内 KB 等の権威ソース grounding を段階導入',
     ],
   },
-  { type: 'section', title: 'Governance', subtitle: '憲法 · CLAUDE.md · ドキュメント方針' },
+  { type: 'section', title: 'Governance', subtitle: '憲法 · AGENTS.md · ドキュメント方針' },
   {
     type: 'content',
     title: '憲法（Constitution）— 最上位ルール',
@@ -33,12 +33,12 @@ export const SLIDES = [
       '品質閾値: confidence ≥ 0.7、consensus ≥ 0.6（未達時は追加ラウンド or エスカレーション）',
       '実装経路: wall-bounce-analyzer.ts のみ · ユーザー向け出力は日本語',
     ],
-    note: '例外なし。詳細: CLAUDE.md · docs/WALL_BOUNCE_SYSTEM.md',
+    note: '例外なし。詳細: AGENTS.md · docs/WALL_BOUNCE_SYSTEM.md',
   },
   {
     type: 'two-col',
-    title: 'CLAUDE.md 骨格 + ドキュメント方針',
-    leftTitle: 'CLAUDE.md（骨格のみ）',
+    title: 'AGENTS.md 中立 top + ドキュメント方針',
+    leftTitle: 'AGENTS.md（骨格のみ）',
     left: [
       'Quick Navigation · Mandatory Rules 要約',
       '詳細は docs/agents/*.md へリンク',
@@ -47,7 +47,7 @@ export const SLIDES = [
     ],
     rightTitle: 'ドキュメント同期ルール',
     right: [
-      'ロジック doc は英語（CLAUDE · claude-* · WALL_BOUNCE_SYSTEM）',
+      'ロジック doc は英語（AGENTS · docs/agents/* · WALL_BOUNCE_SYSTEM）',
       '機能変更時は README 両言語 + 関連 doc を同一 commit',
       '顧客向け提案（proposals/）は日本語可',
       'Antigravity CLI（agy）が Tier 1 標準（実装は legacy gemini 移行中）',
