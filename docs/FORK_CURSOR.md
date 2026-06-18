@@ -115,7 +115,7 @@ Token & quota: [CURSOR_MCP_TODO § Token & Quota Operations Guide](./CURSOR_MCP_
 | **A-1** | Unified MCP + adapters | **High** |
 | **A-2** | InferenceProfile in MCP tool schemas | High |
 | **A-3** | Cursor template + team registration | High |
-| **Gate A→B** | stdio, quota understanding, 3 tools from Cursor, adapters in orchestrator | Gate |
+| **Gate A→B** | stdio, quota understanding, 3 tools from Cursor, adapters in orchestrator | **Pass 2026-06-18** |
 | **B** | `inference-profiles.json`, Wall-Bounce API profile, remove nested MCP | High |
 | **C** | P5 Phase 0 (TS-12, morphological, etc.) | Per Runbook |
 | **D** | Tokenizer / usage metrics + response cache | **LOW — after Gate A→B** |
@@ -141,7 +141,7 @@ Higher ROI for token savings: InferenceProfile (`fast`, `cot: off`), Ask vs Agen
 |---|-----------|
 | G1 | stdio transport only (TS-17) |
 | G3 | Team understands Cursor Agent vs MCP tool billing |
-| G7 | All three `analyze_*` tools succeed from Cursor |
+| G7 | All three `analyze_*` tools succeed from Cursor | **Pass 2026-06-18** |
 | G-MEM | [TS-22 Memory substrate v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — **closed 2026-06-18** (design); M1 store Track B |
 | G8 | `wall-bounce-analyzer` uses adapters (no nested MCP) |
 | G9 | `forkProfile.yaml`, `config/fork/` stubs, bootstrap layout — see [Fork bootstrap](#fork-bootstrap-mcp-implementation-ready) | |

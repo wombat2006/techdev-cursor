@@ -14,7 +14,15 @@ export class CodexAdapter implements ProviderAdapter {
     const fullPrompt = buildFullPrompt(request.prompt, request.context, request.profile.cot);
     const cwd = request.workingDirectory ?? process.cwd();
 
-    const args = ['exec', '--model', model, '-c', 'approval_policy="never"', fullPrompt];
+    const args = [
+      'exec',
+      '--model',
+      model,
+      '--skip-git-repo-check',
+      '-c',
+      'approval_policy="never"',
+      fullPrompt,
+    ];
 
     try {
       const content = await this.runCodex(args, cwd);

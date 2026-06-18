@@ -88,10 +88,11 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 | Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed |
 | A-0 | WSL CLI auth (claude/codex/agy) | ✅ **A-0 sign-off 2026-06-18** — all probes pass; A-1 unblocked |
 | A-1 code | adapters + unified MCP server | ✅ implemented |
-| A-1 ops | Cursor MCP register + G7 smoke | `[~]` WSL smoke OK; Windows Settings paste pending |
+| A-1 ops | Cursor MCP register + G7 smoke | `[x]` G7 pass 2026-06-18 |
 | A-2 | InferenceProfile in unified MCP schemas | ❌ |
 | TS-22 / G-MEM | Memory substrate — **G-MEM closed 2026-06-18** | ✅ design sign-off; M1 Redis store Track B |
-| B | wall-bounce-analyzer → adapters + Layer A session | ❌ blocked until full Gate A→B (G7 open) |
+| Gate A→B | G1–G7 + G-MEM | `[x]` **Pass 2026-06-18** |
+| B | wall-bounce-analyzer → adapters + Layer A session | `[~]` unblocked — M1 store pending |
 | F (code) | catalog loader + cost routing | ❌ schema/stub only |
 | C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |
 | D / F-13 / P5+ | cache, Batch RAG, Grounding | ❌ low priority |

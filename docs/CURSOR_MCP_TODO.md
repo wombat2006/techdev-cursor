@@ -114,7 +114,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
-| Gate A→B passed | `[ ]` | G1–G6 **Yes** 2026-06-18; **G7 deferred** (Cursor UI invoke — intentional) |
+| Gate A→B passed | `[x]` | **2026-06-18** — G1–G7 + G-MEM all Yes; Track B unblocked |
 | Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -371,7 +371,7 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 | `analyze_codex` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "gpt-5.5" }` |
 | `analyze_agy` | `{ "prompt": "You are text-only. Reply with exactly one word: ok", "preset": "fast", "model": "gemini-2.5-flash", "workingDirectory": "/tmp" }` |
 
-**Done when:** `[x]` WSL preflight + adapter smoke (WSL shell); `[x]` Unified server **Connected** in Cursor; `[ ]` G7 — all three `analyze_*` from Cursor UI.
+**Done when:** `[x]` WSL preflight + adapter smoke (WSL shell); `[x]` Unified server **Connected** in Cursor; `[x]` G7 — all three `analyze_*` from Cursor Agent 2026-06-18.
 
 **Troubleshoot:**
 
@@ -382,6 +382,7 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 | MCP failed to start | Wrong WSL `-d` name (Windows host only); fix PATH in template `bash -lc` line |
 | Connected, 0 tools | stdout log corruption — ensure latest server (`configureLoggerForMcpStdio`) |
 | `analyze_codex` model error | Use `gpt-5.5` explicitly; default resolver now uses gpt-5.5 for codex |
+| `analyze_codex` trusted directory | `Not inside a trusted directory` — `codex-adapter` passes `--skip-git-repo-check` (2026-06-18); **Reload MCP** after `npm run build` |
 | `analyze_agy` timeout in repo | Add `workingDirectory: "/tmp"` for short smoke prompts (A-0.3) |
 
 #### MCP smoke test failures (recorded 2026-06-18)
@@ -409,7 +410,7 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 
 **Reflection memo:** _Cursor UI **Connected** + `list-tools-smoke` OK ⇒ MCP registration success. G7 still requires three `analyze_*` invokes from **Cursor Agent** (separate step). Cursor Agent planning uses Cursor quota; MCP tools use subscription — see [§ Token & Quota](#token--quota-operations-guide)._
 
-**AS-IS (fork):** Unified server implemented; A-1 MCP **Connected** 2026-06-18; G7 from Cursor UI pending.
+**AS-IS (fork):** A-1 complete 2026-06-18 — MCP Connected + G7 Cursor Agent ×3 OK.
 
 <details>
 <summary>Legacy A-1 (dual-server — superseded)</summary>
@@ -459,7 +460,7 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 **Do not start Track B until all Pass conditions are met.**
 
-> **2026-06-18:** G1–G6 verified and marked **Yes**. **G7 intentionally deferred** — complete Cursor UI `analyze_*` ×3 in a separate step after review (adapter smoke already OK).
+> **2026-06-18:** G1–G7 + G-MEM all **Yes** — **Gate A→B Pass**. Track B may start.
 
 | # | Criterion (logic / methodology) | Yes | Memo |
 |---|----------------------------------|-----|------|
@@ -469,14 +470,14 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 | G4 | **Provider parity:** claude / codex / agy treated as peer Tier 1–3; Opus aggregator-only | **Yes** | Unified MCP exposes only `analyze_claude` / `analyze_codex` / `analyze_agy`; no Opus analyze tool |
 | G5 | **Operability:** A-0 steps reproducible on clean WSL | **Yes** | Dev WSL re-verified 2026-06-18: `npm run build`, `type -a` WSL-first paths, three CLIs; clean-room second machine optional |
 | G6 | **A-0 sign-off:** All five checkboxes `[x]` | **Yes** | A-0 sign-off block complete 2026-06-18 |
-| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | | **Deferred** — adapter smoke OK; Cursor UI ×3 intentionally after G1–G6 review |
+| G7 | **A-1 invoke:** all three `analyze_*` tools succeeded once from Cursor (unified MCP) | **Yes** | Cursor Agent MCP 2026-06-18: claude/codex/agy → `ok`; codex required `--skip-git-repo-check` in adapter + MCP Reload |
 | G-MEM | **Memory substrate:** [TS-22 v1.3](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) — Layer A design accepted (schema, TTL, temporal model) | **Yes** | **Closed 2026-06-18** — implementation (M1 store) deferred to Track B |
 
-**Pass when:** G1–G7 and **G-MEM** all Yes. (**G-MEM:** closed 2026-06-18. **G1–G6:** Yes 2026-06-18. **G7:** open — deferred.)
+**Pass when:** G1–G7 and **G-MEM** all Yes. ✅ **Met 2026-06-18.**
 
-**Gate decision:** `[ ]` Pass → proceed to Track B  /  `[ ]` Fail → fix Track A, re-review
+**Gate decision:** `[x]` Pass → proceed to Track B  /  `[ ]` Fail → fix Track A, re-review
 
-**Reviewer / date:** G-MEM — 2026-06-18 · G1–G6 — verified 2026-06-18 · G7 — pending (Cursor UI)
+**Reviewer / date:** Gate A→B — **Pass 2026-06-18** (G1–G7 + G-MEM)
 
 ---
 
@@ -486,7 +487,7 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 **ADR:** [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) (TS-22 v1.3)  
 **Gate criterion:** [G-MEM](#gate-a--b-review-before-track-b) — **signed off**  
-**Rule:** Track B memory **implementation** follows accepted TS-22; do not add parallel `*-session-manager` silos. Full **Gate A→B** still requires G1–G7.
+**Rule:** Track B memory **implementation** follows accepted TS-22; do not add parallel `*-session-manager` silos. **Gate A→B passed 2026-06-18** — Track B adapter / Wall-Bounce wiring may start.
 
 ### Why (one paragraph)
 

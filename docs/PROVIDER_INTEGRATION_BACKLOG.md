@@ -87,7 +87,7 @@ Runbook: [CURSOR_MCP_TODO § Memory substrate](./CURSOR_MCP_TODO.md#memory-subst
 
 ### MCP / Cursor
 
-- [ ] **Gate A→B** — stdio smoke: `ListTools` + one `CallTool` per `analyze_*` from Cursor
+- [x] **Gate A→B** — G7 Cursor Agent `analyze_*` ×3 OK 2026-06-18
 - [ ] **A-2 MCP schemas** — extend tool `inputSchema` with full InferenceProfile fields per [TS-20](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
 - [ ] **Usage metrics (Track D)** — CLI usage parse → Prometheus; response cache opt-in
 

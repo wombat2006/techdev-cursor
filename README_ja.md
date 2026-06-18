@@ -658,7 +658,7 @@ curl -X POST localhost:4000/api/v1/generate \
 
 | 領域 | AS-IS（現状） | To-Be（計画） |
 |------|---------------|---------------|
-| 統一 MCP + adapter | **コード実装済** | Cursor 登録・日常スモーク（Track A） |
+| 統一 MCP + adapter | **実装済 + G7 通過** | Cursor 登録・日常スモーク（Track A） |
 | 日常の Cursor 開発 | 単一 MCP 経路 | 同左 — 意図的な設計 |
 | 本格マルチ LLM 分析 | Wall-Bounce API あり | 憲法のコード enforce（Track C） |
 | モデルカタログ（TS-21） | JSON + schema 充実 | loader · コスト aware routing（Track F） |

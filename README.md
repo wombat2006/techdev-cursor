@@ -757,7 +757,7 @@ A **Cursor-integrated development platform** that helps teams **build software s
 
 | Area | AS-IS (today) | To-Be (planned) |
 |------|---------------|-----------------|
-| Unified MCP + adapters | **Implemented** in code | Cursor team registration + daily smoke (Track A) |
+| Unified MCP + adapters | **Implemented** + G7 pass | Cursor registration + daily smoke (Track A) |
 | Daily Cursor coding | Single-provider MCP path | Same — by design |
 | Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
