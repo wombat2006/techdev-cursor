@@ -105,7 +105,7 @@ test -f ~/.codex/auth.json && echo "codex auth ok"
 # Verify
 which codex           # must be WSL path
 codex --version
-codex --print "Reply with only: ok"    # or project-equivalent non-interactive probe
+codex exec -c 'approval_policy="never"' "Reply with only: ok"   # matches codex-adapter.ts
 ```
 
 **Acceptance:** `~/.codex/auth.json` under WSL home; `codex` runs without Windows interop errors.

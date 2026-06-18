@@ -105,8 +105,8 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | Item | Status | Notes |
 |------|--------|-------|
 | `claude` WSL native | `[x]` | Verify in fork clone |
-| `codex` WSL native | `[ ]` | A-0.2 — WSL install + `~/.codex/auth.json` |
-| `agy` WSL native | `[~]` | Binary OK; auth probe pending |
+| `codex` WSL native | `[x]` | A-0.2 done — WSL `@openai/codex@0.141.0`; auth symlink `~/.codex/auth.json` → Windows; `codex exec` probe OK |
+| `agy` WSL native | `[~]` | Binary OK at `~/.local/bin/agy`; `agy --print` probe timed out 2026-06-18 — auth/network TBD |
 | Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
 | A-1 code (adapters + unified MCP) | `[x]` | `src/adapters/*`, `techsapo-providers-mcp-server.ts` — see [backlog § A-1](./PROVIDER_INTEGRATION_BACKLOG.md#track-a-1-current-baseline) |
 | A-1 Cursor MCP registered | `[ ]` | G7 — three `analyze_*` invokes from Cursor |
@@ -202,29 +202,38 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
    ```bash
    npm install -g @openai/codex
    ```
-2. Auth:
-   ```bash
-   codex login
-   test -f ~/.codex/auth.json && echo "codex auth ok"
-   ```
+2. Auth — pick one:
+   - **Option A (symlink from Windows — used 2026-06-18):**
+     ```bash
+     mkdir -p ~/.codex
+     ln -sf /mnt/c/Users/womba/.codex/auth.json ~/.codex/auth.json
+     ```
+   - **Option B (WSL login):**
+     ```bash
+     codex login
+     test -f ~/.codex/auth.json && echo "codex auth ok"
+     ```
 3. Verify PATH:
    ```bash
    which codex                     # MUST NOT be /mnt/c/...
-   codex --version
+   codex --version                 # double hyphen (not -version)
+   type -a codex                   # WSL path MUST be first
    ```
-4. Non-interactive probe (adjust if CLI differs):
+4. Non-interactive probe (matches [codex-adapter.ts](../src/adapters/codex-adapter.ts)):
    ```bash
-   codex --print "Reply with only: ok" 2>&1 | head -5
+   codex exec -c 'approval_policy="never"' "Reply with only: ok"
    ```
 
-**Done when:** `[ ]` `~/.codex/auth.json` exists under WSL home; `[ ]` probe succeeds.
+**Done when:** `[x]` `~/.codex/auth.json` exists under WSL home (symlink OK); `[x]` `codex exec` probe succeeds.
 
 **Troubleshoot:**
 
 | Symptom | Fix |
 |---------|-----|
-| `Missing optional dependency @openai/codex-linux-x64` | Reinstall: `npm install -g @openai/codex@latest` in WSL |
+| `Missing optional dependency @openai/codex-linux-x64` | Windows npm shim on PATH — use WSL install; `type -a codex` must list `~/.nvm/...` **before** `/mnt/c/...` |
+| `Missing optional dependency @openai/codex-linux-x64` (after PATH fix) | Reinstall: `npm install -g @openai/codex@latest` in WSL |
 | Windows shim on PATH | Reorder PATH; WSL `~/.nvm/.../bin` before `/mnt/c/...` |
+| `gpt-5-codex` not supported (ChatGPT account) | CLI default may use `gpt-5.5`; adapter default model migration is **Track E** — A-0.2 CLI probe uses `codex exec` without forcing `gpt-5-codex` |
 
 **Reflection memo:** _Codex auth file location must match [config/codex-mcp.toml](../config/codex-mcp.toml) `auth_file` (WSL path)._
 
@@ -254,13 +263,16 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
    agy --print --model gemini-2.5-flash "Reply with only: ok"
    ```
 
-**Done when:** `[~]` auth verified; `[ ]` probe succeeds.
+**Done when:** `[~]` auth verified; `[ ]` probe succeeds (`ok` in output within `--print-timeout`, e.g. 30s).
+
+**Note (2026-06-18):** In-repo cwd, `agy --print` may enter an agentic loop (list dir / search) instead of a one-line reply. Use a shorter timeout for smoke tests: `timeout 30 agy --print --model gemini-2.5-flash "Reply with only: ok"`. If it times out, verify auth via Antigravity install docs before A-0 sign-off.
 
 **Troubleshoot:**
 
 | Symptom | Fix |
 |---------|-----|
 | `agy models` hangs | Network/auth; retry after login |
+| `--print` runs tools instead of one-line reply | cwd is git repo — expected for some agy builds; check exit/log or use dedicated empty dir |
 | Not on PATH | Ensure `~/.local/bin` in PATH |
 
 **Reflection memo:** _agy is already WSL-native; Windows `gemini` npm is legacy per [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)._
@@ -287,16 +299,18 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
 **A-0 sign-off (all required before A-1):**
 
 ```
-[ ] claude  — WSL native + OAuth (no ANTHROPIC_API_KEY)
-[ ] codex   — WSL native + ~/.codex/auth.json
-[ ] agy     — WSL native + auth
-[ ] which claude/codex/agy — no /mnt/c/... npm shims
-[ ] npm run build — success
+[x] claude  — WSL native + OAuth (no ANTHROPIC_API_KEY)
+[x] codex   — WSL native + ~/.codex/auth.json (symlink from Windows OK)
+[ ] agy     — WSL native + auth (probe pending — `agy --print` may hang; see A-0.3)
+[x] which claude/codex/agy — WSL paths first (`~/.nvm/...` / `~/.local/bin`; not `/mnt/c/` for default `which`)
+[x] npm run build — success
 ```
 
 ---
 
 ### A-1: Cursor MCP registration (Unified — in fork)
+
+**Blocked until A-0 sign-off complete** — codex A-0.2 done 2026-06-18; **agy probe still pending** (see A-0.3). Do not register until all A-0 checkboxes are `[x]`.
 
 **Purpose:** Cursor Agent tool calls route to **single unified** MCP server `techsapo-providers` (subscription quota for tool execution).
 

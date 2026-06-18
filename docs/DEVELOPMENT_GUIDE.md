@@ -154,11 +154,11 @@ claude --print --model opus    --effort max    "Architecture trade-off synthesis
 
 CoT is controlled via profile `cot` (`off` | `brief` | `full`) in orchestrated calls; for manual CLI sessions, use explicit prompts (e.g. "think step by step" when `full` is desired) until adapter pass-through lands in Phase 0.
 
-**Codex** (after WSL-native install + `codex login`):
+**Codex** (after WSL-native install + auth — symlink or `codex login`):
 
 ```bash
-# reasoning_effort via MCP / config: minimal | medium | high
-codex "Review wall-bounce-analyzer provider init"
+which codex          # not /mnt/c/...
+codex exec -c 'approval_policy="never"' "Reply with only: ok"
 ```
 
 **Antigravity** (`agy`):
