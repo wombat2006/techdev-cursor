@@ -50,11 +50,13 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 ### Provider Tiers (Summary)
 
 ```
-Tier 1: Gemini 2.5 Pro     → Antigravity CLI (agy)
-Tier 2: GPT-5 Codex        → MCP/CLI (codex)
-Tier 3: Claude Sonnet 4    → Internal SDK
-Tier 4: Claude Opus 4.1    → Aggregator (synthesis)
+Tier 1: Gemini (agy)           → Antigravity CLI
+Tier 2: OpenAI                 → Codex CLI today; GPT-5.4 mini/nano, GPT-5.5 (To-Be — OPENAI_MODEL_MATRIX.md)
+Tier 3: Claude Sonnet 4.5      → Internal SDK / Claude Code CLI
+Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 ```
+
+> **AS-IS code** may still reference `gpt-5-codex` until [PROVIDER_INTEGRATION_BACKLOG.md](docs/PROVIDER_INTEGRATION_BACKLOG.md#openai-model-catalog-migration).
 
 > **Implementation note:** Google Tier 1 uses Antigravity CLI (`agy`) via `src/utils/antigravity-cli.ts` → [ANTIGRAVITY_CLI_MIGRATION.md](docs/ANTIGRAVITY_CLI_MIGRATION.md)
 
@@ -67,6 +69,7 @@ Tier 4: Claude Opus 4.1    → Aggregator (synthesis)
 | Commands (dev / test / MCP / monitoring / emergency) | [claude-commands.md](docs/claude-commands.md) |
 | MCP usage rules for Claude Code | [claude-mcp-rules.md](docs/claude-mcp-rules.md) |
 | Dev notes, common tasks, environment checks | [claude-development-notes.md](docs/claude-development-notes.md) |
+| LLM model catalog (TS-21) | [decisions/TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | Project structure and tech stack | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Testing | [TESTING_GUIDE.md](docs/TESTING_GUIDE.md) |
 | Tech stack refinement (prep) | [TECH_STACK_WORKSPACE.md](docs/TECH_STACK_WORKSPACE.md) |

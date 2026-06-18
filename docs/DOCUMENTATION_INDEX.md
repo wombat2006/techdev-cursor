@@ -78,6 +78,8 @@
 | **codex-mcp-implementation.md** | Codex MCP integration | Developers |
 | **mcp-integration-guide.md** | MCP protocol patterns | Integration engineers |
 | **gemini-api-migration-guide.md** | Gemini API / Antigravity 関連 | Developers |
+| **OPENAI_MODEL_MATRIX.md** | OpenAI model catalog (GPT-5.5 family) — doc only; logic in backlog Track E | Developers |
+| **decisions/TECH_STACK_LLM_MODEL_CATALOG.md** | TS-21 LLM model catalog schema (multi-vendor traits) | Architects |
 | **ANTIGRAVITY_CLI_MIGRATION.md** | Antigravity CLI（Tier 1 Google）移行方針 | Developers |
 | **openai-agents-js-analysis.md** | OpenAI Agents framework | AI developers |
 
@@ -358,7 +360,7 @@ TechSapo プロジェクトの全ドキュメントを目的別・対象者別�
 
 ### 技術統合
 - **MCP (Model Context Protocol)**: [MCP Integration](./MCP_INTEGRATION.md), [Development Guide](./DEVELOPMENT_GUIDE.md#mcp-services)
-- **OpenAI GPT-5**: [OpenAI Node.js SDK](./OPENAI_NODE_SDK.md), [MCP Integration](./MCP_INTEGRATION.md#gpt-5-codex)
+- **OpenAI**: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) (GPT-5.5 family; AS-IS code may use legacy IDs)
 - **Gemini 2.5 Pro**: [Wall-Bounce System](./WALL_BOUNCE_SYSTEM.md#provider構成), [Technical Report](./TECHNICAL_REPORT.md#llm-provider統合)
 - **Redis/Upstash**: [Development Guide](./DEVELOPMENT_GUIDE.md#redis-setup), [Technical Report](./TECHNICAL_REPORT.md#redis-session管理)
 

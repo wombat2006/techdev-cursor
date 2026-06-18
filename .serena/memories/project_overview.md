@@ -86,6 +86,8 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 | A-0 | WSL CLI auth (claude/codex/agy) | Partial (codex/agy pending) |
 | A-1 | adapters + unified MCP server | ✅ implemented; Cursor register pending |
 | A-2 | inference-profiles.json + MCP schemas | ❌ |
+| E | OpenAI model catalog → code (`OPENAI_MODEL_MATRIX.md`) | ❌ doc only |
+| F | LLM model catalog schema (TS-21) → loader / TaskRouter | ❌ schema + stub only |
 | B | wall-bounce-analyzer uses adapters | ❌ |
 | C | P5 Phase 0 (orchestrator merge, constitution enforce) | ❌ |
 

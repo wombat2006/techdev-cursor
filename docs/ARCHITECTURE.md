@@ -29,11 +29,14 @@ Multi-LLM orchestration engine ensuring quality through provider diversity.
 - Consensus calculation and quality thresholds
 - Real-time SSE streaming for UI updates
 
-**Provider Tiers**:
-1. **Gemini 2.5 Pro** - Antigravity CLI (`agy`) integration, no API keys
-2. **GPT-5 Codex** - MCP/CLI integration via Codex MCP Server
-3. **Claude Sonnet 4** - Internal SDK, cost-managed
-4. **Claude Opus 4.1** - Aggregator role, synthesis
+**Provider Tiers** (target catalog — see [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md)):
+
+1. **Gemini (Antigravity `agy`)** — Google Tier 1, no API keys
+2. **OpenAI** — Codex CLI (AS-IS); **GPT-5.4 mini/nano**, **GPT-5.5**, **GPT-5.5 Pro** (To-Be via Responses API)
+3. **Claude Sonnet 4.5** — Internal SDK / Claude Code CLI
+4. **Claude Opus 4.1** — Aggregator role, synthesis
+
+> **AS-IS**: `llm-providers.json` and adapters may still use legacy IDs (`gpt-5-codex`, etc.).
 
 > **Implementation note**: Wall-Bounce Google Tier 1 uses Antigravity CLI (`agy --print` via [src/utils/antigravity-cli.ts](../src/utils/antigravity-cli.ts)).
 

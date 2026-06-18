@@ -1,0 +1,236 @@
+{
+  "version": "1",
+  "vendors": {
+    "openai": {
+      "displayName": "OpenAI",
+      "billingModel": "mixed",
+      "docsUrl": "https://platform.openai.com/docs/models"
+    },
+    "anthropic": {
+      "displayName": "Anthropic",
+      "billingModel": "subscription_cli",
+      "docsUrl": "https://docs.anthropic.com/claude/docs/models-overview"
+    },
+    "google": {
+      "displayName": "Google (Antigravity)",
+      "billingModel": "oauth_cli",
+      "docsUrl": "https://antigravity.google"
+    }
+  },
+  "models": [
+    {
+      "id": "gpt-5.5",
+      "vendor": "openai",
+      "displayName": "GPT-5.5",
+      "status": "planned",
+      "tier": 4,
+      "roles": ["llm_analyze", "llm_cross_critique"],
+      "presetDefault": "deep",
+      "capabilities": {
+        "reasoning": "frontier",
+        "toolUse": true,
+        "toolSearch": true,
+        "computerUse": true,
+        "compaction": false,
+        "multimodal": false,
+        "japaneseQuality": "good",
+        "codegen": true,
+        "longWorkflow": true
+      },
+      "limits": { "contextTokens": 1000000 },
+      "transport": {
+        "invocationTypes": ["responses_api", "codex_cli"],
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5.5"
+      },
+      "costHint": "flagship",
+      "notes": "Responses API optimized; prompt caching 24h only. See OPENAI_MODEL_MATRIX.md"
+    },
+    {
+      "id": "gpt-5.5-pro",
+      "vendor": "openai",
+      "displayName": "GPT-5.5 Pro",
+      "status": "planned",
+      "tier": 5,
+      "roles": ["llm_aggregate", "llm_cross_critique"],
+      "presetDefault": "critical",
+      "capabilities": {
+        "reasoning": "frontier",
+        "toolUse": true,
+        "longWorkflow": true
+      },
+      "transport": {
+        "invocationTypes": ["responses_api"],
+        "preferredInvocation": "responses_api",
+        "apiSurface": "responses_api",
+        "nativeModelFlag": "gpt-5.5-pro"
+      },
+      "costHint": "frontier",
+      "notes": "Higher compute tier above GPT-5.5"
+    },
+    {
+      "id": "gpt-5.4-mini",
+      "vendor": "openai",
+      "displayName": "GPT-5.4 mini",
+      "status": "planned",
+      "tier": 2,
+      "roles": ["llm_analyze", "llm_codegen"],
+      "presetDefault": "balanced",
+      "capabilities": {
+        "reasoning": "medium",
+        "toolUse": true,
+        "toolSearch": true,
+        "computerUse": true,
+        "compaction": true,
+        "codegen": true
+      },
+      "transport": {
+        "invocationTypes": ["responses_api", "codex_cli"],
+        "preferredInvocation": "codex_cli",
+        "nativeModelFlag": "gpt-5.4-mini"
+      },
+      "costHint": "mini",
+      "notes": "High-volume chat / conversational workloads"
+    },
+    {
+      "id": "gpt-5.4-nano",
+      "vendor": "openai",
+      "displayName": "GPT-5.4 nano",
+      "status": "planned",
+      "tier": 2,
+      "roles": ["llm_analyze"],
+      "presetDefault": "fast",
+      "capabilities": {
+        "reasoning": "low",
+        "toolUse": false,
+        "toolSearch": false,
+        "computerUse": false,
+        "compaction": true
+      },
+      "transport": {
+        "invocationTypes": ["responses_api", "codex_cli"],
+        "preferredInvocation": "codex_cli",
+        "nativeModelFlag": "gpt-5.4-nano"
+      },
+      "costHint": "nano",
+      "notes": "Simple high-frequency tasks"
+    },
+    {
+      "id": "gpt-5-codex",
+      "vendor": "openai",
+      "displayName": "GPT-5 Codex",
+      "status": "active",
+      "deprecatedBy": "gpt-5.4-mini",
+      "tier": 2,
+      "roles": ["llm_codegen"],
+      "presetDefault": "balanced",
+      "capabilities": {
+        "reasoning": "high",
+        "toolUse": true,
+        "codegen": true,
+        "longWorkflow": true
+      },
+      "transport": {
+        "invocationTypes": ["codex_cli"],
+        "preferredInvocation": "codex_cli",
+        "apiSurface": "cli_only",
+        "nativeModelFlag": "gpt-5-codex"
+      },
+      "costHint": "standard",
+      "notes": "AS-IS Wall-Bounce default OpenAI provider key"
+    },
+    {
+      "id": "claude-sonnet-4-5-20250929",
+      "vendor": "anthropic",
+      "displayName": "Claude Sonnet 4.5",
+      "status": "active",
+      "tier": 3,
+      "roles": ["llm_analyze", "llm_agent_edit", "llm_aggregate"],
+      "presetDefault": "balanced",
+      "capabilities": {
+        "reasoning": "high",
+        "toolUse": true,
+        "codegen": true,
+        "japaneseQuality": "excellent",
+        "longWorkflow": true
+      },
+      "transport": {
+        "invocationTypes": ["claude_cli", "anthropic_sdk"],
+        "preferredInvocation": "claude_cli",
+        "nativeModelFlag": "sonnet"
+      },
+      "costHint": "standard"
+    },
+    {
+      "id": "claude-opus-4.1",
+      "vendor": "anthropic",
+      "displayName": "Claude Opus 4.1",
+      "status": "active",
+      "tier": 5,
+      "roles": ["llm_aggregate", "llm_cross_critique"],
+      "presetDefault": "critical",
+      "capabilities": {
+        "reasoning": "frontier",
+        "toolUse": true,
+        "japaneseQuality": "excellent"
+      },
+      "transport": {
+        "invocationTypes": ["claude_cli", "anthropic_sdk"],
+        "preferredInvocation": "claude_cli",
+        "nativeModelFlag": "opus"
+      },
+      "costHint": "frontier",
+      "notes": "Aggregator-only in DevAssist fork"
+    },
+    {
+      "id": "gemini-2.5-pro",
+      "vendor": "google",
+      "displayName": "Gemini 2.5 Pro",
+      "status": "active",
+      "tier": 1,
+      "roles": ["llm_analyze"],
+      "presetDefault": "deep",
+      "capabilities": {
+        "reasoning": "high",
+        "multimodal": true,
+        "japaneseQuality": "good"
+      },
+      "transport": {
+        "invocationTypes": ["agy_cli"],
+        "preferredInvocation": "agy_cli",
+        "apiSurface": "cli_only",
+        "nativeModelFlag": "gemini-2.5-pro"
+      },
+      "costHint": "standard"
+    },
+    {
+      "id": "gemini-2.5-flash",
+      "vendor": "google",
+      "displayName": "Gemini 2.5 Flash",
+      "status": "active",
+      "tier": 1,
+      "roles": ["llm_analyze"],
+      "presetDefault": "fast",
+      "capabilities": {
+        "reasoning": "medium",
+        "multimodal": true,
+        "japaneseQuality": "good"
+      },
+      "transport": {
+        "invocationTypes": ["agy_cli"],
+        "preferredInvocation": "agy_cli",
+        "nativeModelFlag": "gemini-2.5-flash"
+      },
+      "costHint": "mini"
+    }
+  ],
+  "aliases": {
+    "sonnet": "claude-sonnet-4-5-20250929",
+    "opus": "claude-opus-4.1",
+    "gpt-5.5": "gpt-5.5",
+    "gpt-5-codex": "gpt-5-codex",
+    "gemini-pro": "gemini-2.5-pro",
+    "gemini-flash": "gemini-2.5-flash"
+  }
+}

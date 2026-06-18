@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/llm-model-catalog.schema.json",
+  "title": "LlmModelCatalog",
+  "description": "Multi-vendor LLM model capability catalog (TS-21). Static traits — not per-request InferenceProfile.",
+  "type": "object",
+  "required": ["version", "vendors", "models"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "vendors": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/vendor"
+      }
+    },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/modelEntry"
+      }
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "vendor": {
+      "type": "object",
+      "required": ["displayName", "billingModel"],
+      "additionalProperties": false,
+      "properties": {
+        "displayName": { "type": "string" },
+        "billingModel": {
+          "type": "string",
+          "enum": ["subscription_cli", "api_key", "oauth_cli", "mixed"]
+        },
+        "docsUrl": { "type": "string", "format": "uri" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reasoning": {
+          "type": "string",
+          "enum": ["minimal", "low", "medium", "high", "frontier"]
+        },
+        "toolUse": { "type": "boolean" },
+        "toolSearch": { "type": "boolean" },
+        "computerUse": { "type": "boolean" },
+        "compaction": { "type": "boolean" },
+        "multimodal": { "type": "boolean" },
+        "japaneseQuality": {
+          "type": "string",
+          "enum": ["unknown", "fair", "good", "excellent"]
+        },
+        "codegen": { "type": "boolean" },
+        "longWorkflow": { "type": "boolean" }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contextTokens": { "type": "integer", "minimum": 1 },
+        "maxOutputTokens": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "transport": {
+      "type": "object",
+      "required": ["invocationTypes"],
+      "additionalProperties": false,
+      "properties": {
+        "invocationTypes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["claude_cli", "codex_cli", "agy_cli", "responses_api", "openai_sdk", "anthropic_sdk", "openrouter"]
+          }
+        },
+        "preferredInvocation": {
+          "type": "string",
+          "enum": ["claude_cli", "codex_cli", "agy_cli", "responses_api", "openai_sdk", "anthropic_sdk", "openrouter"]
+        },
+        "apiSurface": {
+          "type": "string",
+          "enum": ["responses_api", "chat_completions", "cli_only"]
+        },
+        "nativeModelFlag": {
+          "type": "string",
+          "description": "CLI/API flag value passed to provider (e.g. gpt-5.5, sonnet)"
+        }
+      }
+    },
+    "modelEntry": {
+      "type": "object",
+      "required": ["id", "vendor", "displayName", "status", "tier", "capabilities", "transport"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]*$"
+        },
+        "vendor": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "planned", "deprecated"]
+        },
+        "replaces": { "type": "string" },
+        "deprecatedBy": { "type": "string" },
+        "tier": { "type": "number", "minimum": 0, "maximum": 5 },
+        "roles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "llm_analyze",
+              "llm_codegen",
+              "llm_agent_edit",
+              "llm_cross_critique",
+              "llm_aggregate",
+              "grounding_fetch",
+              "embedding"
+            ]
+          }
+        },
+        "presetDefault": {
+          "type": "string",
+          "enum": ["fast", "balanced", "deep", "critical"]
+        },
+        "capabilities": { "$ref": "#/$defs/capabilities" },
+        "limits": { "$ref": "#/$defs/limits" },
+        "transport": { "$ref": "#/$defs/transport" },
+        "costHint": {
+          "type": "string",
+          "enum": ["nano", "mini", "standard", "flagship", "frontier"]
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

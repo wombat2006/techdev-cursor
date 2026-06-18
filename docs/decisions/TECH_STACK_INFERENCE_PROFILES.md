@@ -133,5 +133,5 @@ interface WallBounceAnalyzeRequest {
 
 - [WALL_BOUNCE_SYSTEM.md § Inference Profiles](../WALL_BOUNCE_SYSTEM.md#inference-profiles-model-effort-cot-temperature)
 - [WALL_BOUNCE_P5_ARCHITECTURE.md §10](./WALL_BOUNCE_P5_ARCHITECTURE.md#10-inference-profiles)
-- [TECH_STACK_LLM_PROVIDER_TRANSPORT.md](./TECH_STACK_LLM_PROVIDER_TRANSPORT.md)
+- [TECH_STACK_LLM_MODEL_CATALOG.md](./TECH_STACK_LLM_MODEL_CATALOG.md) (TS-21 — static model traits; complements InferenceProfile)
 - [DEVELOPMENT_GUIDE.md § CLI inference knobs](../DEVELOPMENT_GUIDE.md#cli-inference-knobs-subscription-quota)

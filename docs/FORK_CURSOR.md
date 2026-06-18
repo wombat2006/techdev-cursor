@@ -170,9 +170,11 @@ techdev-cursor/
 ├── config/
 │   ├── cursor-mcp.template.json       # unified — see CURSOR_MCP_TEMPLATE.md
 │   ├── inference-profiles.json        # Track A-2+ (stub OK for A-1)
+│   ├── llm-model-catalog.json         # TS-21 multi-vendor model traits
 │   ├── schemas/                       # JSON Schema for config validation
 │   │   ├── fork-profile.schema.json
 │   │   ├── inference-profiles.schema.json
+│   │   ├── llm-model-catalog.schema.json
 │   │   ├── task-router.schema.json
 │   │   ├── dictionary-v0.schema.json
 │   │   └── llm-providers.schema.json
@@ -183,6 +185,7 @@ techdev-cursor/
 ├── src/
 │   ├── types/
 │   │   ├── inference-profile.ts
+│   │   ├── llm-model-catalog.ts       # TS-21
 │   │   └── adapter-types.ts
 │   ├── adapters/
 │   │   ├── types.ts
@@ -322,6 +325,8 @@ Note: `groundingProviders` as empty file `[]` satisfies TS-18 degraded mode unti
 | Schema | Format | Purpose |
 |--------|--------|---------|
 | **`InferenceProfile`** | TS + `inference-profiles.schema.json` | model, effort, cot, temperature ([TS-20](./decisions/TECH_STACK_INFERENCE_PROFILES.md)) |
+| **`LlmModelCatalog`** | TS + `llm-model-catalog.schema.json` | vendor/model static traits ([TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md)) |
+| **`config/llm-model-catalog.json`** | JSON | Canonical capability catalog |
 | **`config/inference-profiles.json`** | JSON | Preset library (`fast`, `balanced`, `deep`, `critical`) |
 | **MCP tool `inputSchema`** | JSON Schema (in server) | `analyze_claude`, `analyze_codex`, `analyze_agy` CallTool args |
 

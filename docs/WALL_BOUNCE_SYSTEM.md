@@ -56,16 +56,19 @@ Planned config: `config/inference-profiles.json`. API (To-Be): `profile` and opt
 
 Provider adapters map `InferenceProfile` → native CLI/MCP flags. Static defaults below; runtime values come from profiles.
 
-#### OpenAI (Codex CLI / MCP)
+#### OpenAI (Codex CLI / MCP / Responses API)
+
+> **Target catalog**: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) — GPT-5.5, GPT-5.5 Pro, GPT-5.4 mini, GPT-5.4 nano. **AS-IS** below uses legacy `gpt-5-codex`.
 
 ```typescript
-// GPT-5 only — GPT-4/GPT-4o forbidden
+// AS-IS — migrate to OPENAI_MODEL_MATRIX presets (Track E)
 const openaiDefaults: InferenceProfile = {
-  model: 'gpt-5-codex',
+  model: 'gpt-5-codex',       // To-Be: gpt-5.4-mini | gpt-5.5 | gpt-5.5-pro by preset
   temperature: 0.5,
-  effort: 'medium',           // reasoning_effort: minimal | medium | high
+  effort: 'medium',
   cot: 'brief'
 };
+// To-Be API path: Responses API for GPT-5.5 family (prompt caching 24h only)
 ```
 
 #### Anthropic (Claude Code CLI / MCP)
@@ -116,7 +119,7 @@ Details: [WALL_BOUNCE_P5_ARCHITECTURE.md §7](./decisions/WALL_BOUNCE_P5_ARCHITE
         ┌──────────────────┼──────────────────┐
         ▼                  ▼                  ▼
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   GPT-5     │    │   Gemini    │    │   Claude    │
+│ GPT-5.5 fam.│    │   Gemini    │    │   Claude    │
 │   Analysis  │    │   Analysis  │    │   Analysis  │
 └─────────────┘    └─────────────┘    └─────────────┘
         │                  │                  │
@@ -132,19 +135,19 @@ Details: [WALL_BOUNCE_P5_ARCHITECTURE.md §7](./decisions/WALL_BOUNCE_P5_ARCHITE
 
 #### Basic Task
 - **Providers**: 2
-- **Models**: GPT-5 + Gemini 2.5 Flash
+- **Models**: GPT-5.4 **nano** + Gemini Flash (To-Be; AS-IS: `gpt-5-codex` + gemini-2.5-flash)
 - **Confidence threshold**: 0.7
 - **Priority**: Cost-efficient model selection
 
 #### Premium Task
 - **Providers**: 3
-- **Models**: GPT-5 + Gemini 2.5 Pro + Claude (SDK)
+- **Models**: GPT-5.4 **mini** + Gemini Pro + Claude Sonnet (SDK/CLI)
 - **Confidence threshold**: 0.8
 - **Priority**: Balance quality and cost
 
 #### Critical Task
 - **Providers**: 3–4
-- **Models**: All providers + OpenRouter
+- **Models**: **GPT-5.5** / **GPT-5.5 Pro** + all providers + OpenRouter
 - **Confidence threshold**: 0.9
 - **Priority**: Highest quality analysis
 

@@ -26,6 +26,31 @@ Cursor registration: [config/cursor-mcp.template.json](../config/cursor-mcp.temp
 
 No fixed priority order. Pick up when a track gate or product need aligns.
 
+### OpenAI model catalog migration
+
+Target catalog: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) (GPT-5.5, GPT-5.5 Pro, GPT-5.4 mini, GPT-5.4 nano). **Documentation only** — implement when scheduled:
+
+- [ ] **E-1** — Map InferenceProfile presets (`fast`→nano, `balanced`→mini, `deep`→5.5, `critical`→5.5 Pro) in `config/inference-profiles.json` (depends on A-2)
+- [ ] **E-2** — Update `src/config/llm-providers.json` OpenAI provider entries and model aliases
+- [ ] **E-3** — Update `src/adapters/codex-adapter.ts` default model flags when Codex CLI exposes new IDs
+- [ ] **E-4** — Responses API path for GPT-5.5 family (prompt caching 24h constraint)
+- [ ] **E-5** — Update `src/config/llm-character-sheets.json`, monitoring labels, README diagrams after code switch
+- [ ] **E-6** — Adapter / Wall-Bounce regression tests for new model routing
+- [ ] **E-7** — Anthropic / Google catalog pass (separate from OpenAI; IDs may also lag vendor releases)
+
+### LLM Model Catalog schema (TS-21)
+
+Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wiring pending:
+
+- [ ] **F-1** — `npm run validate:config` — ajv validate `config/llm-model-catalog.json` against schema
+- [ ] **F-2** — `src/services/llm-model-catalog-loader.ts` — load + alias resolve at startup
+- [ ] **F-3** — TaskRouter filters models by `capabilities` + `roles` (e.g. tool required → exclude nano)
+- [ ] **F-4** — Migrate `llm-providers.json` entries to reference `catalogId` instead of duplicating traits
+- [ ] **F-5** — Sync vendor matrix docs (OpenAI, Anthropic, Google) from catalog export or CI check
+- [ ] **F-6** — Unit tests: alias resolution, deprecated model warnings, role eligibility
+
+ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · Schema: [config/schemas/llm-model-catalog.schema.json](../config/schemas/llm-model-catalog.schema.json)
+
 ### Provider transport / SDK
 
 - [ ] **Track A-2** — `config/inference-profiles.json` + JSON Schema; resolver loads file instead of hardcode
@@ -80,5 +105,6 @@ Adapters **spawn CLI only** (no nested MCP). SDK sidecar, if added later, should
 | Fork layout | [FORK_CURSOR.md § Directory layout](./FORK_CURSOR.md#directory-layout-fork) |
 | InferenceProfile | [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | Transport | [TECH_STACK_LLM_PROVIDER_TRANSPORT.md](./decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md) |
-| Antigravity CLI | [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md) |
+| OpenAI model catalog | [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) |
+| LLM model catalog (TS-21) | [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | Antigravity Python SDK | [github.com/google-antigravity/antigravity-sdk-python](https://github.com/google-antigravity/antigravity-sdk-python) |

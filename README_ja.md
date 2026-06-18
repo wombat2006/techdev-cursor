@@ -4,7 +4,7 @@
 > **このリポジトリの位置づけ:** 壁打ち（Wall-Bounce）システムを備えた upstream [`techdev`](https://github.com/wombat2006/techdev) をフォークして作成した、**Cursor IDE 向け統合開発環境構築プロジェクト**。**目的:** **コーディング精度の向上**と**コーディング負荷の軽減**（マルチ LLM 壁打ち・Unified MCP・サブスクリプション CLI 連携）。**IT 障害解析に特化した PRJ ではない**（それは upstream の InfraOps フォークライン）。  
 > 詳細: [docs/FORK_CURSOR.md](./docs/FORK_CURSOR.md) · 手順: [docs/CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
 
-**壁打ち分析**とマルチLLMオーケストレーション、包括的Prometheus監視、日本語AI統合を特徴とするエンタープライズグレードIT基盤支援ツール
+**Wall-Bounce 多 LLM 協調**と **Cursor 統合開発環境** — コーディング精度向上・負荷軽減を目的とした DevAssist フォーク（[`techdev-cursor`](./docs/FORK_CURSOR.md)）
 
 *[English](README.md) | 日本語*
 
@@ -17,11 +17,15 @@
 - **品質保証**: ハルシネーション検証とエスカレーション機能
 
 ### マルチLLMオーケストレーション
-- **Tier 1**: Claude Code（総司令官・ルーティング）
-- **Tier 2**: Antigravity CLI（Gemini 2.5 Pro）+ GPT-5（基本処理）
-- **Tier 3**: Claude Sonnet4（プレミアム分析）
-- **Tier 4**: OpenRouter Ensemble（補助分析）
-- **Tier 5**: Claude Opus4.1（緊急時専用）
+
+> OpenAI モデル ID: [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md)。マルチベンダー特性: [config/llm-model-catalog.json](./config/llm-model-catalog.json)（[TS-21](./docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md)）。**AS-IS コード**は legacy 名のままの箇所あり。
+
+- **Tier 0**: Context7 / Stash — リファレンス層（非 LLM）
+- **Tier 1**: Claude Code CLI — 開発 routing · Unified MCP
+- **Tier 2**: Antigravity CLI（`agy`）+ **GPT-5.4 mini / nano** — 高速・高ボリューム（To-Be；現行は Codex CLI）
+- **Tier 3**: Claude Sonnet 4.5 + OpenRouter — 複雑分析
+- **Tier 4**: **GPT-5.5** + Codex CLI — 複雑 codegen / 推論
+- **Tier 5**: **GPT-5.5 Pro** + Claude Opus 4.1 — 集約 / 最難問 critique
 
 ## 🔄 処理フロー
 
@@ -158,7 +162,7 @@ RAG が必要な場合、**RAG 検索クエリ生成前**および**プロンプ
 - Node.js 18.0.0 以上
 - Docker & Docker Compose（または Podman）
 - **Claude Code CLI**（`claude`）— Anthropic MAX / OAuth（WSL ネイティブ必須。`ANTHROPIC_API_KEY` は MCP/CLI 経路では使わない）
-- **Codex CLI**（`codex`）— GPT-5 / OpenAI subscription（WSL ネイティブ必須）
+- **Codex CLI**（`codex`）— OpenAI subscription codegen（モデル ID は [OPENAI_MODEL_MATRIX.md](./docs/OPENAI_MODEL_MATRIX.md) へ移行予定）
 - **Antigravity CLI**（`agy`）— Google Tier 1（Gemini 2.5 Pro/Flash）。WSL ネイティブ必須
 - API キー: Hugging Face（埋め込み等）、OpenRouter 等（Google Gemini / Anthropic API キー直埋めは禁止）
 - （オプション）本番環境用 Redis、MySQL
@@ -374,9 +378,9 @@ techsapo:http_p95_response_time
 │ マルチLLM       │    │AlertManager  │    │ Node        │
 │ オーケストレータ │    │（ポート 9093）│    │ Exporter    │
 │ ┌─────────────┐ │    │ 通知管理     │    │（ポート 9100）│
-│ │Gemini 2.5Pro│ │    └──────────────┘    └─────────────┘
-│ │GPT-5        │ │
-│ │Claude Sonnet│ │         ┌──────────────┐
+│ │Gemini (agy) │ │    └──────────────┘    └─────────────┘
+│ │GPT-5.5 fam. │ │
+│ │Claude       │ │         ┌──────────────┐
 │ │OpenRouter   │ │         │ Redisキャッシュ│
 │ └─────────────┘ │         │（ポート 6379）│
 └─────────────────┘         └──────────────┘
@@ -567,7 +571,7 @@ curl -X POST localhost:4000/api/v1/generate \
 
 ---
 
-**🎯 エンタープライズグレードIT基盤支援ツール**
+**🎯 Cursor 統合開発環境 — techdev-cursor（DevAssist）**
 **壁打ち分析システム - 本番環境対応完了！**
 
 *マルチLLMオーケストレーションと包括的Prometheus監視による強力な支援*
