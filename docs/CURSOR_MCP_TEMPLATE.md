@@ -1,35 +1,87 @@
-# Cursor MCP Config Template (Unified)
+# Cursor MCP Config (Unified, portable)
 
-**Target repo:** `techdev-cursor` fork (not upstream `techdev`).  
-**Server:** `techsapo-providers` — use **`node` directly** (WSL Remote) or **`wsl.exe`** (Windows Cursor host); do **not** use `npm run codex-mcp` (daemonizes, breaks stdio).
+**Target repo:** `techdev-cursor` fork.  
+**Server:** `techsapo-providers` — stdio MCP; tools `analyze_claude`, `analyze_codex`, `analyze_agy`.
 
-**Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1 registration](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · [FORK_CURSOR.md](./FORK_CURSOR.md)
+**Do not commit machine-specific paths.** Use the generator (recommended) or placeholder templates.
 
----
-
-## Which template? (read first)
-
-| Your Cursor setup | Use | Do **not** use |
-|-------------------|-----|----------------|
-| Window connected via **WSL** (`vscode-remote://wsl+…` in path, or “WSL: AlmaLinux-9” in status bar) | **Variant B** — `node` direct, or repo [`.cursor/mcp.json`](../.cursor/mcp.json) | `cursor-mcp.windows.template.json` (`wsl.exe` → **ENOENT**) |
-| Cursor on **Windows**, folder opened as `C:\…` or `\\wsl$\…` without Remote | **Variant A** — `wsl.exe` spawn | `node` + Linux `cwd` only (may miss WSL PATH) |
-
-**Symptom:** `spawn C:\Windows\System32\wsl.exe ENOENT` → you are on **WSL Remote**; switch to Variant B.
+**Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm run build`
 
 ---
 
-## Variant A — Windows Cursor host (WSL spawn)
+## Recommended: generate config for this machine
 
-Cursor runs on **Windows**; MCP server runs **inside WSL** via `wsl.exe`.
+```bash
+cd <REPO_ROOT>
+npm run build
+npm run cursor-mcp:config              # writes .cursor/mcp.json (gitignored)
+# or paste into Cursor Settings → MCP:
+npm run cursor-mcp:config -- --print
+```
 
-1. Confirm WSL distro: `wsl.exe -l -v` (this environment: **`AlmaLinux-9`**)
-2. Copy [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json) into **Cursor Settings → MCP**
-3. Adjust in the template if needed:
-   - `-d` distro name
-   - Node path under `$HOME/.nvm/versions/node/...`
-   - Repo path `/home/<USER>/techdev-cursor`
-4. `npm run build` in WSL before first connect
-5. Reload MCP; confirm **Connected** and tools `analyze_claude`, `analyze_codex`, `analyze_agy`
+| Flag | Purpose |
+|------|---------|
+| `--variant linux` | **EC2**, Linux VM, **WSL Remote**, native Linux desktop |
+| `--variant windows-wsl` | **Windows Cursor host** → spawn server inside WSL |
+| `--wsl-distro AlmaLinux-9` | WSL distro name (`wsl.exe -l -v`) |
+| `--repo-root /path/to/clone` | Non-default clone location |
+| `--node /path/to/node` | Override Node binary (default: `command -v node`) |
+| `--output /path/to/mcp.json` | Custom output path |
+
+Then: Cursor **Settings → MCP** → enable project MCP or paste JSON → **Reload** → **Connected** + 3 tools.
+
+---
+
+## Which variant? (by environment)
+
+| Environment | Variant | Generator |
+|-------------|---------|-----------|
+| **EC2 / Linux VM** (SSH, Cursor Remote SSH) | `linux` | `npm run cursor-mcp:config -- --variant linux` |
+| **WSL Remote** (Cursor window in Linux, `vscode-remote://wsl+…`) | `linux` | same — **not** `wsl.exe` |
+| **Developer laptop — Linux native** | `linux` | same |
+| **Developer laptop — Windows Cursor, repo in WSL** | `windows-wsl` | `npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro <name>` |
+
+| Symptom | Fix |
+|---------|-----|
+| `spawn wsl.exe ENOENT` | You are on WSL Remote — use **`linux`**, not windows template |
+| `Cannot find module …/dist/…` | Run `npm run build`; regenerate config (absolute `args`) |
+| `node not found` | Install Node ≥18 or `nvm install`; or `--node $(which node)` |
+
+---
+
+## Manual templates (placeholders only)
+
+| File | Use |
+|------|-----|
+| [cursor-mcp.linux.template.json](../config/cursor-mcp.linux.template.json) | EC2 / Linux / WSL Remote (same shape) |
+| [cursor-mcp.template.json](../config/cursor-mcp.template.json) | Alias of linux shape |
+| [cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json) | Windows host + WSL |
+| [.cursor/mcp.json.example](../.cursor/mcp.json.example) | Example output shape |
+
+Replace `<REPO_ROOT>`, `<NODE_EXECUTABLE>`, `<WSL_DISTRO>` — or prefer **generator** to avoid typos.
+
+### Linux / EC2 / WSL Remote (shape)
+
+```json
+{
+  "mcpServers": {
+    "techsapo-providers": {
+      "command": "<NODE_EXECUTABLE>",
+      "args": ["<REPO_ROOT>/dist/services/techsapo-providers-mcp-server.js"],
+      "cwd": "<REPO_ROOT>"
+    }
+  }
+}
+```
+
+Discover values:
+
+```bash
+command -v node          # NODE_EXECUTABLE
+cd "$(git rev-parse --show-toplevel)" && pwd   # REPO_ROOT
+```
+
+### Windows Cursor host + WSL (shape)
 
 ```json
 {
@@ -38,53 +90,48 @@ Cursor runs on **Windows**; MCP server runs **inside WSL** via `wsl.exe`.
       "command": "C:\\Windows\\System32\\wsl.exe",
       "args": [
         "-d",
-        "AlmaLinux-9",
+        "<WSL_DISTRO>",
         "bash",
         "-lc",
-        "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin\" && cd /home/wombat/techdev-cursor && exec node dist/services/techsapo-providers-mcp-server.js"
+        "export PATH=\"$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -1)/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin\" && cd <REPO_ROOT_WSL> && exec node dist/services/techsapo-providers-mcp-server.js"
       ]
     }
   }
 }
 ```
 
-**Why explicit PATH:** Windows-spawned WSL non-login shells may miss nvm / `~/.local/bin` (`claude`, `codex`, `agy`).
+`wsl.exe -l -v` for distro name. Build must exist **inside WSL** at `<REPO_ROOT>/dist/...`.
 
 ---
 
-## Variant B — WSL Remote / Cursor opened in Linux
+## EC2 notes
 
-Cursor workspace runs **inside WSL**; spawn `node` directly.
-
-**Fastest:** enable project MCP — [.cursor/mcp.json](../.cursor/mcp.json) is committed for this fork (`cwd` = `/home/wombat/techdev-cursor`). Reload MCP in Settings.
-
-Or copy [config/cursor-mcp.template.json](../config/cursor-mcp.template.json). Replace `<USER>` with your WSL username.
-
-```json
-{
-  "mcpServers": {
-    "techsapo-providers": {
-      "command": "/home/<USER>/.nvm/versions/node/v22.22.3/bin/node",
-      "args": ["/home/<USER>/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
-      "cwd": "/home/<USER>/techdev-cursor"
-    }
-  }
-}
-```
-
-Use **absolute** `args` path — Cursor may ignore `cwd` and resolve relative `dist/...` from `$HOME` (error: `Cannot find module /home/<USER>/dist/...`).
+1. Clone repo on instance; install Node ≥18 (`nvm` or distro package).
+2. Complete Track A-0 CLIs on that instance (or use CI-only MCP — usually **dev laptop + WSL** is the target).
+3. `npm run build && npm run cursor-mcp:config -- --variant linux`
+4. Cursor **Remote SSH** to EC2 → use generated `.cursor/mcp.json` or paste `--print` output.
+5. Ensure security group / SSO allows your Cursor SSH path — MCP is local stdio on the remote host (TS-17).
 
 ---
 
-## Preflight (WSL)
+## Preflight
 
 ```bash
-cd ~/techdev-cursor && npm run build
-npm run mcp:list-tools-smoke   # stdio JSON-RPC — no stdout log corruption
-npm run g7:adapter-smoke       # adapter-path G7 (optional before Cursor UI)
+npm run build
+npm run mcp:list-tools-smoke
+npm run g7:adapter-smoke    # optional before Cursor UI (G7)
 ```
 
-MCP server logs (stdio-safe mode): `logs/mcp-providers.log`
+Logs: `logs/mcp-providers.log`
+
+### Smoke test failures (sandbox vs WSL)
+
+| Check | Use when |
+|-------|----------|
+| `npm run mcp:list-tools-smoke` | **MCP connection only** — stdio + `tools/list` |
+| `npm run g7:adapter-smoke` | Adapter + CLI path — run from **your WSL terminal** |
+
+**Recorded 2026-06-18:** In a **restricted/sandbox** runner, `g7:adapter-smoke` failed for **claude** (GitKraken `SessionEnd` hook cancelled) and **codex** (`Permission denied` on `~/.codex/tmp`). The same command **passed in a normal WSL shell**. This is not an MCP config defect — see [CURSOR_MCP_TODO § MCP smoke test failures](./CURSOR_MCP_TODO.md#mcp-smoke-test-failures-recorded-2026-06-18).
 
 ---
 
@@ -95,7 +142,5 @@ MCP server logs (stdio-safe mode): `logs/mcp-providers.log`
 | `analyze_claude` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "haiku" }` |
 | `analyze_codex` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "gpt-5.5" }` |
 | `analyze_agy` | `{ "prompt": "You are text-only. Reply with exactly one word: ok", "preset": "fast", "model": "gemini-2.5-flash", "workingDirectory": "/tmp" }` |
-
-`workingDirectory: "/tmp"` for agy avoids repo-root agent exploration on short smoke prompts (see A-0.3). Production prompts from repo cwd are usually fine with explicit text-only instructions.
 
 **Legacy:** Do not register dual-server `techsapo-codex` + `techsapo-claude`.

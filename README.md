@@ -347,8 +347,14 @@ npm run g7:adapter-smoke       # adapter-path G7 (WSL)
 npm run techsapo-providers-mcp # manual start check (Ctrl+C)
 ```
 
-**Windows Cursor（ホスト）:** [config/cursor-mcp.windows.template.json](./config/cursor-mcp.windows.template.json) を Settings → MCP に貼り付け（`wsl.exe` + AlmaLinux-9）。  
-**WSL Remote:** [config/cursor-mcp.template.json](./config/cursor-mcp.template.json)。  
+**MCP 登録（環境ごとに生成 — パスを手書きしない）:**
+
+```bash
+npm run build
+npm run cursor-mcp:config              # EC2 / WSL Remote / Linux → .cursor/mcp.json
+npm run cursor-mcp:config -- --variant windows-wsl --print   # Windows Cursor → Settings に貼り付け
+```
+
 詳細: [docs/CURSOR_MCP_TEMPLATE.md](./docs/CURSOR_MCP_TEMPLATE.md)
 
 実装: `src/adapters/*` · `src/services/techsapo-providers-mcp-server.ts` · 将来拡張: [docs/PROVIDER_INTEGRATION_BACKLOG.md](./docs/PROVIDER_INTEGRATION_BACKLOG.md)

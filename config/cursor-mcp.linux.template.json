@@ -1,5 +1,5 @@
 {
-  "_comment": "DO NOT copy verbatim. Run: npm run cursor-mcp:config -- --variant linux",
+  "_comment": "EC2 / Linux VM / WSL Remote — same as cursor-mcp.template.json. Generate: npm run cursor-mcp:config -- --variant linux",
   "mcpServers": {
     "techsapo-providers": {
       "command": "<NODE_EXECUTABLE>",

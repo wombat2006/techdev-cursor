@@ -1,0 +1,10 @@
+{
+  "_comment": "Example shape only. Generate your machine-local file: npm run cursor-mcp:config",
+  "mcpServers": {
+    "techsapo-providers": {
+      "command": "/path/to/node",
+      "args": ["/path/to/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
+      "cwd": "/path/to/techdev-cursor"
+    }
+  }
+}

@@ -109,7 +109,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | `agy` WSL native | `[x]` | A-0.3 done — `~/.local/bin/agy` 1.0.9; OAuth token; `/tmp` + stdin probe OK (~8s) |
 | Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
 | A-1 code (adapters + unified MCP) | `[x]` | stdio-safe logging, provider preset models, agy cwd; smoke scripts |
-| A-1 Cursor MCP registered | `[~]` | WSL preflight + smoke OK; G1–G6 gate 2026-06-18; **G7 Cursor UI deferred** |
+| A-1 Cursor MCP registered | `[x]` | Connected 2026-06-18; `cursor-mcp:config` + 3 tools in Settings |
 | A-2 InferenceProfile in MCP | `[ ]` | Extend unified MCP tool schemas (not legacy dual servers) |
 | A-3 template committed | `[x]` | `config/cursor-mcp.template.json` + `cursor-mcp.windows.template.json` |
 | A-3 team registration | `[ ]` | At least one dev registered |
@@ -355,11 +355,14 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
    # Ctrl+C after no startup error; logs → logs/mcp-providers.log
    ```
 3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, agy OAuth token).
-4. **Register MCP** — pick **one**:
-   - **WSL Remote** (window URI `vscode-remote://wsl+…`): use repo [`.cursor/mcp.json`](../.cursor/mcp.json) or [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) (`node` + Linux `cwd`) — **not** `wsl.exe`
-   - **Windows Cursor host** (folder not Remote): [config/cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json)
-   - See [CURSOR_MCP_TEMPLATE.md § Which template?](./CURSOR_MCP_TEMPLATE.md#which-template-read-first)
-   - Reload MCP → **Connected** → tools: `analyze_claude`, `analyze_codex`, `analyze_agy`
+4. **Register MCP** — generate machine-local JSON (do not copy hardcoded paths):
+   ```bash
+   npm run build
+   npm run cursor-mcp:config              # WSL Remote / EC2 / Linux → .cursor/mcp.json
+   # Windows Cursor host pasting into Settings:
+   npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro AlmaLinux-9 --print
+   ```
+   See [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md). Reload MCP → **Connected** → tools: `analyze_claude`, `analyze_codex`, `analyze_agy`
 5. **G7 smoke from Cursor Agent** (one invoke each):
 
 | Tool | CallTool args |
@@ -368,7 +371,7 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 | `analyze_codex` | `{ "prompt": "Reply with exactly one word: ok", "preset": "fast", "model": "gpt-5.5" }` |
 | `analyze_agy` | `{ "prompt": "You are text-only. Reply with exactly one word: ok", "preset": "fast", "model": "gemini-2.5-flash", "workingDirectory": "/tmp" }` |
 
-**Done when:** `[x]` WSL preflight + adapter smoke; `[ ]` Unified server **Connected** in Windows Cursor; `[ ]` G7 — all three `analyze_*` from Cursor UI.
+**Done when:** `[x]` WSL preflight + adapter smoke (WSL shell); `[x]` Unified server **Connected** in Cursor; `[ ]` G7 — all three `analyze_*` from Cursor UI.
 
 **Troubleshoot:**
 
@@ -381,9 +384,32 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 | `analyze_codex` model error | Use `gpt-5.5` explicitly; default resolver now uses gpt-5.5 for codex |
 | `analyze_agy` timeout in repo | Add `workingDirectory: "/tmp"` for short smoke prompts (A-0.3) |
 
-**Reflection memo:** _Cursor Agent planning still uses Cursor quota; MCP tools use subscription — see Token & Quota Operations Guide._
+#### MCP smoke test failures (recorded 2026-06-18)
 
-**AS-IS (fork):** Unified server implemented; A-1 ops = Windows template paste + G7 from Cursor UI.
+**Context:** Connection verification after `npm run cursor-mcp:config` and Cursor **Connected** (3 tools).  
+**Commands:** `npm run mcp:list-tools-smoke` · `npm run g7:adapter-smoke`
+
+| Command | Environment | Result |
+|---------|-------------|--------|
+| `mcp:list-tools-smoke` | Agent sandbox | **OK** — `analyze_claude`, `analyze_codex`, `analyze_agy` listed |
+| `g7:adapter-smoke` | Agent sandbox | **FAIL** (exit 1) — see below |
+| `g7:adapter-smoke` | Normal WSL terminal | **OK** — claude ~3s, codex ~7s, agy ~7s |
+
+**Interpretation:** MCP stdio and tool registration are fine when `mcp:list-tools-smoke` passes.  
+`g7:adapter-smoke` spawns real CLIs and needs **full user home write access** — do not treat sandbox failures as MCP misconfiguration.
+
+| Provider | Sandbox error (excerpt) | Likely cause | Fix |
+|----------|----------------------|--------------|-----|
+| **claude** | `SessionEnd hook [.../GitKrakenCLI/.../gk_... ai hook run --host claude-code] failed: Hook cancelled` | Claude Code **SessionEnd hook** (GitKraken CLI) blocked or cancelled in restricted environment | Run `g7:adapter-smoke` from **your WSL shell**; or disable/skip hook for smoke only |
+| **codex** | `Permission denied (os error 13)` on `~/.codex/tmp/arg0/...` and `failed to initialize in-process app-server client` | Sandbox cannot write **Codex temp dirs** under `~/.codex/tmp` | Run from normal WSL; `chmod`/`chown` on `~/.codex` if real shell also fails |
+| **agy** | (sandbox run ended before completion; later OK) | Same class — CLI spawn needs normal filesystem | Use WSL terminal; keep `workingDirectory: "/tmp"` for short probes |
+
+**Connection-only check:** `npm run mcp:list-tools-smoke` is sufficient.  
+**Adapter path check:** `npm run g7:adapter-smoke` from **developer WSL** (not Cursor Agent restricted runner).
+
+**Reflection memo:** _Cursor UI **Connected** + `list-tools-smoke` OK ⇒ MCP registration success. G7 still requires three `analyze_*` invokes from **Cursor Agent** (separate step). Cursor Agent planning uses Cursor quota; MCP tools use subscription — see [§ Token & Quota](#token--quota-operations-guide)._
+
+**AS-IS (fork):** Unified server implemented; A-1 MCP **Connected** 2026-06-18; G7 from Cursor UI pending.
 
 <details>
 <summary>Legacy A-1 (dual-server — superseded)</summary>
@@ -419,11 +445,11 @@ Previously: separate `techsapo-codex` + `techsapo-claude` via `npm run codex-mcp
 
 **Steps:**
 
-1. Copy [config/cursor-mcp.template.json](../config/cursor-mcp.template.json); replace `<REPO_ROOT>` and `<USER>`.
-2. Optional: symlink into Cursor user config (location varies by Cursor version / WSL).
+1. Run `npm run cursor-mcp:config` (or `--print` into Cursor Settings → MCP).
+2. Optional: symlink `.cursor/mcp.json` into user MCP config (varies by Cursor version).
 3. Update this runbook **Known state** when registered.
 
-**Done when:** `[ ]` Template committed; `[ ]` At least one developer registered from template.
+**Done when:** `[x]` Templates + generator committed; `[ ]` At least one developer registered from generated config.
 
 **AS-IS:** Template is committed (`[x]`). Registration remains `[ ]` until a developer completes Cursor MCP setup.
 

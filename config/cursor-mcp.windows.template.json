@@ -1,13 +1,14 @@
 {
+  "_comment": "DO NOT copy verbatim. Run from WSL repo: npm run cursor-mcp:config -- --variant windows-wsl --print",
   "mcpServers": {
     "techsapo-providers": {
       "command": "C:\\Windows\\System32\\wsl.exe",
       "args": [
         "-d",
-        "AlmaLinux-9",
+        "<WSL_DISTRO>",
         "bash",
         "-lc",
-        "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin\" && cd /home/wombat/techdev-cursor && exec node dist/services/techsapo-providers-mcp-server.js"
+        "export PATH=\"$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -1)/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin\" && cd <REPO_ROOT_WSL> && exec node dist/services/techsapo-providers-mcp-server.js"
       ]
     }
   }
