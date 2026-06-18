@@ -73,6 +73,8 @@ which agy    && agy --version       # ~/.local/bin/agy
 unset ANTHROPIC_API_KEY
 test -f ~/.claude/.credentials.json || test -f ~/.claude/session  # Claude OAuth
 test -f ~/.codex/auth.json && echo "codex auth ok"
+test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth ok"
+# agy smoke (from /tmp — not repo root): cd /tmp && echo 'ok' | agy --print --model gemini-2.5-flash
 redis-cli ping
 ```
 

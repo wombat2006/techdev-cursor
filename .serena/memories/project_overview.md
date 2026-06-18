@@ -86,7 +86,7 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 | Track | Tree impact | Status |
 |-------|-------------|--------|
 | Fork Day 0 | forkProfile + config stubs + template + npm script | ✅ committed |
-| A-0 | WSL CLI auth (claude/codex/agy) | Partial — **codex done (A-0.2)**; agy probe pending |
+| A-0 | WSL CLI auth (claude/codex/agy) | ✅ **A-0 sign-off 2026-06-18** — all probes pass; A-1 unblocked |
 | A-1 code | adapters + unified MCP server | ✅ implemented |
 | A-1 ops | Cursor MCP register + G7 smoke | ❌ |
 | A-2 | InferenceProfile in unified MCP schemas | ❌ |

@@ -118,15 +118,20 @@ codex exec -c 'approval_policy="never"' "Reply with only: ok"   # matches codex-
 # Already WSL-native if installed to ~/.local/bin
 which agy
 agy --version
+type -a agy
 
-# Auth (follow Antigravity docs)
-agy auth login   # or equivalent for your install
+# Auth (agy 1.0.9 — no `agy auth login`; OAuth on first successful use)
+test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth token ok"
 
-# Verify
-agy --print --model gemini-2.5-flash "Reply with only: ok"
+# Verify — prompt via stdin (matches agy-adapter / antigravity-cli.ts); cwd MUST NOT be a git repo
+cd /tmp
+echo 'Reply with only: ok' | agy --print --model gemini-2.5-flash
+# Bounded: cd /tmp && timeout 60 bash -c 'echo "Reply with only: ok" | agy --print --model gemini-2.5-flash --print-timeout 45s'
 ```
 
-**Acceptance:** `agy` on WSL PATH; auth valid for Google/Antigravity subscription.
+**Acceptance:** `agy` on WSL PATH; OAuth token under `~/.gemini/antigravity-cli/`; probe from **`/tmp`** returns `ok` within ~60s.
+
+**Do not use for acceptance:** `agy --print … "prompt"` from repo root — agy may enter workspace exploration instead of a one-line reply. Details: [CURSOR_MCP_TODO.md § A-0.3](./CURSOR_MCP_TODO.md#a-03-antigravity-agy).
 
 ### 0.4 Environment checklist
 
@@ -143,13 +148,13 @@ agy --print --model gemini-2.5-flash "Reply with only: ok"
 Record in team notes or issue when complete:
 
 ```
-[ ] claude  — WSL native + OAuth
-[ ] codex   — WSL native + ~/.codex/auth.json
-[ ] agy     — WSL native + auth
-[ ] which claude/codex/agy — no /mnt/c/... npm shims
+[x] claude  — WSL native + OAuth
+[x] codex   — WSL native + ~/.codex/auth.json
+[x] agy     — WSL native + OAuth token; `/tmp` + stdin probe (A-0.3)
+[x] which claude/codex/agy — no /mnt/c/... npm shims (WSL `which` first)
 ```
 
-Only then proceed to **Phase 1**.
+**Phase 0 sign-off complete 2026-06-18.** Proceed to **Phase 1**.
 
 ---
 

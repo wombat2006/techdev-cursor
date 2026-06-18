@@ -106,7 +106,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 |------|--------|-------|
 | `claude` WSL native | `[x]` | Verify in fork clone |
 | `codex` WSL native | `[x]` | A-0.2 done — WSL `@openai/codex@0.141.0`; auth symlink `~/.codex/auth.json` → Windows; `codex exec` probe OK |
-| `agy` WSL native | `[~]` | Binary OK at `~/.local/bin/agy`; `agy --print` probe timed out 2026-06-18 — auth/network TBD |
+| `agy` WSL native | `[x]` | A-0.3 done — `~/.local/bin/agy` 1.0.9; OAuth token; `/tmp` + stdin probe OK (~8s) |
 | Fork `techdev-cursor` Day 0 | `[x]` | `forkProfile.yaml`, stubs, template, npm script committed |
 | A-1 code (adapters + unified MCP) | `[x]` | `src/adapters/*`, `techsapo-providers-mcp-server.ts` — see [backlog § A-1](./PROVIDER_INTEGRATION_BACKLOG.md#track-a-1-current-baseline) |
 | A-1 Cursor MCP registered | `[ ]` | G7 — three `analyze_*` invokes from Cursor |
@@ -124,7 +124,7 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 ## Track A — Cursor MCP only (TS-21)
 
 **Primary repo:** `techdev-cursor` fork — see [FORK_CURSOR.md](./FORK_CURSOR.md).  
-**Do not register Cursor MCP until A-0 sign-off is complete.**
+**Do not register Cursor MCP until A-0 sign-off is complete.** A-0 complete 2026-06-18 — A-1 unblocked.
 
 ### Fork Day 0 (before MCP code)
 
@@ -247,35 +247,58 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
 
 1. Confirm install:
    ```bash
-   which agy
-   agy --version
+   which agy                     # expect ~/.local/bin/agy (not /mnt/c/...)
+   agy --version                 # e.g. 1.0.9
+   type -a agy
    ```
 2. Install if missing:
    ```bash
    curl -fsSL https://antigravity.google/cli/install.sh | bash
    ```
-3. Auth:
+3. Auth — **agy 1.0.9 has no `agy auth login` subcommand** (`agy help` lists `models`, `plugin`, `update` only). OAuth is established on first successful CLI use (browser flow) and stored under WSL:
    ```bash
-   agy auth login
+   test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth token ok"
+   ls -la ~/.gemini/antigravity-cli/antigravity-oauth-token
    ```
-4. Verify:
+   If the token file is missing or stale, run a probe from `/tmp` (step 4) — Antigravity may open a browser for Google OAuth.
+4. Non-interactive probe — **must match [agy-adapter.ts](../src/adapters/agy-adapter.ts) / [antigravity-cli.ts](../src/utils/antigravity-cli.ts): prompt via stdin, not as a CLI argument** (long argv hangs; short argv in a git repo triggers agentic workspace exploration):
    ```bash
-   agy --print --model gemini-2.5-flash "Reply with only: ok"
+   cd /tmp
+   echo 'Reply with only: ok' | agy --print --model gemini-2.5-flash
+   ```
+   Expected: stdout is `ok` (or contains `ok`) within ~60s. Bounded smoke test:
+   ```bash
+   cd /tmp && timeout 60 bash -c 'echo "Reply with only: ok" | agy --print --model gemini-2.5-flash --print-timeout 45s'
+   ```
+5. Optional — list models (may be slow; use timeout):
+   ```bash
+   timeout 30 agy models 2>&1 | head -20
    ```
 
-**Done when:** `[~]` auth verified; `[ ]` probe succeeds (`ok` in output within `--print-timeout`, e.g. 30s).
+**Done when:** `[x]` WSL binary on PATH; `[x]` `~/.gemini/antigravity-cli/antigravity-oauth-token` exists; `[x]` step 4 probe from **`/tmp`** returns `ok` within 60s (verified 2026-06-18).
 
-**Note (2026-06-18):** In-repo cwd, `agy --print` may enter an agentic loop (list dir / search) instead of a one-line reply. Use a shorter timeout for smoke tests: `timeout 30 agy --print --model gemini-2.5-flash "Reply with only: ok"`. If it times out, verify auth via Antigravity install docs before A-0 sign-off.
+**Do not use as A-0.3 pass/fail** (known bad patterns from 2026-06-18):
+
+```bash
+# ❌ From repo root — agy explores workspace (list_dir, grep, jest) instead of one-line reply
+cd ~/techdev-cursor && agy --print --model gemini-2.5-flash "Reply with only: ok"
+
+# ❌ Prompt as CLI arg in repo — same agent loop even with short prompt
+cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2.5-flash
+```
 
 **Troubleshoot:**
 
 | Symptom | Fix |
 |---------|-----|
-| `agy models` hangs | Network/auth; retry after login |
-| `--print` runs tools instead of one-line reply | cwd is git repo — expected for some agy builds; check exit/log or use dedicated empty dir |
-| Not on PATH | Ensure `~/.local/bin` in PATH |
+| Output stops after `agy --version` (probe “hangs”) | Probe still running — use **stdin + `/tmp` cwd** (step 4), not argv from repo root |
+| `--print` lists dirs / reads `wall-bounce-analyzer.ts` / runs grep | **Expected in git repo cwd** — rerun from `/tmp`; auth may still be OK |
+| `Error: unknown subcommand: auth` | Normal for agy 1.0.9 — use OAuth token file + browser flow on first probe |
+| `agy models` hangs | Network or auth; `timeout 30 agy models`; refresh OAuth via probe from `/tmp` |
+| Probe times out from `/tmp` | Check token mtime; inspect `~/.gemini/antigravity-cli/log/` or `cli.log` symlink; retry after Google OAuth |
+| `Not on PATH` | Ensure `~/.local/bin` in PATH (`agy install` or shell profile) |
 
-**Reflection memo:** _agy is already WSL-native; Windows `gemini` npm is legacy per [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)._
+**Reflection memo:** _agy is WSL-native; adapter spawns `agy --print --model …` with prompt on stdin ([antigravity-cli.ts](../src/utils/antigravity-cli.ts)). Repo cwd agent behavior is an A-0 probe pitfall, not necessarily an auth failure — Track B may need explicit spawn `cwd` for MCP/Wall-Bounce._
 
 ---
 
@@ -300,17 +323,19 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
 
 ```
 [x] claude  — WSL native + OAuth (no ANTHROPIC_API_KEY)
-[x] codex   — WSL native + ~/.codex/auth.json (symlink from Windows OK)
-[ ] agy     — WSL native + auth (probe pending — `agy --print` may hang; see A-0.3)
+[x] codex   — WSL native + ~/.codex/auth.json (symlink from Windows OK); `codex exec` probe OK
+[x] agy     — WSL native + OAuth token; `/tmp` + stdin probe OK (A-0.3)
 [x] which claude/codex/agy — WSL paths first (`~/.nvm/...` / `~/.local/bin`; not `/mnt/c/` for default `which`)
 [x] npm run build — success
 ```
+
+**A-0 sign-off complete 2026-06-18** — proceed to A-1 (Cursor MCP registration).
 
 ---
 
 ### A-1: Cursor MCP registration (Unified — in fork)
 
-**Blocked until A-0 sign-off complete** — codex A-0.2 done 2026-06-18; **agy probe still pending** (see A-0.3). Do not register until all A-0 checkboxes are `[x]`.
+**Prerequisite met (A-0 sign-off 2026-06-18)** — register Cursor MCP per steps below. Do not skip G7 smoke after registration.
 
 **Purpose:** Cursor Agent tool calls route to **single unified** MCP server `techsapo-providers` (subscription quota for tool execution).
 
@@ -327,7 +352,7 @@ Complete in **`techdev-cursor`** clone — not upstream `techdev`. See [FORK_CUR
    node dist/services/techsapo-providers-mcp-server.js
    # Ctrl+C after confirming no startup error; Cursor will spawn this via MCP config
    ```
-3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, agy auth).
+3. Confirm WSL auth per A-0 (`~/.codex/auth.json`, Claude OAuth, `~/.gemini/antigravity-cli/antigravity-oauth-token` + `/tmp` agy probe).
 4. Register in **Cursor Settings → MCP**. Template: fork [config/cursor-mcp.template.json](../config/cursor-mcp.template.json) — unified `techsapo-providers`, **`node` direct**:
    ```json
    {

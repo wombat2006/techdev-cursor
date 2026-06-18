@@ -11,8 +11,9 @@
 Google is consolidating **Gemini CLI** into **Antigravity CLI**. TechSapo Tier 1 (Google / Gemini analysis) provider access standard is **Antigravity CLI**.
 
 - **CLI command**: `agy` (formerly: `gemini`)
-- **Authentication**: `agy auth login` (OAuth; embedded API keys remain forbidden)
+- **Authentication**: Google OAuth via first successful CLI use; token at `~/.gemini/antigravity-cli/antigravity-oauth-token` (**agy 1.0.9 has no `agy auth login` subcommand**). Embedded API keys remain forbidden.
 - **Example models**: Gemini 2.5 Pro / Flash (via Antigravity harness)
+- **Prompt transport**: stdin + `--print` (matches [antigravity-cli.ts](../src/utils/antigravity-cli.ts); do not pass long prompts as CLI argv)
 
 Reference: [Google Developers Blog — Transitioning Gemini CLI to Antigravity CLI](https://developers.googleblog.com/en/an-important-update-transitioning-gemini-cli-to-antigravity-cli/)
 
@@ -38,11 +39,19 @@ Reference: [Google Developers Blog — Transitioning Gemini CLI to Antigravity C
 # Install Antigravity CLI (official)
 curl -fsSL https://antigravity.google/cli/install.sh | bash
 
-# Verify
+# Verify binary
 which agy
 agy --version
-agy auth login
+
+# Auth — token file (browser OAuth on first probe if missing)
+test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth token ok"
+
+# Smoke probe — from /tmp, stdin (NOT from git repo cwd; NOT prompt as argv)
+cd /tmp
+echo 'Reply with only: ok' | agy --print --model gemini-2.5-flash
 ```
+
+Full troubleshooting (repo cwd agent loop, timeouts): [CURSOR_MCP_TODO.md § A-0.3](./CURSOR_MCP_TODO.md#a-03-antigravity-agy).
 
 ---
 

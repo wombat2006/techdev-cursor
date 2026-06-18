@@ -238,18 +238,23 @@ codex exec "Reply with only: ok"
 curl -fsSL https://antigravity.google/cli/install.sh | bash
 which agy   # ~/.local/bin/agy であること（Windows npm の gemini ではない）
 
-# 認証（対話 UI — 初回またはトークン更新時）
-agy auth login
+# 認証（agy 1.0.9 — `agy auth login` サブコマンドなし）
+test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth token ok"
+# トークンが無い場合: 下記プローブ実行時にブラウザ OAuth
 
-# 動作確認（Wall-Bounce と同じ経路: stdin + --print）
+# 動作確認 — /tmp から stdin + --print（リポ root ではエージェント探索に入る）
+cd /tmp
 echo "Reply with only: ok" | agy --print --model gemini-2.5-flash
 echo "Reply with only: ok" | agy --print --model gemini-2.5-pro
 ```
 
 | 用途 | コマンド |
 |------|----------|
-| 対話で試す | `agy auth login` |
-| Wall-Bounce / スクリプト | `echo "…" \| agy --print --model gemini-2.5-flash` |
+| OAuth 確認 | `test -f ~/.gemini/antigravity-cli/antigravity-oauth-token` |
+| スモークテスト | `cd /tmp && echo 'ok' \| agy --print --model gemini-2.5-flash` |
+| Wall-Bounce / スクリプト | `echo "…" \| agy --print --model gemini-2.5-flash`（stdin 必須） |
+
+詳細: [CURSOR_MCP_TODO.md § A-0.3](./docs/CURSOR_MCP_TODO.md#a-03-antigravity-agy)
 
 オプション: `ANTIGRAVITY_CLI_BIN` でバイナリパスを上書き可能。
 

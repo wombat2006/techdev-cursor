@@ -126,18 +126,20 @@ On WSL2, **Windows npm CLIs** (`/mnt/c/.../claude`, `codex`) fail with `Exec for
 |-----|---------------|------|--------|
 | **Claude Code** | `npm install -g @anthropic-ai/claude-code` | OAuth: `claude login` **or** symlink `~/.claude/.credentials.json` ← Windows | `unset ANTHROPIC_API_KEY`; `claude --print --model sonnet "ok"` |
 | **Codex** | `npm install -g @openai/codex` | `codex login` → `~/.codex/auth.json` | `which codex` not under `/mnt/c/` |
-| **Antigravity** | `agy` in `~/.local/bin` | `agy auth login` (or install docs) | `agy --print --model gemini-2.5-flash "ok"` |
+| **Antigravity** | `curl -fsSL https://antigravity.google/cli/install.sh \| bash` → `~/.local/bin/agy` | OAuth token: `~/.gemini/antigravity-cli/antigravity-oauth-token` (browser on first use; **no** `agy auth login` in 1.0.9) | `cd /tmp && echo 'ok' \| agy --print --model gemini-2.5-flash` |
 
 **PATH rule:** `which claude` and `which codex` MUST resolve to WSL paths (e.g. `~/.nvm/.../bin/`), not `/mnt/c/Users/.../npm/`.
 
 **Phase 0 sign-off checklist** (all required before Phase 1):
 
 ```
-[ ] claude  — WSL native + OAuth (no ANTHROPIC_API_KEY)
-[ ] codex   — WSL native + ~/.codex/auth.json
-[ ] agy     — WSL native + auth
-[ ] npm run build — project compiles
+[x] claude  — WSL native + OAuth (no ANTHROPIC_API_KEY)
+[x] codex   — WSL native + ~/.codex/auth.json
+[x] agy     — WSL native + OAuth token; `/tmp` + stdin probe (A-0.3)
+[x] npm run build — project compiles
 ```
+
+**Phase 0 sign-off complete 2026-06-18** (build verified in A-0.4).
 
 ### CLI inference knobs (subscription quota)
 
@@ -161,11 +163,13 @@ which codex          # not /mnt/c/...
 codex exec -c 'approval_policy="never"' "Reply with only: ok"
 ```
 
-**Antigravity** (`agy`):
+**Antigravity** (`agy`) — prompt on **stdin** (not CLI argv); probe from **`/tmp`**, not repo root (git cwd triggers agentic workspace exploration):
 
 ```bash
-agy --print --model gemini-2.5-flash "Summarize query"
-agy --print --model gemini-2.5-pro   "Deep analysis"
+test -f ~/.gemini/antigravity-cli/antigravity-oauth-token && echo "agy oauth ok"
+cd /tmp
+echo 'Summarize query' | agy --print --model gemini-2.5-flash
+echo 'Deep analysis'   | agy --print --model gemini-2.5-pro
 ```
 
 | Knob | Claude | Codex | agy |

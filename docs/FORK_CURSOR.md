@@ -208,7 +208,7 @@ techdev-cursor/
 | 3 | Create `config/fork/*.json` stubs (below) | TaskRouter / dictionary loaders later |
 | 4 | Replace `config/cursor-mcp.template.json` with unified template | Cursor register |
 | 5 | Add npm script `techsapo-providers-mcp` → `node dist/services/techsapo-providers-mcp-server.js` | MCP start |
-| 6 | **After fork:** [A-0.2 Codex WSL化](./CURSOR_MCP_TODO.md#a-02-codex-openai-subscription) + [A-0.3 agy auth](./CURSOR_MCP_TODO.md#a-03-antigravity-agy) | Live provider calls (not blocking Day 0) |
+| 6 | **After fork:** [A-0.2 Codex WSL化](./CURSOR_MCP_TODO.md#a-02-codex-openai-subscription) + [A-0.3 agy WSL probe](./CURSOR_MCP_TODO.md#a-03-antigravity-agy) | Live provider calls (not blocking Day 0) |
 
 ### package.json scripts (fork)
 
