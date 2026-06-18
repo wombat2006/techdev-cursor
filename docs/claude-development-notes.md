@@ -1,6 +1,6 @@
 # Claude Code — Development Notes
 
-[← CLAUDE.md skeleton](../CLAUDE.md) · [Development Guide](./DEVELOPMENT_GUIDE.md) · [Architecture](./ARCHITECTURE.md)
+[← AGENTS.md](../AGENTS.md) · [CLAUDE.md shim](../CLAUDE.md) · [Development Guide](./DEVELOPMENT_GUIDE.md) · [Architecture](./ARCHITECTURE.md)
 
 ---
 
@@ -97,7 +97,7 @@ Details: [SECURITY.md](./SECURITY.md)
 
 ### Round Count (Constitution)
 
-- **Minimum 2 rounds, maximum 5 rounds** — per [CLAUDE.md Constitution](../CLAUDE.md#constitution). Single-round wall-bounce is forbidden.
+- **Minimum 2 rounds, maximum 5 rounds** — per [AGENTS.md Constitution](../AGENTS.md#constitution). Single-round wall-bounce is forbidden.
 
 Entry: `WallBounceAnalyzer.executeWallBounce()` in `wall-bounce-analyzer.ts`
 

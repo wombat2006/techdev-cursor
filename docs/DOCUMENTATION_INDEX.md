@@ -7,13 +7,14 @@
 ## 📖 Quick Start by Role
 
 ### 👩‍💻 Developer
-1. **CLAUDE.md** - Navigation skeleton (entry point)
-2. **docs/claude-commands.md** · **claude-mcp-rules.md** · **claude-development-notes.md** - CLAUDE detail docs (English)
-3. **docs/CURSOR_MCP_TODO.md** - Phased execution runbook (Track A → B → C)
-4. **docs/FORK_CURSOR.md** - `techdev-cursor` identity (integrated dev env for coding accuracy/workload; not IT incident analysis)
-4. **docs/ARCHITECTURE.md** - System design
-5. **docs/WALL_BOUNCE_SYSTEM.md** - Core implementation
-6. **docs/DEVELOPMENT_GUIDE.md** - Development workflows
+1. **[AGENTS.md](../AGENTS.md)** - Neutral agent navigation (entry point)
+2. **[CLAUDE.md](../CLAUDE.md)** - Claude Code shim → AGENTS.md
+3. **docs/claude-commands.md** · **claude-mcp-rules.md** · **claude-development-notes.md** - Agent detail docs (English; → `docs/agents/` in Plan A P2)
+4. **docs/CURSOR_MCP_TODO.md** - Phased execution runbook (Track A → B → C)
+5. **docs/FORK_CURSOR.md** - `techdev-cursor` identity (integrated dev env for coding accuracy/workload; not IT incident analysis)
+6. **docs/ARCHITECTURE.md** - System design
+7. **docs/WALL_BOUNCE_SYSTEM.md** - Core implementation
+8. **docs/DEVELOPMENT_GUIDE.md** - Development workflows
 
 ### 🔧 Operations
 1. **docs/DEPLOYMENT_GUIDE.md** - Production deployment
@@ -32,10 +33,12 @@
 
 ## 📁 Essential Documentation
 
-### Claude Code Navigation (CLAUDE.md details)
+### Agent Navigation (AGENTS.md + detail docs)
+
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| **../CLAUDE.md** | Skeleton only (Quick Nav + Mandatory Rules summary) | All AI agents / developers |
+| **../AGENTS.md** | Neutral top (constitution + Quick Nav) | All AI agents / developers |
+| **../CLAUDE.md** | Claude Code shim → AGENTS.md | Claude Code |
 | **claude-commands.md** | dev / test / MCP / monitoring / emergency commands | Developers |
 | **claude-mcp-rules.md** | Serena / Cipher / Codex / Context7 rules | AI agents |
 | **claude-development-notes.md** | Common tasks, structure, API summary | Developers |

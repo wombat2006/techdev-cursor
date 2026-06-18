@@ -7,7 +7,7 @@ The Wall-Bounce analysis system is the core capability that coordinates multiple
 ## Core Principles
 
 ### Mandatory Rules
-- **Constitution (supreme)**: Wall-bounce requires **minimum 2 rounds, maximum 5 rounds** (single-round forbidden) — [CLAUDE.md Constitution](../CLAUDE.md#constitution)
+- **Constitution (supreme)**: Wall-bounce requires **minimum 2 rounds, maximum 5 rounds** (single-round forbidden) — [AGENTS.md Constitution](../AGENTS.md#constitution)
 - **Minimum 2 providers**: Every analysis uses at least two LLM providers
 - **Consensus required**: Providers must reach agreement
 - **Quality thresholds**: confidence ≥ 0.7, consensus ≥ 0.6

@@ -4,7 +4,8 @@
 
 | Purpose | Document |
 |---------|----------|
-| **Skeleton (entry point)** | [../CLAUDE.md](../CLAUDE.md) |
+| **Neutral top (all agents)** | [../AGENTS.md](../AGENTS.md) |
+| **Claude Code shim** | [../CLAUDE.md](../CLAUDE.md) |
 | Commands | [claude-commands.md](./claude-commands.md) |
 | MCP usage rules | [claude-mcp-rules.md](./claude-mcp-rules.md) |
 | Dev notes and structure | [claude-development-notes.md](./claude-development-notes.md) |

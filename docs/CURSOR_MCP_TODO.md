@@ -524,7 +524,7 @@ Reference: [WALL_BOUNCE_P5_ARCHITECTURE.md §4](./decisions/WALL_BOUNCE_P5_ARCHI
 2. Reject single-round execution.
 3. Tests: 1 round fails; 2 rounds pass; 6 rounds capped at 5.
 
-**Done when:** `[ ]` Tests prove enforce; `[ ]` matches [CLAUDE.md](../CLAUDE.md) Constitution.
+**Done when:** `[ ]` Tests prove enforce; `[ ]` matches [AGENTS.md](../AGENTS.md) Constitution.
 
 **Reflection memo:** _Constitution is supreme — implementation must not bypass via API flags._
 
@@ -591,7 +591,7 @@ Cross-cutting guidance for **all Tracks (A/B/C)** and daily development. Optimiz
 | Single-model coding / debug | WSL CLI direct (`claude --print`, `codex`, `agy`) | Subscription only |
 | Multi-LLM consensus / user-facing analysis | Wall-Bounce API or MCP-backed Wall-Bounce | Highest cost; constitution applies |
 
-**Do not** route production user-facing analysis through a single CLI or direct LLM call to save tokens. Dev and doc work **may** use CLI direct per [CLAUDE.md](../CLAUDE.md).
+**Do not** route production user-facing analysis through a single CLI or direct LLM call to save tokens. Dev and doc work **may** use CLI direct per [AGENTS.md](../AGENTS.md).
 
 ### Wall-Bounce token rules (within constitution)
 

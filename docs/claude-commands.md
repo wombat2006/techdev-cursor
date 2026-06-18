@@ -1,6 +1,6 @@
 # Claude Code — Commands Reference
 
-[← CLAUDE.md skeleton](../CLAUDE.md) · [Documentation Index](./DOCUMENTATION_INDEX.md)
+[← AGENTS.md](../AGENTS.md) · [CLAUDE.md shim](../CLAUDE.md) · [Documentation Index](./DOCUMENTATION_INDEX.md)
 
 Command reference for TechSapo development and operations. For workflows, see [DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md).
 

@@ -1,6 +1,6 @@
 # Claude Code — MCP Usage Rules
 
-[← CLAUDE.md skeleton](../CLAUDE.md) · [MCP Services Architecture](./MCP_SERVICES.md)
+[← AGENTS.md](../AGENTS.md) · [CLAUDE.md shim](../CLAUDE.md) · [MCP Services Architecture](./MCP_SERVICES.md)
 
 **MCP usage rules** when Claude Code works in this repository. Implementation details: [MCP_SERVICES.md](./MCP_SERVICES.md).
 

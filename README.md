@@ -636,7 +636,8 @@ npm run test:integration
 - **[OpenAI Prompt Guidance](./docs/OPENAI_PROMPT_GUIDANCE.md)**: GPT-5.5 / 5.4 / 5.3-Codex 公式ガイダンス統合
 - **[OpenAI Model Matrix](./docs/OPENAI_MODEL_MATRIX.md)**: モデル ID・pricing・preset マッピング
 - **[OpenAI Batch API for RAG ingest](./docs/OPENAI_BATCH_API_RAG.md)**: 任意の取り込み enrichment（ゲート付き・Phase 0 未実装）
-- **[CLAUDE.md](./CLAUDE.md)**: システム設定と要件
+- **[AGENTS.md](./AGENTS.md)**: エージェント共通ナビ（中立 top）
+- **[CLAUDE.md](./CLAUDE.md)**: Claude Code 向け shim → AGENTS.md
 
 ## 🔧 設定ファイル
 
