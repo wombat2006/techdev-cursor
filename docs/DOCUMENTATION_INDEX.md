@@ -7,14 +7,16 @@
 ## 📖 Quick Start by Role
 
 ### 👩‍💻 Developer
-1. **[AGENTS.md](../AGENTS.md)** - Neutral agent navigation (entry point)
-2. **[CLAUDE.md](../CLAUDE.md)** - Claude Code shim → AGENTS.md
-3. **docs/agents/commands.md** · **mcp-rules.md** · **development-notes.md** - Agent detail docs (English)
-4. **docs/CURSOR_MCP_TODO.md** - Phased execution runbook (Track A → B → C)
-5. **docs/FORK_CURSOR.md** - `techdev-cursor` identity (integrated dev env for coding accuracy/workload; not IT incident analysis)
-6. **docs/ARCHITECTURE.md** - System design
-7. **docs/WALL_BOUNCE_SYSTEM.md** - Core implementation
-8. **docs/DEVELOPMENT_GUIDE.md** - Development workflows
+1. **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** - Human entry (thin; see [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md))
+2. **[docs/FORK_STATUS.md](./FORK_STATUS.md)** - Rolling AS-IS / To-Be (planned; see policy migration checklist)
+3. **[AGENTS.md](../AGENTS.md)** - Neutral agent navigation (entry point)
+4. **[CLAUDE.md](../CLAUDE.md)** - Claude Code shim → AGENTS.md
+5. **docs/agents/commands.md** · **mcp-rules.md** · **development-notes.md** - Agent detail docs (English)
+6. **docs/CURSOR_MCP_TODO.md** - Phased execution runbook (Track A → B → C)
+7. **docs/FORK_CURSOR.md** - `techdev-cursor` identity (integrated dev env for coding accuracy/workload; not IT incident analysis)
+8. **docs/ARCHITECTURE.md** - System design
+9. **docs/WALL_BOUNCE_SYSTEM.md** - Core implementation
+10. **docs/DEVELOPMENT_GUIDE.md** - Development workflows
 
 ### 🔧 Operations
 1. **docs/DEPLOYMENT_GUIDE.md** - Production deployment
@@ -37,6 +39,7 @@
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
+| **DOCUMENTATION_POLICY.md** | README shape, legacy, P0/P1/P2 sync, new-doc rules | Humans / maintainers |
 | **../AGENTS.md** | Neutral top (constitution + Quick Nav) | All AI agents / developers |
 | **../CLAUDE.md** | Claude Code shim → AGENTS.md | Claude Code |
 | **agents/commands.md** | dev / test / MCP / monitoring / emergency commands | Developers |

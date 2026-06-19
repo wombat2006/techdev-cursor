@@ -54,8 +54,8 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | **Security** | CLI/SDK only (`agy` / `codex` / Anthropic SDK); no API keys in code or env | [SECURITY.md](docs/SECURITY.md) |
 | **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
 | **Memory** | Layer A `OrchestrationSession` mandatory; event `ts`/`tsEnd` UTC; session `clientTimezone` optional | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
-| **Commit** | Include README and related docs in the same commit when changing behavior | [.cursor/rules/documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
-| **Doc language** | Logic and rule docs (`AGENTS.md`, agent detail docs, `WALL_BOUNCE_SYSTEM.md`, etc.) in **English** | [documentation-sync.mdc](.cursor/rules/documentation-sync.mdc) |
+| **Commit** | P0/P1/P2 doc sync per policy; same commit as implementation | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
+| **Doc language** | Logic docs **English**; `README_ja.md` / proposals Japanese | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
 
 ### Provider Tiers (Summary)
 
@@ -91,6 +91,7 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 | Tech stack refinement (prep) | [TECH_STACK_WORKSPACE.md](docs/TECH_STACK_WORKSPACE.md) |
 | Operations and deployment | [DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) · [MONITORING_OPERATIONS.md](docs/MONITORING_OPERATIONS.md) |
 | Full documentation index | [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) |
+| Documentation policy | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
 
 ---
 
@@ -104,7 +105,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 | **Claude Code** | [CLAUDE.md](CLAUDE.md) | Native shim → AGENTS.md (P1 done) |
 | **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog (P3 done) |
 | **Codex / Copilot** | `AGENTS.md` | Primary; no extra root file required |
-| **Humans** | [README.md](README.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
+| **Humans** | [README.md](README.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
 
 ---
 

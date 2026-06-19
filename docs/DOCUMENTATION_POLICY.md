@@ -1,0 +1,274 @@
+# Documentation Policy — `techdev-cursor`
+
+**Status:** Draft v0.1 — adopted direction, README slim migration pending  
+**Owner:** TechSapo Development Team  
+**Last updated:** 2026-06-19  
+**Related:** [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) · [FORK_CURSOR.md](./FORK_CURSOR.md) · [.cursor/rules/documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc)
+
+---
+
+## 1. Purpose
+
+This fork (`techdev-cursor`) maintains documentation for **humans other than the primary maintainer** — teammates, reviewers, and future contributors — without duplicating upstream platform bulk or stale AS-IS claims.
+
+**Goals:**
+
+- A **thin, stable README** as the human entry point
+- **English logic docs** + **Japanese human onboarding** where appropriate
+- **Rolling status** separated from static onboarding
+- **Legacy docs** quarantined, not deleted
+- **Tiered sync** so commits stay practical
+
+---
+
+## 2. Audience model
+
+| Audience | Primary entry | Language | Notes |
+|----------|---------------|----------|-------|
+| **Other humans** (policy target) | [README.md](../README.md) · [README_ja.md](../README_ja.md) | en / ja | Thin onboarding only |
+| **Executing developer** | [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) | English | **Authoritative runbook** for Tracks and Gates |
+| **AI coding agents** | [AGENTS.md](../AGENTS.md) → [docs/agents/](./agents/) | English | Skeleton top; details in Layer 2 |
+| **Architecture / decisions** | [docs/decisions/](./decisions/) · [ARCHITECTURE.md](./ARCHITECTURE.md) | English | ADR for accepted design |
+| **Customers** | [docs/proposals/](./proposals/) | Japanese OK | Proposals and PPTX |
+
+The primary maintainer uses the same docs; policy optimizes for **first-time external readers**, not daily maintainer shortcuts.
+
+---
+
+## 3. Document layers (Plan A)
+
+```
+Root (minimal)
+  README.md          — thin human entry (English)
+  README_ja.md       — thin human entry (Japanese)
+  AGENTS.md          — agent skeleton only
+  CLAUDE.md          — shim → AGENTS.md
+
+docs/ (active)
+  DOCUMENTATION_POLICY.md   — this file
+  FORK_STATUS.md            — rolling AS-IS / To-Be (human status; planned)
+  CURSOR_MCP_TODO.md        — executable runbook
+  FORK_CURSOR.md            — fork identity and layout
+  agents/                   — agent detail (English)
+  decisions/                — ADRs (English)
+  … domain guides …
+
+docs/legacy/ (inactive)
+  README.md                 — “not maintained for fork” banner
+  … moved upstream / stale platform docs …
+```
+
+**Do not add new long-form guides at repository root.**
+
+---
+
+## 4. README policy (A1 + B2)
+
+### A1 — Thin entry
+
+README files answer only:
+
+1. **What** is this repo? (DevAssist fork; not IT incident analysis)
+2. **Why** does it exist? (coding accuracy + workload reduction)
+3. **Where** to go next? (links table)
+4. **Current status?** → link to [FORK_STATUS.md](./FORK_STATUS.md) (not duplicated prose)
+
+**Do not put in README:**
+
+- Step-by-step runbooks (→ `CURSOR_MCP_TODO.md`)
+- AS-IS / To-Be tables that change every Gate (→ `FORK_STATUS.md`)
+- Long processing-flow mermaid (→ `ARCHITECTURE.md` or runbook)
+- Legacy platform ops (PM2/Grafana/IT-incident examples) (→ `docs/legacy/` or remove links)
+- Design depth / maturity bars (→ `FORK_CURSOR.md` or future `FORK_ONBOARDING.md`)
+
+**Target size (after migration):** ~40–80 lines per README (both languages, parallel headings).
+
+### B2 — Language split
+
+| File | Language | Role |
+|------|----------|------|
+| `README.md` | **English only** | International / default GitHub view |
+| `README_ja.md` | **Japanese** | Same structure as English; not a 1:1 translation of legacy 800-line content |
+
+Keep **heading parity** between en/ja so P1 sync stays cheap.
+
+---
+
+## 5. Rolling status (C3)
+
+### `docs/FORK_STATUS.md` (planned)
+
+Human-readable **rolling** snapshot:
+
+- Gate pass/fail dates
+- Track focus (e.g. Track B)
+- AS-IS vs To-Be summary tables
+- “Completed” and “Next” bullets
+
+| File | Updates when | Reader |
+|------|--------------|--------|
+| `FORK_STATUS.md` | Gate reviews, major Track milestones | Humans |
+| `CURSOR_MCP_TODO.md` § Current known state | Task-level execution | Implementers |
+| `.serena/memories/project_overview.md` | Agent session context | Agents (may link to FORK_STATUS) |
+
+**Rule:** Gate or Track milestone changes update **FORK_STATUS + runbook** (P0). Do **not** rewrite README body for progress alone.
+
+---
+
+## 6. Legacy quarantine (D2)
+
+### Move to `docs/legacy/` when any applies:
+
+- Unrelated to **DevAssist / Cursor MCP** fork goal
+- Describes upstream **techsapo / techdev** platform AS-IS that this fork does not maintain
+- Known **implementation drift** with no planned fix in Track B/C
+- IT incident / InfraOps specialization (explicit non-goal of this fork)
+
+### Keep in active `docs/`:
+
+- Runbook, ADR, `agents/`, `FORK_CURSOR.md`, `ARCHITECTURE.md`, `SECURITY.md`, `WALL_BOUNCE_SYSTEM.md`, current integration guides tied to Track work
+
+### Required:
+
+- `docs/legacy/README.md` — states **not maintained**, link rot expected, do not use for fork decisions
+- **Do not** list legacy paths in main README link table
+- `DOCUMENTATION_INDEX.md` — legacy under a separate **Archived / legacy** section (or legacy README only)
+
+**Migration:** staged batches (2–3 PRs); fix inbound links from active docs only.
+
+---
+
+## 7. Commit sync tiers (E2)
+
+Implementation and documentation stay in the **same commit** unless the user explicitly requests a docs-only split.
+
+### P0 — Behavior, Gates, ADR (required)
+
+**Trigger:** Code behavior, API contract, Gate result, accepted ADR, security policy.
+
+**Minimum updates:**
+
+- Implementation
+- [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) (and Gate memo if applicable)
+- Relevant [docs/decisions/](./decisions/) ADR
+- [FORK_STATUS.md](./FORK_STATUS.md) when milestone visible to humans
+- Domain guide named in [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) “What to Update” table
+
+### P1 — Human entry / fork scope (README summary)
+
+**Trigger:** Fork identity, primary links, one-line goal, status **link target** change.
+
+**Minimum updates:**
+
+- `README.md` + `README_ja.md` **summary sections only** (parallel headings)
+- [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) if navigation changes
+
+### P2 — Long guides (touch-only)
+
+**Trigger:** Edits confined to a single long guide (e.g. `DEVELOPMENT_GUIDE.md`, `RAG_SETUP_GUIDE.md`).
+
+**Minimum updates:**
+
+- The edited guide(s) only — **both READMEs not required**
+
+### Examples
+
+```
+# ✅ P0 — Gate B milestone
+feat: wire wall-bounce to codex adapter
+  src/...
+  docs/CURSOR_MCP_TODO.md
+  docs/FORK_STATUS.md
+  docs/decisions/… (if applicable)
+
+# ✅ P1 — README slim: new link to FORK_STATUS
+docs: slim README entry; add FORK_STATUS
+  README.md, README_ja.md
+  docs/FORK_STATUS.md
+  docs/DOCUMENTATION_INDEX.md
+
+# ✅ P2 — RAG guide typo
+docs: fix RAG_SETUP_GUIDE webhook steps
+  docs/RAG_SETUP_GUIDE.md only
+```
+
+---
+
+## 8. Adding new documents (F1 + F3 + F4)
+
+### F1 — Decision tree
+
+```
+Need a new markdown file?
+├─ Design decision accepted?        → docs/decisions/ ADR
+├─ Executable step / Gate / Track?    → CURSOR_MCP_TODO.md or docs/agents/commands.md
+├─ Agent-only rule?                 → docs/agents/
+├─ Human onboarding or fork story?  → FORK_CURSOR.md or FORK_ONBOARDING.md (future)
+├─ Rolling progress / AS-IS?        → FORK_STATUS.md
+├─ External review (other repo)?    → Do NOT vendor MD; runbook crosswalk section only
+├─ Upstream / stale / out of scope? → docs/legacy/
+└─ Customer-facing narrative?       → docs/proposals/ (Japanese OK)
+```
+
+### F3 — One doc, one role (prohibited)
+
+| Do not | Instead |
+|--------|---------|
+| Put runbook steps in README | `CURSOR_MCP_TODO.md` |
+| Bloat AGENTS.md with procedures | `docs/agents/*` |
+| Put checklists in ADR | ADR = decision; runbook = steps |
+| Copy review MD from other repos | Crosswalk link in runbook ([example](./CURSOR_MCP_TODO.md#codex-review-crosswalk-2026-06-18)) |
+
+### F4 — INDEX listing
+
+| Location | Listed in |
+|----------|-----------|
+| Active fork-scoped doc | `DOCUMENTATION_INDEX.md` main tables |
+| Legacy / archived | `docs/legacy/README.md` only (optional short “Archived” block in INDEX) |
+| Draft / personal | Not indexed |
+
+New **active** docs: add one row to `DOCUMENTATION_INDEX.md` in the same commit.
+
+---
+
+## 9. Unchanged principles (explicit)
+
+These remain in force; this policy **refines** README and sync scope, does not replace:
+
+| Principle | Where |
+|-----------|--------|
+| Wall-Bounce constitution | [AGENTS.md](../AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md) |
+| AGENTS.md skeleton only | [AGENTS.md](../AGENTS.md) · [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) |
+| Runbook = execution truth | [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) |
+| Logic / rule docs in **English** | [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) |
+| ADR for stack decisions | [docs/decisions/README.md](./decisions/README.md) |
+| Implementation + docs same commit | P0–P2 tiers above |
+| External Codex review not vendored | [CURSOR_MCP_TODO § crosswalk](./CURSOR_MCP_TODO.md#codex-review-crosswalk-2026-06-18) |
+
+---
+
+## 10. Migration checklist (policy adoption)
+
+Execute in order; each step may be its own commit.
+
+| # | Task | Status |
+|---|------|--------|
+| 1 | Adopt this policy (v0.1) | `[x]` draft |
+| 2 | Update [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) → link here; E2 tiers | `[ ]` |
+| 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[ ]` |
+| 4 | Slim README.md (English A1) + README_ja.md (parallel) | `[ ]` |
+| 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[ ]` |
+| 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[ ]` |
+| 7 | Optional: `FORK_ONBOARDING.md` for Design depth / maturity content | `[ ]` |
+
+---
+
+## 11. Related documents
+
+| Doc | Role |
+|-----|------|
+| [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) | Full map of active docs |
+| [FORK_CURSOR.md](./FORK_CURSOR.md) | Fork identity and directory layout |
+| [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) | Tracks, Gates, execution |
+| [decisions/README.md](./decisions/README.md) | ADR index |
+| [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) | Cursor pre-commit hook (thin) |
