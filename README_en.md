@@ -16,7 +16,21 @@ Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude
 |---|---|
 | **What** | DevAssist fork — Wall-Bounce + unified provider MCP + subscription CLIs |
 | **Why** | Build software **accurately, efficiently, at subscription-scale cost** |
-| **Not** | IT incident platform · single-vendor chat wrapper |
+| **Not** | IT incident platform · multi-model picker only (no orchestration) |
+
+---
+
+## Why Wall-Bounce (not just multi-model access)
+
+Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **access to Claude, GPT, and Gemini** in one harness. You can **pick a model**, but they do **not** run **multiple LLMs in coordinated rounds on the same prompt** with consensus and quality gates.
+
+| | Multi-model harness (e.g. Antigravity) | TechSapo Wall-Bounce |
+|---|---|---|
+| Access to several model families | ✅ | ✅ (`agy` / `codex` / `claude`) |
+| Multi-LLM coordination on one prompt | ❌ | ✅ **2–5 rounds** + consensus gates |
+| Output | One model → one answer | 2+ providers → structured agreement |
+
+**This repo’s value is not “which LLM” but “how LLMs cooperate.”** Daily Cursor: single MCP per call; hard analysis: Wall-Bounce API.
 
 ---
 

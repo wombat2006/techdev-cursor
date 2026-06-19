@@ -16,7 +16,21 @@
 |---|---|
 | **何** | DevAssist フォーク — Wall-Bounce + 統一 provider MCP + サブスク CLI |
 | **なぜ** | **簡便・正確・低コスト**にソフトウェアを作る |
-| **ではない** | IT 障害プラットフォーム · 単一ベンダー chat ラッパー |
+| **ではない** | IT 障害プラットフォーム · マルチモデル選択だけの harness |
+
+---
+
+## なぜ Wall-Bounce か
+
+[Antigravity](https://antigravity.google/docs/models) などは **Claude / GPT / Gemini へのアクセス** を1つの harness にまとめる。**モデル選択** はできても、**1 プロンプトに対して複数 LLM がラウンドを重ねて協調・合意する** 機能はない。
+
+| | マルチモデル harness（例: Antigravity） | TechSapo Wall-Bounce |
+|---|---|---|
+| 複数モデルへのアクセス | ✅ | ✅（`agy` / `codex` / `claude`） |
+| 同一プロンプトへの多 LLM 協調 | ❌ | ✅ **2–5 ラウンド** + 合意・品質ゲート |
+| 出力 | 1 モデル → 1 回答 | 2+ provider → 構造的合意 |
+
+**価値は「どの LLM を使うか」ではなく「複数 LLM をどう協調させるか」。** 日常 Cursor は単一 MCP；厳密分析は Wall-Bounce API。
 
 ---
 
