@@ -43,7 +43,9 @@ graph TB
 - **ネットワーク**: 1Gbps以上
 
 ### ソフトウェア要件
-- **Node.js**: 22.9.0以上
+- **Node.js**:
+  - **最小**: ≥20.0.0（`package.json` `engines`。uuid v14 以降 Node 18 非対応）
+  - **本番推奨**: ≥22.9.0（LTS。下記 Dockerfile / CI は Node 22 系を想定）
 - **npm**: 10.0.0以上
 - **Docker**: 24.0以上
 - **Docker Compose**: 2.0以上
@@ -66,6 +68,9 @@ graph TB
 
 #### 基本セットアップ
 ```bash
+# Node.js バージョン確認（≥20 必須、本番は ≥22.9 推奨）
+node --version
+
 # リポジトリクローン
 git clone https://github.com/yourusername/techsapo.git
 cd techsapo
@@ -301,6 +306,9 @@ docker push gcr.io/your-project/techsapo:latest
 ```
 
 #### Dockerfile (本番用)
+
+本番イメージは **Node 22 LTS**（推奨ライン）を使用。開発・CI の最小要件は `package.json` の **≥20**。
+
 ```dockerfile
 # Dockerfile.production
 FROM node:22-alpine AS builder
@@ -342,6 +350,9 @@ CMD ["node", "dist/index.js"]
 ### 2. デプロイメント実行
 
 #### CI/CDパイプライン (GitHub Actions)
+
+CI は本番と同様 **Node 22** を使用（最小要件 ≥20 は `npm ci` 前の `node --version` で確認）。
+
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy to Production
