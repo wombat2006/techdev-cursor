@@ -60,6 +60,8 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 Wall-Bounce: **at least 2 rounds, at most 5**; confidence ≥ 0.7; consensus ≥ 0.6; implementation via `wall-bounce-analyzer.ts` only.
 
+**To-Be UX:** Post-Aggregator session continuation and negative-feedback retry (upward temperature jitter) — [TS-24 ADR](./docs/decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (Track B implementation).
+
 Details: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
 ---

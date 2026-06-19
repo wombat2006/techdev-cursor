@@ -87,6 +87,7 @@
 | **decisions/README.md** | ADR index |
 | **decisions/TECH_STACK_LLM_MODEL_CATALOG.md** | TS-21 |
 | **decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md** | TS-23 — user-addable models (L1–L2) |
+| **decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md** | TS-24 — session continuation + negative retry (upward jitter) |
 | **decisions/TECH_STACK_INFERENCE_PROFILES.md** | TS-20 |
 | **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | TS-22 |
 | **decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md** | TS-17 |

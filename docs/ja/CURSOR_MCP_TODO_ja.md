@@ -55,7 +55,8 @@
 | ID | 成果物 |
 |----|--------|
 | **M1** | `OrchestrationSessionStore` + Redis `orch:session:*` |
-| **B-0** | `inference-profiles.json` + TS-20（matrix+catalog resolver ✅；preset ファイル未） |
+| **B-0** | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative`（matrix+catalog resolver ✅；preset ファイル未） |
+| **M2–M3** | `sessionId` 継続 · Layer A イベント · negative 再試行（TS-24） |
 | **B-1** | `wall-bounce-analyzer.ts` / `rag-endpoint.ts` → `src/adapters/*` |
 
 ---

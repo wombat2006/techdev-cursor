@@ -334,7 +334,7 @@ Request may include `sessionId`; response returns `sessionId`. Each round append
 | **Gate A→B** | **G-MEM:** closed 2026-06-18; TS-22 accepted; Layer A mandatory; no new provider silos |
 | **M1** | `OrchestrationSessionStore` + `orch:session:*` + schema v1.0 ([types](../../src/types/orchestration-session.ts), [schema](../../config/schemas/orchestration-session.schema.json)) |
 | **M2** | `sessionId` on `AdapterRequest` + MCP schema |
-| **M3** | Wall-Bounce rounds append Layer A events |
+| **M3** | Wall-Bounce rounds append Layer A events; continuation + negative retry events ([TS-24](./TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md)) |
 | **M4–M5** | `codex-session-manager` migration (§3) |
 | **M6** | Claude / agy `providerHandles` + opt-in continue |
 | **Track D** | Response cache on Layer A read path |
@@ -350,6 +350,7 @@ Runbook detail: [CURSOR_MCP_TODO.md § Memory substrate](../CURSOR_MCP_TODO.md#m
 |----------|--------------|
 | [TS-17 LLM Provider Transport](./TECH_STACK_LLM_PROVIDER_TRANSPORT.md) | Inter-round text from Layer A |
 | [TS-20 Inference Profiles](./TECH_STACK_INFERENCE_PROFILES.md) | Profile on `provider_invoke` events |
+| [TS-24 Session continuation + retry](./TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) | `user_feedback`, `profile_retry`; upward jitter policy |
 | [CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md) | **Legacy** — superseded by Layer A for transcript |
 | [MCP_SERVICES.md § Session](../MCP_SERVICES.md#session-management) | AS-IS vs To-Be summary |
 

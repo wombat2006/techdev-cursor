@@ -68,6 +68,8 @@ Wall-Bounce **requires durable orchestration memory** — constitution mandates 
 
 **Forbidden:** Parallel `*-session-manager.ts` silos per provider; Codex Redis as authoritative multi-LLM history.
 
+**Continuation + negative retry (To-Be):** After Aggregator output, clients pass `sessionId` for follow-up prompts. Explicit negative feedback triggers a **controlled retry** — **upward-only temperature jitter** on supported models; `effort` / `cot` / preset lottery for GPT-5 fixed-temperature paths. ADR: [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (TS-24).
+
 ### LLM Provider Configuration
 
 Provider adapters map `InferenceProfile` → native CLI/MCP flags. Static defaults below; runtime values come from profiles.

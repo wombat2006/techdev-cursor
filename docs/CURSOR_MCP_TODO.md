@@ -177,7 +177,8 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | **F-1** validate:config | `[x]` | catalog + adapter-preset-matrix schema (ajv) |
 | **F-2** catalog loader | `[~]` | `llm-model-catalog-loader.ts` + matrix resolve; TaskRouter / startup wiring pending |
 | **TS-23** user L1–L2 extensions | `[x]` | ADR accepted — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
-| Track B complete | `[ ]` | B-0 partial: matrix+catalog resolver; `inference-profiles.json` file pending; WB wiring pending |
+| **TS-24** session continuation + retry | `[x]` | ADR accepted — upward jitter · [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md); M1–M3 implementation pending |
+| Track B complete | `[ ]` | B-0 partial: matrix+catalog resolver; `inference-profiles.json` + `retryOnNegative` pending; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
 
@@ -580,7 +581,7 @@ Wall-Bounce and multi-LLM workflows require **durable orchestration transcript**
 |---|------|-----------|
 | M1 | `OrchestrationSessionStore` + `orch:session:*` + [orchestration-session.schema.json](../config/schemas/orchestration-session.schema.json) v1.1 | `[~]` Types + schema + [orchestration-memory.json](../config/orchestration-memory.json) done; **Redis store pending** |
 | M2 | `sessionId` + `continueProviderSession` on `AdapterRequest` + MCP `analyze_*` schema (A-2 overlap) | `[ ]` Types + schema documented |
-| M3 | Wall-Bounce round events append to Layer A | `[ ]` At least one round logged end-to-end |
+| M3 | Wall-Bounce round events append to Layer A; continuation + `user_feedback` / `profile_retry` ([TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md)) | `[ ]` At least one round logged end-to-end |
 | M4 | `multi-llm-session-handler` reads/writes Layer A (stop Codex-only store) | `[ ]` B-1 memo + code path identified |
 | M5 | `codex-session-manager` migration phases B-M1…B-M5 (TS-22 §3) | `[ ]` Legacy demoted to Layer B helper |
 | M6 | Claude / agy `providerHandles` + opt-in continue | `[ ]` Documented in adapter wiring memo |
@@ -595,7 +596,7 @@ Wall-Bounce and multi-LLM workflows require **durable orchestration transcript**
 
 **Start only after Gate A→B Pass (including G-MEM).**
 
-References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) · [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md)
+References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) · [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) · [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (TS-24)
 
 ### B-0: Config + types
 
@@ -606,8 +607,9 @@ References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_
 **Steps:**
 
 1. Add `config/inference-profiles.json` with presets: `fast`, `balanced`, `deep`, `critical`.
-2. Extend loader: resolve preset → merge overrides (replace hardcode in resolver when ready).
-3. JSON Schema under `config/schemas/` (optional same commit).
+2. Add `retryOnNegative` block per [TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (upward temperature jitter, preset lottery, GPT-5 fallback).
+3. Extend loader: resolve preset → merge overrides (replace hardcode in resolver when ready).
+4. JSON Schema under `config/schemas/` (optional same commit).
 
 **Done when:** `[ ]` JSON validates; `[ ]` resolver loads file; `[ ]` no circular deps.
 

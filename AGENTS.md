@@ -34,6 +34,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | MCP Integration | `src/services/mcp-integration-service.ts` | [MCP_SERVICES.md](docs/MCP_SERVICES.md) |
 | Cursor MCP runbook | Phase 0: WSL CLI + auth first | [CURSOR_MCP_TODO.md](docs/CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](docs/CURSOR_MCP_PLAN.md) |
 | Memory substrate (TS-22) | Before Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| Session continuation + retry (TS-24) | Track B M1–M3 | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](docs/decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
 | Fork identity / status / onboarding | — | [FORK_CURSOR.md](docs/FORK_CURSOR.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) |
 | API Routes | `src/routes/wall-bounce-api.ts` | [API_REFERENCE.md](docs/API_REFERENCE.md) |
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
@@ -83,6 +84,7 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 | Development workflows | [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md) |
 | LLM model catalog (TS-21) | [decisions/TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | Memory substrate (TS-22) | [decisions/TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| Session continuation + retry (TS-24) | [decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](docs/decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
 | OpenAI Cookbook integration | [OPENAI_COOKBOOK_INTEGRATION.md](docs/OPENAI_COOKBOOK_INTEGRATION.md) |
 | OpenAI prompt guidance | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
 | OpenAI Batch API for RAG ingest (optional, gated) | [OPENAI_BATCH_API_RAG.md](docs/OPENAI_BATCH_API_RAG.md) |

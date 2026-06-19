@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/19 13:30:04 JST  
+**Last updated:** 2026/06/19 13:46:26 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -53,7 +53,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | # | Goal | Deliverable | Status |
 |---|------|-------------|--------|
 | **M1** | Durable orchestration transcript (Layer A) | `OrchestrationSessionStore` + Redis `orch:session:*` | `[ ]` Types/schema/config ✅; Redis pending |
-| **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 | `[~]` Matrix+catalog resolver ✅; preset JSON file pending |
+| **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative` | `[~]` Matrix+catalog resolver ✅; preset JSON file pending |
 | **B-1** | One transport for Cursor + Wall-Bounce | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | Session continuity + legacy migration | `sessionId` · round events in Layer A · TS-22 codex-session fold | `[ ]` |
 
@@ -80,6 +80,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Human docs ja pairs** (B2b) | 2026/06/19 11:47:05 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
 | **Contract Layer** | 2026/06/19 13:22:54 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
 | **TS-23** user-extensible LLM | 2026/06/19 13:30:04 | ADR L1–L2 config extensions — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
+| **TS-24** session continuation + retry | 2026/06/19 13:46:26 | Layer A follow-up + upward jitter negative retry — [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
 
 ---
 
@@ -105,7 +106,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Cursor daily dev** | Single MCP (`analyze_*`) via subscription CLI | Same — by design |
 | **Unified MCP + adapters** | Implemented + G7 pass | A-2/A-3 tail; daily smoke |
 | **Wall-Bounce API** | Legacy spawn; 1-pass; no Hard Gate loop | B-1 adapters · C constitution enforce |
-| **Orchestration memory** | Design + schema only | M1 Redis + M2–M6 wiring |
+| **Orchestration memory** | Design + schema only | M1 Redis + M2–M6 wiring; TS-24 continuation/retry policy |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | legacy phase 2 optional |
@@ -151,6 +152,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/19 13:46:26 | TS-24 — session continuation + upward-jitter negative retry ADR |
 | 2026/06/19 13:30:04 | Contract Layer + TS-23 — FORK_STATUS / runbook Known state sync |
 | 2026/06/19 11:47:05 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |
 | 2026/06/19 11:31:42 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |

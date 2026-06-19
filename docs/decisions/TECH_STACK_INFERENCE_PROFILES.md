@@ -126,6 +126,7 @@ interface WallBounceAnalyzeRequest {
 | **1** | Codex MCP `reasoning_effort` + `cot` from profile; agy adapter |
 | **2** | Wall-Bounce API `profile` / `inference`; TaskRouter default selection |
 | **3** | Haiku provider registration; aggregator pinned `critical` profile |
+| **4** | Negative retry — upward temperature jitter + preset lottery ([TS-24](./TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md)) |
 
 ---
 
@@ -134,4 +135,5 @@ interface WallBounceAnalyzeRequest {
 - [WALL_BOUNCE_SYSTEM.md § Inference Profiles](../WALL_BOUNCE_SYSTEM.md#inference-profiles-model-effort-cot-temperature)
 - [WALL_BOUNCE_P5_ARCHITECTURE.md §10](./WALL_BOUNCE_P5_ARCHITECTURE.md#10-inference-profiles)
 - [TECH_STACK_LLM_MODEL_CATALOG.md](./TECH_STACK_LLM_MODEL_CATALOG.md) (TS-21 — static model traits; complements InferenceProfile)
+- [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (TS-24 — continuation + retry policy)
 - [DEVELOPMENT_GUIDE.md § CLI inference knobs](../DEVELOPMENT_GUIDE.md#cli-inference-knobs-subscription-quota)
