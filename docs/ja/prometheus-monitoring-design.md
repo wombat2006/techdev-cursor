@@ -376,6 +376,16 @@ groups:
       description: "本日の予算消費率が{{ $value | humanizePercentage }}に達しました"
 ```
 
+## 📲 ユーザー異常通知（LINE）
+
+アラートのエンドユーザー通知は **LINE Webhook**（**line-notification** — 実装済み）を使用します。
+
+```text
+Prometheus / Alertmanager → line-notification (Webhook) → LINE Messaging API → ユーザー
+```
+
+Alertmanager の receiver に line-notification の Webhook URL を設定してください。詳細: [MONITORING_OPERATIONS.md](../MONITORING_OPERATIONS.md#ユーザー異常通知line)
+
 ## 🎯 SLA・SLI・SLO定義
 
 ### Service Level Indicators (SLI)

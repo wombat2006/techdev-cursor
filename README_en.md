@@ -34,6 +34,66 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 ---
 
+## Architecture (overview)
+
+```mermaid
+flowchart TB
+  subgraph daily["Daily Cursor (Track A)"]
+    U1[User]
+    CUR[Cursor IDE]
+    MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+  end
+
+  subgraph adapters["Adapter layer"]
+    AD1[claude-adapter]
+    AD2[codex-adapter]
+    AD3[agy-adapter]
+  end
+
+  subgraph cli["WSL subscription CLIs"]
+    CL[claude]
+    CX[codex]
+    AG[agy]
+  end
+
+  subgraph wb["Wall-Bounce (hard multi-LLM)"]
+    API[Wall-Bounce API]
+    WBA[wall-bounce-analyzer]
+    PEER[Peer LLM ×2–5 rounds]
+    AGG[Aggregator]
+  end
+
+  subgraph mem["Layer A (To-Be · TS-22)"]
+    REDIS[(OrchestrationSession<br/>Redis)]
+  end
+
+  subgraph mon["Monitoring & user alerts"]
+    PROM[Prometheus / Grafana]
+    AM[Alertmanager]
+    LN[line-notification<br/>Webhook]
+    U2[User · LINE]
+  end
+
+  U1 --> CUR --> MCP
+  MCP --> AD1 & AD2 & AD3
+  AD1 --> CL
+  AD2 --> CX
+  AD3 --> AG
+  U1 --> API --> WBA --> PEER --> AGG
+  WBA -.-> REDIS
+  WBA --> PROM --> AM --> LN --> U2
+```
+
+| Path | Role |
+|------|------|
+| **Cursor → unified MCP → adapters** | Daily coding (single MCP invoke) |
+| **Wall-Bounce API → analyzer** | Multi-LLM coordination + consensus |
+| **Prometheus → line-notification** | **LINE Webhook** alerts on anomalies (implemented) |
+
+Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+
+---
+
 ## Where to go next
 
 | Need | Document |

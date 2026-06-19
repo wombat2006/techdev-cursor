@@ -367,8 +367,8 @@ jobs:
     - name: Run tests
       run: |
         npm run build
-        npm test
-        npx ts-node tests/test-execution-report.ts
+        npm run test:contract
+        npm run test:unit
   
   deploy:
     needs: test

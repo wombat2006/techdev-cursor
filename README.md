@@ -34,6 +34,66 @@
 
 ---
 
+## アーキテクチャ（概要）
+
+```mermaid
+flowchart TB
+  subgraph daily["日常 Cursor（Track A）"]
+    U1[User]
+    CUR[Cursor IDE]
+    MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+  end
+
+  subgraph adapters["Adapter 層"]
+    AD1[claude-adapter]
+    AD2[codex-adapter]
+    AD3[agy-adapter]
+  end
+
+  subgraph cli["WSL サブスク CLI"]
+    CL[claude]
+    CX[codex]
+    AG[agy]
+  end
+
+  subgraph wb["Wall-Bounce（厳密マルチ LLM）"]
+    API[Wall-Bounce API]
+    WBA[wall-bounce-analyzer]
+    PEER[Peer LLM ×2–5 rounds]
+    AGG[Aggregator]
+  end
+
+  subgraph mem["Layer A（To-Be · TS-22）"]
+    REDIS[(OrchestrationSession<br/>Redis)]
+  end
+
+  subgraph mon["監視・異常通知"]
+    PROM[Prometheus / Grafana]
+    AM[Alertmanager]
+    LN[line-notification<br/>Webhook]
+    U2[User · LINE]
+  end
+
+  U1 --> CUR --> MCP
+  MCP --> AD1 & AD2 & AD3
+  AD1 --> CL
+  AD2 --> CX
+  AD3 --> AG
+  U1 --> API --> WBA --> PEER --> AGG
+  WBA -.-> REDIS
+  WBA --> PROM --> AM --> LN --> U2
+```
+
+| 経路 | 用途 |
+|------|------|
+| **Cursor → 統一 MCP → adapter** | 日常コーディング（単一 MCP 呼び出し） |
+| **Wall-Bounce API → analyzer** | 2+ LLM 協調・合意が必要な分析 |
+| **Prometheus → line-notification** | 異常検知時の **LINE Webhook 通知**（実装済み） |
+
+詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+
+---
+
 ## 次に読むもの
 
 | 目的 | ドキュメント |

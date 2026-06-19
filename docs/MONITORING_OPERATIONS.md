@@ -98,6 +98,22 @@ techsapo_budget_utilization_percent
 
 ## 🚨 Alerting Configuration
 
+### ユーザー異常通知（LINE）
+
+クリティカル / 警告アラートの **エンドユーザー向け通知** には **LINE** を使用します（**実装済み**）。
+
+```text
+Prometheus alert → Alertmanager → line-notification (Webhook) → LINE Messaging API → ユーザー
+```
+
+| 要素 | 説明 |
+|------|------|
+| **line-notification** | Alertmanager / 監視スクリプトからの Webhook を受け、LINE へプッシュ |
+| **用途** | 壁打ち信頼度低下、プロバイダー障害、予算超過などの異常 |
+| **設定** | `LINE_CHANNEL_ACCESS_TOKEN` 等 — 詳細は運用環境の line-notification 設定を参照 |
+
+Grafana / Alertmanager の receiver に **line-notification Webhook URL** を登録してください。
+
 ### Critical Alerts
 - **壁打ち合意信頼度 < 0.7** (5分間継続)
 - **システム応答時間 > 10秒** (3分間継続)

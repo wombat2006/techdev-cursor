@@ -76,8 +76,8 @@ npm run test:coverage
 ### 包括テスト実行
 
 ```bash
-# カスタム包括テスト実行
-npx ts-node tests/test-execution-report.ts
+# フォーク品質ゲート（推奨）
+npm run test:contract
 
 # 特定テストスイート実行
 npm test -- --testPathPattern=comprehensive-test-suite
@@ -288,8 +288,8 @@ jobs:
     
     - name: Run comprehensive tests
       run: |
-        npm test
-        npx ts-node tests/test-execution-report.ts
+        npm run test:contract
+        npm run test:unit
     
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3

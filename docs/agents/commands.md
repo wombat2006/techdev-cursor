@@ -90,9 +90,11 @@ Antigravity migration: [ANTIGRAVITY_CLI_MIGRATION.md](../ANTIGRAVITY_CLI_MIGRATI
 ## Emergency & Rollback
 
 ```bash
-./scripts/emergency-rollback-phase3.sh    # Emergency rollback
-./scripts/monitor-srp-phase3.js           # SRP monitoring
+./scripts/start-monitoring.sh              # Prometheus + Grafana stack
+./scripts/production-monitoring.js         # App health polling (logs alerts)
 ```
+
+Abnormal user alerts route to **LINE** via **line-notification** Webhook — see [MONITORING_OPERATIONS.md § LINE](../MONITORING_OPERATIONS.md#ユーザー異常通知line).
 
 ### Health Checks
 
@@ -109,7 +111,6 @@ curl https://localhost:8443/metrics      # Prometheus metrics
 ./scripts/comprehensive-rag-test.sh        # Full RAG system testing
 ./scripts/production-monitoring.js         # Production health monitoring
 ./scripts/resync-drive-docs.ts            # Google Drive document sync
-./scripts/validate-srp-integration.js     # SRP validation
-./scripts/gradual-phase3-controller.js   # Gradual Phase 3 deployment
+npm run test:contract                     # Contract + config validation (fork gate)
 npm run generate:proposal-pptx            # Regenerate Wall-Bounce proposal PPTX
 ```
