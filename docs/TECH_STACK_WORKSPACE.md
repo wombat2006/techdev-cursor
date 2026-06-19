@@ -36,7 +36,7 @@ npm run audit:tech-stack
 
 | Component | AS-IS | Source |
 |-----------|-------|--------|
-| Node.js | ≥18.0.0 | `package.json` engines |
+| Node.js | ≥20.0.0 | `package.json` engines |
 | TypeScript | ~5.3.3, ES2022, CommonJS | `tsconfig.json` |
 | Build | `tsc` → `dist/` | `npm run build` |
 | Dev | `ts-node-dev` | `npm run dev` |
@@ -137,7 +137,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 
 | ID | Area | Question | AS-IS | Target | Decision doc |
 |----|------|----------|-------|--------|--------------|
-| TS-01 | Runtime | Pin Node LTS (18 vs 20 vs 22)? | ≥18 | TBD | — |
+| TS-01 | Runtime | Pin Node LTS (18 vs 20 vs 22)? | ≥20 | ≥20 (uuid v14) | `package.json` engines |
 | TS-02 | TypeScript | Enable `strict` mode? | strict: false | TBD | — |
 | TS-03 | Redis | Single client library + deployment model? | 3 libraries | TBD | — |
 | TS-04 | SQL | MySQL vs SQLite roles? | both present | TBD | — |

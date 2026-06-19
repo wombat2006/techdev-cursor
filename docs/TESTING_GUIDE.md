@@ -270,7 +270,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]
     
     steps:
     - uses: actions/checkout@v3
@@ -398,7 +398,7 @@ npm test -- --testTimeout=10000
 
 #### 環境依存問題の解決
 ```bash
-# Node.jsバージョン確認
+# Node.jsバージョン確認（≥20 必須）
 node --version
 
 # 依存関係の再インストール

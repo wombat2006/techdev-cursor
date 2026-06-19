@@ -236,7 +236,7 @@ npm run mcp-optimize
 ### 依存関係
 - **Redis**: セッション管理とキャッシュ（必須）
 - **Prometheus**: メトリクス収集（推奨）
-- **Node.js 18+**: ES2022機能使用
+- **Node.js 20+**: ES2022機能使用
 - **TypeScript**: 型安全性確保
 
 ### 互換性

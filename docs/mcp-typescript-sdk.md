@@ -21,7 +21,7 @@ The Model Context Protocol (MCP) TypeScript SDK enables developers to build stan
 
 ### Prerequisites
 
-- Node.js v18.x or higher
+- Node.js v20.x or higher
 - TypeScript 4.5 or higher (recommended)
 - Basic understanding of async/await patterns
 
@@ -867,7 +867,7 @@ server.registerTool("process-large-dataset", {
 
 ```dockerfile
 # Dockerfile for MCP server
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 

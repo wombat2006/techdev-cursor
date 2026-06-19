@@ -32,7 +32,7 @@ This tutorial focuses primarily on tools.
 ### System Requirements
 Choose your preferred language:
 - **Python**: Python 3.10+ and MCP SDK 1.2.0+
-- **Node.js**: Node.js 16+ and TypeScript
+- **Node.js**: Node.js 20+ and TypeScript
 - **Java**: Java 17+ and Spring Boot 3.3.x+
 - **Kotlin**: Java 17+ and Gradle
 - **C#**: .NET 8 SDK or higher

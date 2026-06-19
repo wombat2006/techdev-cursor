@@ -3,7 +3,7 @@
 ## Prerequisites
 
 ### System Requirements
-- **Node.js**: Version 18.0.0 or higher
+- **Node.js**: Version 20.0.0 or higher
 - **Python**: Version 3.8+ (for Python-based servers)
 - **uv**: Python package manager (for Serena and similar servers)
 - **NPM/NPX**: For JavaScript-based servers
@@ -442,7 +442,7 @@ NODE_ENV=development DEBUG=mcp:* node src/server.js
 
 #### Docker Container
 ```dockerfile
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 COPY package*.json ./

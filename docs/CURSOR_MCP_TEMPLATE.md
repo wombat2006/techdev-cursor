@@ -45,7 +45,7 @@ Then: Cursor **Settings → MCP** → enable project MCP or paste JSON → **Rel
 |---------|-----|
 | `spawn wsl.exe ENOENT` | You are on WSL Remote — use **`linux`**, not windows template |
 | `Cannot find module …/dist/…` | Run `npm run build`; regenerate config (absolute `args`) |
-| `node not found` | Install Node ≥18 or `nvm install`; or `--node $(which node)` |
+| `node not found` | Install Node ≥20 or `nvm install`; or `--node $(which node)` |
 
 ---
 
@@ -106,7 +106,7 @@ cd "$(git rev-parse --show-toplevel)" && pwd   # REPO_ROOT
 
 ## EC2 notes
 
-1. Clone repo on instance; install Node ≥18 (`nvm` or distro package).
+1. Clone repo on instance; install Node ≥20 (`nvm` or distro package).
 2. Complete Track A-0 CLIs on that instance (or use CI-only MCP — usually **dev laptop + WSL** is the target).
 3. `npm run build && npm run cursor-mcp:config -- --variant linux`
 4. Cursor **Remote SSH** to EC2 → use generated `.cursor/mcp.json` or paste `--print` output.

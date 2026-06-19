@@ -110,6 +110,8 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [MONITORING_OPERATIONS.md]
 
 ## Quick start (developers)
 
+**Prerequisite:** Node.js ≥20 (`package.json` `engines`)
+
 1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md) — scope and directory layout  
 2. [CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) — WSL CLI auth (`claude` / `codex` / `agy`)  
 3. `npm run cursor-mcp:config` — register unified MCP in Cursor  

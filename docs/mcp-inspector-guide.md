@@ -789,7 +789,7 @@ fi
 **Solutions**:
 ```bash
 # Check Node.js version
-node --version  # Should be 18+
+node --version  # Should be 20+
 
 # Clear npm cache
 npm cache clean --force

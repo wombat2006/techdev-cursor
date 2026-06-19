@@ -371,7 +371,7 @@ cd ~/techdev-cursor && echo 'Reply with only: ok' | agy --print --model gemini-2
 
 1. Node.js (WSL):
    ```bash
-   node --version   # ≥18
+   node --version   # ≥20
    ```
 2. PATH hygiene:
    ```bash

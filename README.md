@@ -111,6 +111,8 @@ flowchart TB
 
 ## クイックスタート（開発者）
 
+**前提:** Node.js ≥20（`package.json` `engines`）
+
 1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
 2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
 3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録  

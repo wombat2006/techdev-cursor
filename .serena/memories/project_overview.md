@@ -10,7 +10,7 @@
 
 ## Tech Stack
 
-- Runtime: Node.js >=18 with Express 4
+- Runtime: Node.js >=20 with Express 4
 - Language: TypeScript (compiled via `tsc` to `dist/`)
 - Tooling: Jest for tests, ESLint, ts-node-dev for local dev
 - Integrations: prom-client, `@modelcontextprotocol/sdk`, Redis/MySQL, Google Drive RAG

@@ -107,7 +107,7 @@ Key variables defined in `src/config/environment.ts`:
 - **Security**: Input validation, authentication middleware, CORS configuration
 
 ### Service Dependencies
-- **Node.js**: ≥18.0.0 required (WSL-native for Cursor MCP — see [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) Phase 0)
+- **Node.js**: ≥20.0.0 required (WSL-native for Cursor MCP — see [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) Phase 0)
 - **Claude Code CLI**: WSL-native `@anthropic-ai/claude-code` + OAuth (not Windows `/mnt/c/` shim)
 - **Codex CLI**: WSL-native `@openai/codex` + `~/.codex/auth.json` (not Windows npm)
 - **Antigravity CLI**: `agy` on WSL PATH for Google Tier 1（OAuth token under `~/.gemini/antigravity-cli/`）。→ [ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)  

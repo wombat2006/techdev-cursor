@@ -167,7 +167,7 @@ Response to Wall-Bounce
 ## Technology Stack
 
 ### Runtime & Language
-- **Node.js**: ≥18.0.0
+- **Node.js**: ≥20.0.0
 - **TypeScript**: ES2022 target, CommonJS modules
 - **Build**: `tsc` with source maps
 

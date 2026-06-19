@@ -137,7 +137,7 @@ echo 'Reply with only: ok' | agy --print --model gemini-2.5-flash
 
 | Check | Command / condition |
 |-------|---------------------|
-| Node.js WSL | `node --version` (≥18) |
+| Node.js WSL | `node --version` (≥20) |
 | PATH order | WSL `claude`/`codex` before any `/mnt/c/.../npm` |
 | No API key override | `ANTHROPIC_API_KEY` unset for Claude OAuth |
 | Project build | `cd ~/techdev && npm run build` |

@@ -190,7 +190,7 @@ graph LR
 ```mermaid
 graph TB
     subgraph "Runtime Environment"
-        A[Node.js 18+] --> B[TypeScript ES2022]
+        A[Node.js 20+] --> B[TypeScript ES2022]
         B --> C[CommonJS Modules]
     end
     

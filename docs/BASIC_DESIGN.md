@@ -83,7 +83,7 @@ graph TB
 - **Protocol**: Server-Sent Events (SSE)
 
 #### バックエンド
-- **Runtime**: Node.js 18+ with TypeScript
+- **Runtime**: Node.js 20+ with TypeScript
 - **Framework**: Express.js 4.x
 - **Language**: TypeScript (ES2022, CommonJS)
 - **Security**: Helmet.js, CORS
