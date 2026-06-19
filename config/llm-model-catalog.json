@@ -891,6 +891,30 @@
       "costHint": "nano"
     },
     {
+      "id": "claude-haiku-4-5",
+      "vendor": "anthropic",
+      "modelFamily": "claude-haiku-4",
+      "displayName": "Claude Haiku 4.5",
+      "status": "planned",
+      "tier": 3,
+      "roles": ["llm_analyze"],
+      "modalities": ["text"],
+      "presetDefault": "fast",
+      "capabilities": {
+        "reasoning": "low",
+        "toolUse": true,
+        "codegen": true,
+        "japaneseQuality": "good"
+      },
+      "transport": {
+        "invocationTypes": ["claude_cli"],
+        "preferredInvocation": "claude_cli",
+        "nativeModelFlag": "haiku"
+      },
+      "costHint": "mini",
+      "notes": "Planned — Contract Layer preset binding; CLI alias haiku"
+    },
+    {
       "id": "claude-sonnet-4-5-20250929",
       "vendor": "anthropic",
       "modelFamily": "claude-sonnet-4",
@@ -984,6 +1008,7 @@
     }
   ],
   "aliases": {
+    "haiku": "claude-haiku-4-5",
     "sonnet": "claude-sonnet-4-5-20250929",
     "opus": "claude-opus-4.1",
     "gpt-5.5": "gpt-5.5",

@@ -4,13 +4,17 @@ import type {
   InferencePreset,
   InferenceProfile,
 } from '../types/inference-profile';
+import {
+  getNativeModelFlag,
+  resolvePresetNativeModelForProvider,
+} from '../services/llm-model-catalog-loader';
 
-/** Hardcoded presets until config/inference-profiles.json (Track A-2). */
-const PRESETS: Record<InferencePreset, InferenceProfile> = {
-  fast: { model: 'gemini-2.5-flash', effort: 'low', temperature: 0.2, cot: 'off' },
-  balanced: { model: 'sonnet', effort: 'medium', temperature: 0.5, cot: 'brief' },
-  deep: { model: 'sonnet', effort: 'high', temperature: 0.3, cot: 'brief' },
-  critical: { model: 'opus', effort: 'max', temperature: 0.2, cot: 'brief' },
+/** Effort / cot defaults per preset — catalog does not encode these yet. */
+const PRESET_DEFAULTS: Record<InferencePreset, Pick<InferenceProfile, 'effort' | 'temperature' | 'cot'>> = {
+  fast: { effort: 'low', temperature: 0.2, cot: 'off' },
+  balanced: { effort: 'medium', temperature: 0.5, cot: 'brief' },
+  deep: { effort: 'high', temperature: 0.3, cot: 'brief' },
+  critical: { effort: 'max', temperature: 0.2, cot: 'brief' },
 };
 
 const PROVIDER_DEFAULT_PRESET: Record<ProviderId, InferencePreset> = {
@@ -19,63 +23,39 @@ const PROVIDER_DEFAULT_PRESET: Record<ProviderId, InferencePreset> = {
   agy: 'fast',
 };
 
-/** Provider-native default models per preset (shared PRESETS.model is legacy placeholder). */
-const PROVIDER_PRESET_MODEL: Record<ProviderId, Record<InferencePreset, string>> = {
+/** Legacy alias fallbacks when name is not yet in catalog. */
+const LEGACY_MODEL_ALIASES: Record<ProviderId, Record<string, string>> = {
   claude: {
-    fast: 'haiku',
-    balanced: 'sonnet',
-    deep: 'sonnet',
-    critical: 'opus',
+    haiku: 'haiku',
+    sonnet: 'sonnet',
+    opus: 'opus',
+    'sonnet-4.5': 'sonnet',
+    'claude-sonnet-4-5-20250929': 'sonnet',
   },
   codex: {
-    fast: 'gpt-5.5',
-    balanced: 'gpt-5.5',
-    deep: 'gpt-5.5',
-    critical: 'gpt-5.5',
+    codex: 'gpt-5-codex',
+    'gpt-5-codex': 'gpt-5-codex',
+    'gpt-5': 'gpt-5',
+    'gpt-5.5': 'gpt-5.5',
   },
   agy: {
-    fast: 'gemini-2.5-flash',
-    balanced: 'gemini-2.5-flash',
-    deep: 'gemini-2.5-pro',
-    critical: 'gemini-2.5-pro',
+    flash: 'gemini-2.5-flash',
+    pro: 'gemini-2.5-pro',
+    'gemini-2.5-flash': 'gemini-2.5-flash',
+    'gemini-2.5-pro': 'gemini-2.5-pro',
   },
-};
-
-const CLAUDE_MODEL_ALIASES: Record<string, string> = {
-  haiku: 'haiku',
-  sonnet: 'sonnet',
-  opus: 'opus',
-  'sonnet-4.5': 'sonnet',
-  'claude-sonnet-4-5-20250929': 'sonnet',
-};
-
-const CODEX_MODEL_ALIASES: Record<string, string> = {
-  codex: 'gpt-5-codex',
-  'gpt-5-codex': 'gpt-5-codex',
-  'gpt-5': 'gpt-5',
-  'gpt-5.5': 'gpt-5.5',
-};
-
-const AGY_MODEL_ALIASES: Record<string, string> = {
-  flash: 'gemini-2.5-flash',
-  pro: 'gemini-2.5-pro',
-  'gemini-2.5-flash': 'gemini-2.5-flash',
-  'gemini-2.5-pro': 'gemini-2.5-pro',
 };
 
 export function resolveModelAlias(provider: ProviderId, model?: string): string | undefined {
-  if (!model) return undefined;
-  const key = model.toLowerCase();
-  switch (provider) {
-    case 'claude':
-      return CLAUDE_MODEL_ALIASES[key] ?? model;
-    case 'codex':
-      return CODEX_MODEL_ALIASES[key] ?? model;
-    case 'agy':
-      return AGY_MODEL_ALIASES[key] ?? model;
-    default:
-      return model;
+  if (!model) {
+    return undefined;
   }
+  const fromCatalog = getNativeModelFlag(model);
+  if (fromCatalog) {
+    return fromCatalog;
+  }
+  const key = model.toLowerCase();
+  return LEGACY_MODEL_ALIASES[provider][key] ?? model;
 }
 
 export function resolveInferenceProfile(
@@ -86,12 +66,13 @@ export function resolveInferenceProfile(
   >
 ): InferenceProfile {
   const presetName = input.preset ?? PROVIDER_DEFAULT_PRESET[provider];
-  const base = { ...PRESETS[presetName] };
+  const base: InferenceProfile = {
+    ...PRESET_DEFAULTS[presetName],
+    model: resolvePresetNativeModelForProvider(provider, presetName),
+  };
 
   if (input.model) {
-    base.model = resolveModelAlias(provider, input.model);
-  } else {
-    base.model = resolveModelAlias(provider, PROVIDER_PRESET_MODEL[provider][presetName]);
+    base.model = resolveModelAlias(provider, input.model) ?? input.model;
   }
 
   if (input.effort) {

@@ -44,8 +44,8 @@ Target catalog: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) (GPT-5.5, GPT
 
 Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wiring pending:
 
-- [ ] **F-1** — `npm run validate:config` — ajv validate `config/llm-model-catalog.json` against schema
-- [ ] **F-2** — `src/services/llm-model-catalog-loader.ts` — load + alias resolve at startup
+- [x] **F-1** — `npm run validate:config` — ajv validate catalog + `adapter-preset-matrix.json` (Contract Layer)
+- [~] **F-2** — `src/services/llm-model-catalog-loader.ts` — load + alias + open adapter preset matrix; TaskRouter wiring pending
 - [ ] **F-3** — TaskRouter filters models by `capabilities` + `roles` (e.g. tool required → exclude nano)
 - [ ] **F-4** — Migrate `llm-providers.json` entries to reference `catalogId` instead of duplicating traits
 - [ ] **F-5** — Sync vendor matrix docs (OpenAI, Anthropic, Google) from catalog export or CI check

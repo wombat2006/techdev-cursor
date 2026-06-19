@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "description": "Contract Layer — adapterId × preset → catalog model id (TS-21). Open map: add rows when new adapters ship (native Qwen, Grok, OpenRouter, etc.).",
+  "constitutionPeerAdapters": ["claude", "codex", "agy"],
+  "adapters": {
+    "claude": {
+      "fast": "claude-haiku-4-5",
+      "balanced": "claude-sonnet-4-5-20250929",
+      "deep": "claude-sonnet-4-5-20250929",
+      "critical": "claude-opus-4.1"
+    },
+    "codex": {
+      "fast": "gpt-5.5",
+      "balanced": "gpt-5.5",
+      "deep": "gpt-5.5",
+      "critical": "gpt-5.5"
+    },
+    "agy": {
+      "fast": "gemini-2.5-flash",
+      "balanced": "gemini-2.5-flash",
+      "deep": "gemini-2.5-pro",
+      "critical": "gemini-2.5-pro"
+    }
+  }
+}
