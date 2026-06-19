@@ -55,7 +55,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
 | **Memory** | Layer A `OrchestrationSession` mandatory; event `ts`/`tsEnd` UTC; session `clientTimezone` optional | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | **Commit** | P0/P1/P2 doc sync per policy; same commit as implementation | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
-| **Doc language** | Logic docs **English**; `README_ja.md` / proposals Japanese | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
+| **Doc language** | Logic docs **English**; `README.md` (ja top) / proposals Japanese | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
 
 ### Provider Tiers (Summary)
 
@@ -105,7 +105,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 | **Claude Code** | [CLAUDE.md](CLAUDE.md) | Native shim → AGENTS.md (P1 done) |
 | **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog (P3 done) |
 | **Codex / Copilot** | `AGENTS.md` | Primary; no extra root file required |
-| **Humans** | [README.md](README.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
+| **Humans** | [README.md](README.md) · [README_en.md](README_en.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
 
 ---
 

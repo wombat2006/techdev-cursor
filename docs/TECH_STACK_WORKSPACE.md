@@ -167,7 +167,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 - [ ] ADR in `docs/decisions/TECH_STACK_*.md`
 - [ ] Row updated in this workspace (Target + link)
 - [ ] `docs/ARCHITECTURE.md` Technology Stack section
-- [ ] `README.md` + `README_ja.md` prerequisites
+- [ ] `README.md` + `README_en.md` prerequisites
 - [ ] `AGENTS.md` summary (if provider/runtime rule changes)
 - [ ] `docs/agents/development-notes.md` if dev workflow changes
 - [ ] Implementation ticket / phase mapping (P5+ if applicable)

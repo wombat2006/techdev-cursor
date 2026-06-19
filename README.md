@@ -1,55 +1,56 @@
-# TechSapo — DevAssist Fork (`techdev-cursor`)
+# TechSapo — DevAssist フォーク (`techdev-cursor`)
 
-> **PRIMARY REPO** — Cursor-integrated development environment for **coding accuracy** and **workload reduction**.  
-> Fork of [wombat2006/techdev](https://github.com/wombat2006/techdev) (Wall-Bounce multi-LLM platform).  
-> **Not** IT incident / InfraOps analysis (upstream fork line).
+> **PRIMARY REPO** — Cursor 統合開発環境。**コーディング精度向上**と**負荷軽減**が目的。  
+> [wombat2006/techdev](https://github.com/wombat2006/techdev)（Wall-Bounce）のフォーク。  
+> **IT 障害解析 / InfraOps ラインではない**（upstream 別フォーク）。
 
-Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`).
+統一 MCP（`analyze_claude` / `analyze_codex` / `analyze_agy`）による日常の Cursor コーディング向けマルチ LLM 基盤。
+
+*[English](README_en.md) | **日本語***
 
 ---
 
-## What & why
+## 何を・なぜ
 
 | | |
 |---|---|
-| **What** | DevAssist fork — Wall-Bounce + unified provider MCP + subscription CLIs |
-| **Why** | Build software **accurately, efficiently, at subscription-scale cost** |
-| **Not** | IT incident platform · single-vendor chat wrapper |
+| **何** | DevAssist フォーク — Wall-Bounce + 統一 provider MCP + サブスク CLI |
+| **なぜ** | **簡便・正確・低コスト**にソフトウェアを作る |
+| **ではない** | IT 障害プラットフォーム · 単一ベンダー chat ラッパー |
 
 ---
 
-## Where to go next
+## 次に読むもの
 
-| Need | Document |
-|------|----------|
-| **Current status & Gates** | [FORK_STATUS.md](./docs/FORK_STATUS.md) · [日本語](./docs/ja/FORK_STATUS.md) |
-| **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [要約（日本語）](./docs/ja/CURSOR_MCP_TODO_ja.md) |
-| Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [日本語](./docs/ja/FORK_CURSOR.md) |
-| Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) · [日本語](./docs/ja/FORK_ONBOARDING.md) |
-| AI agents | [AGENTS.md](./AGENTS.md) |
-| Full doc map | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| Documentation rules | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
-
----
-
-## Quick start (developers)
-
-1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md) — scope and directory layout  
-2. [CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) — WSL CLI auth (`claude` / `codex` / `agy`)  
-3. `npm run cursor-mcp:config` — register unified MCP in Cursor  
+| 目的 | ドキュメント |
+|------|-------------|
+| **現状・Gate 進捗** | [FORK_STATUS.md](./docs/ja/FORK_STATUS.md) |
+| **実行・Track（要約）** | [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) |
+| **実行・Track（正本・英語）** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
+| フォークの位置づけ | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
+| 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
+| AI エージェント | [AGENTS.md](./AGENTS.md)（英語） |
+| ドキュメント一覧 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+| ドキュメント方針 | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
 
 ---
 
-## Constitution (summary)
+## クイックスタート（開発者）
 
-Wall-Bounce: **at least 2 rounds, at most 5**; confidence ≥ 0.7; consensus ≥ 0.6; implementation via `wall-bounce-analyzer.ts` only.
-
-Details: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
+1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
+2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
+3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録  
 
 ---
 
-## License & support
+## 憲法（要約）
 
-MIT — see `license` in [package.json](./package.json). Issues: [GitHub](https://github.com/wombat2006/techdev-cursor/issues).
+Wall-Bounce: **最低 2 ラウンド・最大 5**；confidence ≥ 0.7；consensus ≥ 0.6；実装は `wall-bounce-analyzer.ts` のみ。
 
-*[日本語](README_ja.md)*
+詳細: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)（英語）
+
+---
+
+## ライセンス・サポート
+
+MIT — [package.json](./package.json) の `license` フィールドを参照。Issue: [GitHub](https://github.com/wombat2006/techdev-cursor/issues)。

@@ -2,7 +2,7 @@
 
 **Status:** v0.1 — README slim + legacy phase 1 complete (2026-06-19)  
 **Owner:** TechSapo Development Team  
-**Last updated:** 2026-06-19 (B2b docs/ja pairs)  
+**Last updated:** 2026-06-19 (B2 ja repo top)  
 **Related:** [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) · [FORK_CURSOR.md](./FORK_CURSOR.md) · [.cursor/rules/documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc)
 
 ---
@@ -25,7 +25,7 @@ This fork (`techdev-cursor`) maintains documentation for **humans other than the
 
 | Audience | Primary entry | Language | Notes |
 |----------|---------------|----------|-------|
-| **Other humans** (policy target) | [README.md](../README.md) · [README_ja.md](../README_ja.md) | en / ja | Thin onboarding only |
+| **Other humans** (policy target) | [README.md](../README.md) · [README_en.md](../README_en.md) | **ja** / en | Thin onboarding; **GitHub repo top = Japanese** |
 | **Executing developer** | [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) | English | **Authoritative runbook** for Tracks and Gates |
 | **AI coding agents** | [AGENTS.md](../AGENTS.md) → [docs/agents/](./agents/) | English | Skeleton top; details in Layer 2 |
 | **Architecture / decisions** | [docs/decisions/](./decisions/) · [ARCHITECTURE.md](./ARCHITECTURE.md) | English | ADR for accepted design |
@@ -39,8 +39,9 @@ The primary maintainer uses the same docs; policy optimizes for **first-time ext
 
 ```
 Root (minimal)
-  README.md          — thin human entry (English)
-  README_ja.md       — thin human entry (Japanese)
+  README.md          — thin human entry (Japanese — GitHub repo top)
+  README_en.md       — thin human entry (English)
+  README_ja.md       — shim → README.md (legacy links)
   AGENTS.md          — agent skeleton only
   CLAUDE.md          — shim → AGENTS.md
 
@@ -73,7 +74,7 @@ README files answer only:
 1. **What** is this repo? (DevAssist fork; not IT incident analysis)
 2. **Why** does it exist? (coding accuracy + workload reduction)
 3. **Where** to go next? (links table)
-4. **Current status?** → link to [FORK_STATUS.md](./FORK_STATUS.md) (en) or [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) from `README_ja.md` (not duplicated prose)
+4. **Current status?** → link to [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) from `README.md`, or [FORK_STATUS.md](./FORK_STATUS.md) from `README_en.md` (not duplicated prose)
 
 **Do not put in README:**
 
@@ -89,10 +90,11 @@ README files answer only:
 
 | File | Language | Role |
 |------|----------|------|
-| `README.md` | **English only** | International / default GitHub view |
-| `README_ja.md` | **Japanese** | Same structure as English; not a 1:1 translation of legacy 800-line content |
+| `README.md` | **Japanese** | **GitHub repo top** — primary human audience (Japanese teammates) |
+| `README_en.md` | **English** | International / English-first readers; same structure as `README.md` |
+| `README_ja.md` | shim | Redirect only — do not duplicate body; links to `README.md` |
 
-Keep **heading parity** between en/ja so P1 sync stays cheap.
+Keep **heading parity** between `README.md` and `README_en.md` so P1 sync stays cheap.
 
 ### B2b — Human docs (`docs/ja/` pairs)
 
@@ -109,15 +111,14 @@ Keep **heading parity** between en/ja so P1 sync stays cheap.
 
 1. **Language bar** on line 1–5: `*[English](../FORK_STATUS.md) | **日本語***` (ja file) and reverse on en file.
 2. **Heading parity** — same section order; ja prose may localize examples.
-3. **`README_ja.md`** links **ja paths only** for paired human docs.
-4. **`README.md`** links **English paths**; may note ja sibling in language bar, not duplicate tables.
+3. **`README.md`** links **ja paths only** for paired human docs; **`README_en.md`** links English paths (may note ja sibling).
 
 **Not paired (English only):**
 
 - `CURSOR_MCP_TODO.md` — execution truth; optional `docs/ja/CURSOR_MCP_TODO_ja.md` **summary** with links to English steps
 - `docs/agents/*`, `docs/decisions/*`, `AGENTS.md`, ADRs — logic / agent docs stay **English**
 
-**Do not:** embed en+ja in one markdown file for navigation-tier docs; do not point `README_ja.md` at English-only human status prose.
+**Do not:** embed en+ja in one markdown file for navigation-tier docs; do not point `README.md` at English-only human status prose without `docs/ja/` links.
 
 ---
 
@@ -147,7 +148,7 @@ Gate and milestone **progress appeal** uses JST timestamps in **one place only**
 | Doc / layer | Format | When to use | Do not |
 |-------------|--------|-------------|--------|
 | **[FORK_STATUS.md](./FORK_STATUS.md)** | `YYYY/MM/DD HH:mm:ss JST` | Gate Pass/Fail, Track milestones, Completed table, Changelog | Duplicate full tables in README |
-| **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** | *(none for progress)* | Link to FORK_STATUS for “current status” | Gate timestamps, AS-IS/To-Be tables (until slim migration removes legacy blocks) |
+| **[README.md](../README.md)** · **[README_en.md](../README_en.md)** | *(none for progress)* | Link to FORK_STATUS (ja from README.md, en from README_en.md) | Gate timestamps, AS-IS/To-Be tables |
 | **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** | `YYYY-MM-DD` (calendar day) | Task notes, sign-off memos, reproducible execution context | Replace FORK_STATUS as human progress dashboard |
 | **[docs/decisions/](./decisions/)** ADR | `Date: YYYY-MM-DD` | Decision acceptance / revision | Time-of-day or JST suffix (ADR convention) |
 | **[docs/proposals/](./proposals/)** | `日付: YYYY-MM-DD` | Customer-facing version date (Japanese OK) | Gate/milestone JST timestamps |
@@ -206,7 +207,7 @@ Implementation and documentation stay in the **same commit** unless the user exp
 
 **Minimum updates:**
 
-- `README.md` + `README_ja.md` **summary sections only** (parallel headings)
+- `README.md` + `README_en.md` **summary sections only** (parallel headings)
 - [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) if navigation changes
 
 ### P2 — Long guides (touch-only)
@@ -229,7 +230,7 @@ feat: wire wall-bounce to codex adapter
 
 # ✅ P1 — README slim: new link to FORK_STATUS
 docs: slim README entry; add FORK_STATUS
-  README.md, README_ja.md
+  README.md, README_en.md
   docs/FORK_STATUS.md
   docs/DOCUMENTATION_INDEX.md
 
@@ -302,11 +303,12 @@ Execute in order; each step may be its own commit.
 | 1 | Adopt this policy (v0.1) | `[x]` draft |
 | 2 | Update [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) → link here; E2 tiers | `[x]` 2026-06-19 |
 | 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[x]` 2026-06-19 |
-| 4 | Slim README.md (English A1) + README_ja.md (parallel) | `[x]` 2026-06-19 — 55 lines each |
+| 4 | Slim README (ja top + README_en parallel) | `[x]` 2026-06-19 — README.md = ja; README_en.md = en |
 | 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[x]` 2026-06-19 — 12 files |
 | 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[x]` 2026-06-19 — 134 lines |
 | 7 | Optional: `FORK_ONBOARDING.md` for Design depth / maturity content | `[x]` 2026-06-19 |
-| 8 | B2b — `docs/ja/` human doc pairs + README_ja links | `[x]` 2026-06-19 |
+| 8 | B2b — `docs/ja/` human doc pairs + README ja links | `[x]` 2026-06-19 |
+| 9 | B2 — GitHub repo top = `README.md` (Japanese); `README_en.md` English | `[x]` 2026-06-19 |
 
 ---
 

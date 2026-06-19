@@ -11,7 +11,7 @@ When features, configuration, architecture, providers, or CLI requirements chang
 
 ## Pre-commit Checklist
 
-1. **README sync (P1 only):** When fork **entry/summary** changes, update both [README.md](../../README.md) and [README_ja.md](../../README_ja.md) summary sections (parallel headings). Progress-only changes → [FORK_STATUS.md](../../docs/FORK_STATUS.md) **and** [ja/FORK_STATUS.md](../../docs/ja/FORK_STATUS.md) (P0), not README body. Human doc pairs: [DOCUMENTATION_POLICY §4 B2b](../../docs/DOCUMENTATION_POLICY.md#b2b--human-docs-docsja-pairs). See [DOCUMENTATION_POLICY §7](../../docs/DOCUMENTATION_POLICY.md#7-commit-sync-tiers-e2).
+1. **README sync (P1 only):** When fork **entry/summary** changes, update both [README.md](../../README.md) (Japanese — GitHub repo top) and [README_en.md](../../README_en.md) summary sections (parallel headings). Progress-only changes → [FORK_STATUS.md](../../docs/FORK_STATUS.md) **and** [ja/FORK_STATUS.md](../../docs/ja/FORK_STATUS.md) (P0), not README body. Human doc pairs: [DOCUMENTATION_POLICY §4 B2b](../../docs/DOCUMENTATION_POLICY.md#b2b--human-docs-docsja-pairs). See [DOCUMENTATION_POLICY §7](../../docs/DOCUMENTATION_POLICY.md#7-commit-sync-tiers-e2).
 2. **Navigation:** Add new **active** docs to [DOCUMENTATION_INDEX.md](../../docs/DOCUMENTATION_INDEX.md). AGENTS.md link row only if needed (skeleton). Details → [docs/agents/](../../docs/agents/). Do not edit stub files under `docs/claude-*.md`.
 3. **Proposals:** If customer-facing content changes, update `docs/proposals/` and `scripts/pptx-gen/slide-data.mjs` (regenerate PPTX if needed)
 4. **ADR:** Record design decisions in [docs/decisions/](../../docs/decisions/)
@@ -51,7 +51,7 @@ Thin hooks only — link to AGENTS.md / domain docs; do not duplicate constituti
 - [docs/WALL_BOUNCE_SYSTEM.md](../../docs/WALL_BOUNCE_SYSTEM.md), [docs/ANTIGRAVITY_CLI_MIGRATION.md](../../docs/ANTIGRAVITY_CLI_MIGRATION.md)
 - `.cursor/rules/*.mdc` (agent rules)
 
-Customer-facing proposals (`docs/proposals/`) and `README_ja.md` may remain in Japanese.
+Customer-facing proposals (`docs/proposals/`) and `README.md` (Japanese repo top) may remain in Japanese.
 
 Do not split implementation-only and docs-only commits unless the user explicitly requests it — **one commit with implementation + docs**.
 
@@ -62,7 +62,7 @@ Do not split implementation-only and docs-only commits unless the user explicitl
 feat: add codegen route to TaskRouter
   src/...
   docs/ARCHITECTURE.md
-  README.md, README_ja.md
+  README.md, README_en.md
 
 # ❌ BAD — README left stale
 feat: Antigravity CLI support

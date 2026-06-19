@@ -8,7 +8,7 @@
 
 ### Developer
 
-1. **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** — thin human entry
+1. **[README.md](../README.md)** (ja — GitHub top) · **[README_en.md](../README_en.md)** — thin human entry
 2. **[FORK_STATUS.md](./FORK_STATUS.md)** · **[ja/FORK_STATUS.md](./ja/FORK_STATUS.md)** — Gate / Track progress
 3. **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** · **[ja/CURSOR_MCP_TODO_ja.md](./ja/CURSOR_MCP_TODO_ja.md)** — runbook (en canonical · ja summary)
 4. **[FORK_CURSOR.md](./FORK_CURSOR.md)** · **[ja/FORK_CURSOR.md](./ja/FORK_CURSOR.md)** — fork identity
