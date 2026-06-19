@@ -115,7 +115,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 
 | Layer | Technology |
 |-------|------------|
-| Runtime | Node.js ≥18 |
+| Runtime | Node.js ≥20 |
 | Language | TypeScript (ES2022) |
 | Framework | Express.js |
 | Cache | Redis |
