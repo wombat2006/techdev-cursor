@@ -2,7 +2,7 @@
 
 **Status**: ACTIVE — start with Track A; do not skip Gates  
 **Owner**: TechSapo Development Team  
-**Last updated**: 2026-06-18
+**Last updated**: 2026-06-19
 
 Step-by-step checklist for **subscription-quota** development via Cursor MCP and downstream platform work.
 
@@ -28,7 +28,7 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 |----------|-------|--------|------------|---------------|
 | **P0** | **A** | WSL CLI auth (A-0) → Cursor MCP register + smoke (A-1) → MCP profile args (A-2) → team template (A-3) | **Now** | **Yes** — primary user-facing path |
 | — | **Gate A→B** | G1–G7 + **G-MEM** (Memory substrate ADR) | A complete | Required before B |
-| **P1** | **B** | `inference-profiles.json`, Wall-Bounce API profiles, adapter wiring into `wall-bounce-analyzer.ts` | Gate A→B Pass | Yes for unified transport + presets |
+| **P1** | **B** | `inference-profiles.json`, adapter wiring into `wall-bounce-analyzer.ts` + `rag-endpoint` legacy path, Layer A (M1–M3), Wall-Bounce API profiles | Gate A→B Pass | Yes for unified transport + presets |
 | — | **Gate B→C** | Schema boundary, adapter tests, profile on API | B complete | Required before C |
 | **P2** | **F** (code) | F-1 validate · F-2 catalog loader · F-12 cost-aware TaskRouter | Gate A→B Pass (F-1/F-2); F-12 with B | No — enhances routing/cost after MCP works |
 | **P2** | **E** | OpenAI model ID migration in adapters / `llm-providers.json` | A-2 or B-0 (profiles file) | No — doc catalog already ahead of code |
@@ -50,7 +50,65 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 - **Daily coding in Cursor:** single-provider MCP (`analyze_*`) when one LLM suffices — [README § Processing Flow](./README.md) AS-IS path.
 - **Multi-LLM analysis / production API:** Wall-Bounce only — ≥2 providers, 2–5 rounds, thresholds per [AGENTS.md](../AGENTS.md#constitution). Round **enforcement in code** remains **Track C** (To-Be).
 
-Reference: [PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md) · [FORK_CURSOR.md § MCP sequence](./FORK_CURSOR.md#mcp-server-implementation-sequence-fork)
+Reference: [PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md) · [FORK_CURSOR.md § MCP sequence](./FORK_CURSOR.md#mcp-server-implementation-sequence-fork) · [Codex review crosswalk](#codex-review-crosswalk-2026-06-18)
+
+---
+
+## Codex review crosswalk (2026-06-18)
+
+**Purpose:** Map external Codex code review findings to this runbook’s Tracks — **without** copying the source markdown into this fork.
+
+| Item | Value |
+|------|-------|
+| **Source repo** | [`wombat2006/techsapo`](https://github.com/wombat2006/techsapo) (legacy platform line) |
+| **Source PR** | [#3 — perform code review](https://github.com/wombat2006/techsapo/pull/3) |
+| **Source file** | `docs/reviews/wall-bounce-solution-suite-review-2026-06-18.md` (**techsapo only — not vendored here**) |
+| **Authoritative for fork execution** | **This section + existing Track tasks** — not the source review verbatim |
+
+**Why not copy the review MD:** The source describes **techsapo AS-IS** (pre-fork, multiple Wall-Bounce entry points, docs/implementation drift). This fork (`techdev-cursor`) has diverged (Gate A→B Pass, unified MCP adapters, README AS-IS/To-Be). Copying the full review risks stale contradictions; the crosswalk below is the maintained mapping.
+
+**When to read the source:** Historical context, exact wording of risks/suggestions, or audit trail. **When to execute:** Follow Track A/B/C tasks and Gates in this runbook.
+
+### Codex Phase → Track priority
+
+| Codex Phase | Review intent | Fork Track(s) | Status |
+|-------------|---------------|---------------|--------|
+| **Phase 1** | Visibility — Current / Target / Planned docs; API inventory; WB entry list | README AS-IS/To-Be · Gate B→C **G5** doc sync | Partial — README done 2026-06-18 |
+| **Phase 2** | Orchestrator as single entry; adapter unify; structured consensus | **B-1** · **B-2** · **C-1** · **C-5** · **M3** | Planned — start Track B |
+| **Phase 3** | `SolutionLifecyclePlan`; Runbook / test matrix as standard outputs | **P5 Phase 1+** (Grounding) | Out of scope for Track C |
+| **Phase 4** | MCP approval in prod; audit; cost/SLO; CI contract gates | **D** · **F-12** · **P5 Phase 1+** | Thin / backlog |
+
+### Review item → Track mapping (8 themes)
+
+| # | Codex theme | Primary Track task(s) | Coverage | Action if gap |
+|---|-------------|----------------------|----------|---------------|
+| **1** | Wall-Bounce **single entry** (analyzer / RAG / log paths diverge) | **B-1** · **B-2** · **C-5** · **M3** | High | Extend **B-1** scope: `rag-endpoint.ts` legacy MCP parallel → adapters (see B-1 below) |
+| **2** | **Consensus** beyond max-confidence (evidence, contradictions, human review) | **C-1** · **C-4** | Medium | After C-1: consider **C-1b** — `accepted` / `needs_human_review` / `blocked` outcomes |
+| **3** | **MCP** extensibility + approval workflow wired to Wall-Bounce | — | Low | Defer to **P5 Phase 1+**; do not block Track B |
+| **4** | **Docs ↔ code** alignment (API auth, response shape, architecture claims) | Gate B→C **G5** · [documentation-sync](../.cursor/rules/documentation-sync.mdc) | Medium | Add API contract smoke to **Gate B→C G6** when B-2 lands |
+| **5** | **`SolutionLifecyclePlan`** structured output (design, test, ops artifacts) | **P5 Phase 1+** | None in Track C | Backlog only — not DevAssist P0 |
+| **6** | **Maintainability** — split analyzer; remove simulate/mock from prod paths | **B-1** · **C-5** · A-1 adapters (done) | Medium | B-1 deprecates nested MCP spawn + `mcp-clients` simulate on inference paths |
+| **7** | **Security** guardrails — audit, PII redaction, action state machine | [SECURITY.md](./SECURITY.md) · **P5 Phase 1+** | Low | No Track B blocker |
+| **8** | **Tests** — provider failure, approval gate, contract, open handles | **B-1** adapter tests · **C-1/C-4** gate tests · backlog `tests/adapters/` | Medium | `jest --detectOpenHandles` before Gate B→C |
+
+### Deferred backlog (review Phase 3–4 — not Track B/C blockers)
+
+| ID | Summary | Suggested when |
+|----|---------|----------------|
+| **WB-OUT-1** | `SolutionLifecyclePlan` JSON schema | P5 Phase 1+ |
+| **WB-MCP-1** | MCP approval on destructive tools in production path | P5 Phase 1+ |
+| **WB-DOC-1** | API Reference ↔ implementation contract test in CI | Gate B→C G6 enhancement |
+| **WB-SEC-1** | Audit log fields + `dry-run` → `pending_approval` → `executed` states | P5 Phase 1+ |
+| **WB-BUILD-1** | Pre–Gate B→C: `npm run build` + missing-import inventory (`wall-bounce-server.ts` adapter imports) | Before Gate B→C |
+
+### Gate checklist additions (optional)
+
+| Gate | Optional criterion from review |
+|------|--------------------------------|
+| **Gate B→C** | G6+ — one API request/response matches documented contract for `wall-bounce` profile field |
+| **Gate C** | G1+ — consensus returns structured status, not only final text |
+
+**Last crosswalk review:** _______________ (update when Track B/C tasks change)
 
 ---
 
@@ -575,10 +633,11 @@ npm run build
 1. Refactor [wall-bounce-analyzer.ts](../src/services/wall-bounce-analyzer.ts) to call adapters.
 2. Unit or integration test per adapter path from Wall-Bounce.
 3. Deprecate nested MCP client spawn for provider inference.
+4. Include [rag-endpoint.ts](../src/routes/rag-endpoint.ts) — replace legacy parallel MCP inference (`mcp__gpt_5__deep_analysis`, `mcp__gemini_cli__ask_gemini`) with adapters ([Codex review #1](#codex-review-crosswalk-2026-06-18)).
 
-**Done when:** `[ ]` Wall-Bounce uses adapters; `[ ]` each path has one test or documented manual probe.
+**Done when:** `[ ]` Wall-Bounce uses adapters; `[ ]` each path has one test or documented manual probe; `[ ]` RAG `/search` wall-bounce path uses adapters (no `mcp-clients` simulate for provider inference).
 
-**Reflection memo:** _CoT independent of effort — test `effort: high` + `cot: off` case._
+**Reflection memo:** _CoT independent of effort — test `effort: high` + `cot: off` case. RAG Wall-Bounce was a separate legacy path; B-1 unifies transport before C-5 orchestrator merge._
 
 ---
 
@@ -871,6 +930,7 @@ flowchart TD
 | P5 architecture | [WALL_BOUNCE_P5_ARCHITECTURE.md](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md) |
 | MCP architecture | [MCP_SERVICES.md](./MCP_SERVICES.md) |
 | Backlog TS-21 | [TECH_STACK_WORKSPACE.md](./TECH_STACK_WORKSPACE.md) |
+| Codex review crosswalk | [§ Codex review crosswalk](#codex-review-crosswalk-2026-06-18) (source: [techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3) — not copied) |
 
 ---
 

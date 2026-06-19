@@ -73,7 +73,7 @@
 | **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | Layer A/B/C; event `ts`/`tsEnd`/`seq`; TTL idle 7d / max 30d (TS-22 v1.3) | Architects / core devs |
 | **CURSOR_MCP_PLAN.md** | Cursor MCP plan; Phase 0 WSL CLI + auth prerequisite (TS-21) | Developers |
 | **FORK_CURSOR.md** | `techdev-cursor` — integrated Cursor dev env (coding accuracy/workload); not InfraOps/incident analysis | Developers |
-| **CURSOR_MCP_TODO.md** | Phased execution runbook — Track A/B/C + Gate reviews | Developers |
+| **CURSOR_MCP_TODO.md** | Phased execution runbook — Track A/B/C + Gate reviews + Codex review crosswalk ([techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3), not vendored) | Developers |
 | **PROVIDER_INTEGRATION_BACKLOG.md** | Provider adapters, SDK sidecar margin, open backlog (unprioritized) | Developers |
 | **TECH_STACK_WORKSPACE.md** | Tech stack AS-IS inventory & decision backlog TS-01…21 | Architects / leads |
 
