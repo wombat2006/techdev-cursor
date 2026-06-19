@@ -9,7 +9,7 @@ export interface CodexSessionData {
   prompt: string;
   model: string;
   sandbox: string;
-  context: any[];
+  context: unknown[];
   messages: CodexMessage[];
   status: 'active' | 'completed' | 'failed';
 }
