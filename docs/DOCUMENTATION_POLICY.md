@@ -1,8 +1,8 @@
 # Documentation Policy — `techdev-cursor`
 
-**Status:** Draft v0.1 — adopted direction, README slim migration pending  
+**Status:** v0.1 — README slim + legacy phase 1 complete (2026-06-19)  
 **Owner:** TechSapo Development Team  
-**Last updated:** 2026-06-19 (date-format scope §5)  
+**Last updated:** 2026-06-19 (migration checklist §10)  
 **Related:** [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) · [FORK_CURSOR.md](./FORK_CURSOR.md) · [.cursor/rules/documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc)
 
 ---
@@ -47,6 +47,7 @@ Root (minimal)
 docs/ (active)
   DOCUMENTATION_POLICY.md   — this file
   FORK_STATUS.md            — rolling AS-IS / To-Be (human status)
+  FORK_ONBOARDING.md        — design depth & maturity (human onboarding)
   CURSOR_MCP_TODO.md        — executable runbook
   FORK_CURSOR.md            — fork identity and layout
   agents/                   — agent detail (English)
@@ -273,12 +274,12 @@ Execute in order; each step may be its own commit.
 | # | Task | Status |
 |---|------|--------|
 | 1 | Adopt this policy (v0.1) | `[x]` draft |
-| 2 | Update [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) → link here; E2 tiers | `[ ]` |
-| 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[x]` 2026-06-19 — README slim pending |
-| 4 | Slim README.md (English A1) + README_ja.md (parallel) | `[ ]` |
-| 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[ ]` |
-| 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[ ]` |
-| 7 | Optional: `FORK_ONBOARDING.md` for Design depth / maturity content | `[ ]` |
+| 2 | Update [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) → link here; E2 tiers | `[x]` 2026-06-19 |
+| 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[x]` 2026-06-19 |
+| 4 | Slim README.md (English A1) + README_ja.md (parallel) | `[x]` 2026-06-19 — 55 lines each |
+| 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[x]` 2026-06-19 — 12 files |
+| 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[x]` 2026-06-19 — 134 lines |
+| 7 | Optional: `FORK_ONBOARDING.md` for Design depth / maturity content | `[x]` 2026-06-19 |
 
 ---
 

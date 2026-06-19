@@ -34,7 +34,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | MCP Integration | `src/services/mcp-integration-service.ts` | [MCP_SERVICES.md](docs/MCP_SERVICES.md) |
 | Cursor MCP runbook | Phase 0: WSL CLI + auth first | [CURSOR_MCP_TODO.md](docs/CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](docs/CURSOR_MCP_PLAN.md) |
 | Memory substrate (TS-22) | Before Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
-| Fork identity / status | — | [FORK_CURSOR.md](docs/FORK_CURSOR.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) |
+| Fork identity / status / onboarding | — | [FORK_CURSOR.md](docs/FORK_CURSOR.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) |
 | API Routes | `src/routes/wall-bounce-api.ts` | [API_REFERENCE.md](docs/API_REFERENCE.md) |
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
 | System Architecture | `src/index.ts` | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
@@ -105,7 +105,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 | **Claude Code** | [CLAUDE.md](CLAUDE.md) | Native shim → AGENTS.md (P1 done) |
 | **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog (P3 done) |
 | **Codex / Copilot** | `AGENTS.md` | Primary; no extra root file required |
-| **Humans** | [README.md](README.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
+| **Humans** | [README.md](README.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
 
 ---
 

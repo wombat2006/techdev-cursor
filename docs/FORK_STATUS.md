@@ -1,7 +1,7 @@
 # Fork Status — `techdev-cursor`
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/19 11:22:09 JST  
+**Last updated:** 2026/06/19 11:31:24 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -71,9 +71,10 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Codex adapter (MCP cwd) | 2026/06/18 17:22:09 | `--skip-git-repo-check` for non-repo cwd |
 | **TS-21** model catalog | 2026/06/18 09:37:54 | `config/llm-model-catalog.json` + schema; runtime loader = Track F |
 | **TS-22** memory substrate | 2026/06/18 16:49:20 | ADR v1.3, session schema/types, `orchestration-memory.json`; G-MEM closed |
-| README AS-IS/To-Be flow | 2026/06/18 17:36:22 | Processing flow clarified (README slim migration pending) |
+| README AS-IS/To-Be flow | 2026/06/18 17:36:22 | Processing flow clarified → [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | Codex review crosswalk | 2026/06/19 10:54:25 | Runbook mapping only ([techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3)) |
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | Thin README plan; P0/P1/P2 sync tiers |
+| **Doc migration** (POLICY §10) | 2026/06/19 11:31:24 | README slim 55L · legacy phase 1 · INDEX trim · FORK_ONBOARDING |
 
 ---
 
@@ -88,8 +89,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | `inference-profiles.json` on disk | B-0 | |
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
-| README slim (A1 + B2) | docs migration | **Last** — after legacy / INDEX trim |
-| `docs/legacy/` quarantine | docs migration | Phase 1 not started |
+| `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
 
 ---
 
@@ -103,10 +103,10 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Orchestration memory** | Design + schema only | M1 Redis + M2–M6 wiring |
 | **InferenceProfile** | Hardcoded resolver presets | B-0 `inference-profiles.json` |
 | **Model catalog (TS-21)** | Rich JSON + schema | F loader + cost-aware routing |
-| **Docs entry** | Long README (865 lines) | Thin README → links here + runbook |
+| **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | legacy phase 2 optional |
 | **Legacy platform docs** | Mixed in `docs/` | `docs/legacy/` quarantine |
 
-Details: [README § Processing Flow](../README.md) (until README slim) · [ARCHITECTURE.md](./ARCHITECTURE.md)
+Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ---
 
@@ -136,6 +136,7 @@ Details: [README § Processing Flow](../README.md) (until README slim) · [ARCHI
 | **How to execute** | [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) |
 | **Fork identity** | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **Doc rules** | [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md) |
+| **Design depth** | [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | **Architecture** | [ARCHITECTURE.md](./ARCHITECTURE.md) |
 | **Memory ADR** | [decisions/TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 
@@ -145,6 +146,7 @@ Details: [README § Processing Flow](../README.md) (until README slim) · [ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/19 11:31:24 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |
 | 2026/06/19 11:22:09 | Timestamps → `YYYY/MM/DD HH:mm:ss JST`; milestone times from sign-off commits |
 | 2026/06/19 11:22:09 | JST date convention for Snapshot, Gate progress, Completed, Changelog |
 | 2026/06/19 11:22:09 | Initial FORK_STATUS — migrated from README “Current goals & completed work” snapshot |
