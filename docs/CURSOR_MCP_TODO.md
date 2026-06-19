@@ -47,7 +47,7 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 
 **Dev loop vs constitution (no conflict):**
 
-- **Daily coding in Cursor:** single-provider MCP (`analyze_*`) when one LLM suffices — [README § Processing Flow](./README.md) AS-IS path.
+- **Daily coding in Cursor:** single-provider MCP (`analyze_*`) when one LLM suffices — [FORK_ONBOARDING § AS-IS](./FORK_ONBOARDING.md#honest-maturity-as-is-vs-to-be).
 - **Multi-LLM analysis / production API:** Wall-Bounce only — ≥2 providers, 2–5 rounds, thresholds per [AGENTS.md](../AGENTS.md#constitution). Round **enforcement in code** remains **Track C** (To-Be).
 
 Reference: [PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md) · [FORK_CURSOR.md § MCP sequence](./FORK_CURSOR.md#mcp-server-implementation-sequence-fork) · [Codex review crosswalk](#codex-review-crosswalk-2026-06-18)

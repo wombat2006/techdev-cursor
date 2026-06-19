@@ -31,20 +31,20 @@ The repository does **not** implement a unified memory substrate today. Existing
 
 | Module | Scope | Role today | Used by unified `analyze_*`? |
 |--------|-------|------------|--------------------------------|
-| [`session-manager.ts`](../src/services/session-manager.ts) | App-generic | Redis user session + generic `conversationHistory` | No |
-| [`codex-session-manager.ts`](../src/services/codex-session-manager.ts) | **Codex only** | Legacy `codex` / `codex-reply` multi-turn; Redis messages | **No** |
+| [`session-manager.ts`](../../src/services/session-manager.ts) | App-generic | Redis user session + generic `conversationHistory` | No |
+| [`codex-session-manager.ts`](../../src/services/codex-session-manager.ts) | **Codex only** | Legacy `codex` / `codex-reply` multi-turn; Redis messages | **No** |
 | `claude-session-manager` | — | **Does not exist** | — |
 | `agy-session-manager` | — | **Does not exist** | — |
-| [`multi-llm-session-handler.ts`](../src/services/multi-llm-session-handler.ts) | Misleading name | Uses **CodexSessionManager** as the only conversation store for Wall-Bounce turns | No |
-| [`wall-bounce-analyzer.ts`](../src/services/wall-bounce-analyzer.ts) | In-process | Round summaries (`accumulatedSummary`) only | N/A |
-| [`inference-service.ts`](../src/services/inference-service.ts) | In-memory | Up to 20 turns; not shared | No |
+| [`multi-llm-session-handler.ts`](../../src/services/multi-llm-session-handler.ts) | Misleading name | Uses **CodexSessionManager** as the only conversation store for Wall-Bounce turns | No |
+| [`wall-bounce-analyzer.ts`](../../src/services/wall-bounce-analyzer.ts) | In-process | Round summaries (`accumulatedSummary`) only | N/A |
+| [`inference-service.ts`](../../src/services/inference-service.ts) | In-memory | Up to 20 turns; not shared | No |
 | Claude / agy CLIs | On-disk native | `~/.claude` (`--resume`), `~/.gemini/antigravity-cli/` (conversations) | Adapters do not persist handles |
 | Cipher MCP | Long-term | `ask_cipher` retrieval | Manual; not wired to orchestration |
-| A-1 [`analyze_*` adapters](../src/adapters/) | None | Stateless one-shot (temporary) | Yes |
+| A-1 [`analyze_*` adapters](../../src/adapters/) | None | Stateless one-shot (temporary) | Yes |
 
 ### Why only `codex-session-manager` exists
 
-**Not intentional final architecture.** Legacy [Codex MCP](../src/services/codex-mcp-server.ts) was the first path to need explicit **continue** semantics (`codex-reply` tool) and Redis-backed history ([CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md)). Claude Code MCP and unified adapters were built as **spawn-per-request** without a TechSapo session wrapper. agy was never given a Redis layer.
+**Not intentional final architecture.** Legacy [Codex MCP](../../src/services/codex-mcp-server.ts) was the first path to need explicit **continue** semantics (`codex-reply` tool) and Redis-backed history ([CODEX_REDIS_SESSION_IMPLEMENTATION.md](../CODEX_REDIS_SESSION_IMPLEMENTATION.md)). Claude Code MCP and unified adapters were built as **spawn-per-request** without a TechSapo session wrapper. agy was never given a Redis layer.
 
 **Do not interpret** “Codex has a session manager, others don't” as product policy. It is **technical debt** to be folded under Layer A (below).
 
@@ -185,7 +185,7 @@ type OrchestrationEvent =
 **Storage (direction):**
 
 - **Primary:** Redis — key prefix `orch:session:{sessionId}` (new; distinct from legacy `codex:session:*`).
-- **Reuse:** Generic [`session-manager.ts`](../src/services/session-manager.ts) patterns where applicable; do **not** conflate app user session with orchestration session.
+- **Reuse:** Generic [`session-manager.ts`](../../src/services/session-manager.ts) patterns where applicable; do **not** conflate app user session with orchestration session.
 - **Archive:** MySQL / object storage before TTL delete (future).
 - **TTL policy:** See §2.4 (idle + max; not event-count expiry).
 

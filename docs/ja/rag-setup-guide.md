@@ -2,7 +2,7 @@
 
 TechSapo壁打ち分析システムにGoogleDriveベースのRAG（Retrieval-Augmented Generation）機能を統合するための完全設定ガイド
 
-*[English](../rag-setup-guide.md) | 日本語*
+*[English](../RAG_SETUP_GUIDE.md) | 日本語*
 
 ## 🎯 概要
 
@@ -655,4 +655,4 @@ curl -X POST http://localhost:4000/api/v1/rag/set-access-policy \
 *エンタープライズグレードRAGシステムによる知識活用の実現*
 
 ---
-🌐 **言語**: [English](../rag-setup-guide.md) | **日本語**
+🌐 **言語**: [English](../RAG_SETUP_GUIDE.md) | **日本語**

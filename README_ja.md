@@ -52,4 +52,4 @@ Wall-Bounce: **最低 2 ラウンド・最大 5**；confidence ≥ 0.7；consens
 
 ## ライセンス・サポート
 
-MIT — [LICENSE](./LICENSE)。Issue: [GitHub](https://github.com/wombat2006/techdev-cursor/issues)。
+MIT — [package.json](./package.json) の `license` フィールドを参照。Issue: [GitHub](https://github.com/wombat2006/techdev-cursor/issues)。

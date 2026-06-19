@@ -50,6 +50,6 @@ Details: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_
 
 ## License & support
 
-MIT — see [LICENSE](./LICENSE). Issues: [GitHub](https://github.com/wombat2006/techdev-cursor/issues).
+MIT — see `license` in [package.json](./package.json). Issues: [GitHub](https://github.com/wombat2006/techdev-cursor/issues).
 
 *[日本語](README_ja.md)*

@@ -266,4 +266,4 @@ DELETE /api/v1/rag/vector-stores/{id}
 - [Google Drive API Documentation](https://developers.google.com/drive/api)
 - [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview)
 - [TechSapo AGENTS.md](../AGENTS.md) - 壁打ち分析アーキテクチャ（憲法）
-- [Multi-LLM Architecture Guide](./docs/multi-llm-guide.md)
+- [Wall-Bounce System](./WALL_BOUNCE_SYSTEM.md) — multi-LLM orchestration

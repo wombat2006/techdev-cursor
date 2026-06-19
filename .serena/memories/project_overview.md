@@ -81,7 +81,7 @@ techdev-cursor/                    # ~250 files (excl. .git, node_modules)
 
 ## Execution Tracks (from CURSOR_MCP_TODO)
 
-**Priority (2026-06):** P0 **Track A** (finish A-0 auth + Cursor register) → Gate A→B → P1 **Track B** → Gate B→C → P3 **Track C**. P2 **E/F code** and P4 **D / Batch / P5+** — see [runbook § Track priority](../docs/CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review).
+**Priority (2026-06):** P0 **Track A** (finish A-0 auth + Cursor register) → Gate A→B → P1 **Track B** → Gate B→C → P3 **Track C**. P2 **E/F code** and P4 **D / Batch / P5+** — see [runbook § Track priority](../../docs/CURSOR_MCP_TODO.md#track-priority-devassist--2026-06-review).
 
 | Track | Tree impact | Status |
 |-------|-------------|--------|
