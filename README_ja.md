@@ -24,11 +24,12 @@
 
 | 目的 | ドキュメント |
 |------|-------------|
-| **現状・Gate 進捗** | [FORK_STATUS.md](./docs/FORK_STATUS.md) |
-| **実行・Track** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
-| フォークの位置づけ | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) |
-| 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
-| AI エージェント | [AGENTS.md](./AGENTS.md) |
+| **現状・Gate 進捗** | [FORK_STATUS.md](./docs/ja/FORK_STATUS.md) |
+| **実行・Track（要約）** | [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) |
+| **実行・Track（正本・英語）** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
+| フォークの位置づけ | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
+| 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
+| AI エージェント | [AGENTS.md](./AGENTS.md)（英語） |
 | ドキュメント一覧 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | ドキュメント方針 | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
 
@@ -36,8 +37,8 @@
 
 ## クイックスタート（開発者）
 
-1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md) — スコープと構成  
-2. [CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) — WSL CLI 認証（`claude` / `codex` / `agy`）  
+1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
+2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
 3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録  
 
 ---
@@ -46,7 +47,7 @@
 
 Wall-Bounce: **最低 2 ラウンド・最大 5**；confidence ≥ 0.7；consensus ≥ 0.6；実装は `wall-bounce-analyzer.ts` のみ。
 
-詳細: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
+詳細: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)（英語）
 
 ---
 

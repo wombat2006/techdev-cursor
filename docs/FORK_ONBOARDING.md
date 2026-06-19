@@ -1,5 +1,7 @@
 # Fork Onboarding — Design Depth & Maturity
 
+*[English](FORK_ONBOARDING.md) | [日本語](./ja/FORK_ONBOARDING.md)*
+
 **Purpose:** Design philosophy and honest AS-IS / To-Be for human readers (recruiters, reviewers, new teammates).  
 **Not:** An execution checklist — use [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md).  
 **Status:** Active · **Last updated:** 2026-06-19  

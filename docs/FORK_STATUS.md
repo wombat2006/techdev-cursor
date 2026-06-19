@@ -1,5 +1,7 @@
 # Fork Status — `techdev-cursor`
 
+*[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
+
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
 **Last updated:** 2026/06/19 11:31:24 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
@@ -75,6 +77,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Codex review crosswalk | 2026/06/19 10:54:25 | Runbook mapping only ([techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3)) |
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | Thin README plan; P0/P1/P2 sync tiers |
 | **Doc migration** (POLICY §10) | 2026/06/19 11:31:24 | README slim 55L · legacy phase 1 · INDEX trim · FORK_ONBOARDING |
+| **Human docs ja pairs** (B2b) | 2026/06/19 12:00:00 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
 
 ---
 
@@ -146,6 +149,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/19 12:00:00 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |
 | 2026/06/19 11:31:24 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |
 | 2026/06/19 11:22:09 | Timestamps → `YYYY/MM/DD HH:mm:ss JST`; milestone times from sign-off commits |
 | 2026/06/19 11:22:09 | JST date convention for Snapshot, Gate progress, Completed, Changelog |

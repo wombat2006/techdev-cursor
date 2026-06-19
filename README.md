@@ -22,10 +22,10 @@ Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude
 
 | Need | Document |
 |------|----------|
-| **Current status & Gates** | [FORK_STATUS.md](./docs/FORK_STATUS.md) |
-| **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
-| Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) |
-| Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
+| **Current status & Gates** | [FORK_STATUS.md](./docs/FORK_STATUS.md) · [日本語](./docs/ja/FORK_STATUS.md) |
+| **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [要約（日本語）](./docs/ja/CURSOR_MCP_TODO_ja.md) |
+| Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [日本語](./docs/ja/FORK_CURSOR.md) |
+| Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) · [日本語](./docs/ja/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full doc map | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | Documentation rules | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |

@@ -1,5 +1,7 @@
 # Full-Fork: techdev-cursor (Primary Development)
 
+*[English](FORK_CURSOR.md) | [日本語](./ja/FORK_CURSOR.md)*
+
 **Status**: ACCEPTED — implementation target is the fork, not this upstream repo  
 **Owner**: TechSapo Development Team  
 **Last updated**: 2026-06-18 (Fork schemas + MCP bootstrap)

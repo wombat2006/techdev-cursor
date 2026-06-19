@@ -2,7 +2,7 @@
 
 **Status:** v0.1 — README slim + legacy phase 1 complete (2026-06-19)  
 **Owner:** TechSapo Development Team  
-**Last updated:** 2026-06-19 (migration checklist §10)  
+**Last updated:** 2026-06-19 (B2b docs/ja pairs)  
 **Related:** [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) · [FORK_CURSOR.md](./FORK_CURSOR.md) · [.cursor/rules/documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc)
 
 ---
@@ -48,6 +48,7 @@ docs/ (active)
   DOCUMENTATION_POLICY.md   — this file
   FORK_STATUS.md            — rolling AS-IS / To-Be (human status)
   FORK_ONBOARDING.md        — design depth & maturity (human onboarding)
+  ja/                       — Japanese human doc pairs (B2b)
   CURSOR_MCP_TODO.md        — executable runbook
   FORK_CURSOR.md            — fork identity and layout
   agents/                   — agent detail (English)
@@ -72,7 +73,7 @@ README files answer only:
 1. **What** is this repo? (DevAssist fork; not IT incident analysis)
 2. **Why** does it exist? (coding accuracy + workload reduction)
 3. **Where** to go next? (links table)
-4. **Current status?** → link to [FORK_STATUS.md](./FORK_STATUS.md) (not duplicated prose)
+4. **Current status?** → link to [FORK_STATUS.md](./FORK_STATUS.md) (en) or [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) from `README_ja.md` (not duplicated prose)
 
 **Do not put in README:**
 
@@ -92,6 +93,31 @@ README files answer only:
 | `README_ja.md` | **Japanese** | Same structure as English; not a 1:1 translation of legacy 800-line content |
 
 Keep **heading parity** between en/ja so P1 sync stays cheap.
+
+### B2b — Human docs (`docs/ja/` pairs)
+
+**Human-facing** fork docs (status, onboarding, identity) use **paired files**, not a single bilingual file. GitHub markdown does not support interactive language dropdowns; `<details>` blocks are discouraged for logic/agent docs.
+
+| English (canonical) | Japanese (human readers) | Sync rule |
+|---------------------|----------------------------|-----------|
+| `docs/FORK_STATUS.md` | `docs/ja/FORK_STATUS.md` | Gate/milestone updates: **both** (P0) |
+| `docs/FORK_ONBOARDING.md` | `docs/ja/FORK_ONBOARDING.md` | Design/maturity changes: **both** (P1) |
+| `docs/FORK_CURSOR.md` | `docs/ja/FORK_CURSOR.md` | Fork identity/layout: **both** (P1) |
+| `docs/RAG_SETUP_GUIDE.md` | `docs/ja/rag-setup-guide.md` | Touch-only when RAG guide edits (P2) |
+
+**Required on every pair:**
+
+1. **Language bar** on line 1–5: `*[English](../FORK_STATUS.md) | **日本語***` (ja file) and reverse on en file.
+2. **Heading parity** — same section order; ja prose may localize examples.
+3. **`README_ja.md`** links **ja paths only** for paired human docs.
+4. **`README.md`** links **English paths**; may note ja sibling in language bar, not duplicate tables.
+
+**Not paired (English only):**
+
+- `CURSOR_MCP_TODO.md` — execution truth; optional `docs/ja/CURSOR_MCP_TODO_ja.md` **summary** with links to English steps
+- `docs/agents/*`, `docs/decisions/*`, `AGENTS.md`, ADRs — logic / agent docs stay **English**
+
+**Do not:** embed en+ja in one markdown file for navigation-tier docs; do not point `README_ja.md` at English-only human status prose.
 
 ---
 
@@ -280,6 +306,7 @@ Execute in order; each step may be its own commit.
 | 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[x]` 2026-06-19 — 12 files |
 | 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[x]` 2026-06-19 — 134 lines |
 | 7 | Optional: `FORK_ONBOARDING.md` for Design depth / maturity content | `[x]` 2026-06-19 |
+| 8 | B2b — `docs/ja/` human doc pairs + README_ja links | `[x]` 2026-06-19 |
 
 ---
 

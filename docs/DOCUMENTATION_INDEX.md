@@ -9,10 +9,10 @@
 ### Developer
 
 1. **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** — thin human entry
-2. **[FORK_STATUS.md](./FORK_STATUS.md)** — Gate / Track progress (JST timestamps)
-3. **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** — execution runbook (Tracks A → B → C)
-4. **[FORK_CURSOR.md](./FORK_CURSOR.md)** — fork identity and layout
-5. **[FORK_ONBOARDING.md](./FORK_ONBOARDING.md)** — design depth and maturity
+2. **[FORK_STATUS.md](./FORK_STATUS.md)** · **[ja/FORK_STATUS.md](./ja/FORK_STATUS.md)** — Gate / Track progress
+3. **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** · **[ja/CURSOR_MCP_TODO_ja.md](./ja/CURSOR_MCP_TODO_ja.md)** — runbook (en canonical · ja summary)
+4. **[FORK_CURSOR.md](./FORK_CURSOR.md)** · **[ja/FORK_CURSOR.md](./ja/FORK_CURSOR.md)** — fork identity
+5. **[FORK_ONBOARDING.md](./FORK_ONBOARDING.md)** · **[ja/FORK_ONBOARDING.md](./ja/FORK_ONBOARDING.md)** — design depth
 6. **[AGENTS.md](../AGENTS.md)** · **[docs/agents/](./agents/)** — AI agent navigation
 7. **[ARCHITECTURE.md](./ARCHITECTURE.md)** · **[WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md)**
 8. **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)** · **[TESTING_GUIDE.md](./TESTING_GUIDE.md)**
@@ -36,10 +36,10 @@
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| **DOCUMENTATION_POLICY.md** | README shape, legacy, P0/P1/P2 sync | Maintainers / humans |
-| **FORK_STATUS.md** | Rolling Gate / Track progress | Humans / reviewers |
-| **FORK_CURSOR.md** | Fork identity (DevAssist; not InfraOps) | Developers |
-| **FORK_ONBOARDING.md** | Design philosophy & AS-IS / To-Be depth | Humans / reviewers |
+| **DOCUMENTATION_POLICY.md** | README shape, legacy, P0/P1/P2 sync, **B2b ja pairs** | Maintainers / humans |
+| **FORK_STATUS.md** · **ja/FORK_STATUS.md** | Rolling Gate / Track progress | Humans / reviewers |
+| **FORK_CURSOR.md** · **ja/FORK_CURSOR.md** | Fork identity (DevAssist; not InfraOps) | Developers |
+| **FORK_ONBOARDING.md** · **ja/FORK_ONBOARDING.md** | Design philosophy & AS-IS / To-Be depth | Humans / reviewers |
 
 ### Agent navigation
 
@@ -112,6 +112,18 @@
 | Document | Language |
 |----------|----------|
 | **proposals/WALL_BOUNCE_PLATFORM_PROPOSAL.md** | Japanese |
+
+### Japanese human docs (`docs/ja/`)
+
+| English | Japanese | Notes |
+|---------|----------|-------|
+| **FORK_STATUS.md** | **ja/FORK_STATUS.md** | Gate updates: sync both (P0) |
+| **FORK_ONBOARDING.md** | **ja/FORK_ONBOARDING.md** | P1 |
+| **FORK_CURSOR.md** | **ja/FORK_CURSOR.md** | P1; bootstrap detail → English |
+| **CURSOR_MCP_TODO.md** | **ja/CURSOR_MCP_TODO_ja.md** | Summary only; en = execution truth |
+| **RAG_SETUP_GUIDE.md** | **ja/rag-setup-guide.md** | Existing pair |
+
+See [DOCUMENTATION_POLICY §4 B2b](./DOCUMENTATION_POLICY.md#b2b--human-docs-docsja-pairs).
 
 ---
 
