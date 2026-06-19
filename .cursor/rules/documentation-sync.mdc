@@ -12,9 +12,10 @@ When features, configuration, architecture, providers, or CLI requirements chang
 ## Pre-commit Checklist
 
 1. **README sync (P1 only):** When fork **entry/summary** changes, update both [README.md](../../README.md) (Japanese — GitHub repo top) and [README_en.md](../../README_en.md) summary sections (parallel headings). Progress-only changes → [FORK_STATUS.md](../../docs/FORK_STATUS.md) **and** [ja/FORK_STATUS.md](../../docs/ja/FORK_STATUS.md) (P0), not README body. Human doc pairs: [DOCUMENTATION_POLICY §4 B2b](../../docs/DOCUMENTATION_POLICY.md#b2b--human-docs-docsja-pairs). See [DOCUMENTATION_POLICY §7](../../docs/DOCUMENTATION_POLICY.md#7-commit-sync-tiers-e2).
-2. **Navigation:** Add new **active** docs to [DOCUMENTATION_INDEX.md](../../docs/DOCUMENTATION_INDEX.md). AGENTS.md link row only if needed (skeleton). Details → [docs/agents/](../../docs/agents/). Do not edit stub files under `docs/claude-*.md`.
-3. **Proposals:** If customer-facing content changes, update `docs/proposals/` and `scripts/pptx-gen/slide-data.mjs` (regenerate PPTX if needed)
-4. **ADR:** Record design decisions in [docs/decisions/](../../docs/decisions/)
+2. **FORK_STATUS timestamps (P0):** When adding or editing milestone rows, **Last updated**, or Changelog entries in FORK_STATUS — run `npm run fork-status:timestamp -- <commit>` and paste the output **verbatim** (`YYYY/MM/DD HH:mm:ss JST`). Use the merge/sign-off commit for that milestone; use `HEAD` for **Last updated** after the doc commit. **Never** invent times, round to `:00:00`, or write future timestamps. Update **en + ja** in the same commit. Policy: [DOCUMENTATION_POLICY §5](../../docs/DOCUMENTATION_POLICY.md#date-and-timestamp-formats-scope).
+3. **Navigation:** Add new **active** docs to [DOCUMENTATION_INDEX.md](../../docs/DOCUMENTATION_INDEX.md). AGENTS.md link row only if needed (skeleton). Details → [docs/agents/](../../docs/agents/). Do not edit stub files under `docs/claude-*.md`.
+4. **Proposals:** If customer-facing content changes, update `docs/proposals/` and `scripts/pptx-gen/slide-data.mjs` (regenerate PPTX if needed)
+5. **ADR:** Record design decisions in [docs/decisions/](../../docs/decisions/)
 
 ## What to Update
 
