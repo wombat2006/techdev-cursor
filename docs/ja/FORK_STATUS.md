@@ -3,11 +3,11 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/19 18:30:00 JST  
+**最終更新:** 2026/06/19 13:30:04 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
-> **タイムスタンプ:** `YYYY/MM/DD HH:mm:ss JST`（Asia/Tokyo）。マイルストーン時刻は sign-off / merge commit を基準。
+> **タイムスタンプ:** `YYYY/MM/DD HH:mm:ss JST`（Asia/Tokyo）。マイルストーン時刻は sign-off / merge commit を基準 — **推測・未来時刻は禁止**。取得: `node scripts/fork-status-timestamp.mjs <commit>`
 
 ---
 
@@ -76,9 +76,10 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | README AS-IS/To-Be | 2026/06/18 17:36:22 | → [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | Codex review crosswalk | 2026/06/19 10:54:25 | runbook マッピングのみ |
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | README slim · P0/P1/P2 |
-| **Doc migration** §10 | 2026/06/19 11:31:24 | README slim · legacy phase 1 · INDEX trim |
-| **Contract Layer** | 2026/06/19 18:00:00 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
-| **TS-23** user-extensible LLM | 2026/06/19 18:00:00 | ADR L1–L2 — [TECH_STACK_USER_EXTENSIBLE_LLM.md](../decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
+| **Doc migration** §10 | 2026/06/19 11:31:42 | README slim · legacy phase 1 · INDEX trim |
+| **Human docs ja pairs** (B2b) | 2026/06/19 11:47:05 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
+| **Contract Layer** | 2026/06/19 13:22:54 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
+| **TS-23** user-extensible LLM | 2026/06/19 13:30:04 | ADR L1–L2 — [TECH_STACK_USER_EXTENSIBLE_LLM.md](../decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 
 ---
 
@@ -141,5 +142,5 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
-| 2026/06/19 18:30:00 | Contract Layer + TS-23 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
-| 2026/06/19 12:00:00 | 初版 — B2b 日本語ペア（英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期） |
+| 2026/06/19 13:30:04 | Contract Layer + TS-23 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
+| 2026/06/19 11:47:05 | 初版 — B2b 日本語ペア（英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期） |

@@ -156,7 +156,7 @@ Gate and milestone **progress appeal** uses JST timestamps in **one place only**
 | **This policy** | `Last updated: YYYY-MM-DD` | Policy revision only | — |
 | **Orchestration events (TS-22)** | UTC `ts` / `tsEnd` in JSON/schema | Runtime Layer A events | Not a markdown display format |
 
-**Milestone time source (FORK_STATUS):** Prefer sign-off or merge commit timestamp in `+0900` (JST) when recorded; document the convention in FORK_STATUS header.
+**Milestone time source (FORK_STATUS):** Use merge/sign-off commit time in `+0900` (JST) — `node scripts/fork-status-timestamp.mjs <commit>`. Do **not** invent, round up, or write future times.
 
 **Cross-link rule:** Runbook and README may cite a Gate **by name and calendar day** (`Gate A→B Pass 2026-06-18`) with a link to FORK_STATUS for the authoritative JST timestamp — do not maintain parallel timestamp tables.
 

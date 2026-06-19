@@ -3,11 +3,11 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/19 18:30:00 JST  
+**Last updated:** 2026/06/19 13:30:04 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
-> **Timestamps:** `YYYY/MM/DD HH:mm:ss JST` (Asia/Tokyo). Milestone times follow sign-off / merge commit when recorded.
+> **Timestamps:** `YYYY/MM/DD HH:mm:ss JST` (Asia/Tokyo). Milestone times follow sign-off / merge commit when recorded — **never invent or round forward**. Source: `node scripts/fork-status-timestamp.mjs <commit>`.
 
 ---
 
@@ -76,10 +76,10 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | README AS-IS/To-Be flow | 2026/06/18 17:36:22 | Processing flow clarified → [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | Codex review crosswalk | 2026/06/19 10:54:25 | Runbook mapping only ([techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3)) |
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | Thin README plan; P0/P1/P2 sync tiers |
-| **Doc migration** (POLICY §10) | 2026/06/19 11:31:24 | README slim 55L · legacy phase 1 · INDEX trim · FORK_ONBOARDING |
-| **Human docs ja pairs** (B2b) | 2026/06/19 12:00:00 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
-| **Contract Layer** | 2026/06/19 18:00:00 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
-| **TS-23** user-extensible LLM | 2026/06/19 18:00:00 | ADR L1–L2 config extensions — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
+| **Doc migration** (POLICY §10) | 2026/06/19 11:31:42 | README slim 55L · legacy phase 1 · INDEX trim · FORK_ONBOARDING |
+| **Human docs ja pairs** (B2b) | 2026/06/19 11:47:05 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
+| **Contract Layer** | 2026/06/19 13:22:54 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
+| **TS-23** user-extensible LLM | 2026/06/19 13:30:04 | ADR L1–L2 config extensions — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 
 ---
 
@@ -151,9 +151,9 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
-| 2026/06/19 18:30:00 | Contract Layer + TS-23 — FORK_STATUS / runbook Known state sync |
-| 2026/06/19 12:00:00 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |
-| 2026/06/19 11:31:24 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |
+| 2026/06/19 13:30:04 | Contract Layer + TS-23 — FORK_STATUS / runbook Known state sync |
+| 2026/06/19 11:47:05 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |
+| 2026/06/19 11:31:42 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |
 | 2026/06/19 11:22:09 | Timestamps → `YYYY/MM/DD HH:mm:ss JST`; milestone times from sign-off commits |
 | 2026/06/19 11:22:09 | JST date convention for Snapshot, Gate progress, Completed, Changelog |
 | 2026/06/19 11:22:09 | Initial FORK_STATUS — migrated from README “Current goals & completed work” snapshot |
