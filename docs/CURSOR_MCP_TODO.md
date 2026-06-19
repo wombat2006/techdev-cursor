@@ -173,7 +173,11 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | A-3 team registration | `[ ]` | At least one dev registered |
 | Track A complete | `[ ]` | A-0 sign-off + A-1 invoke + A-2 + A-3 registration |
 | Gate A→B passed | `[x]` | **2026-06-18** — G1–G7 + G-MEM all Yes; Track B unblocked |
-| Track B complete | `[ ]` | B-0 partial: types/resolver exist; WB wiring pending |
+| **Contract Layer** (F-1 subset) | `[x]` | **2026-06-19** — `validate:config`, catalog loader, open `adapter-preset-matrix`, drift/spawn contract tests, simulate guard |
+| **F-1** validate:config | `[x]` | catalog + adapter-preset-matrix schema (ajv) |
+| **F-2** catalog loader | `[~]` | `llm-model-catalog-loader.ts` + matrix resolve; TaskRouter / startup wiring pending |
+| **TS-23** user L1–L2 extensions | `[x]` | ADR accepted — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
+| Track B complete | `[ ]` | B-0 partial: matrix+catalog resolver; `inference-profiles.json` file pending; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
 
@@ -597,7 +601,7 @@ References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_
 
 **Purpose:** Single schema for model, effort, CoT, temperature.
 
-**AS-IS:** `src/types/inference-profile.ts` and hardcoded [inference-profile-resolver.ts](../src/adapters/inference-profile-resolver.ts) exist (A-1). Remaining: file-backed presets.
+**AS-IS:** `src/types/inference-profile.ts` and [inference-profile-resolver.ts](../src/adapters/inference-profile-resolver.ts) resolve presets via [adapter-preset-matrix.json](../config/adapter-preset-matrix.json) + [llm-model-catalog-loader.ts](../src/services/llm-model-catalog-loader.ts) (Contract Layer 2026-06-19). Remaining: file-backed `config/inference-profiles.json` for effort/cot defaults.
 
 **Steps:**
 

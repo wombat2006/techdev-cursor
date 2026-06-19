@@ -164,11 +164,26 @@ Future: optional **`config/invocation-bindings.json`** (separate schema, version
 
 ---
 
-## 6. References
+## 6. User-extensible models (L1–L2)
+
+Teams may **add models in config** without changing orchestrator code when an **adapter already exists**:
+
+1. Add a **`models[]`** entry (and optional **`aliases`**) in [config/llm-model-catalog.json](../../config/llm-model-catalog.json)
+2. Add or extend an **`adapters.<adapterId>`** row in [config/adapter-preset-matrix.json](../../config/adapter-preset-matrix.json)
+3. Run **`npm run validate:config`** and **`npm run test:contract`**
+
+**New transport** (native Qwen CLI, Grok API, first OpenRouter binding, etc.) requires a **new adapter implementation (L3)** — not JSON alone.
+
+Full policy: **[TECH_STACK_USER_EXTENSIBLE_LLM.md](./TECH_STACK_USER_EXTENSIBLE_LLM.md) (TS-23)** — extension levels, constitution peers vs optional adapters, security boundaries.
+
+---
+
+## 7. References
 
 - [TECH_STACK_INFERENCE_PROFILES.md](./TECH_STACK_INFERENCE_PROFILES.md) (TS-20)
 - [OPENAI_MODEL_MATRIX.md](../OPENAI_MODEL_MATRIX.md)
 - [OPENAI_PROMPT_GUIDANCE.md](../OPENAI_PROMPT_GUIDANCE.md)
 - [FORK_CURSOR.md § Fork schemas](../FORK_CURSOR.md#fork-schemas)
+- [TECH_STACK_USER_EXTENSIBLE_LLM.md](./TECH_STACK_USER_EXTENSIBLE_LLM.md) (TS-23 — user L1–L2 extensions)
 - Schema: [config/schemas/llm-model-catalog.schema.json](../../config/schemas/llm-model-catalog.schema.json)
 - Stub: [config/llm-model-catalog.json](../../config/llm-model-catalog.json)

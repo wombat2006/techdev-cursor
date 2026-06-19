@@ -30,7 +30,7 @@
 |------|-------|------|------|
 | **P0** | **A** | Cursor MCP · WSL CLI · G7 | 尾（A-2/A-3）のみ |
 | **P1** | **B** | InferenceProfile · adapter 配線 · Layer A | **← 現在** |
-| **P2** | **E/F** | catalog loader · cost routing | 任意 |
+| **P2** | **E/F** | catalog loader · cost routing | 部分（F-1 ✅ · F-2 部分） |
 | **P3** | **C** | 憲法 enforce · orchestrator | Gate B→C 後 |
 | **P4** | **D/P5+** | cache · Batch RAG · grounding | 任意 |
 
@@ -55,7 +55,7 @@
 | ID | 成果物 |
 |----|--------|
 | **M1** | `OrchestrationSessionStore` + Redis `orch:session:*` |
-| **B-0** | `inference-profiles.json` + TS-20 |
+| **B-0** | `inference-profiles.json` + TS-20（matrix+catalog resolver ✅；preset ファイル未） |
 | **B-1** | `wall-bounce-analyzer.ts` / `rag-endpoint.ts` → `src/adapters/*` |
 
 ---

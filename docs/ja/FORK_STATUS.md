@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/19 11:31:24 JST  
+**最終更新:** 2026/06/19 18:30:00 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -41,9 +41,9 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | Track | 優先度 | 状態 | 概要 |
 |-------|--------|------|------|
 | **A** — Cursor MCP | P0 | `[~]` 尾のみ | A-0/A-1/G7 ✅；**A-2** MCP スキーマ · **A-3** チーム登録 — **B をブロックしない** |
-| **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（resolver ハードコード）；M1 store 未；B-1 WB 配線未 |
+| **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（matrix+catalog resolver ✅）；M1 store 未；B-1 WB 配線未 |
 | **C** — P5 Phase 0 | P3 | `[ ]` ブロック | Hard gate · PromptAnalyzer · 憲法ラウンド · orchestrator 統合 |
-| **E / F** — catalog / cost routing | P2 | `[ ]` 任意 | Gate A→B 後 F-1/F-2；F-12 は B と |
+| **E / F** — catalog / cost routing | P2 | `[~]` 部分 | F-1 ✅ · F-2 loader 部分 · F-3+ 未 |
 | **D / P5+** — cache · Batch RAG · grounding | P4 | `[ ]` 任意 | Track C 後 |
 
 ---
@@ -53,7 +53,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | # | ゴール | 成果物 | 状態 |
 |---|--------|--------|------|
 | **M1** | Layer A オーケストレーション transcript 永続化 | `OrchestrationSessionStore` + Redis `orch:session:*` | `[ ]` 型/schema/config ✅；Redis 未 |
-| **B-0** | リクエスト単位 model / effort / CoT preset | `inference-profiles.json` + TS-20 | `[~]` resolver ハードコード；ファイル未 |
+| **B-0** | リクエスト単位 model / effort / CoT preset | `inference-profiles.json` + TS-20 | `[~]` matrix+catalog resolver ✅；preset JSON ファイル未 |
 | **B-1** | Cursor + Wall-Bounce で同一 transport | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | セッション継続 + legacy 統合 | `sessionId` · Layer A ラウンドイベント · TS-22 codex-session 統合 | `[ ]` |
 
@@ -77,6 +77,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | Codex review crosswalk | 2026/06/19 10:54:25 | runbook マッピングのみ |
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | README slim · P0/P1/P2 |
 | **Doc migration** §10 | 2026/06/19 11:31:24 | README slim · legacy phase 1 · INDEX trim |
+| **Contract Layer** | 2026/06/19 18:00:00 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
+| **TS-23** user-extensible LLM | 2026/06/19 18:00:00 | ADR L1–L2 — [TECH_STACK_USER_EXTENSIBLE_LLM.md](../decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 
 ---
 
@@ -88,7 +90,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | Wall-Bounce → adapter 配線 | B-1 | `wall-bounce-analyzer.ts` legacy spawn 残存 |
 | RAG `/search` legacy MCP 並行 | B-1 | `rag-endpoint.ts` 未統合 |
 | 憲法 enforce（2–5 ラウンド） | C | AS-IS: 単 pass + aggregator |
-| `inference-profiles.json` 実ファイル | B-0 | |
+| `inference-profiles.json` 実ファイル | B-0 | effort/cot preset JSON 未 |
+| simulate / legacy MCP 経路 | B-1 | `mcp-clients` ガード済；rag-endpoint は adapter 統合まで simulate |
 | A-2 InferenceProfile in MCP | A | 非ブロック |
 | A-3 チーム MCP 登録 | A | 非ブロック |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
@@ -104,8 +107,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **統一 MCP + adapter** | 実装済 + G7 Pass | A-2/A-3 尾；daily smoke |
 | **Wall-Bounce API** | legacy spawn；1-pass | B-1 adapter · C 憲法 enforce |
 | **オーケストレーション記憶** | 設計 + schema のみ | M1 Redis + M2–M6 |
-| **InferenceProfile** | resolver ハードコード | B-0 ファイル |
-| **Model catalog（TS-21）** | 豊富な JSON | F loader + cost routing |
+| **InferenceProfile** | matrix+catalog resolver（Contract Layer） | B-0 `inference-profiles.json` ファイル |
+| **Model catalog（TS-21）** | 豊富な JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + cost routing |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | legacy phase 2 任意 |
 | **Legacy platform docs** | `docs/` に混在 | `docs/legacy/` 隔離済 |
 
@@ -138,4 +141,5 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/19 18:30:00 | Contract Layer + TS-23 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/19 12:00:00 | 初版 — B2b 日本語ペア（英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期） |

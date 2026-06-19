@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/19 11:31:24 JST  
+**Last updated:** 2026/06/19 18:30:00 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -41,9 +41,9 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Track | Priority | Status | Summary |
 |-------|----------|--------|---------|
 | **A** — Cursor MCP | P0 | `[~]` Tail only | A-0/A-1/G7 ✅; **A-2** MCP schemas · **A-3** team registration open — **do not block B** |
-| **B** — InferenceProfile + adapters + memory | P1 | `[ ]` **Active** | B-0 partial (hardcoded resolver); M1 store pending; B-1 WB wiring pending |
+| **B** — InferenceProfile + adapters + memory | P1 | `[ ]` **Active** | B-0 partial (matrix+catalog resolver ✅); M1 store pending; B-1 WB wiring pending |
 | **C** — P5 Phase 0 platform | P3 | `[ ]` Blocked | Hard gate · PromptAnalyzer · constitution rounds · orchestrator merge |
-| **E / F** — catalog / cost routing | P2 | `[ ]` Optional | After Gate A→B for F-1/F-2; F-12 with B |
+| **E / F** — catalog / cost routing | P2 | `[~]` Partial | F-1 ✅ · F-2 loader partial · F-3+ pending |
 | **D / P5+** — cache · Batch RAG · grounding | P4 | `[ ]` Optional | After Track C |
 
 ---
@@ -53,7 +53,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | # | Goal | Deliverable | Status |
 |---|------|-------------|--------|
 | **M1** | Durable orchestration transcript (Layer A) | `OrchestrationSessionStore` + Redis `orch:session:*` | `[ ]` Types/schema/config ✅; Redis pending |
-| **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 | `[~]` Resolver hardcoded; file pending |
+| **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 | `[~]` Matrix+catalog resolver ✅; preset JSON file pending |
 | **B-1** | One transport for Cursor + Wall-Bounce | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | Session continuity + legacy migration | `sessionId` · round events in Layer A · TS-22 codex-session fold | `[ ]` |
 
@@ -78,6 +78,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **DOCUMENTATION_POLICY** v0.1 | 2026/06/19 11:13:24 | Thin README plan; P0/P1/P2 sync tiers |
 | **Doc migration** (POLICY §10) | 2026/06/19 11:31:24 | README slim 55L · legacy phase 1 · INDEX trim · FORK_ONBOARDING |
 | **Human docs ja pairs** (B2b) | 2026/06/19 12:00:00 | `docs/ja/` FORK_STATUS · ONBOARDING · CURSOR · runbook summary |
+| **Contract Layer** | 2026/06/19 18:00:00 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
+| **TS-23** user-extensible LLM | 2026/06/19 18:00:00 | ADR L1–L2 config extensions — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 
 ---
 
@@ -89,7 +91,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Wall-Bounce → adapter wiring | B-1 | Legacy spawn in `wall-bounce-analyzer.ts` remains |
 | RAG `/search` legacy MCP parallel | B-1 | `rag-endpoint.ts` not via unified adapters |
 | Constitution enforce (2–5 rounds, Hard Gate loop) | C | AS-IS: single pass + aggregator |
-| `inference-profiles.json` on disk | B-0 | |
+| simulate / legacy MCP paths | B-1 | `mcp-clients` guarded; rag-endpoint still simulate until adapters |
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
@@ -104,8 +106,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Unified MCP + adapters** | Implemented + G7 pass | A-2/A-3 tail; daily smoke |
 | **Wall-Bounce API** | Legacy spawn; 1-pass; no Hard Gate loop | B-1 adapters · C constitution enforce |
 | **Orchestration memory** | Design + schema only | M1 Redis + M2–M6 wiring |
-| **InferenceProfile** | Hardcoded resolver presets | B-0 `inference-profiles.json` |
-| **Model catalog (TS-21)** | Rich JSON + schema | F loader + cost-aware routing |
+| **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
+| **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | legacy phase 2 optional |
 | **Legacy platform docs** | Mixed in `docs/` | `docs/legacy/` quarantine |
 
@@ -149,6 +151,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/19 18:30:00 | Contract Layer + TS-23 — FORK_STATUS / runbook Known state sync |
 | 2026/06/19 12:00:00 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |
 | 2026/06/19 11:31:24 | Doc migration complete — README slim, legacy phase 1, INDEX trim, FORK_ONBOARDING |
 | 2026/06/19 11:22:09 | Timestamps → `YYYY/MM/DD HH:mm:ss JST`; milestone times from sign-off commits |

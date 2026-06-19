@@ -15,7 +15,7 @@ Unified MCP + CLI adapters — **implemented**:
 | Component | Path |
 |-----------|------|
 | Types | `src/types/inference-profile.ts`, `src/types/adapter-types.ts` |
-| Resolver | `src/adapters/inference-profile-resolver.ts` (hardcoded presets) |
+| Resolver | `src/adapters/inference-profile-resolver.ts` → `adapter-preset-matrix.json` + `llm-model-catalog-loader.ts` |
 | Adapters | `src/adapters/{claude,codex,agy}-adapter.ts` |
 | MCP server | `src/services/techsapo-providers-mcp-server.ts` |
 | Google transport | `src/utils/antigravity-cli.ts` (`agy --print` + stdin) |
@@ -60,7 +60,7 @@ Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wirin
 
 OpenAI source: [openai/openai-cookbook](https://github.com/openai/openai-cookbook) · [cookbook.openai.com](https://cookbook.openai.com) · Context7 `/websites/developers_openai_api`
 
-ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · Schema: [config/schemas/llm-model-catalog.schema.json](../config/schemas/llm-model-catalog.schema.json)
+ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · User extensions: [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) (TS-23) · Schema: [config/schemas/llm-model-catalog.schema.json](../config/schemas/llm-model-catalog.schema.json)
 
 ### Provider transport / SDK
 
@@ -100,13 +100,14 @@ Runbook: [CURSOR_MCP_TODO § Memory substrate](./CURSOR_MCP_TODO.md#memory-subst
 ### Config / validation
 
 - [ ] `config/schemas/` — fork-profile, inference-profiles, task-router JSON Schema
-- [ ] `npm run validate:config` — ajv validation script
-- [ ] `tests/adapters/` — smoke tests per adapter (mock spawn or tagged integration)
+- [x] `npm run validate:config` — ajv validation (catalog + adapter-preset-matrix)
+- [x] `tests/adapters/` — contract tests (drift, spawn mock, matrix schema); tagged integration smoke optional
 
 ### Documentation
 
 - [ ] ADR: SDK vs CLI boundary when Python SDK OAuth lands
-- [ ] Update [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) known-state when Gate A→B passes
+- [x] Update [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) known-state when Gate A→B passes
+- [x] Sync known-state for Contract Layer (2026-06-19)
 
 ---
 
