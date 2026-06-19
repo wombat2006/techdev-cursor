@@ -2,7 +2,7 @@
 
 **Status:** Draft v0.1 — adopted direction, README slim migration pending  
 **Owner:** TechSapo Development Team  
-**Last updated:** 2026-06-19  
+**Last updated:** 2026-06-19 (date-format scope §5)  
 **Related:** [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md) · [FORK_CURSOR.md](./FORK_CURSOR.md) · [.cursor/rules/documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc)
 
 ---
@@ -46,7 +46,7 @@ Root (minimal)
 
 docs/ (active)
   DOCUMENTATION_POLICY.md   — this file
-  FORK_STATUS.md            — rolling AS-IS / To-Be (human status; planned)
+  FORK_STATUS.md            — rolling AS-IS / To-Be (human status)
   CURSOR_MCP_TODO.md        — executable runbook
   FORK_CURSOR.md            — fork identity and layout
   agents/                   — agent detail (English)
@@ -96,11 +96,11 @@ Keep **heading parity** between en/ja so P1 sync stays cheap.
 
 ## 5. Rolling status (C3)
 
-### `docs/FORK_STATUS.md` (planned)
+### `docs/FORK_STATUS.md`
 
-Human-readable **rolling** snapshot:
+Human-readable **rolling** snapshot (see [FORK_STATUS.md](./FORK_STATUS.md)):
 
-- Gate pass/fail dates
+- Gate pass/fail timestamps — **`YYYY/MM/DD HH:mm:ss JST`** (see convention in [FORK_STATUS.md](./FORK_STATUS.md))
 - Track focus (e.g. Track B)
 - AS-IS vs To-Be summary tables
 - “Completed” and “Next” bullets
@@ -112,6 +112,25 @@ Human-readable **rolling** snapshot:
 | `.serena/memories/project_overview.md` | Agent session context | Agents (may link to FORK_STATUS) |
 
 **Rule:** Gate or Track milestone changes update **FORK_STATUS + runbook** (P0). Do **not** rewrite README body for progress alone.
+
+### Date and timestamp formats (scope)
+
+Gate and milestone **progress appeal** uses JST timestamps in **one place only** — [FORK_STATUS.md](./FORK_STATUS.md). Do **not** propagate that format to every human-facing markdown file.
+
+| Doc / layer | Format | When to use | Do not |
+|-------------|--------|-------------|--------|
+| **[FORK_STATUS.md](./FORK_STATUS.md)** | `YYYY/MM/DD HH:mm:ss JST` | Gate Pass/Fail, Track milestones, Completed table, Changelog | Duplicate full tables in README |
+| **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** | *(none for progress)* | Link to FORK_STATUS for “current status” | Gate timestamps, AS-IS/To-Be tables (until slim migration removes legacy blocks) |
+| **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** | `YYYY-MM-DD` (calendar day) | Task notes, sign-off memos, reproducible execution context | Replace FORK_STATUS as human progress dashboard |
+| **[docs/decisions/](./decisions/)** ADR | `Date: YYYY-MM-DD` | Decision acceptance / revision | Time-of-day or JST suffix (ADR convention) |
+| **[docs/proposals/](./proposals/)** | `日付: YYYY-MM-DD` | Customer-facing version date (Japanese OK) | Gate/milestone JST timestamps |
+| **Domain guides** (`ARCHITECTURE.md`, `OPENAI_*.md`, …) | `Last updated` / `Last reviewed`: `YYYY-MM-DD` | Doc freshness metadata | Gate progress narrative |
+| **This policy** | `Last updated: YYYY-MM-DD` | Policy revision only | — |
+| **Orchestration events (TS-22)** | UTC `ts` / `tsEnd` in JSON/schema | Runtime Layer A events | Not a markdown display format |
+
+**Milestone time source (FORK_STATUS):** Prefer sign-off or merge commit timestamp in `+0900` (JST) when recorded; document the convention in FORK_STATUS header.
+
+**Cross-link rule:** Runbook and README may cite a Gate **by name and calendar day** (`Gate A→B Pass 2026-06-18`) with a link to FORK_STATUS for the authoritative JST timestamp — do not maintain parallel timestamp tables.
 
 ---
 
@@ -204,7 +223,7 @@ Need a new markdown file?
 ├─ Executable step / Gate / Track?    → CURSOR_MCP_TODO.md or docs/agents/commands.md
 ├─ Agent-only rule?                 → docs/agents/
 ├─ Human onboarding or fork story?  → FORK_CURSOR.md or FORK_ONBOARDING.md (future)
-├─ Rolling progress / AS-IS?        → FORK_STATUS.md
+├─ Rolling progress / AS-IS?        → FORK_STATUS.md (JST timestamps — §5)
 ├─ External review (other repo)?    → Do NOT vendor MD; runbook crosswalk section only
 ├─ Upstream / stale / out of scope? → docs/legacy/
 └─ Customer-facing narrative?       → docs/proposals/ (Japanese OK)
@@ -255,7 +274,7 @@ Execute in order; each step may be its own commit.
 |---|------|--------|
 | 1 | Adopt this policy (v0.1) | `[x]` draft |
 | 2 | Update [documentation-sync.mdc](../.cursor/rules/documentation-sync.mdc) → link here; E2 tiers | `[ ]` |
-| 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[ ]` |
+| 3 | Create [FORK_STATUS.md](./FORK_STATUS.md); move content from README “Current goals & completed work” | `[x]` 2026-06-19 — README slim pending |
 | 4 | Slim README.md (English A1) + README_ja.md (parallel) | `[ ]` |
 | 5 | Create `docs/legacy/README.md`; batch-move legacy docs (phase 1) | `[ ]` |
 | 6 | Trim [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md); split legacy section | `[ ]` |

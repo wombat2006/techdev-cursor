@@ -8,7 +8,7 @@
 
 ### 👩‍💻 Developer
 1. **[README.md](../README.md)** · **[README_ja.md](../README_ja.md)** - Human entry (thin; see [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md))
-2. **[docs/FORK_STATUS.md](./FORK_STATUS.md)** - Rolling AS-IS / To-Be (planned; see policy migration checklist)
+2. **[docs/FORK_STATUS.md](./FORK_STATUS.md)** - Rolling AS-IS / To-Be and Gate progress (human status)
 3. **[AGENTS.md](../AGENTS.md)** - Neutral agent navigation (entry point)
 4. **[CLAUDE.md](../CLAUDE.md)** - Claude Code shim → AGENTS.md
 5. **docs/agents/commands.md** · **mcp-rules.md** · **development-notes.md** - Agent detail docs (English)
@@ -76,6 +76,7 @@
 | **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | Layer A/B/C; event `ts`/`tsEnd`/`seq`; TTL idle 7d / max 30d (TS-22 v1.3) | Architects / core devs |
 | **CURSOR_MCP_PLAN.md** | Cursor MCP plan; Phase 0 WSL CLI + auth prerequisite (TS-21) | Developers |
 | **FORK_CURSOR.md** | `techdev-cursor` — integrated Cursor dev env (coding accuracy/workload); not InfraOps/incident analysis | Developers |
+| **FORK_STATUS.md** | Rolling Gate / Track progress and AS-IS vs To-Be (human status) | Developers / reviewers |
 | **CURSOR_MCP_TODO.md** | Phased execution runbook — Track A/B/C + Gate reviews + Codex review crosswalk ([techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3), not vendored) | Developers |
 | **PROVIDER_INTEGRATION_BACKLOG.md** | Provider adapters, SDK sidecar margin, open backlog (unprioritized) | Developers |
 | **TECH_STACK_WORKSPACE.md** | Tech stack AS-IS inventory & decision backlog TS-01…21 | Architects / leads |
