@@ -31,9 +31,27 @@ Do **not** duplicate platform Python or MCP in this repo. `.cursor/mcp.json` reg
 - Output split: `meta/glossary-adopt.json`, `meta/glossary-hold.json` (Git-tracked)
 - `filter.emit_reject: false` — reject rows stay out of Git (`build/glossary/reject.jsonl` only when enabled)
 - Config fields: `filter`, `output`, `knowledge_filter` (MCP disabled until Phase 2.5)
-- Legacy single-file `meta/glossary-candidates.json` **deprecated**
+- Legacy single-file `meta/glossary-candidates.json` **deprecated** (`.gitignore` — see below)
 
-## Next (not in scope yet)
+## Tracked vs ignored outputs
+
+| Path | Git | Notes |
+|------|-----|-------|
+| `meta/glossary-config.json` | ✅ | Consumer config |
+| `meta/glossary-adopt.json` | ✅ | Adopt candidates (empty until first extract run) |
+| `meta/glossary-hold.json` | ✅ | Hold candidates |
+| `meta/glossary-registry.json` | ✅ (Phase 2) | Not created yet |
+| `meta/glossary-candidates.json` | ❌ | Legacy — **gitignored** |
+| `build/glossary/reject.jsonl` | ❌ | Only when `filter.emit_reject: true` |
+
+Verify ignore rule:
+
+```bash
+touch meta/glossary-candidates.json
+git check-ignore -v meta/glossary-candidates.json   # → .gitignore match
+rm meta/glossary-candidates.json
+```
+
 
 | Phase | Content |
 |-------|---------|
@@ -82,3 +100,34 @@ Already configured in `.cursor/mcp.json` (local path; gitignored):
 ```
 
 See [term-prep-platform/docs/integrations/techdev-cursor.md](https://github.com/wombat2006/term-prep-platform/blob/main/docs/integrations/techdev-cursor.md).
+
+---
+
+## Verification (Phase 0)
+
+### MCP stub — `classify_term`
+
+Knowledge filter is **disabled** in config (`knowledge_filter.enabled: false`). The MCP stub should still respond for smoke tests:
+
+```bash
+cd /path/to/term-prep-platform/mcp/glossary-knowledge
+PYTHONPATH=. ../.venv/bin/python -c "
+from glossary_knowledge_mcp.server import classify_term, list_providers
+print(list_providers())
+r = classify_term('Wall-Bounce', domain='devassist-platform')
+assert r['label'] == 'unknown' and r['provider_id'] == 'null'
+print('OK:', r)
+"
+```
+
+Expected: `label: unknown`, `provider_id: null` (NullProvider stub until Phase 2.5).
+
+### Extractor (when `corpus.files` is set)
+
+```bash
+cd /path/to/term-prep-platform
+python scripts/glossary_extractor.py --check \
+  --config projects/techdev-cursor/glossary-config.json
+```
+
+## Next (not in scope yet)

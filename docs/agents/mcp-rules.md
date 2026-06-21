@@ -14,6 +14,7 @@
 | **Cipher MCP** | Long-term memory and knowledge management |
 | **Codex MCP** | GPT-5 / GPT-5-Codex + approval workflows |
 | **Context7 MCP** | Library documentation lookup |
+| **glossary-knowledge** (Cursor) | Term classify stub — [term-prep-platform](https://github.com/wombat2006/term-prep-platform); RAG prep only, not Wall-Bounce |
 
 ---
 
@@ -98,6 +99,18 @@ Phase 0 is **mandatory**: Cursor spawns MCP in WSL; Windows `/mnt/c/.../npm` CLI
 → [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md)  
 → [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) (execution runbook)  
 → [DEVELOPMENT_GUIDE.md § WSL Native CLI](../DEVELOPMENT_GUIDE.md#wsl-native-cli-prerequisites-cursor-mcp-phase-0)
+
+---
+
+## Rule 5: Glossary Knowledge MCP (term-prep-platform — stub)
+
+```
+✅ Registered in .cursor/mcp.json as glossary-knowledge (local path to term-prep-platform)
+⛔ Do NOT confuse with techsapo-providers — separate server, separate purpose
+⛔ knowledge_filter.enabled is false until Phase 2.5 — stub returns unknown for all terms
+```
+
+Smoke test: [meta/TO-BE-GLOSSARY-PIPELINE.md § Verification](../../meta/TO-BE-GLOSSARY-PIPELINE.md#verification-phase-0)
 
 ---
 

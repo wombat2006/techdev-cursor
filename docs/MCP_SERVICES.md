@@ -60,6 +60,19 @@ Register **unified** stdio MCP server in **Cursor IDE** so tool calls use **subs
 
 Legacy dual-server (`techsapo-codex` + `techsapo-claude`) is superseded — see [FORK_CURSOR.md](./FORK_CURSOR.md).
 
+### Glossary Knowledge MCP (term-prep-platform — stub)
+
+**Separate server** from `techsapo-providers`. Registered in `.cursor/mcp.json` as `glossary-knowledge` → [term-prep-platform](https://github.com/wombat2006/term-prep-platform) `mcp/glossary-knowledge/`.
+
+| Item | Value |
+|------|-------|
+| Status | **Stub** (NullProvider) — Phase 2.5 |
+| Tools | `classify_term`, `classify_batch`, `list_providers`, `get_cache_stats` |
+| Current behavior | All terms → `label: unknown` |
+| Consumer config | `meta/glossary-config.json` → `knowledge_filter.enabled: false` |
+
+Do **not** use for Wall-Bounce or daily coding — RAG glossary prep only. Details: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md).
+
 ### 2. Codex MCP
 
 **Purpose**: GPT-5/GPT-5-Codex integration with approval workflows

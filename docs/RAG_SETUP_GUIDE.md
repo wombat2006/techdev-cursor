@@ -261,6 +261,23 @@ GET /api/v1/rag/vector-stores
 DELETE /api/v1/rag/vector-stores/{id}
 ```
 
+## 📖 Glossary prep (RAG 前処理 — Phase 0)
+
+用語抽出は **term-prep-platform**（canonical）+ 本 repo の **consumer config** のみ。実装コードは複製しない。
+
+| 項目 | 場所 |
+|------|------|
+| Consumer config | `meta/glossary-config.json` |
+| 採択/保留出力 | `meta/glossary-adopt.json`, `meta/glossary-hold.json` |
+| Platform mirror | `term-prep-platform/projects/techdev-cursor/glossary-config.json` |
+| MCP stub | `.cursor/mcp.json` → `glossary-knowledge`（`classify_term` → `unknown`） |
+
+**Phase 0 済:** adopt/hold 分割、`filter.emit_reject: false`、legacy `meta/glossary-candidates.json` は `.gitignore`。
+
+`corpus.files`（Google Drive ミラー path）が決まったら extractor を実行。詳細: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)。
+
+RAG パイプラインへの組み込み（Phase 4）は [googledrive-connector.ts](../src/services/googledrive-connector.ts) 側 — **未実装**。
+
 ## 📚 参考資料
 
 - [Google Drive API Documentation](https://developers.google.com/drive/api)
