@@ -11,7 +11,8 @@
 
 ## Design philosophy (summary)
 
-**What this is**  
+### What this is
+
 A **Cursor-integrated development platform** that helps teams **build software solutions** for real problems — **accurately, efficiently, and at subscription-scale cost** — by orchestrating multiple LLMs (Claude, Codex, Gemini via Antigravity) instead of betting on a single model.
 
 ### Problem it targets
