@@ -12,8 +12,8 @@ Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `
 
 | | |
 |---|---|
-| **What** | Unified provider MCP + subscription CLIs (`claude` / `codex` / `agy`); hard analysis via Wall-Bounce |
-| **Why** | Build software **accurately, efficiently, at subscription-scale cost** |
+| **What** | Unified provider MCP + subscription CLIs. Ingest internal docs and a domain glossary into RAG so Cursor coding matches the business (prep MCPs: [term-prep-platform](https://github.com/wombat2006/term-prep-platform), in progress). Hard analysis via Wall-Bounce |
+| **Why** | Ship **accurate, business-fit deliverables quickly** within subscription-scale cost |
 | **Not** | IT incident platform · multi-model picker only (no orchestration) |
 
 ---
@@ -34,24 +34,22 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 ## Architecture (overview)
 
+Keeping **internal documents** and a **domain glossary** in RAG gives Cursor **grounded terminology and references**, so you can produce **more accurate, business-fit output in less time**. Term extraction and RAG prep MCPs are **in progress** on [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — in this repo see [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md).
+
 ```mermaid
 flowchart TB
   subgraph trackA["Daily Cursor (Track A)"]
     U1[User]
     CUR[Cursor IDE]
     MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
-    GK_MCP[glossary-knowledge MCP<br/>classify_term stub]
   end
 
-  subgraph repo["techdev-cursor (consumer)"]
-    CFG[meta/glossary-config.json]
-    CORP[corpus · adopt/hold JSON]
-    GD[googledrive-connector.ts]
-  end
-
-  subgraph platform["term-prep-platform (sibling · read-only)"]
-    EXT[glossary_extractor.py]
-    GK[glossary_knowledge_mcp]
+  subgraph knowledge["Knowledge (this repo)"]
+    DOCS[Internal documents]
+    DICT[Domain glossary]
+    RAGIO[RAG ingest/query MCP<br/>in progress]
+    GD[googledrive-connector]
+    VS[(RAG / Vector Store)]
   end
 
   subgraph adapters["Adapter layer"]
@@ -84,21 +82,15 @@ flowchart TB
     U2[User · LINE]
   end
 
-  VS[(OpenAI Vector Store<br/>To-Be Phase 4)]
-
-  U1 --> CUR
-  CUR --> MCP
-  CUR --> GK_MCP
+  U1 --> CUR --> MCP
   MCP --> AD1 & AD2 & AD3
   AD1 --> CL
   AD2 --> CX
   AD3 --> AG
-  GK_MCP --> GK
-  CFG --> EXT
-  CORP --> EXT
-  EXT --> CORP
-  GD -.-> VS
-  CORP -.-> GD
+  DOCS --> RAGIO
+  DICT --> RAGIO
+  RAGIO --> GD --> VS
+  VS -.-> CUR
   U1 --> API --> WBA --> PEER --> AGG
   WBA -.-> REDIS
   WBA --> PROM --> AM --> LN --> U2
@@ -107,13 +99,12 @@ flowchart TB
 | Path | Role |
 |------|------|
 | **Cursor → techsapo-providers → adapters → CLIs** | Daily coding (single MCP invoke) |
-| **Cursor → glossary-knowledge → term-prep-platform** | Term classify stub (Phase 0 · knowledge filter off) |
-| **corpus + config → glossary_extractor → adopt/hold** | Pre-RAG prep (`npm run glossary:extract` · platform read-only) |
-| **adopt/hold → googledrive-connector → Vector Store** | RAG ingest (**Phase 4 · not wired**) |
+| **Internal docs · glossary → RAG** | Business-aligned context for Cursor (prep: [term-prep-platform](https://github.com/wombat2006/term-prep-platform), in progress) |
+| **RAG index → Cursor** | Retrieve ingested knowledge for accuracy and speed |
 | **Wall-Bounce API → analyzer** | Multi-LLM coordination + consensus |
 | **Prometheus → line-notification** | **LINE Webhook** alerts on anomalies (implemented) |
 
-Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
 
 ---
 
@@ -125,7 +116,8 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [TO-BE-GLOSSARY-PIPELINE.m
 | **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [要約（日本語）](./docs/ja/CURSOR_MCP_TODO_ja.md) |
 | Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [日本語](./docs/ja/FORK_CURSOR.md) |
 | Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) · [日本語](./docs/ja/FORK_ONBOARDING.md) |
-| Glossary prep (RAG consumer, Phase 0) | [meta/TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| RAG · domain glossary (consumer) | [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| RAG prep MCPs (in progress) | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full doc map | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | Documentation rules | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
@@ -139,7 +131,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [TO-BE-GLOSSARY-PIPELINE.m
 1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md) — scope and directory layout  
 2. [CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) — WSL CLI auth (`claude` / `codex` / `agy`)  
 3. `npm run cursor-mcp:config` — register unified MCP in Cursor  
-4. Glossary prep (pre-RAG) — `npm run glossary:extract` · [meta/TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) (edit consumer only · platform read-only)
+4. RAG / domain glossary — [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · prep MCPs on [term-prep-platform](https://github.com/wombat2006/term-prep-platform) (in progress)
 
 ---
 
