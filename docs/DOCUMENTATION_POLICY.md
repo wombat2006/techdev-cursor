@@ -71,7 +71,7 @@ docs/legacy/ (inactive)
 
 README files answer only:
 
-1. **What** is this repo? (DevAssist fork; not IT incident analysis)
+1. **What** is this repo? (DevAssist primary repo; not IT incident analysis)
 2. **Why** does it exist? (coding accuracy + workload reduction)
 3. **Where** to go next? (links table)
 4. **Current status?** → link to [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) from `README.md`, or [FORK_STATUS.md](./FORK_STATUS.md) from `README_en.md` (not duplicated prose)

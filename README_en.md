@@ -1,8 +1,7 @@
-# TechSapo — DevAssist Fork (`techdev-cursor`)
+# TechSapo — DevAssist (`techdev-cursor`)
 
 > **PRIMARY REPO** — Cursor-integrated development environment for **coding accuracy** and **workload reduction**.  
-> Fork of [wombat2006/techdev](https://github.com/wombat2006/techdev) (Wall-Bounce multi-LLM platform).  
-> **Not** IT incident / InfraOps analysis (upstream fork line).
+> **Not** IT incident / InfraOps analysis — see [FORK_CURSOR.md](./docs/FORK_CURSOR.md) for repo identity.
 
 Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`).
 
@@ -14,7 +13,7 @@ Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude
 
 | | |
 |---|---|
-| **What** | DevAssist fork — Wall-Bounce + unified provider MCP + subscription CLIs |
+| **What** | DevAssist — Wall-Bounce + unified provider MCP + subscription CLIs |
 | **Why** | Build software **accurately, efficiently, at subscription-scale cost** |
 | **Not** | IT incident platform · multi-model picker only (no orchestration) |
 
