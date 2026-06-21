@@ -12,8 +12,8 @@
 
 | | |
 |---|---|
-| **What** | Cursor 向けの統一 MCP と各社 CLI。社内ドキュメントと専門用語辞書を RAG に載せ、コーディングの文脈を業務に合わせる（前処理 MCP は [term-prep-platform](https://github.com/wombat2006/term-prep-platform) で実装中）。厳密分析は Wall-Bounce |
-| **Why** | **手早く・正確に**、業務にフィットした成果物をサブスクの範囲で作るため |
+| **What** | Cursor 向け **マルチ LLM 壁打ち** コーディング基盤 — 日常は統一 MCP（`analyze_claude` / `codex` / `agy`）、厳密分析は **Wall-Bounce**（2–5 ラウンド協調・合意ゲート） |
+| **Why** | サブスク CLI の範囲で、**複数 LLM の協調** によりコーディング支援の精度と信頼性を上げるため |
 | **Not** | IT 障害の解析・運用向けプラットフォーム。モデルを選べるだけのマルチモデルツール |
 
 ---
@@ -34,7 +34,7 @@
 
 ## アーキテクチャ（概要）
 
-社内ドキュメントと専門用語辞書を RAG に取り込んでおくと、Cursor 上のコーディングで **ドメイン用語と根拠** が効き、**業務にフィットした成果物をより正確に、短期間** で出しやすくなります。用語抽出・RAG 前処理 MCP は [term-prep-platform](https://github.com/wombat2006/term-prep-platform) で実装中 — 本 repo 側は [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)。
+**Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。**Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
 
 ```mermaid
 flowchart TB
@@ -42,14 +42,6 @@ flowchart TB
     U1[User]
     CUR[Cursor IDE]
     MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
-  end
-
-  subgraph knowledge["ナレッジ（この repo）"]
-    DOCS[社内ドキュメント]
-    DICT[専門用語辞書]
-    RAGIO[RAG 出し入れ MCP<br/>実装中]
-    GD[googledrive-connector]
-    VS[(RAG / Vector Store)]
   end
 
   subgraph adapters["Adapter 層"]
@@ -87,10 +79,6 @@ flowchart TB
   AD1 --> CL
   AD2 --> CX
   AD3 --> AG
-  DOCS --> RAGIO
-  DICT --> RAGIO
-  RAGIO --> GD --> VS
-  VS -.-> CUR
   U1 --> API --> WBA --> PEER --> AGG
   WBA -.-> REDIS
   WBA --> PROM --> AM --> LN --> U2
@@ -99,12 +87,10 @@ flowchart TB
 | 経路 | 用途 |
 |------|------|
 | **Cursor → techsapo-providers → adapter → CLI** | 日常コーディング（単一 MCP 呼び出し） |
-| **社内ドキュメント · 専門用語辞書 → RAG** | 業務ドメインに沿った文脈を Cursor コーディングへ（前処理: [term-prep-platform](https://github.com/wombat2006/term-prep-platform) 実装中） |
-| **RAG index → Cursor** | 取り込んだナレッジを検索・参照して精度と速度を上げる |
-| **Wall-Bounce API → analyzer** | 2+ LLM 協調・合意が必要な分析 |
+| **Wall-Bounce API → analyzer → peer LLMs** | 2+ LLM 協調・合意が必要な厳密分析（**2–5 ラウンド**） |
 | **Prometheus → line-notification** | 異常検知時の **LINE Webhook 通知**（実装済み） |
 
-詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
 
 ---
 
@@ -117,8 +103,7 @@ flowchart TB
 | **実行・Track（正本・英語）** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
 | フォークの位置づけ | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
 | 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
-| RAG · 用語辞書（consumer） | [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
-| RAG 前処理 MCP（実装中） | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) |
+| RAG 前処理（sibling · 任意） | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) · 本 repo consumer: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md)（英語） |
 | ドキュメント一覧 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | ドキュメント方針 | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
@@ -131,8 +116,7 @@ flowchart TB
 
 1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
 2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
-3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録  
-4. RAG / 用語辞書 — [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · 前処理 MCP は [term-prep-platform](https://github.com/wombat2006/term-prep-platform)（実装中）
+3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録
 
 ---
 
