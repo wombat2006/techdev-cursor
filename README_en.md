@@ -34,10 +34,9 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 ## Architecture (overview)
 
-**Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs.
-**Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`).
-Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md).
-RAG prep details live in sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform).
+**Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs.  
+**Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`).  
+Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md). RAG prep details live in sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform).
 
 ```mermaid
 flowchart TB

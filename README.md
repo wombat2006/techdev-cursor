@@ -34,10 +34,9 @@
 
 ## アーキテクチャ（概要）
 
-**Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。
-**Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。
-Track B は **実装中**（adapter 配線・Layer A 等）— 進捗は [FORK_STATUS.md](./docs/ja/FORK_STATUS.md)。
-RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
+**Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。  
+**Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。  
+Track B は **実装中**（adapter 配線・Layer A 等）— 進捗は [FORK_STATUS.md](./docs/ja/FORK_STATUS.md)。 RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
 
 ```mermaid
 flowchart TB
