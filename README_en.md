@@ -12,7 +12,7 @@ Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `
 
 | | |
 |---|---|
-| **What** | **Multi-LLM wall-bounce** coding platform for Cursor — daily work via unified MCP (`analyze_claude` / `codex` / `agy`); hard analysis via **Wall-Bounce** (2–5 coordinated rounds + consensus gates) |
+| **What** | **Multi-LLM wall-bounce** coding platform for Cursor — daily work via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`); hard analysis via **Wall-Bounce** (2–5 coordinated rounds + consensus gates) |
 | **Why** | Improve coding-assist **accuracy and reliability through multi-LLM coordination**, within subscription CLI cost |
 | **Not** | IT incident platform · multi-model picker only (no orchestration) |
 
@@ -34,14 +34,17 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 ## Architecture (overview)
 
-**Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs. **Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`). RAG prep details live in sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform).
+**Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs.
+**Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`).
+Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md).
+RAG prep details live in sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform).
 
 ```mermaid
 flowchart TB
   subgraph trackA["Daily Cursor (Track A)"]
     U1[User]
     CUR[Cursor IDE]
-    MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+    MCP[techsapo-providers MCP<br/>analyze_claude / analyze_codex / analyze_agy]
   end
 
   subgraph adapters["Adapter layer"]

@@ -12,7 +12,7 @@
 
 | | |
 |---|---|
-| **What** | Cursor 向け **マルチ LLM 壁打ち** コーディング基盤 — 日常は統一 MCP（`analyze_claude` / `codex` / `agy`）、厳密分析は **Wall-Bounce**（2–5 ラウンド協調・合意ゲート） |
+| **What** | Cursor 向け **マルチ LLM 壁打ち** コーディング基盤 — 日常は統一 MCP（`analyze_claude` / `analyze_codex` / `analyze_agy`）、厳密分析は **Wall-Bounce**（2–5 ラウンド協調・合意ゲート） |
 | **Why** | サブスク CLI の範囲で、**複数 LLM の協調** によりコーディング支援の精度と信頼性を上げるため |
 | **Not** | IT 障害の解析・運用向けプラットフォーム。モデルを選べるだけのマルチモデルツール |
 
@@ -34,14 +34,17 @@
 
 ## アーキテクチャ（概要）
 
-**Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。**Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
+**Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。
+**Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。
+Track B は **実装中**（adapter 配線・Layer A 等）— 進捗は [FORK_STATUS.md](./docs/ja/FORK_STATUS.md)。
+RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
 
 ```mermaid
 flowchart TB
   subgraph trackA["日常 Cursor（Track A）"]
     U1[User]
     CUR[Cursor IDE]
-    MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+    MCP[techsapo-providers MCP<br/>analyze_claude / analyze_codex / analyze_agy]
   end
 
   subgraph adapters["Adapter 層"]
