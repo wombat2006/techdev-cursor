@@ -1,8 +1,7 @@
-# TechSapo — DevAssist フォーク (`techdev-cursor`)
+# TechSapo — DevAssist（`techdev-cursor`）
 
 > **PRIMARY REPO** — Cursor 統合開発環境。**コーディング精度向上**と**負荷軽減**が目的。  
-> [wombat2006/techdev](https://github.com/wombat2006/techdev)（Wall-Bounce）のフォーク。  
-> **IT 障害解析 / InfraOps ラインではない**（upstream 別フォーク）。
+> **IT 障害解析 / InfraOps ラインではない** — 位置づけは [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md)。
 
 統一 MCP（`analyze_claude` / `analyze_codex` / `analyze_agy`）による日常の Cursor コーディング向けマルチ LLM 基盤。
 
@@ -14,7 +13,7 @@
 
 | | |
 |---|---|
-| **何** | DevAssist フォーク — Wall-Bounce + 統一 provider MCP + サブスク CLI |
+| **何** | DevAssist — Wall-Bounce + 統一 provider MCP + サブスク CLI |
 | **なぜ** | **簡便・正確・低コスト**にソフトウェアを作る |
 | **ではない** | IT 障害プラットフォーム · マルチモデル選択だけの harness |
 
