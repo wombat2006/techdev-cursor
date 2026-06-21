@@ -52,7 +52,7 @@ For **rolling Gate timestamps**, see [FORK_STATUS.md](./FORK_STATUS.md). Summary
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
 | Memory substrate (TS-22) | ADR + schema + types; G-MEM closed | `OrchestrationSessionStore` + `sessionId` (Track B M1) |
 | Session continuation (TS-24) | ADR — post-Aggregator follow-up + negative retry policy | Track B wiring with Layer A |
-| Glossary prep (RAG) | **Phase 0** — consumer config, first extract, adopt/hold JSON; `npm run glossary:extract` | Phase 2.5 knowledge filter · Phase 4 `googledrive-connector` hook |
+| Glossary prep (RAG) | **Phase 0** — consumer config, first extract, adopt/hold JSON; `npm run glossary:extract` | Phase 2.5 knowledge filter · platform storage + RAG Vector connectors (delegation from `googledrive-connector.ts`) |
 | OpenAI vendor depth | Cookbook / prompt guidance in catalog | Anthropic / Google same pattern next |
 
 ---
@@ -86,7 +86,7 @@ Google     ██░░░░░░░░  Foundation only (agy ops; catalog enr
 | **InferenceProfile (TS-20)** | Per-request effort / CoT / temperature separate from catalog | [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | **Memory (TS-22)** | Layer A transcript · UTC events · idle 7d / max 30d · single store | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | **Session continuation (TS-24)** | Post-Aggregator follow-up · upward-jitter negative retry | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
-| **Glossary consumer** | Consumer-only edits · sibling platform invoke · adopt/hold outputs | [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md) |
+| **Glossary consumer** | Consumer-only edits · sibling platform invoke · adopt/hold outputs | [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md) · connectors delegating to platform |
 | **Fork scope** | Cursor coding assist — not IT incident line | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **Security** | Subscription CLI / SDK only — no API keys in repo | [SECURITY.md](./SECURITY.md) |
 | **OpenAI (leading)** | Prompt guidance · Cookbook · cost tiers · gated Batch RAG | [OPENAI_COOKBOOK_INTEGRATION.md](./OPENAI_COOKBOOK_INTEGRATION.md) |

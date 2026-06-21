@@ -36,7 +36,8 @@
 
 **Track A（日常）:** Cursor → 統一 MCP → adapter → 各社 CLI。  
 **Track B（厳密）:** 同一プロンプトに複数 LLM が **2–5 ラウンド** で壁打ちし、合意・品質ゲートを通過した結果を返す（`wall-bounce-analyzer.ts`）。  
-Track B は **実装中**（adapter 配線・Layer A 等）— 進捗は [FORK_STATUS.md](./docs/ja/FORK_STATUS.md)。 RAG 前処理の詳細は sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) を参照。
+Track B は **実装中**（adapter 配線・Layer A 等）— 進捗は [FORK_STATUS.md](./docs/ja/FORK_STATUS.md)。  
+RAG 前処理・ストレージ／Vector コネクタは [term-prep-platform](https://github.com/wombat2006/term-prep-platform) へ委譲予定（AS-IS: 本 repo の `googledrive-connector.ts`）。
 
 ```mermaid
 flowchart TB
@@ -105,7 +106,7 @@ flowchart TB
 | **実行・Track（正本・英語）** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
 | フォークの位置づけ | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
 | 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
-| RAG 前処理（sibling · 任意） | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) · 本 repo consumer: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) |
+| RAG · コネクタ（sibling · 任意） | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — ストレージ（Google Drive / S3 / OneDrive 等）・RAG Vector コネクタ実装予定 · 本 repo consumer: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md)（英語） |
 | ドキュメント一覧 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | ドキュメント方針 | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |

@@ -276,7 +276,15 @@ DELETE /api/v1/rag/vector-stores/{id}
 
 詳細: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)（consumer boundary 必読）。
 
-RAG パイプラインへの組み込み（Phase 4）は [googledrive-connector.ts](../src/services/googledrive-connector.ts) 側 — **未実装**。
+### ストレージ・Vector コネクタ（委譲予定）
+
+| 項目 | AS-IS（本 repo） | To-Be（term-prep-platform） |
+|------|------------------|----------------------------|
+| Google Drive | [googledrive-connector.ts](../src/services/googledrive-connector.ts) | 機能委譲・再実装予定 |
+| その他ストレージ | — | S3、OneDrive 等のコネクタ実装予定 |
+| RAG Vector | googledrive-connector 経由の一部 | Vector 取り込み／検索コネクタ実装予定 |
+
+本 repo では **新規のコネクタ実装を追加しない**。platform 側の変更が必要な場合は [TO-BE-GLOSSARY-PIPELINE § Platform escalation](../meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user) に従いユーザーへ通知。
 
 ## 📚 参考資料
 

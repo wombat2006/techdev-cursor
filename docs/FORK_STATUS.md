@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/21 21:28:26 JST  
+**Last updated:** 2026/06/21 23:26:30 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -44,7 +44,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **B** — InferenceProfile + adapters + memory | P1 | `[ ]` **Active** | B-0 partial (matrix+catalog resolver ✅); M1 store pending; B-1 WB wiring pending |
 | **C** — P5 Phase 0 platform | P3 | `[ ]` Blocked | Hard gate · PromptAnalyzer · constitution rounds · orchestrator merge |
 | **E / F** — catalog / cost routing | P2 | `[~]` Partial | F-1 ✅ · F-2 loader partial · F-3+ pending |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` Partial | Glossary consumer **Phase 0** ✅ (RAG prep); connector hook · Batch RAG · grounding pending |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` Partial | Glossary consumer **Phase 0** ✅ (RAG prep); platform storage/Vector connectors · Batch RAG · grounding pending |
 
 ---
 
@@ -103,7 +103,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify beyond NullProvider — **platform change** (notify user) |
-| Glossary Phase 4 connector hook | RAG prep | `googledrive-connector.ts` batch prep — not wired |
+| Glossary Phase 4 storage / Vector connectors | RAG prep | AS-IS `googledrive-connector.ts` in this repo → **term-prep-platform** (Drive, S3, OneDrive, RAG Vector) |
 | Google Drive local mirror corpus | RAG prep | Replace interim `corpus.files` in consumer config |
 | `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
@@ -120,7 +120,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Orchestration memory** | ADR + schema/types only (Redis pending) | M1 Redis + M2–M6 wiring; TS-24 continuation/retry |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
-| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; npm scripts | Phase 2.5 filter · Phase 4 connector hook · Drive mirror corpus |
+| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; npm scripts; legacy `googledrive-connector.ts` | Phase 2.5 filter · platform storage + RAG Vector connectors |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | Same — rolling status stays in FORK_STATUS |
 | **Legacy platform docs** | `docs/legacy/` quarantine (phase 1 done) | Phase 2 optional (remaining cluster cleanup) |
 
@@ -165,6 +165,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/21 23:26:30 | Document connector delegation to term-prep-platform (Drive, S3, OneDrive, RAG Vector); legacy googledrive-connector AS-IS |
 | 2026/06/21 21:28:26 | Replace "daily smoke" with explicit MCP/adapter operational checks (en/ja FORK_STATUS, ONBOARDING) |
 | 2026/06/21 21:24:03 | Replace Track A "tail/尾" jargon with remainder/残タスク (en/ja FORK_STATUS, ONBOARDING, runbook summary) |
 | 2026/06/21 21:18:49 | Fix AS-IS vs To-Be summary — legacy docs phase 1 AS-IS, Wall-Bounce/memory rows; en/ja sync |

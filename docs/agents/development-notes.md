@@ -47,7 +47,7 @@ src/
 │   ├── mcp-integration-service.ts       # MCP orchestrator
 │   ├── mcp-approval-manager.ts          # Approval workflows
 │   ├── codex-mcp-server.ts              # GPT-5 Codex integration
-│   ├── googledrive-connector.ts         # RAG system
+│   ├── googledrive-connector.ts         # RAG (legacy AS-IS; delegating to term-prep-platform)
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

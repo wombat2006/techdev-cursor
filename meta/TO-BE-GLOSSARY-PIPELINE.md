@@ -4,13 +4,13 @@ Project: **techdev-cursor** (glossary **consumer**)
 
 Status: Phase 0 complete — first extract run on in-repo docs corpus
 
-**Last updated:** 2026/06/21 19:59:15 JST
+**Last updated:** 2026/06/21 23:26:30 JST
 
 Related:
 [glossary-config.json](./glossary-config.json) · [RAG_SETUP_GUIDE.md](../docs/RAG_SETUP_GUIDE.md) · [FORK_STATUS.md § Completed](../docs/FORK_STATUS.md#completed-fork) (milestone timestamps)
 
 **Consumer config (this repo):** `meta/glossary-config.json`  
-**Platform implementation (read-only invoke):** [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — `glossary_extractor.py`, `mcp/glossary-knowledge`
+**Platform implementation (read-only invoke):** [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — `glossary_extractor.py`, `mcp/glossary-knowledge`, and **planned** storage + RAG Vector connectors
 
 ---
 
@@ -41,7 +41,7 @@ If consumer-side work **cannot proceed** without a change in `term-prep-platform
 | Config field has no effect | e.g. `filter.max_candidates_output` ignored by current extractor |
 | MCP / knowledge filter cannot be enabled from consumer config alone | Phase 2.5 provider wiring, new tools |
 | Platform bug blocks extract or smoke test | crash in `glossary_extractor.py` or `glossary-knowledge` MCP |
-| New platform feature requested | PII MCP, registry seed-first, RAG subpackage (Phase 1+) |
+| New platform feature requested | PII MCP, registry seed-first, storage connectors (Drive / S3 / OneDrive, …), RAG Vector connectors |
 
 **What to include in the notification:**
 
@@ -66,8 +66,19 @@ If consumer-side work **cannot proceed** without a change in `term-prep-platform
 |-------|----------|-------|
 | **Consumer** | techdev-cursor (here) | corpus paths, config, adopt/hold JSON |
 | **Platform CLI** | sibling `term-prep-platform` | invoke only via npm scripts below |
-| **RAG target** | `src/services/googledrive-connector.ts` | Google Drive → prep → Vector Store |
+| **RAG ingest (AS-IS)** | `src/services/googledrive-connector.ts` | Google Drive → prep → Vector Store — **legacy in this repo** |
+| **RAG ingest (To-Be)** | sibling `term-prep-platform` | **Delegation planned:** Google Drive connector (replaces in-repo implementation), arbitrary storage connectors (S3, OneDrive, …), RAG Vector store connectors |
 | **Dictionary export (planned)** | `config/fork/devassist-dictionary-v0.json` | From registry / adopt |
+
+### Connector delegation (planned)
+
+| Connector | AS-IS (this repo) | To-Be (term-prep-platform) |
+|-----------|-------------------|----------------------------|
+| **Google Drive** | `googledrive-connector.ts` | Move / reimplement on platform |
+| **Other storage** | — | S3, OneDrive, and other backends on platform |
+| **RAG Vector** | partial via googledrive-connector | Dedicated Vector ingest/query connectors on platform |
+
+Consumer agents: **do not** extend `googledrive-connector.ts` for new RAG prep work — escalate to the user for platform changes ([Platform escalation](#platform-escalation--notify-the-user)).
 
 ---
 
@@ -106,7 +117,7 @@ rm meta/glossary-candidates.json
 | 2 | Registry seed-first |
 | 2.5 | MCP knowledge filter enabled |
 | 3 | Dictionary / GLOSSARY curation workflow |
-| 4 | RAG prep hook in googledrive-connector |
+| 4 | RAG prep via platform connectors (storage + Vector); deprecate in-repo `googledrive-connector.ts` hook |
 
 Reference consumer walkthrough: [dopagaki-transition `meta/TO-BE-GLOSSARY-PIPELINE.md`](https://github.com/wombat2006/dopagaki-transition/blob/main/meta/TO-BE-GLOSSARY-PIPELINE.md)
 
@@ -163,3 +174,5 @@ npm run glossary:extract:check
 - Google Drive local mirror → replace interim `corpus.files`
 - `filter.max_candidates_output` cap in platform extractor
 - Phase 2.5 knowledge filter enablement
+- Platform storage connectors (Google Drive delegation from `googledrive-connector.ts`, S3, OneDrive, …)
+- Platform RAG Vector connectors (ingest / query)

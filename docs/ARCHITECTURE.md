@@ -65,9 +65,11 @@ Model Context Protocol integration for standardized LLM interactions.
 
 Google Drive integration for document retrieval and embedding.
 
-**Core File**: `src/services/googledrive-connector.ts`
+**Core File (AS-IS):** `src/services/googledrive-connector.ts` — **legacy in this repo**
 
-**Features**:
+**To-Be:** Storage connectors (Google Drive, S3, OneDrive, …) and RAG Vector connectors move to sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform). See [TO-BE-GLOSSARY-PIPELINE.md § Connector delegation](../meta/TO-BE-GLOSSARY-PIPELINE.md#connector-delegation-planned).
+
+**Features (AS-IS)**:
 - Document search and indexing
 - Embedding generation
 - Vector mapping for semantic search

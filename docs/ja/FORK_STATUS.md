@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/21 21:28:26 JST  
+**最終更新:** 2026/06/21 23:26:30 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -44,7 +44,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（matrix+catalog resolver ✅）；M1 store 未；B-1 WB 配線未 |
 | **C** — P5 Phase 0 | P3 | `[ ]` ブロック | Hard gate · PromptAnalyzer · 憲法ラウンド · orchestrator 統合 |
 | **E / F** — catalog / cost routing | P2 | `[~]` 部分 | F-1 ✅ · F-2 loader 部分 · F-3+ 未 |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` 部分 | Glossary consumer **Phase 0** ✅（RAG prep）；connector hook · Batch RAG · grounding 未 |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` 部分 | Glossary consumer **Phase 0** ✅（RAG prep）；platform ストレージ/Vector コネクタ · Batch RAG · grounding 未 |
 
 ---
 
@@ -104,7 +104,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | A-2 InferenceProfile in MCP | A | 非ブロック |
 | A-3 チーム MCP 登録 | A | 非ブロック |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify（NullProvider 超）— **platform 変更**（ユーザーへ通知） |
-| Glossary Phase 4 connector hook | RAG prep | `googledrive-connector.ts` 未配線 |
+| Glossary Phase 4 ストレージ / Vector コネクタ | RAG prep | AS-IS `googledrive-connector.ts` は本 repo → **term-prep-platform** へ委譲（Drive、S3、OneDrive、RAG Vector） |
 | Google Drive ローカルミラー corpus | RAG prep | interim `corpus.files` 差替え |
 | `filter.max_candidates_output` cap | RAG prep | config あり；platform extractor 未対応 — **platform 変更** |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
@@ -121,7 +121,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **オーケストレーション記憶** | ADR + schema・型のみ（Redis 未） | M1 Redis + M2–M6 配線；TS-24 継続・再試行 |
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
 | **Model catalog（TS-21）** | JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + コスト routing |
-| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；npm scripts | Phase 2.5 filter · Phase 4 connector · Drive mirror |
+| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；npm scripts；レガシー `googledrive-connector.ts` | Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | 現状維持（進捗は本 doc） |
 | **Legacy platform docs** | `docs/legacy/` 隔離済（phase 1） | phase 2 任意（残クラスタ整理） |
 
@@ -155,6 +155,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/21 23:26:30 | コネクタ委譲を記載（Drive / S3 / OneDrive / RAG Vector → term-prep-platform）；googledrive-connector は AS-IS レガシー |
 | 2026/06/21 21:28:26 | 「daily smoke」を MCP・adapter の動作確認継続と明記（FORK_STATUS・ONBOARDING en/ja） |
 | 2026/06/21 21:24:03 | Track A の「尾/tail」を残タスク/remainder に置換（FORK_STATUS・ONBOARDING・runbook 要約） |
 | 2026/06/21 21:18:49 | AS-IS vs To-Be 要約を修正 — legacy phase 1 を AS-IS に、Wall-Bounce/記憶行を整合；en/ja 同期 |

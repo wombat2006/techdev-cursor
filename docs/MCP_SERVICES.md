@@ -73,6 +73,8 @@ Legacy dual-server (`techsapo-codex` + `techsapo-claude`) is superseded — see 
 
 Do **not** use for Wall-Bounce or daily coding — RAG glossary prep only. Details: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md).
 
+**Planned on platform (not in this repo):** storage connectors (Google Drive delegation from `googledrive-connector.ts`, S3, OneDrive, …) and RAG Vector ingest/query connectors — consumer invokes via platform MCP/scripts when available.
+
 ### 2. Codex MCP
 
 **Purpose**: GPT-5/GPT-5-Codex integration with approval workflows

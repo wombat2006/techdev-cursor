@@ -36,7 +36,8 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 **Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs.  
 **Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`).  
-Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md). RAG prep details live in sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform).
+Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md).  
+RAG prep and storage/Vector connectors are **planned on** sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) (AS-IS: legacy `googledrive-connector.ts` in this repo).
 
 ```mermaid
 flowchart TB
@@ -104,7 +105,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [要約（日本語）](./docs/ja/CURSOR_MCP_TODO_ja.md) |
 | Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [日本語](./docs/ja/FORK_CURSOR.md) |
 | Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) · [日本語](./docs/ja/FORK_ONBOARDING.md) |
-| RAG prep (sibling · optional) | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) · consumer in this repo: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) |
+| RAG · connectors (sibling · optional) | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — storage (Google Drive / S3 / OneDrive, etc.) + RAG Vector connectors planned · consumer in this repo: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full doc map | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | Documentation rules | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
