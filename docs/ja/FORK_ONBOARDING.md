@@ -4,7 +4,9 @@
 
 **目的:** 設計思想と正直な AS-IS / To-Be（採用候補、レビュア、新メンバー向け）。  
 **ではない:** 実行チェックリスト — [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md) / [英語 runbook](../CURSOR_MCP_TODO.md) を使う。  
-**関連:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
+**関連:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
+
+**最終更新:** 2026/06/21 19:59:15 JST
 
 ---
 
@@ -20,6 +22,7 @@
 | 単一 LLM コーディングは速いが誤りやすい | **Wall-Bounce** — 信頼性が要る分析では多 LLM + 品質閾値 |
 | モデル使い分けの場当たり → コスト膨張 | **TS-21 catalog** — 特性・pricing・routing を JSON で構造化 |
 | Claude / Codex / Gemini でツールがバラバラ | **統一 MCP**（`techsapo-providers`）— Cursor 1 入口 |
+| RAG 前の用語ドリフト | **Glossary consumer**（Phase 0）— extract → adopt/hold；platform CLI は read-only（[TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md)） |
 | リポジトリにシークレット | **CLI/OAuth のみ** — API key 禁止（[SECURITY.md](../SECURITY.md)） |
 
 ### エンジニアリングのこだわり
@@ -48,6 +51,8 @@
 | 厳密マルチ LLM 分析 | Wall-Bounce API あり | Track C で憲法 enforce |
 | Model catalog（TS-21） | JSON + schema | runtime loader + TaskRouter（F） |
 | Memory（TS-22） | ADR + schema；G-MEM 済 | M1 store + `sessionId`（B） |
+| Session continuation（TS-24） | ADR — Aggregator 後フォロー + negative retry | Track B で Layer A と配線 |
+| Glossary prep（RAG） | **Phase 0** — consumer config・初回 extract・adopt/hold；`npm run glossary:extract` | Phase 2.5 knowledge filter · Phase 4 connector hook |
 | OpenAI 深掘り | Cookbook / prompt guidance 反映済 | Anthropic / Google へ横展開 |
 
 ---
@@ -80,8 +85,11 @@ Google     ██░░░░░░░░  基盤のみ（agy 運用；catalog e
 | **TS-21 catalog** | モデル特性 · transport · pricing | [TECH_STACK_LLM_MODEL_CATALOG.md](../decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | **TS-20 InferenceProfile** | リクエスト単位 effort / CoT / temperature | [TECH_STACK_INFERENCE_PROFILES.md](../decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | **TS-22 Memory** | Layer A transcript · UTC · TTL | [TECH_STACK_MEMORY_SUBSTRATE.md](../decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| **TS-24 Session continuation** | Aggregator 後フォロー · upward-jitter negative retry | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](../decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
+| **Glossary consumer** | consumer のみ編集 · sibling platform invoke · adopt/hold | [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](../RAG_SETUP_GUIDE.md) |
 | **フォークスコープ** | Cursor コーディング支援 | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **セキュリティ** | subscription CLI / SDK のみ | [SECURITY.md](../SECURITY.md) |
+| **OpenAI（先行）** | prompt guidance · Cookbook · cost tiers | [OPENAI_COOKBOOK_INTEGRATION.md](../OPENAI_COOKBOOK_INTEGRATION.md) |
 
 ---
 

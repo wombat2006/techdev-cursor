@@ -4,8 +4,10 @@ Project: **techdev-cursor** (glossary **consumer**)
 
 Status: Phase 0 complete — first extract run on in-repo docs corpus
 
+**Last updated:** 2026/06/21 19:59:15 JST
+
 Related:
-[glossary-config.json](./glossary-config.json) · [RAG_SETUP_GUIDE.md](../docs/RAG_SETUP_GUIDE.md)
+[glossary-config.json](./glossary-config.json) · [RAG_SETUP_GUIDE.md](../docs/RAG_SETUP_GUIDE.md) · [FORK_STATUS.md § Completed](../docs/FORK_STATUS.md#completed-fork) (milestone timestamps)
 
 **Consumer config (this repo):** `meta/glossary-config.json`  
 **Platform implementation (read-only invoke):** [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — `glossary_extractor.py`, `mcp/glossary-knowledge`

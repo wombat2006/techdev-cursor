@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/19 13:46:26 JST  
+**Last updated:** 2026/06/21 19:59:15 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -44,7 +44,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **B** — InferenceProfile + adapters + memory | P1 | `[ ]` **Active** | B-0 partial (matrix+catalog resolver ✅); M1 store pending; B-1 WB wiring pending |
 | **C** — P5 Phase 0 platform | P3 | `[ ]` Blocked | Hard gate · PromptAnalyzer · constitution rounds · orchestrator merge |
 | **E / F** — catalog / cost routing | P2 | `[~]` Partial | F-1 ✅ · F-2 loader partial · F-3+ pending |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[ ]` Optional | After Track C |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` Partial | Glossary consumer **Phase 0** ✅ (RAG prep); connector hook · Batch RAG · grounding pending |
 
 ---
 
@@ -81,6 +81,13 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Contract Layer** | 2026/06/19 13:22:54 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
 | **TS-23** user-extensible LLM | 2026/06/19 13:30:04 | ADR L1–L2 config extensions — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 | **TS-24** session continuation + retry | 2026/06/19 13:46:26 | Layer A follow-up + upward jitter negative retry — [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
+| **Glossary-knowledge MCP** (initial) | 2026/06/21 18:26:39 | `.cursor/mcp.json` — `glossary-knowledge` registration (absolute paths) |
+| **Glossary consumer Phase 0** (config) | 2026/06/21 18:59:51 | `meta/glossary-config.json`, adopt/hold split, legacy candidates gitignored — [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| **Glossary Phase 0 docs sync** | 2026/06/21 19:12:00 | README, MCP_SERVICES, RAG_SETUP_GUIDE, mcp-rules, TO-BE verification sections |
+| **Glossary-knowledge MCP** (tracked) | 2026/06/21 19:20:43 | `.cursor/mcp.json` sibling `../term-prep-platform` relative paths |
+| **Glossary first extract** | 2026/06/21 19:28:52 | Interim in-repo corpus (11 md); adopt/hold populated via `npm run glossary:extract` |
+| **Glossary consumer boundary** | 2026/06/21 19:48:06 | Consumer-only edits; platform read-only invoke; escalation policy |
+| **Glossary portable output paths** | 2026/06/21 19:59:15 | `normalize-glossary-output.py`; repo-relative `corpus_files` in adopt/hold |
 
 ---
 
@@ -95,6 +102,10 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | simulate / legacy MCP paths | B-1 | `mcp-clients` guarded; rag-endpoint still simulate until adapters |
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
+| Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify beyond NullProvider — **platform change** (notify user) |
+| Glossary Phase 4 connector hook | RAG prep | `googledrive-connector.ts` batch prep — not wired |
+| Google Drive local mirror corpus | RAG prep | Replace interim `corpus.files` in consumer config |
+| `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
 
 ---
@@ -109,6 +120,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Orchestration memory** | Design + schema only | M1 Redis + M2–M6 wiring; TS-24 continuation/retry policy |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
+| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; npm scripts | Phase 2.5 filter · Phase 4 connector hook · Drive mirror corpus |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | legacy phase 2 optional |
 | **Legacy platform docs** | Mixed in `docs/` | `docs/legacy/` quarantine |
 
@@ -145,6 +157,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 | **Design depth** | [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | **Architecture** | [ARCHITECTURE.md](./ARCHITECTURE.md) |
 | **Memory ADR** | [decisions/TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| **Glossary consumer** | [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md) |
 
 ---
 
@@ -152,6 +165,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/21 19:59:15 | Glossary Phase 0 — extract, consumer boundary, portable adopt/hold paths; FORK_ONBOARDING sync |
 | 2026/06/19 13:46:26 | TS-24 — session continuation + upward-jitter negative retry ADR |
 | 2026/06/19 13:30:04 | Contract Layer + TS-23 — FORK_STATUS / runbook Known state sync |
 | 2026/06/19 11:47:05 | B2b — `docs/ja/` human doc pairs (FORK_* + runbook summary) |

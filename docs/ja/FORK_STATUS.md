@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/19 13:46:26 JST  
+**最終更新:** 2026/06/21 19:59:15 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -44,7 +44,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（matrix+catalog resolver ✅）；M1 store 未；B-1 WB 配線未 |
 | **C** — P5 Phase 0 | P3 | `[ ]` ブロック | Hard gate · PromptAnalyzer · 憲法ラウンド · orchestrator 統合 |
 | **E / F** — catalog / cost routing | P2 | `[~]` 部分 | F-1 ✅ · F-2 loader 部分 · F-3+ 未 |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[ ]` 任意 | Track C 後 |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` 部分 | Glossary consumer **Phase 0** ✅（RAG prep）；connector hook · Batch RAG · grounding 未 |
 
 ---
 
@@ -81,6 +81,13 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Contract Layer** | 2026/06/19 13:22:54 | F-1 validate:config · catalog loader · adapter-preset-matrix · contract tests · simulate guard |
 | **TS-23** user-extensible LLM | 2026/06/19 13:30:04 | ADR L1–L2 — [TECH_STACK_USER_EXTENSIBLE_LLM.md](../decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 | **TS-24** session continuation + retry | 2026/06/19 13:46:26 | Layer A 継続 + upward jitter 再試行 — [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](../decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
+| **Glossary-knowledge MCP**（初回） | 2026/06/21 18:26:39 | `.cursor/mcp.json` — `glossary-knowledge` 登録（絶対パス） |
+| **Glossary consumer Phase 0**（config） | 2026/06/21 18:59:51 | `meta/glossary-config.json`、adopt/hold 分割 — [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| **Glossary Phase 0 docs sync** | 2026/06/21 19:12:00 | README、MCP_SERVICES、RAG_SETUP_GUIDE、mcp-rules、TO-BE 検証節 |
+| **Glossary-knowledge MCP**（tracked） | 2026/06/21 19:20:43 | `.cursor/mcp.json` sibling `../term-prep-platform` 相対パス |
+| **Glossary 初回 extract** | 2026/06/21 19:28:52 | interim corpus（11 md）；`npm run glossary:extract` |
+| **Glossary consumer boundary** | 2026/06/21 19:48:06 | consumer のみ編集；platform read-only；escalation 方針 |
+| **Glossary portable output paths** | 2026/06/21 19:59:15 | `normalize-glossary-output.py`；adopt/hold の相対パス |
 
 ---
 
@@ -96,6 +103,10 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | simulate / legacy MCP 経路 | B-1 | `mcp-clients` ガード済；rag-endpoint は adapter 統合まで simulate |
 | A-2 InferenceProfile in MCP | A | 非ブロック |
 | A-3 チーム MCP 登録 | A | 非ブロック |
+| Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify（NullProvider 超）— **platform 変更**（ユーザーへ通知） |
+| Glossary Phase 4 connector hook | RAG prep | `googledrive-connector.ts` 未配線 |
+| Google Drive ローカルミラー corpus | RAG prep | interim `corpus.files` 差替え |
+| `filter.max_candidates_output` cap | RAG prep | config あり；platform extractor 未対応 — **platform 変更** |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
 | **human doc 日本語ペア** | docs | B2b 初版完了 — Gate 更新時は en/ja 同期（P0） |
 
@@ -111,6 +122,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **オーケストレーション記憶** | 設計 + schema のみ | M1 Redis + M2–M6 |
 | **InferenceProfile** | matrix+catalog resolver（Contract Layer） | B-0 `inference-profiles.json` ファイル |
 | **Model catalog（TS-21）** | 豊富な JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + cost routing |
+| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；npm scripts | Phase 2.5 filter · Phase 4 connector · Drive mirror |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | legacy phase 2 任意 |
 | **Legacy platform docs** | `docs/` に混在 | `docs/legacy/` 隔離済 |
 
@@ -135,6 +147,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **実行（正本・英語）** | [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) |
 | **フォーク identity** | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **設計深度** | [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
+| **Glossary consumer** | [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](../RAG_SETUP_GUIDE.md) |
 | **方針** | [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md) |
 
 ---
@@ -143,6 +156,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/21 19:59:15 | Glossary Phase 0 — extract・consumer boundary・相対パス；FORK_ONBOARDING 同期 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/19 13:46:26 | TS-24 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/19 13:30:04 | Contract Layer + TS-23 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/19 11:47:05 | 初版 — B2b 日本語ペア（英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期） |

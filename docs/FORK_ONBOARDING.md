@@ -4,8 +4,8 @@
 
 **Purpose:** Design philosophy and honest AS-IS / To-Be for human readers (recruiters, reviewers, new teammates).  
 **Not:** An execution checklist — use [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md).  
-**Status:** Active · **Last updated:** 2026-06-19  
-**Related:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
+**Status:** Active · **Last updated:** 2026/06/21 19:59:15 JST  
+**Related:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 ---
 
@@ -21,6 +21,7 @@ A **Cursor-integrated development platform** that helps teams **build software s
 | Single-LLM coding is fast but error-prone | **Wall-Bounce** — multi-LLM consensus with quality thresholds (when analysis must be trustworthy) |
 | Ad-hoc model usage → cost blow-ups | **TS-21 catalog** — model traits, pricing tiers, and routing rules in structured JSON |
 | Tool sprawl (Claude / Codex / Gemini each different) | **Unified MCP** (`techsapo-providers`) — one Cursor integration, peer provider adapters |
+| RAG / domain terminology drift before ingest | **Glossary consumer** (Phase 0) — extract → adopt/hold JSON; platform CLI read-only ([TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)) |
 | Secrets in repos | **CLI/OAuth only** — no API keys in code ([SECURITY.md](./SECURITY.md)) |
 
 ### What makes the engineering thoughtful
@@ -49,6 +50,8 @@ For **rolling Gate timestamps**, see [FORK_STATUS.md](./FORK_STATUS.md). Summary
 | Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
 | Memory substrate (TS-22) | ADR + schema + types; G-MEM closed | `OrchestrationSessionStore` + `sessionId` (Track B M1) |
+| Session continuation (TS-24) | ADR — post-Aggregator follow-up + negative retry policy | Track B wiring with Layer A |
+| Glossary prep (RAG) | **Phase 0** — consumer config, first extract, adopt/hold JSON; `npm run glossary:extract` | Phase 2.5 knowledge filter · Phase 4 `googledrive-connector` hook |
 | OpenAI vendor depth | Cookbook / prompt guidance in catalog | Anthropic / Google same pattern next |
 
 ---
@@ -81,6 +84,8 @@ Google     ██░░░░░░░░  Foundation only (agy ops; catalog enr
 | **LLM catalog (TS-21)** | Model traits · transport · pricing in JSON; adapters = HOW | [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | **InferenceProfile (TS-20)** | Per-request effort / CoT / temperature separate from catalog | [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | **Memory (TS-22)** | Layer A transcript · UTC events · idle 7d / max 30d · single store | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
+| **Session continuation (TS-24)** | Post-Aggregator follow-up · upward-jitter negative retry | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
+| **Glossary consumer** | Consumer-only edits · sibling platform invoke · adopt/hold outputs | [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md) |
 | **Fork scope** | Cursor coding assist — not IT incident line | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **Security** | Subscription CLI / SDK only — no API keys in repo | [SECURITY.md](./SECURITY.md) |
 | **OpenAI (leading)** | Prompt guidance · Cookbook · cost tiers · gated Batch RAG | [OPENAI_COOKBOOK_INTEGRATION.md](./OPENAI_COOKBOOK_INTEGRATION.md) |
