@@ -4,21 +4,21 @@
   "morphology": {
     "backend": "fugashi",
     "dictionary": "unidic-lite",
-    "dicdir": "/home/wombat/term-prep-platform/.venv/lib64/python3.11/site-packages/unidic_lite/dicdir",
+    "dicdir": "../term-prep-platform/.venv/lib/python3.11/site-packages/unidic_lite/dicdir",
     "required": true
   },
   "corpus_files": [
-    "/home/wombat/techdev-cursor/AGENTS.md",
-    "/home/wombat/techdev-cursor/README.md",
-    "/home/wombat/techdev-cursor/docs/WALL_BOUNCE_SYSTEM.md",
-    "/home/wombat/techdev-cursor/docs/ARCHITECTURE.md",
-    "/home/wombat/techdev-cursor/docs/MCP_SERVICES.md",
-    "/home/wombat/techdev-cursor/docs/RAG_SETUP_GUIDE.md",
-    "/home/wombat/techdev-cursor/docs/ANTIGRAVITY_CLI_MIGRATION.md",
-    "/home/wombat/techdev-cursor/docs/PROVIDER_INTEGRATION_BACKLOG.md",
-    "/home/wombat/techdev-cursor/docs/FORK_CURSOR.md",
-    "/home/wombat/techdev-cursor/docs/DEVELOPMENT_GUIDE.md",
-    "/home/wombat/techdev-cursor/meta/TO-BE-GLOSSARY-PIPELINE.md"
+    "AGENTS.md",
+    "README.md",
+    "docs/WALL_BOUNCE_SYSTEM.md",
+    "docs/ARCHITECTURE.md",
+    "docs/MCP_SERVICES.md",
+    "docs/RAG_SETUP_GUIDE.md",
+    "docs/ANTIGRAVITY_CLI_MIGRATION.md",
+    "docs/PROVIDER_INTEGRATION_BACKLOG.md",
+    "docs/FORK_CURSOR.md",
+    "docs/DEVELOPMENT_GUIDE.md",
+    "meta/TO-BE-GLOSSARY-PIPELINE.md"
   ],
   "count": 1631,
   "candidates": [

@@ -88,6 +88,8 @@ If consumer-side work **cannot proceed** without a change in `term-prep-platform
 | `meta/glossary-candidates.json` | ❌ | Legacy — **gitignored** |
 | `build/glossary/reject.jsonl` | ❌ | Only when `filter.emit_reject: true` |
 
+Output paths are **repo-relative** (`corpus_files`) and **sibling-relative** (`morphology.dicdir` → `../term-prep-platform/...`). `npm run glossary:extract` runs [normalize-glossary-output.py](../scripts/normalize-glossary-output.py) after the platform CLI.
+
 Verify ignore rule:
 
 ```bash

@@ -27,4 +27,11 @@ if [[ ! -f "$EXTRACTOR" ]]; then
   exit 1
 fi
 
-exec "$PYTHON" "$EXTRACTOR" --config "$CONFIG" "$@"
+if [[ "${1:-}" == "--check" ]]; then
+  exec "$PYTHON" "$EXTRACTOR" --config "$CONFIG" "$@"
+fi
+
+"$PYTHON" "$EXTRACTOR" --config "$CONFIG" "$@"
+NORMALIZER="${REPO_ROOT}/scripts/normalize-glossary-output.py"
+export TERM_PREP_PLATFORM_ROOT="$PLATFORM_ROOT"
+"$PYTHON" "$NORMALIZER"
