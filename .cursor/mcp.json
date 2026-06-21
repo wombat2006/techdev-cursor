@@ -1,3 +1,12 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "glossary-knowledge": {
+      "command": "/home/wombat/techdev-cursor/.venv/bin/python",
+      "args": ["-m", "glossary_knowledge_mcp"],
+      "cwd": "/home/wombat/techdev-cursor/mcp/glossary-knowledge",
+      "env": {
+        "PYTHONPATH": "/home/wombat/techdev-cursor/mcp/glossary-knowledge"
+      }
+    }
+  }
 }
