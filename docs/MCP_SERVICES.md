@@ -60,9 +60,9 @@ Register **unified** stdio MCP server in **Cursor IDE** so tool calls use **subs
 
 Legacy dual-server (`techsapo-codex` + `techsapo-claude`) is superseded — see [FORK_CURSOR.md](./FORK_CURSOR.md).
 
-### Glossary Knowledge MCP (term-prep-platform — stub)
+### Glossary Knowledge MCP (term-prep-platform — stub, read-only)
 
-**Separate server** from `techsapo-providers`. Registered in `.cursor/mcp.json` as `glossary-knowledge` → [term-prep-platform](https://github.com/wombat2006/term-prep-platform) `mcp/glossary-knowledge/`.
+**Separate server** from `techsapo-providers`. Registered in `.cursor/mcp.json` as `glossary-knowledge` → sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) clone (`mcp/glossary-knowledge/`). **Invoke only** — consumer agents do not edit or commit the platform repo. Smoke test: `npm run glossary:mcp-smoke`.
 
 | Item | Value |
 |------|-------|

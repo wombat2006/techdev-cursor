@@ -102,15 +102,18 @@ Phase 0 is **mandatory**: Cursor spawns MCP in WSL; Windows `/mnt/c/.../npm` CLI
 
 ---
 
-## Rule 5: Glossary Knowledge MCP (term-prep-platform — stub)
+## Rule 5: Glossary Knowledge MCP (term-prep-platform — stub, read-only)
 
 ```
-✅ Registered in .cursor/mcp.json as glossary-knowledge (local path to term-prep-platform)
+✅ Registered in .cursor/mcp.json as glossary-knowledge (sibling platform clone — invoke only)
+✅ Consumer edits: meta/glossary-config.json, adopt/hold outputs, npm run glossary:extract
+⛔ Do NOT edit or commit term-prep-platform from consumer work in this repo
+⛔ If platform change is required → notify the user (see Platform escalation); do not fix platform silently
 ⛔ Do NOT confuse with techsapo-providers — separate server, separate purpose
 ⛔ knowledge_filter.enabled is false until Phase 2.5 — stub returns unknown for all terms
 ```
 
-Smoke test: [meta/TO-BE-GLOSSARY-PIPELINE.md § Verification](../../meta/TO-BE-GLOSSARY-PIPELINE.md#verification-phase-0)
+Smoke test: `npm run glossary:mcp-smoke` · Boundary: [Consumer boundary](../../meta/TO-BE-GLOSSARY-PIPELINE.md#consumer-boundary-mandatory) · Escalation: [Platform escalation](../../meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user)
 
 ---
 

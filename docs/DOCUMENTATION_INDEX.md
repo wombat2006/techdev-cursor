@@ -28,7 +28,7 @@
 2. **[codex-mcp-implementation.md](./codex-mcp-implementation.md)** · **[ANTIGRAVITY_CLI_MIGRATION.md](./ANTIGRAVITY_CLI_MIGRATION.md)**
 3. **[API_REFERENCE.md](./API_REFERENCE.md)** · **[PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md)**
 4. **[RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md)** — Google Drive RAG · glossary prep §
-5. **[../meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)** — glossary consumer (Phase 0; platform: term-prep-platform)
+5. **[../meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)** — glossary consumer (edit this repo only; platform invoke read-only)
 
 ---
 

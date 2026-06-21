@@ -51,6 +51,20 @@ Architecture: [MCP_SERVICES.md](../MCP_SERVICES.md) · Cursor plan: [CURSOR_MCP_
 
 ---
 
+## Glossary prep (consumer — this repo only)
+
+Read-only invoke of sibling `term-prep-platform` CLI. **Do not edit or commit the platform repo** from consumer tasks.
+
+```bash
+npm run glossary:extract:check   # fugashi + unidic-lite via platform venv
+npm run glossary:extract         # refresh meta/glossary-adopt.json, meta/glossary-hold.json
+npm run glossary:mcp-smoke       # classify_term stub → unknown
+```
+
+Config: `meta/glossary-config.json` · Boundary: [Consumer boundary](../../meta/TO-BE-GLOSSARY-PIPELINE.md#consumer-boundary-mandatory) · If platform must change → [notify user](../../meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user) (do not edit term-prep-platform from here)
+
+---
+
 ## Monitoring & Operations
 
 ```bash

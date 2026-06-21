@@ -4,7 +4,7 @@
 **Server:** `techsapo-providers` — stdio MCP; tools `analyze_claude`, `analyze_codex`, `analyze_agy`.
 
 **`techsapo-providers`:** use the generator (recommended) or placeholder templates — Node path is host-specific.  
-**`glossary-knowledge`:** tracked in `.cursor/mcp.json` with sibling `../term-prep-platform` paths (clone both repos side by side).
+**`glossary-knowledge`:** tracked in `.cursor/mcp.json` with sibling `../term-prep-platform` paths (read-only runtime; consumer agents do not commit platform changes).
 
 **Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm run build`
 

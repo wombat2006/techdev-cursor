@@ -117,7 +117,7 @@ flowchart TB
 1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
 2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
 3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録  
-4. 用語抽出（RAG 前処理）— [meta/TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)（Phase 0 済 · corpus は TBD）
+4. 用語抽出（RAG 前処理）— `npm run glossary:extract` · [meta/TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)（consumer のみ編集 · platform は read-only）
 
 ---
 

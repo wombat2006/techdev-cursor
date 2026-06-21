@@ -11,6 +11,7 @@
 - **Japanese responses** — Primary language for user-facing content
 - **Test coverage** — 100% for Wall-Bounce components
 - **Doc sync on commit** — README + related docs in same commit ([documentation-sync rule](../../.cursor/rules/documentation-sync.mdc))
+- **Glossary consumer boundary** — Edit `meta/glossary-*` in this repo only; invoke platform via `npm run glossary:extract` — **no** term-prep-platform commits. If platform must change, **notify the user** ([Platform escalation](../../meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user))
 - **Logic docs in English** — `AGENTS.md`, `docs/agents/*.md`, `WALL_BOUNCE_SYSTEM.md`, and similar rule docs must be written in English
 
 ---
@@ -23,6 +24,7 @@
 | Modify quality threshold | `src/services/wall-bounce-analyzer.ts` | `executeWallBounce()` |
 | Inference profile / CoT | `config/inference-profiles.json` (planned), provider adapters | [TECH_STACK_INFERENCE_PROFILES.md](../decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | Cursor MCP registration | After Track A-0 in [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) | [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) |
+| Glossary extract (consumer) | `meta/glossary-config.json` | `npm run glossary:extract` |
 | Add API endpoint | `src/routes/` | Create new route file |
 | Update MCP approval | `src/services/mcp-approval-manager.ts` | `assessRisk()` |
 

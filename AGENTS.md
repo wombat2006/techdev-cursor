@@ -55,6 +55,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | **Wall-Bounce** | **Constitution**: 2–5 rounds required, 2+ LLMs, confidence ≥ 0.7, consensus ≥ 0.6, via `wall-bounce-analyzer.ts` only | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
 | **Security** | CLI/SDK only (`agy` / `codex` / Anthropic SDK); no API keys in code or env | [SECURITY.md](docs/SECURITY.md) |
 | **MCP work** | Follow Serena / Cipher / Codex / Context7 rules | [mcp-rules.md](docs/agents/mcp-rules.md) |
+| **Glossary consumer** | Edit **this repo only** (`meta/glossary-*`); invoke platform CLI read-only; **notify user** if platform change is required — **no** term-prep-platform edits from here | [TO-BE-GLOSSARY-PIPELINE.md § Platform escalation](meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user) |
 | **Memory** | Layer A `OrchestrationSession` mandatory; event `ts`/`tsEnd` UTC; session `clientTimezone` optional | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | **Commit** | P0/P1/P2 doc sync per policy; same commit as implementation | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
 | **Doc language** | Logic docs **English**; `README.md` (ja top) / proposals Japanese | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |

@@ -263,18 +263,18 @@ DELETE /api/v1/rag/vector-stores/{id}
 
 ## 📖 Glossary prep (RAG 前処理 — Phase 0)
 
-用語抽出は **term-prep-platform**（canonical）+ 本 repo の **consumer config** のみ。実装コードは複製しない。
+用語抽出は **本 repo の consumer config のみ** を編集。platform 実装（`term-prep-platform`）は **read-only 実行** — consumer 作業から platform repo を触らない。
 
 | 項目 | 場所 |
 |------|------|
 | Consumer config | `meta/glossary-config.json` |
 | 採択/保留出力 | `meta/glossary-adopt.json`, `meta/glossary-hold.json` |
-| Platform mirror | `term-prep-platform/projects/techdev-cursor/glossary-config.json` |
-| MCP stub | `.cursor/mcp.json` → `glossary-knowledge`（`classify_term` → `unknown`） |
+| 実行 | `npm run glossary:extract` / `glossary:extract:check` |
+| MCP stub | `.cursor/mcp.json` → `glossary-knowledge`（sibling clone · read-only） |
 
-**Phase 0 済:** adopt/hold 分割、`filter.emit_reject: false`、legacy `meta/glossary-candidates.json` は `.gitignore`。
+**Phase 0 済:** adopt/hold 分割、interim corpus（11 md）、legacy `meta/glossary-candidates.json` は `.gitignore`。
 
-`corpus.files`（Google Drive ミラー path）が決まったら extractor を実行。詳細: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)。
+詳細: [meta/TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md)（consumer boundary 必読）。
 
 RAG パイプラインへの組み込み（Phase 4）は [googledrive-connector.ts](../src/services/googledrive-connector.ts) 側 — **未実装**。
 
