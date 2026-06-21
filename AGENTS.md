@@ -43,6 +43,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 | OpenAI model IDs | catalog slice | [OPENAI_MODEL_MATRIX.md](docs/OPENAI_MODEL_MATRIX.md) |
 | OpenAI prompt guidance | `prompting.*` in catalog | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
 | RAG ingest | `src/services/googledrive-connector.ts` | [RAG_SETUP_GUIDE.md](docs/RAG_SETUP_GUIDE.md) |
+| Glossary prep (consumer) | `meta/glossary-config.json` | [TO-BE-GLOSSARY-PIPELINE.md](meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | Provider backlog | `src/adapters/*` | [PROVIDER_INTEGRATION_BACKLOG.md](docs/PROVIDER_INTEGRATION_BACKLOG.md) |
 
 ---

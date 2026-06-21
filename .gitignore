@@ -156,6 +156,9 @@ playwright/.cache/
 # OpenAI Batch API JSONL (prompts / bulk request bodies — local only)
 *.jsonl
 
+# Glossary pipeline (Phase 0 — legacy single-file output deprecated)
+meta/glossary-candidates.json
+
 # Local configuration overrides
 config/local.json
 config/development.json

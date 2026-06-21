@@ -103,6 +103,7 @@ flowchart TB
 | **実行・Track（正本・英語）** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) |
 | フォークの位置づけ | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
 | 設計思想・成熟度 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
+| 用語抽出（RAG 前処理・consumer） | [meta/TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md)（英語） |
 | ドキュメント一覧 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | ドキュメント方針 | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
