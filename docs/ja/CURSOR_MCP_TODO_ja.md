@@ -28,7 +28,7 @@
 
 | 優先 | Track | 焦点 | 状態 |
 |------|-------|------|------|
-| **P0** | **A** | Cursor MCP · WSL CLI · G7 | 尾（A-2/A-3）のみ |
+| **P0** | **A** | Cursor MCP · WSL CLI · G7 | 残タスク（A-2/A-3）のみ |
 | **P1** | **B** | InferenceProfile · adapter 配線 · Layer A | **← 現在** |
 | **P2** | **E/F** | catalog loader · cost routing | 部分（F-1 ✅ · F-2 部分） |
 | **P3** | **C** | 憲法 enforce · orchestrator | Gate B→C 後 |

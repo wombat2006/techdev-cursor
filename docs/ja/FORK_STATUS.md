@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/21 21:18:49 JST  
+**最終更新:** 2026/06/21 21:24:03 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -40,7 +40,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | Track | 優先度 | 状態 | 概要 |
 |-------|--------|------|------|
-| **A** — Cursor MCP | P0 | `[~]` 尾のみ | A-0/A-1/G7 ✅；**A-2** MCP スキーマ · **A-3** チーム登録 — **B をブロックしない** |
+| **A** — Cursor MCP | P0 | `[~]` 残タスクのみ | A-0/A-1/G7 ✅；**A-2** MCP スキーマ · **A-3** チーム登録 — **B をブロックしない** |
 | **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（matrix+catalog resolver ✅）；M1 store 未；B-1 WB 配線未 |
 | **C** — P5 Phase 0 | P3 | `[ ]` ブロック | Hard gate · PromptAnalyzer · 憲法ラウンド · orchestrator 統合 |
 | **E / F** — catalog / cost routing | P2 | `[~]` 部分 | F-1 ✅ · F-2 loader 部分 · F-3+ 未 |
@@ -116,7 +116,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | 領域 | AS-IS（現状） | To-Be（計画） |
 |------|---------------|---------------|
 | **Cursor 日常 dev** | 単一 MCP（`analyze_*`）+ サブスク CLI | 同左（設計どおり） |
-| **統一 MCP + adapter** | 実装済 + G7 Pass | A-2 / A-3 尾；daily smoke |
+| **統一 MCP + adapter** | 実装済 + G7 Pass | A-2 / A-3 の残タスク；日常スモーク |
 | **Wall-Bounce API** | legacy spawn；1-pass；Hard Gate loop なし | B-1 で adapter 統合 · Track C で憲法 enforce（2–5 ラウンド） |
 | **オーケストレーション記憶** | ADR + schema・型のみ（Redis 未） | M1 Redis + M2–M6 配線；TS-24 継続・再試行 |
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
@@ -155,6 +155,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/21 21:24:03 | Track A の「尾/tail」を残タスク/remainder に置換（FORK_STATUS・ONBOARDING・runbook 要約） |
 | 2026/06/21 21:18:49 | AS-IS vs To-Be 要約を修正 — legacy phase 1 を AS-IS に、Wall-Bounce/記憶行を整合；en/ja 同期 |
 | 2026/06/21 19:59:15 | Glossary Phase 0 — extract・consumer boundary・相対パス；FORK_ONBOARDING 同期 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/19 13:46:26 | TS-24 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
