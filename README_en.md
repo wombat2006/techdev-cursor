@@ -36,10 +36,22 @@ Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **a
 
 ```mermaid
 flowchart TB
-  subgraph daily["Daily Cursor (Track A)"]
+  subgraph trackA["Daily Cursor (Track A)"]
     U1[User]
     CUR[Cursor IDE]
     MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+    GK_MCP[glossary-knowledge MCP<br/>classify_term stub]
+  end
+
+  subgraph repo["techdev-cursor (consumer)"]
+    CFG[meta/glossary-config.json]
+    CORP[corpus · adopt/hold JSON]
+    GD[googledrive-connector.ts]
+  end
+
+  subgraph platform["term-prep-platform (sibling · read-only)"]
+    EXT[glossary_extractor.py]
+    GK[glossary_knowledge_mcp]
   end
 
   subgraph adapters["Adapter layer"]
@@ -68,15 +80,25 @@ flowchart TB
   subgraph mon["Monitoring & user alerts"]
     PROM[Prometheus / Grafana]
     AM[Alertmanager]
-    LN[line-notification<br/>Webhook]
+    LN[line-notification]
     U2[User · LINE]
   end
 
-  U1 --> CUR --> MCP
+  VS[(OpenAI Vector Store<br/>To-Be Phase 4)]
+
+  U1 --> CUR
+  CUR --> MCP
+  CUR --> GK_MCP
   MCP --> AD1 & AD2 & AD3
   AD1 --> CL
   AD2 --> CX
   AD3 --> AG
+  GK_MCP --> GK
+  CFG --> EXT
+  CORP --> EXT
+  EXT --> CORP
+  GD -.-> VS
+  CORP -.-> GD
   U1 --> API --> WBA --> PEER --> AGG
   WBA -.-> REDIS
   WBA --> PROM --> AM --> LN --> U2
@@ -84,11 +106,14 @@ flowchart TB
 
 | Path | Role |
 |------|------|
-| **Cursor → unified MCP → adapters** | Daily coding (single MCP invoke) |
+| **Cursor → techsapo-providers → adapters → CLIs** | Daily coding (single MCP invoke) |
+| **Cursor → glossary-knowledge → term-prep-platform** | Term classify stub (Phase 0 · knowledge filter off) |
+| **corpus + config → glossary_extractor → adopt/hold** | Pre-RAG prep (`npm run glossary:extract` · platform read-only) |
+| **adopt/hold → googledrive-connector → Vector Store** | RAG ingest (**Phase 4 · not wired**) |
 | **Wall-Bounce API → analyzer** | Multi-LLM coordination + consensus |
 | **Prometheus → line-notification** | **LINE Webhook** alerts on anomalies (implemented) |
 
-Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
 
 ---
 

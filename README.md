@@ -36,10 +36,22 @@
 
 ```mermaid
 flowchart TB
-  subgraph daily["日常 Cursor（Track A）"]
+  subgraph trackA["日常 Cursor（Track A）"]
     U1[User]
     CUR[Cursor IDE]
     MCP[techsapo-providers MCP<br/>analyze_claude / codex / agy]
+    GK_MCP[glossary-knowledge MCP<br/>classify_term stub]
+  end
+
+  subgraph repo["techdev-cursor（consumer）"]
+    CFG[meta/glossary-config.json]
+    CORP[corpus · adopt/hold JSON]
+    GD[googledrive-connector.ts]
+  end
+
+  subgraph platform["term-prep-platform（sibling · read-only）"]
+    EXT[glossary_extractor.py]
+    GK[glossary_knowledge_mcp]
   end
 
   subgraph adapters["Adapter 層"]
@@ -68,15 +80,25 @@ flowchart TB
   subgraph mon["監視・異常通知"]
     PROM[Prometheus / Grafana]
     AM[Alertmanager]
-    LN[line-notification<br/>Webhook]
+    LN[line-notification]
     U2[User · LINE]
   end
 
-  U1 --> CUR --> MCP
+  VS[(OpenAI Vector Store<br/>To-Be Phase 4)]
+
+  U1 --> CUR
+  CUR --> MCP
+  CUR --> GK_MCP
   MCP --> AD1 & AD2 & AD3
   AD1 --> CL
   AD2 --> CX
   AD3 --> AG
+  GK_MCP --> GK
+  CFG --> EXT
+  CORP --> EXT
+  EXT --> CORP
+  GD -.-> VS
+  CORP -.-> GD
   U1 --> API --> WBA --> PEER --> AGG
   WBA -.-> REDIS
   WBA --> PROM --> AM --> LN --> U2
@@ -84,11 +106,14 @@ flowchart TB
 
 | 経路 | 用途 |
 |------|------|
-| **Cursor → 統一 MCP → adapter** | 日常コーディング（単一 MCP 呼び出し） |
+| **Cursor → techsapo-providers → adapter → CLI** | 日常コーディング（単一 MCP 呼び出し） |
+| **Cursor → glossary-knowledge → term-prep-platform** | 用語分類スタブ（Phase 0 · knowledge filter 無効） |
+| **corpus + config → glossary_extractor → adopt/hold** | RAG 前処理（`npm run glossary:extract` · platform は read-only 実行） |
+| **adopt/hold → googledrive-connector → Vector Store** | RAG ingest（**Phase 4 · 未配線**） |
 | **Wall-Bounce API → analyzer** | 2+ LLM 協調・合意が必要な分析 |
 | **Prometheus → line-notification** | 異常検知時の **LINE Webhook 通知**（実装済み） |
 
-詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
 
 ---
 
