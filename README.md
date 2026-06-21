@@ -1,9 +1,8 @@
-# TechSapo — DevAssist（`techdev-cursor`）
-
-> **PRIMARY REPO** — Cursor 統合開発環境。**コーディング精度向上**と**負荷軽減**が目的。  
-> **IT 障害解析 / InfraOps ラインではない** — 位置づけは [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md)。
+# techdev-cursor
 
 統一 MCP（`analyze_claude` / `analyze_codex` / `analyze_agy`）による日常の Cursor コーディング向けマルチ LLM 基盤。
+
+> **IT 障害解析 / InfraOps ラインではない** — 位置づけは [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md)。
 
 *[English](README_en.md) | **日本語***
 
@@ -13,7 +12,7 @@
 
 | | |
 |---|---|
-| **何** | DevAssist — Wall-Bounce + 統一 provider MCP + サブスク CLI |
+| **何** | 統一 provider MCP + サブスク CLI（`claude` / `codex` / `agy`）· 厳密分析は Wall-Bounce |
 | **なぜ** | **簡便・正確・低コスト**にソフトウェアを作る |
 | **ではない** | IT 障害プラットフォーム · マルチモデル選択だけの harness |
 
@@ -23,7 +22,7 @@
 
 [Antigravity](https://antigravity.google/docs/models) などは **Claude / GPT / Gemini へのアクセス** を1つの harness にまとめる。**モデル選択** はできても、**1 プロンプトに対して複数 LLM がラウンドを重ねて協調・合意する** 機能はない。
 
-| | マルチモデル harness（例: Antigravity） | TechSapo Wall-Bounce |
+| | マルチモデル harness（例: Antigravity） | Wall-Bounce |
 |---|---|---|
 | 複数モデルへのアクセス | ✅ | ✅（`agy` / `codex` / `claude`） |
 | 同一プロンプトへの多 LLM 協調 | ❌ | ✅ **2–5 ラウンド** + 合意・品質ゲート |

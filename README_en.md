@@ -1,9 +1,8 @@
-# TechSapo — DevAssist (`techdev-cursor`)
+# techdev-cursor
 
-> **PRIMARY REPO** — Cursor-integrated development environment for **coding accuracy** and **workload reduction**.  
+Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`).
+
 > **Not** IT incident / InfraOps analysis — see [FORK_CURSOR.md](./docs/FORK_CURSOR.md) for repo identity.
-
-Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`).
 
 *[English](README_en.md) | [日本語（GitHub トップ）](README.md)*
 
@@ -13,7 +12,7 @@ Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude
 
 | | |
 |---|---|
-| **What** | DevAssist — Wall-Bounce + unified provider MCP + subscription CLIs |
+| **What** | Unified provider MCP + subscription CLIs (`claude` / `codex` / `agy`); hard analysis via Wall-Bounce |
 | **Why** | Build software **accurately, efficiently, at subscription-scale cost** |
 | **Not** | IT incident platform · multi-model picker only (no orchestration) |
 
@@ -23,7 +22,7 @@ Multi-LLM orchestration for daily Cursor coding via unified MCP (`analyze_claude
 
 Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **access to Claude, GPT, and Gemini** in one harness. You can **pick a model**, but they do **not** run **multiple LLMs in coordinated rounds on the same prompt** with consensus and quality gates.
 
-| | Multi-model harness (e.g. Antigravity) | TechSapo Wall-Bounce |
+| | Multi-model harness (e.g. Antigravity) | Wall-Bounce |
 |---|---|---|
 | Access to several model families | ✅ | ✅ (`agy` / `codex` / `claude`) |
 | Multi-LLM coordination on one prompt | ❌ | ✅ **2–5 rounds** + consensus gates |
