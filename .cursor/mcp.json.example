@@ -1,10 +1,18 @@
 {
-  "_comment": "Example shape only. Generate your machine-local file: npm run cursor-mcp:config",
+  "_comment": "Example shape. techsapo-providers: npm run cursor-mcp:config. glossary-knowledge: sibling ../term-prep-platform clone.",
   "mcpServers": {
     "techsapo-providers": {
       "command": "/path/to/node",
       "args": ["/path/to/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
       "cwd": "/path/to/techdev-cursor"
+    },
+    "glossary-knowledge": {
+      "command": "../term-prep-platform/.venv/bin/python",
+      "args": ["-m", "glossary_knowledge_mcp"],
+      "cwd": "../term-prep-platform/mcp/glossary-knowledge",
+      "env": {
+        "PYTHONPATH": "../term-prep-platform/mcp/glossary-knowledge"
+      }
     }
   }
 }

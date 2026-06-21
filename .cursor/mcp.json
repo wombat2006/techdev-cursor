@@ -1,16 +1,14 @@
 {
   "mcpServers": {
-    "techsapo-providers": {
-      "command": "/home/wombat/.nvm/versions/node/v22.22.3/bin/node",
-      "args": ["/home/wombat/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
-      "cwd": "/home/wombat/techdev-cursor"
-    },
     "glossary-knowledge": {
-      "command": "/home/wombat/term-prep-platform/.venv/bin/python",
-      "args": ["-m", "glossary_knowledge_mcp"],
-      "cwd": "/home/wombat/term-prep-platform/mcp/glossary-knowledge",
+      "command": "../term-prep-platform/.venv/bin/python",
+      "args": [
+        "-m",
+        "glossary_knowledge_mcp"
+      ],
+      "cwd": "../term-prep-platform/mcp/glossary-knowledge",
       "env": {
-        "PYTHONPATH": "/home/wombat/term-prep-platform/mcp/glossary-knowledge"
+        "PYTHONPATH": "../term-prep-platform/mcp/glossary-knowledge"
       }
     }
   }

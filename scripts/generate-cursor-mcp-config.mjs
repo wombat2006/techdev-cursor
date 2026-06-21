@@ -8,7 +8,8 @@
  *   npm run cursor-mcp:config -- --variant linux   # EC2 / WSL Remote / native Linux
  *   npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro Ubuntu-22.04
  *
- * Do not commit .cursor/mcp.json — paths are host-specific.
+ * Merges into .cursor/mcp.json — preserves non-techsapo-providers entries (e.g. glossary-knowledge).
+ * techsapo-providers paths remain host-specific; glossary-knowledge uses tracked sibling paths.
  */
 
 import { spawnSync } from 'child_process';
@@ -115,6 +116,27 @@ function buildWindowsWslConfig(repoRoot, wslDistro) {
   };
 }
 
+function mergeWithExisting(outputPath, generated) {
+  let existing = {};
+  if (fs.existsSync(outputPath)) {
+    try {
+      existing = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
+    } catch {
+      // ignore invalid JSON — overwrite with generated only
+    }
+  }
+  const preserved = {};
+  for (const [name, cfg] of Object.entries(existing.mcpServers || {})) {
+    if (name !== 'techsapo-providers') preserved[name] = cfg;
+  }
+  return {
+    mcpServers: {
+      ...preserved,
+      ...generated.mcpServers,
+    },
+  };
+}
+
 function main() {
   const opts = parseArgs(process.argv.slice(2));
   let config;
@@ -128,7 +150,8 @@ function main() {
     process.exit(1);
   }
 
-  const json = `${JSON.stringify(config, null, 2)}\n`;
+  const merged = mergeWithExisting(opts.output, config);
+  const json = `${JSON.stringify(merged, null, 2)}\n`;
   if (opts.print) {
     process.stdout.write(json);
     return;

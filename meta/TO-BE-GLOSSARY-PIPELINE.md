@@ -89,13 +89,13 @@ Set `corpus.files` in config before first run (paths relative to `project_root`)
 
 ## MCP registration (Cursor)
 
-Already configured in `.cursor/mcp.json` (local path; gitignored):
+Already configured in `.cursor/mcp.json` (tracked; sibling clone `../term-prep-platform`):
 
 ```json
 "glossary-knowledge": {
-  "command": ".../term-prep-platform/.venv/bin/python",
+  "command": "../term-prep-platform/.venv/bin/python",
   "args": ["-m", "glossary_knowledge_mcp"],
-  "cwd": ".../term-prep-platform/mcp/glossary-knowledge"
+  "cwd": "../term-prep-platform/mcp/glossary-knowledge"
 }
 ```
 

@@ -134,7 +134,7 @@ config/keys.json
 
 # MCP Configuration (may contain sensitive data)
 config/cursor-mcp.json
-.cursor/mcp.json
+# .cursor/mcp.json is tracked (glossary-knowledge uses sibling ../term-prep-platform paths)
 # リポジトリ外パス — git では無効だが意図のメモとして残す
 # ~/.codex/
 # ~/.claude.json

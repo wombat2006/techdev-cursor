@@ -3,7 +3,8 @@
 **Target repo:** `techdev-cursor` fork.  
 **Server:** `techsapo-providers` — stdio MCP; tools `analyze_claude`, `analyze_codex`, `analyze_agy`.
 
-**Do not commit machine-specific paths.** Use the generator (recommended) or placeholder templates.
+**`techsapo-providers`:** use the generator (recommended) or placeholder templates — Node path is host-specific.  
+**`glossary-knowledge`:** tracked in `.cursor/mcp.json` with sibling `../term-prep-platform` paths (clone both repos side by side).
 
 **Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm run build`
 
@@ -14,7 +15,7 @@
 ```bash
 cd <REPO_ROOT>
 npm run build
-npm run cursor-mcp:config              # writes .cursor/mcp.json (gitignored)
+npm run cursor-mcp:config              # merges techsapo-providers into .cursor/mcp.json
 # or paste into Cursor Settings → MCP:
 npm run cursor-mcp:config -- --print
 ```
