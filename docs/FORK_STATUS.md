@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/21 21:24:03 JST  
+**Last updated:** 2026/06/21 21:28:26 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -115,7 +115,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Area | AS-IS (today) | To-Be (planned) |
 |------|---------------|-----------------|
 | **Cursor daily dev** | Single MCP (`analyze_*`) via subscription CLI | Same — by design |
-| **Unified MCP + adapters** | Implemented + G7 pass | A-2/A-3 remainder; daily smoke |
+| **Unified MCP + adapters** | Implemented + G7 pass | A-2/A-3 remainder; continue MCP/adapter operational checks |
 | **Wall-Bounce API** | Legacy spawn; 1-pass; no Hard Gate loop | B-1 adapter wiring · Track C constitution enforce (2–5 rounds) |
 | **Orchestration memory** | ADR + schema/types only (Redis pending) | M1 Redis + M2–M6 wiring; TS-24 continuation/retry |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
@@ -165,6 +165,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/21 21:28:26 | Replace "daily smoke" with explicit MCP/adapter operational checks (en/ja FORK_STATUS, ONBOARDING) |
 | 2026/06/21 21:24:03 | Replace Track A "tail/尾" jargon with remainder/残タスク (en/ja FORK_STATUS, ONBOARDING, runbook summary) |
 | 2026/06/21 21:18:49 | Fix AS-IS vs To-Be summary — legacy docs phase 1 AS-IS, Wall-Bounce/memory rows; en/ja sync |
 | 2026/06/21 19:59:15 | Glossary Phase 0 — extract, consumer boundary, portable adopt/hold paths; FORK_ONBOARDING sync |

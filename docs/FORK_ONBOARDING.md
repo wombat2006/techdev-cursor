@@ -46,7 +46,7 @@ For **rolling Gate timestamps**, see [FORK_STATUS.md](./FORK_STATUS.md). Summary
 
 | Area | AS-IS (today) | To-Be (planned) |
 |------|---------------|-----------------|
-| Unified MCP + adapters | **Implemented** + G7 pass | Daily smoke + A-2/A-3 remainder |
+| Unified MCP + adapters | **Implemented** + G7 pass | A-2/A-3 remainder; continue MCP/adapter operational checks |
 | Daily Cursor coding | Single-provider MCP path | Same — by design |
 | Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |

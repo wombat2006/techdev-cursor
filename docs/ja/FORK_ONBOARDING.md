@@ -46,7 +46,7 @@
 
 | 領域 | AS-IS（現状） | To-Be（計画） |
 |------|---------------|---------------|
-| 統一 MCP + adapter | **実装済** + G7 Pass | 日常スモーク + A-2 / A-3 の残タスク |
+| 統一 MCP + adapter | **実装済** + G7 Pass | A-2 / A-3 の残タスク；MCP・adapter の動作確認を継続 |
 | Cursor 日常コーディング | 単一 MCP パス | 同左（設計どおり） |
 | 厳密なマルチ LLM 分析 | Wall-Bounce API あり | Track C で憲法をコード enforce |
 | モデルカタログ（TS-21） | JSON + schema | runtime loader + TaskRouter（Track F） |
