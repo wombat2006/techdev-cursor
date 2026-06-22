@@ -54,9 +54,12 @@ Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IM
 | 4 | SSE + Layer A event stream | **B-5** | B→C |
 | 5 | `inference-profiles.json` · TS-24 retry | **B-0** | B→C |
 | 6 | **2–5 round enforce** in wall-bounce mode | **C-4** | Gate C |
-| 7 | Hard gate · PromptAnalyzer · dictionary v0 | **C-1–C-3** | Gate C |
+| 7 | **Hard gate** (this repo) | **C-1** | Gate C |
+| 7b | **PromptAnalyzer · dictionary v0** — implemented on **[term-prep-platform](https://github.com/wombat2006/term-prep-platform)**; this repo **connects via MCP** (`glossary-knowledge`) | platform + MCP | Gate C (C-2/C-3) |
 | 8 | Objection workflow | **C-7** | Gate C G7 |
 | 9 | Analyzer / Orchestrator merge | **C-5** | Gate C |
+
+**PromptAnalyzer / dictionary v0:** Morphological parsing and dictionary lookup are **implemented on term-prep-platform**, not in this consumer repo. Wire them in by calling the sibling clone over MCP **`glossary-knowledge`** ([`.cursor/mcp.json`](./.cursor/mcp.json) already registered · [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)). Escalate to the user when platform changes are required ([AGENTS.md](./AGENTS.md)).
 
 **Current focus:** Track **B** (Gate A→B Pass) — [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
 
@@ -112,6 +115,7 @@ flowchart TB
 | Cursor → MCP → CLIs | ✅ single `analyze_*` | Same + mode keywords |
 | Wall-Bounce API | 1-pass + aggregate | Threshold branch · round enforce |
 | Layer A / SSE | Partial / unwired | Full round log · live stream |
+| term-prep-platform → MCP | `glossary-knowledge` registered (stub) | PromptAnalyzer · dictionary v0 on **platform**; use via MCP |
 
 Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 

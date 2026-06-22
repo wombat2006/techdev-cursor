@@ -54,9 +54,12 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 | 4 | SSE + Layer A ストリーム | **B-5** | B→C |
 | 5 | `inference-profiles.json` · TS-24 retry | **B-0** | B→C |
 | 6 | 壁打ちモードでの **2–5 ラウンド enforce** | **C-4** | Gate C |
-| 7 | Hard gate · PromptAnalyzer · 辞書 v0 | **C-1–C-3** | Gate C |
+| 7 | **Hard gate**（本 repo） | **C-1** | Gate C |
+| 7b | **PromptAnalyzer · 辞書 v0** — [term-prep-platform](https://github.com/wombat2006/term-prep-platform) **側で実装**；本 repo は **MCP で接続**（`glossary-knowledge`） | platform + MCP | Gate C（C-2/C-3） |
 | 8 | 異議ワークフロー | **C-7** | Gate C G7 |
 | 9 | Analyzer / Orchestrator 統合 | **C-5** | Gate C |
+
+**PromptAnalyzer / 辞書 v0:** 形態素解析・辞書 lookup の本体は **term-prep-platform に実装**する。本 repo（consumer）では実装しない — 兄弟クローンを MCP **`glossary-knowledge`** で呼び出せば足りる（[`.cursor/mcp.json`](./.cursor/mcp.json) 登録済み · 詳細 [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)）。プラットフォーム変更が必要なときはユーザーへエスカレーション（[AGENTS.md](./AGENTS.md)）。
 
 **いまのフォーカス:** Track **B**（Gate A→B は Pass）— [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) 要約
 
@@ -112,6 +115,7 @@ flowchart TB
 | Cursor → MCP → CLI | ✅ 単発 `analyze_*` | 同左 + モードキーワード連携 |
 | Wall-Bounce API | 1-pass 並列/逐次 + 合議 | 閾値で壁打ち分岐・ラウンド enforce |
 | Layer A / SSE | 部分・未配線 | 全ラウンド記録・ライブ表示 |
+| term-prep-platform → MCP | `glossary-knowledge` 登録（stub） | PromptAnalyzer · 辞書 v0 は **platform 側**；MCP 接続で利用 |
 
 詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
