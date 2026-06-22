@@ -84,7 +84,7 @@ npm run audit:tech-stack
 
 | Service | AS-IS | Entry |
 |---------|-------|-------|
-| Cipher | `@byterover/cipher` | `npm run cipher-mcp` |
+| ByteRover (`brv`) | `byterover-cli` | `npm run brv-mcp` |
 | Codex MCP | custom server | `npm run codex-mcp` |
 | Claude Code MCP | `@anthropic-ai/claude-agent-sdk` | `claude-code-mcp` script |
 | Context7 | external MCP | Cursor / desktop config |

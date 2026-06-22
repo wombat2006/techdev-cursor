@@ -1,9 +1,29 @@
 {
-  "_comment": "Example shape. techsapo-providers: npm run cursor-mcp:config. glossary-knowledge: sibling ../term-prep-platform clone.",
+  "_comment": "Generate: npm install && npm run setup-mcp-prereqs && npm run build && npm run cursor-mcp:config",
   "mcpServers": {
     "techsapo-providers": {
       "command": "/path/to/node",
       "args": ["/path/to/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
+      "cwd": "/path/to/techdev-cursor"
+    },
+    "serena": {
+      "command": "/home/wombat/.local/bin/uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--transport",
+        "stdio",
+        "--context",
+        "claude-code",
+        "--project",
+        "/path/to/techdev-cursor"
+      ]
+    },
+    "brv": {
+      "command": "/path/to/techdev-cursor/node_modules/.bin/brv",
+      "args": ["mcp"],
       "cwd": "/path/to/techdev-cursor"
     },
     "glossary-knowledge": {

@@ -11,7 +11,7 @@
 | Server | Purpose |
 |--------|---------|
 | **Serena MCP** | Semantic code navigation and symbol-based editing (PRIMARY) |
-| **Cipher MCP** | Long-term memory and knowledge management |
+| **ByteRover MCP (`brv`)** | Long-term memory and knowledge management (successor to legacy Cipher) |
 | **Codex MCP** | GPT-5 / GPT-5-Codex + approval workflows |
 | **Context7 MCP** | Library documentation lookup |
 | **glossary-knowledge** (Cursor) | Term classify stub — [term-prep-platform](https://github.com/wombat2006/term-prep-platform); RAG prep only, not Wall-Bounce |
@@ -43,11 +43,11 @@ mcp__serena__read_file(relative_path="src/services/wall-bounce-analyzer.ts")
 
 ---
 
-## Rule 1: Memory Management (Cipher MCP)
+## Rule 1: Memory Management (ByteRover `brv` MCP)
 
 ```
-✅ ALWAYS use Cipher MCP to store new information
-✅ Call ask_cipher after:
+✅ ALWAYS use brv MCP to store and retrieve project knowledge
+✅ Call brv-query / brv-curate after:
    - Learning new patterns or solutions
    - Discovering codebase insights
    - Completing major tasks
@@ -55,6 +55,8 @@ mcp__serena__read_file(relative_path="src/services/wall-bounce-analyzer.ts")
 ```
 
 Example: store a Wall-Bounce optimization pattern — auto-trigger provider escalation when consensus < 0.6.
+
+**Setup:** `npm install` · `brv providers connect <id>` · MCP server `brv` in `.cursor/mcp.json` (via `npm run cursor-mcp:config`). Legacy `@byterover/cipher` (`ask_cipher`) is **removed**.
 
 ---
 
@@ -132,9 +134,10 @@ const implementation = await codex({
   model: 'gpt-5-codex'
 });
 
-// Step 3: Store solution (Cipher)
-await cipher.askCipher({
-  message: `Remember: SSE streaming for Wall-Bounce requires:
+// Step 3: Store solution (ByteRover brv)
+// MCP tools: brv-curate (write), brv-query (read)
+await brvCurate({
+  content: `Remember: SSE streaming for Wall-Bounce requires:
             1. Content-Type: text/event-stream
             2. res.flushHeaders() before streaming
             3. EventEmitter pattern for real-time events`

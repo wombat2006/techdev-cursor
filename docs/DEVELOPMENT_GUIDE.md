@@ -26,8 +26,7 @@ npm run lint         # Lint TypeScript files (ESLint on src/**/*.ts)
 
 ### MCP Services
 ```bash
-npm run cipher-mcp   # Start Cipher MCP (memory/learning)
-npm run cipher-api   # Start Cipher API mode
+npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 ```
 
 ## 🏗️ Architecture Details

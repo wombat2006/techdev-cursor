@@ -102,7 +102,7 @@ $(codex mcp list 2>/dev/null || echo "Codex MCP not available")
 $(codex login status 2>/dev/null || echo "Codex auth not available")
 
 === TechSapo Package Info ===
-Cipher Package: $(npm list @byterover/cipher --depth=0 2>/dev/null | grep cipher || echo "Not found")
+ByteRover Package: $(npm list byterover-cli --depth=0 2>/dev/null | grep byterover-cli || echo "Not found")
 
 === File Permissions ===
 Codex Config: $(ls -la ~/.codex/config.toml 2>/dev/null || echo "Not found")
@@ -120,7 +120,7 @@ Codex Test: $(which codex >/dev/null 2>&1 && echo "✓ Available" || echo "✗ N
 Node Test: $(which node >/dev/null 2>&1 && echo "✓ Available" || echo "✗ Not found")
 
 === Quick Start Tests ===
-Cipher MCP: $(timeout 3 npx @byterover/cipher --mode mcp 2>&1 | head -1 || echo "Failed to start")
+ByteRover MCP: $(timeout 3 bash scripts/start-brv-mcp.sh 2>&1 | head -1 || echo "Failed to start")
 Serena MCP: $(timeout 3 uv run serena start-mcp-server 2>&1 | head -1 || echo "Failed to start")
 
 EOF

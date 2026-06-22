@@ -39,7 +39,7 @@ The repository does **not** implement a unified memory substrate today. Existing
 | [`wall-bounce-analyzer.ts`](../../src/services/wall-bounce-analyzer.ts) | In-process | Round summaries (`accumulatedSummary`) only | N/A |
 | [`inference-service.ts`](../../src/services/inference-service.ts) | In-memory | Up to 20 turns; not shared | No |
 | Claude / agy CLIs | On-disk native | `~/.claude` (`--resume`), `~/.gemini/antigravity-cli/` (conversations) | Adapters do not persist handles |
-| Cipher MCP | Long-term | `ask_cipher` retrieval | Manual; not wired to orchestration |
+| ByteRover MCP (`brv`) | Long-term | `brv-query` / `brv-curate` | Manual; not wired to orchestration. Legacy event label `cipher` retained in schema. |
 | A-1 [`analyze_*` adapters](../../src/adapters/) | None | Stateless one-shot (temporary) | Yes |
 
 ### Why only `codex-session-manager` exists
@@ -233,7 +233,7 @@ Config file: [config/orchestration-memory.json](../../config/orchestration-memor
 
 **Rules:**
 
-1. Cipher `ask_cipher` — **retrieve before invoke**; inject into `context` / Layer A preamble.
+1. ByteRover `brv-query` — **retrieve before invoke**; inject into `context` / Layer A preamble. (Legacy: Cipher `ask_cipher`.)
 2. Cipher **writes** — P5 verified-write policy only.
 3. RAG chunk refs may be recorded as `layer_c_retrieval` events in Layer A.
 

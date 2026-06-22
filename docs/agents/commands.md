@@ -40,11 +40,13 @@ Requirements: [TESTING_GUIDE.md](../TESTING_GUIDE.md)
 **Prerequisite:** Complete [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) **Track A-0** (WSL-native `claude`, `codex`, `agy` + auth) before Cursor MCP registration.
 
 ```bash
-npm run cipher-mcp        # Long-term memory MCP
+npm run brv-mcp            # ByteRover memory MCP (brv mcp)
+npm run setup-brv-provider # Connect brv to cloud API (.env.brv.local)
+npm run setup-mcp-prereqs # Install uv/uvx for Serena (once per machine)
+npm run serena-brv-mcp:smoke  # Probe Serena + brv launchers
 npm run codex-mcp         # GPT-5/Codex MCP integration
 npm run claude-code-mcp   # Claude Code MCP (Sonnet 4.5)
 npm run codex-mcp-test    # Verify Codex MCP after Phase 0
-npm run cipher-api        # Cipher API mode (port 3002)
 ```
 
 Architecture: [MCP_SERVICES.md](../MCP_SERVICES.md) · Cursor plan: [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md)

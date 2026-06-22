@@ -8,8 +8,9 @@
  *   npm run cursor-mcp:config -- --variant linux   # EC2 / WSL Remote / native Linux
  *   npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro Ubuntu-22.04
  *
- * Merges into .cursor/mcp.json — preserves non-techsapo-providers entries (e.g. glossary-knowledge).
- * techsapo-providers paths remain host-specific; glossary-knowledge uses tracked sibling paths.
+ * Merges into .cursor/mcp.json — preserves entries not managed here (e.g. glossary-knowledge).
+ * Managed servers: techsapo-providers, serena, brv.
+ * Strips legacy server name: cipher (@byterover/cipher, deprecated).
  */
 
 import { spawnSync } from 'child_process';
@@ -20,6 +21,9 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const SERVER_REL = 'dist/services/techsapo-providers-mcp-server.js';
+const BRV_SCRIPT = path.join(REPO_ROOT, 'scripts', 'start-brv-mcp.sh');
+const MANAGED_SERVERS = new Set(['techsapo-providers', 'serena', 'brv']);
+const STRIP_LEGACY_SERVERS = new Set(['cipher']);
 
 function parseArgs(argv) {
   const opts = {
@@ -73,11 +77,74 @@ function resolveNode(explicit, repoRoot) {
   return node;
 }
 
+function resolveUv(explicit, repoRoot) {
+  if (explicit) return explicit;
+  const r = spawnSync('bash', ['-lc', 'export PATH="$HOME/.local/bin:$PATH"; command -v uvx'], {
+    encoding: 'utf8',
+    cwd: repoRoot,
+  });
+  const uvx = (r.stdout || '').trim();
+  if (!uvx) {
+    console.error('error: uvx not found. Run: npm run setup-mcp-prereqs');
+    process.exit(1);
+  }
+  return uvx;
+}
+
+function resolveBrv(repoRoot) {
+  const local = path.join(repoRoot, 'node_modules', '.bin', 'brv');
+  if (fs.existsSync(local)) return local;
+  const r = spawnSync('bash', ['-lc', 'command -v brv'], {
+    encoding: 'utf8',
+    cwd: repoRoot,
+  });
+  const brv = (r.stdout || '').trim();
+  if (!brv) {
+    console.error('error: brv not found. Run: npm install (byterover-cli)');
+    process.exit(1);
+  }
+  return brv;
+}
+
+function buildSerenaConfig(repoRoot, uvxExecutable) {
+  return {
+    serena: {
+      command: uvxExecutable,
+      args: [
+        '--from',
+        'git+https://github.com/oraios/serena',
+        'serena',
+        'start-mcp-server',
+        '--transport',
+        'stdio',
+        '--context',
+        'claude-code',
+        '--project',
+        repoRoot,
+      ],
+    },
+  };
+}
+
+function buildBrvConfig(repoRoot, brvExecutable) {
+  if (!fs.existsSync(BRV_SCRIPT)) {
+    console.error(`error: ${BRV_SCRIPT} missing`);
+    process.exit(1);
+  }
+  return {
+    brv: {
+      command: brvExecutable,
+      args: ['mcp'],
+      cwd: repoRoot,
+    },
+  };
+}
+
 function toWslPath(posixPath) {
   return posixPath.replace(/\\/g, '/');
 }
 
-function buildLinuxConfig(repoRoot, nodeExecutable) {
+function buildLinuxConfig(repoRoot, nodeExecutable, uvxExecutable, brvExecutable) {
   const serverPath = path.join(repoRoot, SERVER_REL);
   if (!fs.existsSync(serverPath)) {
     console.error(`error: ${serverPath} missing — run: npm run build`);
@@ -90,27 +157,46 @@ function buildLinuxConfig(repoRoot, nodeExecutable) {
         args: [serverPath],
         cwd: repoRoot,
       },
+      ...buildSerenaConfig(repoRoot, uvxExecutable),
+      ...buildBrvConfig(repoRoot, brvExecutable),
     },
   };
 }
 
-function buildWindowsWslConfig(repoRoot, wslDistro) {
+function buildWindowsWslConfig(repoRoot, wslDistro, uvxExecutable) {
   const serverPath = path.join(repoRoot, SERVER_REL);
   if (!fs.existsSync(serverPath)) {
     console.error(`error: ${serverPath} missing — run: npm run build (inside WSL)`);
     process.exit(1);
   }
   const wslRepo = toWslPath(repoRoot);
-  const inner = [
+  const innerProviders = [
     'export PATH="$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -1)/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"',
     `cd ${JSON.stringify(wslRepo)}`,
     'exec node dist/services/techsapo-providers-mcp-server.js',
+  ].join(' && ');
+  const innerBrv = [
+    'export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"',
+    `cd ${JSON.stringify(wslRepo)}`,
+    'exec node_modules/.bin/brv mcp',
+  ].join(' && ');
+  const innerSerena = [
+    'export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"',
+    `exec ${JSON.stringify(uvxExecutable)} --from git+https://github.com/oraios/serena serena start-mcp-server --transport stdio --context claude-code --project ${JSON.stringify(wslRepo)}`,
   ].join(' && ');
   return {
     mcpServers: {
       'techsapo-providers': {
         command: 'C:\\Windows\\System32\\wsl.exe',
-        args: ['-d', wslDistro, 'bash', '-lc', inner],
+        args: ['-d', wslDistro, 'bash', '-lc', innerProviders],
+      },
+      serena: {
+        command: 'C:\\Windows\\System32\\wsl.exe',
+        args: ['-d', wslDistro, 'bash', '-lc', innerSerena],
+      },
+      brv: {
+        command: 'C:\\Windows\\System32\\wsl.exe',
+        args: ['-d', wslDistro, 'bash', '-lc', innerBrv],
       },
     },
   };
@@ -127,7 +213,8 @@ function mergeWithExisting(outputPath, generated) {
   }
   const preserved = {};
   for (const [name, cfg] of Object.entries(existing.mcpServers || {})) {
-    if (name !== 'techsapo-providers') preserved[name] = cfg;
+    if (MANAGED_SERVERS.has(name) || STRIP_LEGACY_SERVERS.has(name)) continue;
+    preserved[name] = cfg;
   }
   return {
     mcpServers: {
@@ -142,9 +229,13 @@ function main() {
   let config;
   if (opts.variant === 'linux') {
     const node = resolveNode(opts.node, opts.repoRoot);
-    config = buildLinuxConfig(opts.repoRoot, node);
+    const uvx = resolveUv(null, opts.repoRoot);
+    const brv = resolveBrv(opts.repoRoot);
+    config = buildLinuxConfig(opts.repoRoot, node, uvx, brv);
   } else if (opts.variant === 'windows-wsl') {
-    config = buildWindowsWslConfig(opts.repoRoot, opts.wslDistro);
+    const uvx = resolveUv(null, opts.repoRoot);
+    resolveBrv(opts.repoRoot);
+    config = buildWindowsWslConfig(opts.repoRoot, opts.wslDistro, uvx);
   } else {
     console.error(`error: unknown variant "${opts.variant}" (use linux or windows-wsl)`);
     process.exit(1);

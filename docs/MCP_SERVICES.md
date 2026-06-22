@@ -19,25 +19,28 @@ TechSapo integrates Model Context Protocol (MCP) for standardized LLM tool orche
 
 ## Integrated MCP Servers
 
-### 1. Cipher MCP
+### 1. ByteRover MCP (`brv`)
 
-**Purpose**: Long-term memory and knowledge management
+**Purpose**: Long-term memory and knowledge management (successor to deprecated `@byterover/cipher`)
 
-**Location**: External MCP server (configured in Claude Desktop)
+**Location**: Project dependency `byterover-cli`; Cursor MCP server name `brv`
 
 **Tools**:
-- `ask_cipher` - Query knowledge base with context-aware responses
+- `brv-query` — Retrieve curated context from the context tree
+- `brv-curate` — Store knowledge into the context tree
 
 **Usage Pattern**:
 ```typescript
-// NOT used for real-time LLM calls
-// Used for: Knowledge retrieval, context building
-const response = await cipherMCP.askCipher({
-  message: "Retrieve documentation about Wall-Bounce system"
-});
+// NOT used for real-time LLM inference (use techsapo-providers / Wall-Bounce for that)
+// Used for: Knowledge retrieval and curation across sessions
+// MCP: brv-query / brv-curate via Cursor MCP server "brv"
 ```
 
-**Integration**: Background knowledge layer, not in critical path
+**Setup**: `cp .env.brv.local.example .env.brv.local` · `npm run setup-brv-provider` · `npm run cursor-mcp:config`. Prefer **cloud API** (OpenRouter / Anthropic / OpenAI / Gemini); local Ollama is not recommended for `brv-curate`.
+
+**Integration**: Background knowledge layer, not in critical path. Orchestration events may still use `source: 'cipher'` in Layer A schema (legacy label).
+
+**Migration**: [@byterover/cipher](https://www.npmjs.com/package/@byterover/cipher) frozen at 0.3.0 → [byterover-cli](https://github.com/campfirein/byterover-cli)
 
 ### Cursor MCP (TechSapo providers — Planned; implement in fork)
 

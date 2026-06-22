@@ -119,7 +119,10 @@ flowchart TB
 
 1. [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) — スコープと構成  
 2. [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) — 実行要約 · [§ A-0 詳細（英語）](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
-3. `npm run cursor-mcp:config` — Cursor に統一 MCP を登録
+3. `npm run setup-mcp-prereqs` — Serena 用 `uv`/`uvx`（初回のみ）  
+4. `cp .env.brv.local.example .env.brv.local` — **API キー 1 つ**（OpenRouter / Anthropic / OpenAI / Gemini）  
+5. `npm run setup-brv-provider` — `brv` をクラウド API に接続（Ollama は非推奨）  
+6. `npm run build && npm run cursor-mcp:config` — Cursor に MCP 登録（`techsapo-providers` · Serena · `brv`）
 
 ---
 

@@ -4,9 +4,10 @@
 **Server:** `techsapo-providers` — stdio MCP; tools `analyze_claude`, `analyze_codex`, `analyze_agy`.
 
 **`techsapo-providers`:** use the generator (recommended) or placeholder templates — Node path is host-specific.  
+**`serena` + `brv`:** registered by the same generator (`ide-assistant` context; ByteRover CLI — successor to `@byterover/cipher`).  
 **`glossary-knowledge`:** tracked in `.cursor/mcp.json` with sibling `../term-prep-platform` paths (read-only runtime; consumer agents do not commit platform changes).
 
-**Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm run build`
+**Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm install` · `npm run build` · `npm run setup-mcp-prereqs` (Serena / `uvx`) · `brv providers connect` (memory tools)
 
 ---
 
@@ -14,8 +15,13 @@
 
 ```bash
 cd <REPO_ROOT>
+npm run setup-mcp-prereqs          # uv + uvx for Serena (once per machine)
+npm install                        # byterover-cli (brv)
+cp .env.brv.local.example .env.brv.local   # one cloud API key (not Ollama)
+npm run setup-brv-provider         # connect brv to API
 npm run build
-npm run cursor-mcp:config              # merges techsapo-providers into .cursor/mcp.json
+npm run cursor-mcp:config              # merges techsapo-providers, serena, brv into .cursor/mcp.json
+npm run serena-brv-mcp:smoke        # optional local launch probe
 # or paste into Cursor Settings → MCP:
 npm run cursor-mcp:config -- --print
 ```
@@ -145,3 +151,28 @@ Logs: `logs/mcp-providers.log`
 | `analyze_agy` | `{ "prompt": "You are text-only. Reply with exactly one word: ok", "preset": "fast", "model": "gemini-2.5-flash", "workingDirectory": "/tmp" }` |
 
 **Legacy:** Do not register dual-server `techsapo-codex` + `techsapo-claude`.
+
+---
+
+## External reference: Context7 · Serena · Cipher install
+
+Community walkthrough (Claude Code CLI, Japanese):  
+[Claude CodeでMCPツール（Context7、Serena、Cipher）を活用してAIコーディングを次のレベルへ](https://qiita.com/sukimaengineer/items/845ad14a3ec2d3c39930) (2025-08).
+
+**Mapping to this repo (Cursor, 2026):**
+
+| Tool | Qiita article (Claude Code) | This fork (Cursor) |
+|------|----------------------------|-------------------|
+| **Context7** | `claude mcp add context7 -- npx --yes @upstash/context7-mcp` | Cursor plugin / built-in MCP (no repo generator entry) |
+| **Serena** | `uv run --from git+… serena-mcp-server --port 32123` (HTTP port) | `uvx --from git+… serena start-mcp-server --transport stdio --context ide-assistant --project <REPO>` via `npm run cursor-mcp:config` — **stdio required for Cursor**; `.serena/project.yml` already present |
+| **Cipher** | `npm i -g @byterover/cipher` + `OPENAI_API_KEY` (deprecated npm pkg) | **`byterover-cli`** (`brv mcp`) via `npm run cursor-mcp:config` — tools `brv-query`, `brv-curate`; provider via `brv providers connect` |
+
+**Notes from the article (still applicable):**
+
+- Serena: `pip install uv` (or `npm run setup-mcp-prereqs` here); first `uvx` run downloads Serena from GitHub.
+- ByteRover (`brv`): use **cloud API** via `npm run setup-brv-provider` + `.env.brv.local`. Local Ollama often fails `brv curate` (RAM / tool-call parsing).
+- **Simultaneous use:** article warns Context7 + Serena + Cipher together need care — see the author’s follow-up linked from that post.
+- Serena TS/LSP can be flaky on some platforms; WSL Remote + `linux` variant is the supported path here.
+
+**Serena project config:** extend [`.serena/project.yml`](../.serena/project.yml) per [serena-toolkit.md](./serena-toolkit.md) and the article’s `.serena/project.yml` examples (`ignored_paths`, `read_only`, etc.) when indexing this monorepo feels slow.
+
