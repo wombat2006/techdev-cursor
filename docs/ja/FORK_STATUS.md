@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/22 22:05:21 JST  
+**最終更新:** 2026/06/22 22:06:08 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -94,7 +94,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **ByteRover CLI**（Cipher 移行） | 2026/06/22 18:57:50 JST | `byterover-cli`；`brv` MCP；`setup-brv-provider` |
 | **Portable MCP wrappers**（tracked） | 2026/06/22 19:17:51 JST | `.cursor/mcp.json` + `scripts/cursor-mcp-*.sh`；通常 pull 後の regen/Reload 不要 |
 | **Wall-Bounce AS-IS / To-Be 文書** | 2026/06/22 19:47:16 JST | コード監査 → AS-IS/To-BE/BACKLOG + TS-25；README ゴール·現在地·ロードマップ |
-| **TS-26 CLI metadata + README 図** | 2026/06/22 22:05:21 JST | TS-26 ADR；B-6 runbook/backlog；README コード準拠 mermaid（index.ts · legacy spawn · SRP 分岐） |
+| **TS-26 CLI metadata + README 図** | 2026/06/22 22:05:40 JST | TS-26 ADR；B-6 runbook/backlog；README コード準拠 mermaid（index.ts · legacy spawn · SRP 分岐） |
 
 ---
 
@@ -162,7 +162,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
-| 2026/06/22 22:05:21 JST | TS-26 CLI metadata ADR；B-6 Track B；README コード準拠アーキテクチャ図；関連 doc 同期 |
+| 2026/06/22 22:05:40 JST | TS-26 CLI metadata ADR；B-6 Track B；README コード準拠アーキテクチャ図；関連 doc 同期 |
 | 2026/06/22 19:47:16 | Wall-Bounce コード監査 — AS-IS/To-BE/BACKLOG + TS-25；README ゴール/現在地/ロードマップ；Track B-4/B-5・Gate 整合 |
 | 2026/06/22 19:17:51 | Portable MCP — tracked `.cursor/mcp.json` + bash wrappers；通常 pull 後の `cursor-mcp:config`/Reload 不要（007e0f90 方針を撤回） |
 | 2026/06/21 23:26:30 | コネクタ委譲を記載（Drive / S3 / OneDrive / RAG Vector → term-prep-platform）；googledrive-connector は AS-IS レガシー |
