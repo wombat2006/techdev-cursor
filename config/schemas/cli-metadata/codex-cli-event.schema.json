@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/cli-metadata/codex-cli-event.schema.json",
+  "title": "CodexCliEvent",
+  "description": "One JSONL object from `codex exec --json` (verified 2026-06-22 WSL, ChatGPT account, default model).",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["type", "thread_id"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "thread.started" },
+        "thread_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "turn.started" }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["type", "usage"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "turn.completed" },
+        "usage": {
+          "type": "object",
+          "required": ["input_tokens", "output_tokens"],
+          "additionalProperties": true,
+          "properties": {
+            "input_tokens": { "type": "integer", "minimum": 0 },
+            "cached_input_tokens": { "type": "integer", "minimum": 0 },
+            "output_tokens": { "type": "integer", "minimum": 0 },
+            "reasoning_output_tokens": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "turn.failed" },
+        "error": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["type", "item"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "item.completed" },
+        "item": {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": true,
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string" },
+            "text": { "type": "string" },
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "const": "error" },
+        "message": { "type": "string" }
+      }
+    }
+  ]
+}

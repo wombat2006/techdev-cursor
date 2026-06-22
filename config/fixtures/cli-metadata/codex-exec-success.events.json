@@ -1,0 +1,26 @@
+[
+  {
+    "type": "thread.started",
+    "thread_id": "019eef89-0d20-7023-be51-bef6911205b2"
+  },
+  {
+    "type": "turn.started"
+  },
+  {
+    "type": "item.completed",
+    "item": {
+      "id": "item_0",
+      "type": "agent_message",
+      "text": "ok"
+    }
+  },
+  {
+    "type": "turn.completed",
+    "usage": {
+      "input_tokens": 14853,
+      "cached_input_tokens": 4992,
+      "output_tokens": 20,
+      "reasoning_output_tokens": 13
+    }
+  }
+]

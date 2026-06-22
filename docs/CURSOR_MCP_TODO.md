@@ -666,7 +666,7 @@ npm run build
 3. Stop discarding Codex token lines; remove char/4 estimates in analyzer when metadata present.
 4. Append usage to Layer A round events (M3).
 
-**Done when:** `[ ]` Claude adapter returns parsed usage + stop_reason in tests; `[ ]` Codex returns token count or JSONL event; `[ ]` fixture tests under `tests/fixtures/cli-metadata/`.
+**Done when:** `[ ]` Claude adapter returns parsed usage + stop_reason in tests; `[ ]` Codex returns token count or JSONL event; `[x]` wire schema + fixture under `config/fixtures/cli-metadata/`; `[ ]` adapter parsers wired.
 
 **Reflection memo:** _Messages API-shaped JSON is not required — normalized metadata is enough for gates, Layer A, and cost routing._
 

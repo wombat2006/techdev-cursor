@@ -11,7 +11,7 @@ HTTP Messages API responses (e.g. Claude) expose structured fields: `model`, `st
 
 **Question:** Can equivalent metadata be captured from CLI stdout/stderr without bypassing the CLI security model?
 
-**Finding:** Yes for **Claude** and **Codex** (high confidence); **agy** requires a short spike. AS-IS adapters return **plain text only** and discard token lines ([WALL_BOUNCE_AS_IS.md](../WALL_BOUNCE_AS_IS.md) §5).
+**Finding:** Yes for **Claude** and **Codex** (verified on WSL 2026-06-22); **agy** text-only (provisional). AS-IS adapters return **plain text only** and discard token lines ([WALL_BOUNCE_AS_IS.md](../WALL_BOUNCE_AS_IS.md) §5).
 
 ---
 
@@ -50,14 +50,24 @@ Not identical to Messages API `{ type: "message", content: [...] }` — wrapper 
 
 **Adapter change:** add `--output-format json`; parse stdout JSON; map to `ProviderInvokeMetadata`.
 
-### OpenAI Codex CLI — **Medium–High**
+### OpenAI Codex CLI — **High** (JSONL verified 2026-06-22)
 
 | Mechanism | Notes |
 |-----------|--------|
-| `codex exec --json` | JSONL events on stdout (documented in `codex exec --help`) |
-| Text log | `] tokens used: N` present in stdout; **currently stripped** in [codex-adapter.ts](../../src/adapters/codex-adapter.ts) |
+| `codex exec --json` | JSONL on stdout — **verified** on WSL (ChatGPT account, **no `-m`**; default model) |
+| `turn.completed.usage` | `input_tokens`, `cached_input_tokens`, `output_tokens`, `reasoning_output_tokens` |
+| `thread.started.thread_id` | Continuation handle candidate |
+| `item.completed` · `agent_message` | Assistant `text` |
+| Text log | `] tokens used: N` fallback when `--json` unavailable |
+| `-m gpt-5-codex` | **Fails** on ChatGPT account (400) — do not hardcode in adapter default |
 
-**Adapter change:** prefer `--json` and parse terminal event; fallback parse `tokens used` line.
+**Verified sample** (redacted fixture: [codex-exec-success.events.json](../../config/fixtures/cli-metadata/codex-exec-success.events.json)):
+
+```json
+{"type":"turn.completed","usage":{"input_tokens":14853,"cached_input_tokens":4992,"output_tokens":20,"reasoning_output_tokens":13}}
+```
+
+**Adapter change:** add `--json`; parse JSONL; map to `ProviderInvokeMetadata`; omit `-m gpt-5-codex` unless profile explicitly sets a supported model.
 
 ### Antigravity (`agy`) — **Medium (spike)**
 
@@ -73,7 +83,32 @@ AS-IS: `--print` text only. Legacy Gemini CLI docs mention `--output-format json
 
 Extend peer invocation through `ProviderAdapter.invoke()` to return normalized **`ProviderInvokeMetadata`** alongside `content`. No `ANTHROPIC_API_KEY` / OpenAI API keys in orchestrator code.
 
-### 2. Normalized schema (orchestrator-facing)
+### 2. Schema layers (wire + normalized)
+
+Adapters parse **provider-native CLI output** (wire), validate against JSON Schema where possible, then map to **orchestrator-facing** metadata.
+
+| Layer | Location | Role |
+|-------|----------|------|
+| **Wire (per provider)** | [config/schemas/cli-metadata/](../../config/schemas/cli-metadata/) | `claude-cli-result`, `codex-cli-event`, `agy-cli-text-response` |
+| **Normalized** | [provider-invoke-metadata.schema.json](../../config/schemas/provider-invoke-metadata.schema.json) · [provider-invoke-metadata.ts](../../src/types/provider-invoke-metadata.ts) | `AdapterResult.metadata` |
+| **Fixtures** | [config/fixtures/cli-metadata/](../../config/fixtures/cli-metadata/) | Contract tests — redacted CLI captures |
+| **Tests** | [cli-metadata-schema.test.ts](../../tests/adapters/cli-metadata-schema.test.ts) | Wire + normalized validation |
+
+**Mapping (examples):**
+
+| Wire field | Normalized field |
+|------------|------------------|
+| Claude `usage.input_tokens` | `usage.inputTokens` |
+| Claude `stop_reason` | `stopReason` |
+| Claude `session_id` | `sessionId` |
+| Codex `turn.completed.usage.input_tokens` | `usage.inputTokens` |
+| Codex `turn.completed.usage.cached_input_tokens` | `usage.cacheReadTokens` |
+| Codex `thread.started.thread_id` | `sessionId` |
+| agy stdout text | `content` only; `metadata.provisional: true` |
+
+### 3. Normalized schema (orchestrator-facing)
+
+Types: [src/types/provider-invoke-metadata.ts](../../src/types/provider-invoke-metadata.ts). JSON Schema: [provider-invoke-metadata.schema.json](../../config/schemas/provider-invoke-metadata.schema.json).
 
 ```typescript
 interface TokenUsage {
@@ -81,19 +116,20 @@ interface TokenUsage {
   outputTokens: number;
   cacheReadTokens?: number;
   cacheCreationTokens?: number;
+  reasoningOutputTokens?: number;
 }
 
 interface ProviderInvokeMetadata {
   resolvedModel: string;
-  stopReason?: string;       // end_turn | max_tokens | tool_use | ...
+  stopReason?: string;
   usage?: TokenUsage;
   costUsd?: number;
-  sessionId?: string;          // Claude CLI continuation
+  sessionId?: string;
   durationMs?: number;
   numTurns?: number;
   terminalReason?: string;
-  providerRaw?: unknown;       // optional audit blob → Layer A only
-  provisional?: boolean;       // true when estimated (agy fallback)
+  providerRaw?: unknown;
+  provisional?: boolean;
 }
 
 interface AdapterResult {
@@ -102,7 +138,7 @@ interface AdapterResult {
 }
 ```
 
-### 3. Provider CLI flags (canonical)
+### 4. Provider CLI flags (canonical)
 
 | Provider | CLI invocation | Metadata source |
 |----------|----------------|-----------------|
@@ -111,7 +147,7 @@ interface AdapterResult {
 | Codex | `codex exec --json …` | JSONL events |
 | agy | TBD after spike | JSON or stderr parse |
 
-### 4. Downstream consumers
+### 5. Downstream consumers
 
 | Consumer | Use |
 |----------|-----|
@@ -123,7 +159,7 @@ interface AdapterResult {
 | **Prometheus** | `llm_invoke_tokens_total`, `llm_invoke_cost_usd` (optional) |
 | **SSE** (B-5) | `usage` snapshot events per provider |
 
-### 5. Security unchanged
+### 6. Security unchanged
 
 - CLI/OAuth/subscription paths only ([SECURITY.md](../SECURITY.md)).
 - `providerRaw` stored in Layer A for audit — not echoed to end users by default.
@@ -158,7 +194,7 @@ interface AdapterResult {
 
 | Phase | Deliverable | Track |
 |-------|-------------|-------|
-| **0** | `ProviderInvokeMetadata` types + extend `AdapterResult` | B-1 / **B-6** |
+| **0** | Wire + normalized schemas; `ProviderInvokeMetadata` types; extend `AdapterResult` | B-6 ✅ schemas; adapter parse pending |
 | **1** | `claude-adapter`: `--output-format json` + parser | B-6 |
 | **2** | `codex-adapter`: `--json` JSONL or token line capture | B-6 |
 | **3** | `agy-adapter` spike + parser or provisional flag | B-6 |
@@ -175,11 +211,11 @@ Details: [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](../WALL_BOUNCE_IMPLEMENTATION_B
 # Claude — metadata JSON (subscription OAuth)
 claude -p "Reply with exactly: ok" --model haiku --output-format json
 
-# Codex — JSONL events
-codex exec --json -m gpt-5-codex "Reply with exactly: ok"
+# Codex — JSONL events (ChatGPT account: omit -m; gpt-5-codex may 400)
+codex exec --json "Reply with exactly: ok"
 ```
 
-Record redacted fixtures under `tests/fixtures/cli-metadata/` when implementing contract tests.
+Record redacted fixtures under `config/fixtures/cli-metadata/` when implementing contract tests.
 
 ---
 
@@ -187,4 +223,5 @@ Record redacted fixtures under `tests/fixtures/cli-metadata/` when implementing 
 
 | Date | Change |
 |------|--------|
+| 2026-06-22 | v1.1 — Per-provider wire JSON Schemas + normalized schema; Codex JSONL verified |
 | 2026-06-22 | v1.0 — Accepted direction: CLI metadata at adapter boundary |

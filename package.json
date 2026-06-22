@@ -28,7 +28,7 @@
     "test:integration": "jest tests/integration",
     "validate:config": "node scripts/validate-config.mjs",
     "fork-status:timestamp": "node scripts/fork-status-timestamp.mjs",
-    "test:contract": "npm run validate:config && jest tests/adapters/catalog-resolver-drift.test.ts tests/adapters/adapter-spawn-contract.test.ts tests/adapters/adapter-preset-matrix-schema.test.ts tests/unit/simulated-provider-guard.test.ts tests/adapters/inference-profile-resolver.test.ts",
+    "test:contract": "npm run validate:config && jest tests/adapters/catalog-resolver-drift.test.ts tests/adapters/adapter-spawn-contract.test.ts tests/adapters/adapter-preset-matrix-schema.test.ts tests/adapters/cli-metadata-schema.test.ts tests/unit/simulated-provider-guard.test.ts tests/adapters/inference-profile-resolver.test.ts",
     "generate:proposal-pptx": "node scripts/pptx-gen/generate-proposal-pptx.mjs",
     "audit:tech-stack": "node scripts/audit-tech-stack.mjs",
     "brv-mcp": "bash scripts/start-brv-mcp.sh",

@@ -56,7 +56,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **B-0** | リクエスト単位 model / effort / CoT preset | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative` | `[~]` matrix+catalog resolver ✅；preset JSON ファイル未 |
 | **B-4** | 実行モードルーティング（TS-25） | 並列→合議→閾値分岐；キーワード/MCP 上書き | `[ ]` |
 | **B-5** | SSE + Layer A 可観測性 | SSE イベント拡張；ラウンドストリーム | `[ ]` |
-| **B-6** | CLI invoke metadata（TS-26） | adapter 境界で `usage` / `stop_reason` / `session_id` | `[ ]` ADR ✅；WB-13…18 未 |
+| **B-6** | CLI invoke metadata（TS-26） | adapter 境界で `usage` / `stop_reason` / `session_id` | `[~]` ADR + wire/正規化 schema ✅；adapter パース未 |
 | **B-1** | Cursor + Wall-Bounce で同一 transport | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | セッション継続 + legacy 統合 | `sessionId` · Layer A ラウンドイベント · TS-22 codex-session 統合 | `[ ]` |
 
@@ -95,6 +95,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Portable MCP wrappers**（tracked） | 2026/06/22 19:17:51 JST | `.cursor/mcp.json` + `scripts/cursor-mcp-*.sh`；通常 pull 後の regen/Reload 不要 |
 | **Wall-Bounce AS-IS / To-Be 文書** | 2026/06/22 19:47:16 JST | コード監査 → AS-IS/To-BE/BACKLOG + TS-25；README ゴール·現在地·ロードマップ |
 | **TS-26 CLI metadata + README 図** | 2026/06/22 22:05:40 JST | TS-26 ADR；B-6 runbook/backlog；README コード準拠 mermaid（index.ts · legacy spawn · SRP 分岐） |
+| **TS-26 wire schema + Codex 検証** | 2026/06/22 22:41:19 JST | provider 別 JSON Schema；正規化 metadata；Codex JSONL fixture・契約テスト |
 
 ---
 
@@ -162,6 +163,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/22 22:41:19 JST | TS-26 provider 別 wire JSON Schema + 正規化 metadata；Codex JSONL 検証；契約テスト |
 | 2026/06/22 22:05:40 JST | TS-26 CLI metadata ADR；B-6 Track B；README コード準拠アーキテクチャ図；関連 doc 同期 |
 | 2026/06/22 19:47:16 | Wall-Bounce コード監査 — AS-IS/To-BE/BACKLOG + TS-25；README ゴール/現在地/ロードマップ；Track B-4/B-5・Gate 整合 |
 | 2026/06/22 19:17:51 | Portable MCP — tracked `.cursor/mcp.json` + bash wrappers；通常 pull 後の `cursor-mcp:config`/Reload 不要（007e0f90 方針を撤回） |

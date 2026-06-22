@@ -31,12 +31,12 @@
 | WB-10 | `consensus-engine.ts` | Expose `consensus` score separately from `confidence`; hard gate hook for C-1 | P1 | C-1 |
 | WB-11 | `wall-bounce-adapter.ts` | Redirect to unified analyzer or delete after C-5 | P2 | C-5 |
 | WB-12 | `multi-llm-session-handler.ts` | Replace Codex-only Redis with Layer A; align turn routing with TS-25 | P1 | M2 |
-| WB-13 | `src/types/adapter-types.ts` | Add `ProviderInvokeMetadata`; extend `AdapterResult.metadata` | P1 | B-6 |
+| WB-13 | `src/types/provider-invoke-metadata.ts` + `config/schemas/provider-invoke-metadata.schema.json` + `cli-metadata/*` | Wire + normalized schemas; `AdapterResult.metadata` type | P1 | B-6 ✅ types/schemas |
 | WB-14 | `claude-adapter.ts` | `--output-format json`; parse usage / stop_reason / session_id | P1 | B-6 |
 | WB-15 | `codex-adapter.ts` | `codex exec --json` JSONL or retain `tokens used` line | P1 | B-6 |
 | WB-16 | `agy-adapter.ts` / `antigravity-cli.ts` | Spike structured usage; `provisional` fallback | P2 | B-6 |
 | WB-17 | `wall-bounce-analyzer.ts` | Propagate metadata to Layer A; remove char/4 token estimates | P1 | B-1, M3 |
-| WB-18 | `tests/fixtures/cli-metadata/` | Redacted CLI JSON fixtures + adapter contract tests | P1 | B-6 |
+| WB-18 | `config/fixtures/cli-metadata/` | Redacted CLI JSON fixtures + adapter contract tests | P1 | B-6 |
 
 ---
 

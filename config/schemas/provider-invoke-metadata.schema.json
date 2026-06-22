@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/provider-invoke-metadata.schema.json",
+  "title": "ProviderInvokeMetadata",
+  "description": "Normalized CLI invoke metadata at adapter boundary (TS-26).",
+  "type": "object",
+  "required": ["resolvedModel"],
+  "additionalProperties": false,
+  "properties": {
+    "resolvedModel": { "type": "string", "minLength": 1 },
+    "stopReason": { "type": "string" },
+    "usage": { "$ref": "#/$defs/tokenUsage" },
+    "costUsd": { "type": "number", "minimum": 0 },
+    "sessionId": { "type": "string", "minLength": 1 },
+    "durationMs": { "type": "number", "minimum": 0 },
+    "numTurns": { "type": "integer", "minimum": 0 },
+    "terminalReason": { "type": "string" },
+    "providerRaw": true,
+    "provisional": { "type": "boolean" }
+  },
+  "$defs": {
+    "tokenUsage": {
+      "type": "object",
+      "required": ["inputTokens", "outputTokens"],
+      "additionalProperties": false,
+      "properties": {
+        "inputTokens": { "type": "integer", "minimum": 0 },
+        "outputTokens": { "type": "integer", "minimum": 0 },
+        "cacheReadTokens": { "type": "integer", "minimum": 0 },
+        "cacheCreationTokens": { "type": "integer", "minimum": 0 },
+        "reasoningOutputTokens": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

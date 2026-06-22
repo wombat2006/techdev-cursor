@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/cli-metadata/agy-cli-text-response.schema.json",
+  "title": "AgyCliTextResponse",
+  "description": "Provisional wire shape for `agy --print` until structured JSON is confirmed (TS-26 spike).",
+  "type": "object",
+  "required": ["content"],
+  "additionalProperties": false,
+  "properties": {
+    "content": { "type": "string" },
+    "stderr": { "type": "string" }
+  }
+}

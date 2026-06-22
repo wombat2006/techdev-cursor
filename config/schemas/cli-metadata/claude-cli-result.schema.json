@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techsapo.dev/schemas/cli-metadata/claude-cli-result.schema.json",
+  "title": "ClaudeCliResult",
+  "description": "Wire JSON from `claude --print --output-format json` (verified 2026-06-22 WSL).",
+  "type": "object",
+  "required": ["type", "result"],
+  "properties": {
+    "type": { "const": "result" },
+    "result": { "type": "string" },
+    "stop_reason": { "type": "string" },
+    "usage": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "input_tokens": { "type": "integer", "minimum": 0 },
+        "output_tokens": { "type": "integer", "minimum": 0 },
+        "cache_read_input_tokens": { "type": "integer", "minimum": 0 },
+        "cache_creation_input_tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "modelUsage": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "total_cost_usd": { "type": "number", "minimum": 0 },
+    "session_id": { "type": "string" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "num_turns": { "type": "integer", "minimum": 0 },
+    "terminal_reason": { "type": "string" }
+  },
+  "additionalProperties": true
+}
