@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/21 23:26:30 JST  
+**最終更新:** 2026/06/22 19:17:51 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -88,6 +88,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Glossary 初回 extract** | 2026/06/21 19:28:52 | interim corpus（11 md）；`npm run glossary:extract` |
 | **Glossary consumer boundary** | 2026/06/21 19:48:06 | consumer のみ編集；platform read-only；escalation 方針 |
 | **Glossary portable output paths** | 2026/06/21 19:59:15 | `normalize-glossary-output.py`；adopt/hold の相対パス |
+| **ByteRover CLI**（Cipher 移行） | 2026/06/22 18:57:50 JST | `byterover-cli`；`brv` MCP；`setup-brv-provider` |
+| **Portable MCP wrappers**（tracked） | 2026/06/22 19:17:51 JST | `.cursor/mcp.json` + `scripts/cursor-mcp-*.sh`；通常 pull 後の regen/Reload 不要 |
 
 ---
 
@@ -155,6 +157,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/22 19:17:51 | Portable MCP — tracked `.cursor/mcp.json` + bash wrappers；通常 pull 後の `cursor-mcp:config`/Reload 不要（007e0f90 方針を撤回） |
 | 2026/06/21 23:26:30 | コネクタ委譲を記載（Drive / S3 / OneDrive / RAG Vector → term-prep-platform）；googledrive-connector は AS-IS レガシー |
 | 2026/06/21 21:28:26 | 「daily smoke」を MCP・adapter の動作確認継続と明記（FORK_STATUS・ONBOARDING en/ja） |
 | 2026/06/21 21:24:03 | Track A の「尾/tail」を残タスク/remainder に置換（FORK_STATUS・ONBOARDING・runbook 要約） |
