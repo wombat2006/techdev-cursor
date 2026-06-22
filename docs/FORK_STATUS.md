@@ -177,7 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
-| TBD | SRP Phase 2 #4 — `srp-safety-monitor/` split; 86 module tests (13 suites) |
+| 2026/06/23 04:43:27 JST | SRP Phase 2 #4 — `srp-safety-monitor/` split; Jest uuid mock + Codex facade test fixes; 92 module tests (13 suites); full suite 290 pass |
 | 2026/06/23 04:30:05 JST | SRP Phase 2 #3 — `mcp-performance-monitor/` split; README/ARCHITECTURE/MCP_SERVICES sync; 80 module tests (12 suites) |
 | 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` split; 75 module tests (11 suites) |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
