@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/23 04:52:56 JST  
+**Last updated:** 2026/06/23 04:56:36 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -177,6 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/23 04:56:12 JST | SRP Phase 3 #1 — `mcp-approval-manager/` split; 101 module tests (15 suites); full suite 305 pass |
 | 2026/06/23 04:52:33 JST | SRP Phase 2 #5 — `googledrive-push-setup/` split; Phase 2 complete; 95 module tests (14 suites); full suite 299 pass |
 | 2026/06/23 04:43:27 JST | SRP Phase 2 #4 — `srp-safety-monitor/` split; Jest uuid mock + Codex facade test fixes; 92 module tests (13 suites); full suite 290 pass |
 | 2026/06/23 04:30:05 JST | SRP Phase 2 #3 — `mcp-performance-monitor/` split; README/ARCHITECTURE/MCP_SERVICES sync; 80 module tests (12 suites) |
