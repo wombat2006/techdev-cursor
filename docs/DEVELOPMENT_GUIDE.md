@@ -52,7 +52,7 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 - **MCPIntegrationService** (`src/services/mcp-integration-service.ts`): Shim → `mcp-integration/`
 - **MCPConfigManager** (`src/services/mcp-config-manager.ts`): Shim → `mcp-config-manager/` — cost optimization and tool selection
 - **MCPPerformanceMonitor** (`src/services/mcp-performance-monitor.ts`): Shim → `mcp-performance-monitor/` — metrics, alerts, recommendations (`npm run mcp-performance`)
-- **MCPApprovalManager** (`src/services/mcp-approval-manager.ts`): Multi-layer approval workflows
+- **MCPApprovalManager** (`src/services/mcp-approval-manager.ts`): Shim → `mcp-approval-manager/` — multi-layer approval workflows
 - **UltraConservativeMonitor** (`src/services/ultra-conservative-monitor.ts`): Shim → `ultra-conservative-monitor/` — Phase 3 gradual rollout monitoring (leaf)
 - **SRPSafetyMonitor** (`src/services/srp-safety-monitor.ts`): Shim → `srp-safety-monitor/` — Phase 3 auto-rollback safety (leaf)
 

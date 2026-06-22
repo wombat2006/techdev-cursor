@@ -148,19 +148,19 @@ flowchart TB
 | 4 | `srp-safety-monitor.ts` | 424 | ✅ → `srp-safety-monitor/` |
 | 5 | `googledrive-push-setup.ts` | 540 | ✅ → `googledrive-push-setup/` |
 
-### Phase 3 — After Phase 2
+### Phase 3 — In progress
 
-| Priority | File | Lines | Depends on |
-|----------|------|-------|------------|
-| 1 | `mcp-approval-manager.ts` | 463 | `mcp-config-manager` ✅ |
-| 2 | `huggingface-client.ts` | (check size) | — |
-| 3 | `embedding-service.ts` | 387 | `huggingface-client` |
-| 4 | `inference-service.ts` | 559 | `huggingface-client` |
-| 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ |
-| 6 | `codex-gpt5-provider.ts` | 410 | timeout handler |
-| 7 | `redis-service.ts` | 303 | — |
-| 8 | `codex-mcp-integration.ts` | 566 | `redis-service` |
-| 9 | `utils/migrate-to-redis.ts` | 559 | `redis-service` |
+| Priority | File | Lines | Depends on | Status |
+|----------|------|-------|------------|--------|
+| 1 | `mcp-approval-manager.ts` | 463 | `mcp-config-manager` ✅ | ✅ → `mcp-approval-manager/` |
+| 2 | `huggingface-client.ts` | (check size) | — | pending |
+| 3 | `embedding-service.ts` | 387 | `huggingface-client` | pending |
+| 4 | `inference-service.ts` | 559 | `huggingface-client` | pending |
+| 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ | pending |
+| 6 | `codex-gpt5-provider.ts` | 410 | timeout handler | pending |
+| 7 | `redis-service.ts` | 303 | — | pending |
+| 8 | `codex-mcp-integration.ts` | 566 | `redis-service` | pending |
+| 9 | `utils/migrate-to-redis.ts` | 559 | `redis-service` | pending |
 
 ### Phase 4 — Routes & controllers (last)
 
@@ -189,7 +189,7 @@ flowchart TB
 
 ```bash
 npx tsc --noEmit
-npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
+npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|mcp-approval-manager-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
 ```
 
 ---
@@ -198,6 +198,7 @@ npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file
 
 | Date | Change |
 |------|--------|
+| 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |
 | 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5) |
 | 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
 | 2026-06-23 | Doc sync: README, ARCHITECTURE, DEVELOPMENT_GUIDE, TESTING_GUIDE, FORK_STATUS en/ja |

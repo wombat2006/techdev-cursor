@@ -52,7 +52,7 @@ Model Context Protocol integration for standardized LLM interactions.
 
 **Core MCP Services** (shims → module dirs where noted):
 - `mcp-integration-service.ts` → `mcp-integration/` — central orchestration
-- `mcp-approval-manager.ts` — risk-based approval workflows
+- `mcp-approval-manager.ts` → `mcp-approval-manager/` — risk-based approval workflows
 - `mcp-config-manager.ts` → `mcp-config-manager/` — tool optimization and cost estimation
 - `mcp-performance-monitor.ts` → `mcp-performance-monitor/` — real-time MCP metrics and alerts
 - `ultra-conservative-monitor.ts` → `ultra-conservative-monitor/` — gradual Phase 3 rollout safety (leaf)

@@ -83,8 +83,9 @@ All splits must pass before merge.
 | `mcp-performance-monitor.ts` | 543 | `src/services/mcp-performance-monitor/` | `mcp-performance-monitor.ts` | 154 (`monitor.ts`) |
 | `srp-safety-monitor.ts` | 424 | `src/services/srp-safety-monitor/` | `srp-safety-monitor.ts` | 155 (`monitor.ts`) |
 | `googledrive-push-setup.ts` | 540 | `src/services/googledrive-push-setup/` | `googledrive-push-setup.ts` | 147 (`channel-operations.ts`) |
+| `mcp-approval-manager.ts` | 463 | `src/services/mcp-approval-manager/` | `mcp-approval-manager.ts` | 237 (`manager.ts`) |
 
-**Total:** 15 monoliths → 15 module trees + 15 shims. **95+ tests** in the SRP module suite (14 suites) as of this record.
+**Total:** 16 monoliths → 16 module trees + 16 shims. **101+ tests** in the SRP module suite (15 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -428,6 +429,27 @@ analyze-entry
 
 ---
 
+### 4.16 MCP approval manager (Phase 3 #1)
+
+**Shim:** `src/services/mcp-approval-manager.ts`  
+**Modules:** `src/services/mcp-approval-manager/`  
+**Consumers:** `mcp-integration/approval-workflow.ts`, `mcp-integration/analytics.ts`, `codex-mcp/tool-handlers.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `manager.ts` | 237 | `MCPApprovalManager` — request/process/timeout workflow |
+| `default-policies.ts` | 55 | Risk-tier approval policies |
+| `risk-assessment.ts` | 59 | `assessRiskLevel`, `detectSensitiveData` |
+| `statistics.ts` | 51 | `computeApprovalStatistics` |
+| `types.ts` | 44 | Approval request/response/policy types |
+| `audit-export.ts` | 17 | Compliance audit log export |
+| `request-id.ts` | 3 | Request ID generation |
+| `index.ts` | 17 | Public exports + singleton |
+
+**Tests:** `mcp-approval-manager-modules.test.ts` (policies, risk, statistics, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -447,6 +469,7 @@ analyze-entry
 | `src/services/mcp-performance-monitor.ts` | `./mcp-performance-monitor/index` |
 | `src/services/srp-safety-monitor.ts` | `./srp-safety-monitor/index` |
 | `src/services/googledrive-push-setup.ts` | `./googledrive-push-setup/index` |
+| `src/services/mcp-approval-manager.ts` | `./mcp-approval-manager/index` |
 
 ---
 
@@ -500,6 +523,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |
 | 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5 — Phase 2 complete) |
 | 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
 | 2026-06-23 | Phase 2 start: `mcp-config-manager/` split; `mcp-config-manager-modules.test.ts` |

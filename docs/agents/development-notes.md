@@ -53,7 +53,8 @@ src/
 │   ├── log-analyzer/                    # Log analysis modules
 │   ├── mcp-integration/                 # MCP integration modules
 │   ├── mcp-integration-service.ts       # Shim → mcp-integration/
-│   ├── mcp-approval-manager.ts          # Approval workflows
+│   ├── mcp-approval-manager.ts          # Shim → mcp-approval-manager/
+│   ├── mcp-approval-manager/            # Risk-based approval workflows
 │   ├── codex-mcp-server.ts              # Shim → codex-mcp/
 │   ├── codex-mcp/                       # Codex MCP server modules
 │   ├── googledrive-connector.ts         # Shim → googledrive-connector/ (legacy RAG)
