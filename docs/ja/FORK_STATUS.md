@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/22 22:50:56 JST  
+**最終更新:** 2026/06/23 02:59:52 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -97,6 +97,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **TS-26 CLI metadata + README 図** | 2026/06/22 22:05:40 JST | TS-26 ADR；B-6 runbook/backlog；README コード準拠 mermaid（index.ts · legacy spawn · SRP 分岐） |
 | **TS-26 wire schema + Codex 検証** | 2026/06/22 22:41:19 JST | provider 別 JSON Schema；正規化 metadata；Codex JSONL fixture・契約テスト |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | 草案：ローカル HTTP adapter・cloud（`:cloud`）+ ローカルモデル；WB-19 |
+| **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
 
 ---
 

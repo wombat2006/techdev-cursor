@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/22 22:50:56 JST  
+**Last updated:** 2026/06/23 02:59:52 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -97,6 +97,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **TS-26 CLI metadata + README arch** | 2026/06/22 22:05:40 JST | TS-26 ADR; B-6 runbook/backlog; README code-accurate mermaid (index.ts · legacy spawn · SRP branch) |
 | **TS-26 wire schemas + Codex verify** | 2026/06/22 22:41:19 JST | Per-provider JSON Schema; normalized `ProviderInvokeMetadata`; Codex JSONL fixture + contract test |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
+| **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
 
 ---
 
