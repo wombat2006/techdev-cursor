@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/22 19:18:41 JST  
+**Last updated:** 2026/06/22 19:47:16 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -92,6 +92,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Glossary portable output paths** | 2026/06/21 19:59:15 | `normalize-glossary-output.py`; repo-relative `corpus_files` in adopt/hold |
 | **ByteRover CLI** (Cipher migration) | 2026/06/22 18:57:50 JST | `byterover-cli`; `brv` MCP; `setup-brv-provider` |
 | **Portable MCP wrappers** (tracked) | 2026/06/22 19:17:51 JST | `.cursor/mcp.json` + `scripts/cursor-mcp-*.sh`; no regen/reload after routine pull |
+| **Wall-Bounce AS-IS / To-Be docs** | 2026/06/22 19:47:16 JST | Code audit → AS-IS/To-BE/BACKLOG + TS-25; README Goal·AS-IS·roadmap |
 
 ---
 
@@ -169,6 +170,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/22 19:47:16 | Wall-Bounce code audit — AS-IS/To-BE/BACKLOG + TS-25; README Goal/AS-IS/roadmap; Track B-4/B-5 + Gate realign |
 | 2026/06/22 19:17:51 | Portable MCP — tracked `.cursor/mcp.json` + bash wrappers; drop routine `cursor-mcp:config`/Reload after pull (reverts 007e0f90 policy) |
 | 2026/06/21 23:26:30 | Document connector delegation to term-prep-platform (Drive, S3, OneDrive, RAG Vector); legacy googledrive-connector AS-IS |
 | 2026/06/21 21:28:26 | Replace "daily smoke" with explicit MCP/adapter operational checks (en/ja FORK_STATUS, ONBOARDING) |
