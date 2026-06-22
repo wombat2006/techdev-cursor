@@ -54,7 +54,7 @@ For **rolling Gate timestamps**, see [FORK_STATUS.md](./FORK_STATUS.md). Summary
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
 | Memory substrate (TS-22) | ADR + schema + types; G-MEM closed | `OrchestrationSessionStore` + `sessionId` (Track B M1) |
 | Session continuation (TS-24) | ADR — post-Aggregator follow-up + negative retry policy | Track B wiring with Layer A |
-| Glossary prep (RAG) | **Phase 0** — consumer config, first extract, adopt/hold JSON; `npm run glossary:extract` | Phase 2.5 knowledge filter · platform storage + RAG Vector connectors (delegation from `googledrive-connector.ts`) |
+| Glossary prep (RAG) | **Phase 0** — consumer config, first extract, adopt/hold JSON; `npm run glossary:extract` | Phase 2.5 knowledge filter · platform storage + RAG Vector connectors (delegation from legacy `googledrive-connector/` shim) |
 | OpenAI vendor depth | Cookbook / prompt guidance in catalog | Anthropic / Google same pattern next |
 
 ---

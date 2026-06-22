@@ -72,6 +72,8 @@
 | Document | Purpose |
 |----------|---------|
 | **DEVELOPMENT_GUIDE.md** | Workflows |
+| **SRP_MONOLITH_REFACTOR.md** | Monolith → module split record (shims, tests, inventory) |
+| **SRP_REFACTOR_DEPENDENCY_ORDER.md** | Import-graph refactor order (TS deps, phases) |
 | **TESTING_GUIDE.md** | Testing strategy |
 | **DEPLOYMENT_GUIDE.md** | Deployment |
 | **MONITORING_OPERATIONS.md** | Monitoring |

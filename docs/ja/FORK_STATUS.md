@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/23 02:59:52 JST  
+**最終更新:** 2026/06/23 03:00:14 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -98,6 +98,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **TS-26 wire schema + Codex 検証** | 2026/06/22 22:41:19 JST | provider 別 JSON Schema；正規化 metadata；Codex JSONL fixture・契約テスト |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | 草案：ローカル HTTP adapter・cloud（`:cloud`）+ ローカルモデル；WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
+| **SRP monolith refactor（Phase 0–2）** | TBD | 11 monolith → module dir + shim；70 module tests；`mcp-config-manager/` 含む；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -114,7 +115,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | A-2 InferenceProfile in MCP | A | 非ブロック |
 | A-3 チーム MCP 登録 | A | 非ブロック |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify（NullProvider 超）— **platform 変更**（ユーザーへ通知） |
-| Glossary Phase 4 ストレージ / Vector コネクタ | RAG prep | AS-IS `googledrive-connector.ts` は本 repo → **term-prep-platform** へ委譲（Drive、S3、OneDrive、RAG Vector） |
+| Glossary Phase 4 ストレージ / Vector コネクタ | RAG prep | レガシー `googledrive-connector/` シムは本 repo → **term-prep-platform** へ委譲（Drive、S3、OneDrive、RAG Vector） |
 | Google Drive ローカルミラー corpus | RAG prep | interim `corpus.files` 差替え |
 | `filter.max_candidates_output` cap | RAG prep | config あり；platform extractor 未対応 — **platform 変更** |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
@@ -132,7 +133,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **オーケストレーション記憶** | ADR + schema・型のみ（Redis 未） | M1 Redis + M2–M6 配線；TS-24 継続・再試行 |
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
 | **Model catalog（TS-21）** | JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + コスト routing |
-| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；npm scripts；レガシー `googledrive-connector.ts` | Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
+| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；`googledrive-connector/` モジュール shim（レガシー） | Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | 現状維持（進捗は本 doc） |
 | **Legacy platform docs** | `docs/legacy/` 隔離済（phase 1） | phase 2 任意（残クラスタ整理） |
 
@@ -166,6 +167,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| TBD | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |
+| 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 分割・module tests・SRP_* docs；README / DEVELOPMENT_GUIDE 同期 |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR（草案）；TO-BE gap + WB-19 backlog |
 | 2026/06/22 22:41:19 JST | TS-26 provider 別 wire JSON Schema + 正規化 metadata；Codex JSONL 検証；契約テスト |
 | 2026/06/22 22:05:40 JST | TS-26 CLI metadata ADR；B-6 Track B；README コード準拠アーキテクチャ図；関連 doc 同期 |

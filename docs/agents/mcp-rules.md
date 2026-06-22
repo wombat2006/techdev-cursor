@@ -154,7 +154,7 @@ await brvCurate({
 |------|------|
 | `src/services/mcp-integration-service.ts` | Central orchestrator |
 | `src/services/mcp-approval-manager.ts` | Risk-based approvals |
-| `src/services/mcp-config-manager.ts` | Tool optimization |
+| `src/services/mcp-config-manager.ts` | Shim → `mcp-config-manager/` — tool optimization |
 | `src/services/codex-mcp-server.ts` | Codex integration |
 
 See also: [mcp-integration-guide.md](../mcp-integration-guide.md) · [codex-mcp-implementation.md](../codex-mcp-implementation.md)

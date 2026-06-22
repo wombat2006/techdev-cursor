@@ -32,13 +32,16 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 ## 🏗️ Architecture Details
 
 ### Server Structure
-- **Primary Server** (`src/index.ts`): Main TechSapo application with full middleware stack
-- **Wall-Bounce Server** (`src/server.ts`): Specialized server for real-time analysis and metrics
-- **Dual Server Design**: Two distinct Express applications with different purposes
+- **Primary Server** (`src/index.ts`): Bootstrap shim → `src/server/` (`TechSapoServer`, routes, middleware)
+- **Wall-Bounce Server** (`src/wall-bounce-server.ts`): Shim → `src/wall-bounce-server/` (optional legacy IT-support process)
+- **Legacy alternate entry** (`src/server.ts`): Specialized server for real-time analysis and metrics (if used separately from `index.ts`)
+
+> **SRP module layout:** Large monoliths split into directories with thin shims preserving import paths — [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
 ### Key Services
 
 #### Wall-Bounce Analyzer (`src/services/wall-bounce-analyzer.ts`)
+- **Shim** → `src/services/wall-bounce/` (constitution path unchanged)
 - **Multi-LLM Orchestration**: Coordinates multiple AI providers for consensus
 - **Quality Assurance**: Confidence scoring and consensus validation
 - **Provider Support**: OpenAI ([OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) — AS-IS: `gpt-5-codex`), Google Gemini via **Antigravity CLI（`agy`）**, OpenRouter (NO Anthropic API_KEY)
@@ -46,12 +49,12 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 - **Agent Framework**: Optional integration with `@openai/agents` for multi-agent workflows
 
 #### MCP Integration Services
-- **MCPConfigManager** (`src/services/mcp-config-manager.ts`): Cost optimization and tool selection
+- **MCPIntegrationService** (`src/services/mcp-integration-service.ts`): Shim → `mcp-integration/`
+- **MCPConfigManager** (`src/services/mcp-config-manager.ts`): Shim → `mcp-config-manager/` — cost optimization and tool selection
 - **MCPApprovalManager** (`src/services/mcp-approval-manager.ts`): Multi-layer approval workflows
-- **MCPIntegrationService** (`src/services/mcp-integration-service.ts`): Unified MCP execution orchestration
 
 #### RAG System (`src/services/googledrive-connector.ts`)
-- **Google Drive Integration**: Automated document indexing and search
+- **Shim** → `googledrive-connector/` — **legacy AS-IS** in this repo; platform delegation per [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md)
 - **Embedding Service**: Text embeddings for semantic search
 - **Vector Storage**: OpenAI vector stores for RAG operations
 
@@ -184,25 +187,38 @@ Peer providers: `claude`, `codex`, `agy`. Opus is **aggregator-only** (preset `c
 
 ```
 src/
-├── config/           # Environment and configuration
-├── controllers/      # Request handlers
-├── middleware/       # Express middleware (auth, validation, error handling)
-├── metrics/         # Prometheus metrics collection
-├── routes/          # API route definitions
-├── services/        # Core business logic
-│   ├── wall-bounce-analyzer.ts    # Multi-LLM orchestration
-│   ├── mcp-*.ts                   # MCP protocol services
-│   ├── googledrive-connector.ts   # RAG system
+├── index.ts              # Bootstrap + re-export → server/
+├── server/               # TechSapoServer (split from index.ts)
+├── wall-bounce-server/   # Optional legacy IT-support server
+├── config/               # Environment and configuration
+├── controllers/          # Request handlers
+├── middleware/           # Express middleware (auth, validation, error handling)
+├── metrics/
+│   ├── prometheus-client.ts   # Shim → prometheus/
+│   └── prometheus/            # Metrics domain modules
+├── routes/               # API route definitions
+├── services/
+│   ├── wall-bounce-analyzer.ts    # Shim → wall-bounce/ (constitution)
+│   ├── wall-bounce/               # Analyzer modules
+│   ├── log-analyzer/              # Log analysis modules
+│   ├── mcp-integration-service.ts # Shim → mcp-integration/
+│   ├── googledrive-connector.ts   # Shim → googledrive-connector/ (legacy RAG)
+│   ├── cost-tracking.ts           # Shim → cost-tracking/
+│   ├── mcp-config-manager.ts    # Shim → mcp-config-manager/
+│   ├── codex-mcp-server.ts        # Shim → codex-mcp/
 │   └── __mocks__/                 # Test mocks
-├── types/           # TypeScript type definitions
-├── utils/           # Utility functions and helpers
-└── data/            # Static data and configuration
+├── utils/
+│   └── file-type-detector/        # File type detection modules
+├── types/                # TypeScript type definitions
+└── data/                 # Static data and configuration
 
-docker/              # Container configurations
-scripts/            # Deployment and utility scripts
-tests/              # Test files (unit and integration)
-public/             # Static web assets for monitoring UI
+docker/                   # Container configurations
+scripts/                  # Deployment and utility scripts
+tests/                    # Test files (unit and integration)
+public/                   # Static web assets for monitoring UI
 ```
+
+Details: [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [docs/agents/development-notes.md](./agents/development-notes.md)
 
 ## 💡 Key Implementation Notes
 

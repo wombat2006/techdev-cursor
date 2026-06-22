@@ -89,6 +89,17 @@ npm test -- --testPathPattern=performance
 npm test -- --testPathPattern=security
 ```
 
+### SRP module tests (monolith splits)
+
+After splitting large files into shim + module directories, run the focused module suite:
+
+```bash
+# 9 suites, 70+ tests — use --forceExit (Prometheus setInterval keeps Jest open)
+npm test -- --testPathPattern="googledrive-cost-tracking|server-modules|prometheus-wall-bounce|mcp-integration-modules|mcp-config-manager-modules|log-analyzer-modules|wall-bounce-modules|opus-aggregate|codex-mcp-modules|file-type-detector" --forceExit
+```
+
+Details: [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
+
 ### テスト分類別実行
 
 #### 🔍 ファイル形式検出テスト

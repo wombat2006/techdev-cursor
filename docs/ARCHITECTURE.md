@@ -8,6 +8,8 @@ TechSapo is a production-ready AI orchestration platform implementing a **Wall-B
 
 ### 1. Primary Application (`src/index.ts`)
 
+Bootstrap shim re-exporting **`src/server/`** (`TechSapoServer`, middleware, routes, lifecycle).
+
 Express.js-based HTTPS server with:
 - Security middleware (Helmet, CORS)
 - API routing and request handling
@@ -21,13 +23,9 @@ Express.js-based HTTPS server with:
 
 Multi-LLM orchestration engine ensuring quality through provider diversity.
 
-**Core File**: `src/services/wall-bounce-analyzer.ts`
+**Core File**: `src/services/wall-bounce-analyzer.ts` (shim → `src/services/wall-bounce/`)
 
-**Key Components**:
-- Provider registry and management
-- Parallel/sequential execution modes
-- Consensus calculation and quality thresholds
-- Real-time SSE streaming for UI updates
+**Module layout**: invokers, modes (`parallel` / `sequential`), prompts, provider registry, consensus — see [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md).
 
 **Provider Tiers** (target catalog — see [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md)):
 
@@ -52,12 +50,12 @@ Multi-LLM orchestration engine ensuring quality through provider diversity.
 
 Model Context Protocol integration for standardized LLM interactions.
 
-**Core MCP Services**:
-- `mcp-integration-service.ts` - Central orchestration
-- `mcp-approval-manager.ts` - Risk-based approval workflows
-- `mcp-config-manager.ts` - Tool optimization and cost estimation
-- `codex-mcp-server.ts` - GPT-5/Codex integration
-- `wall-bounce-adapter.ts` - MCP ↔ Wall-Bounce bridge
+**Core MCP Services** (shims → module dirs where noted):
+- `mcp-integration-service.ts` → `mcp-integration/` — central orchestration
+- `mcp-approval-manager.ts` — risk-based approval workflows
+- `mcp-config-manager.ts` → `mcp-config-manager/` — tool optimization and cost estimation
+- `codex-mcp-server.ts` → `codex-mcp/` — GPT-5/Codex integration
+- `wall-bounce-adapter.ts` — MCP ↔ Wall-Bounce bridge
 
 **MCP Protocol**: Uses `@modelcontextprotocol/sdk` for standardized tool/resource access
 
@@ -65,7 +63,7 @@ Model Context Protocol integration for standardized LLM interactions.
 
 Google Drive integration for document retrieval and embedding.
 
-**Core File (AS-IS):** `src/services/googledrive-connector.ts` — **legacy in this repo**
+**Core File (AS-IS):** `src/services/googledrive-connector.ts` (shim → `googledrive-connector/`) — **legacy in this repo**
 
 **To-Be:** Storage connectors (Google Drive, S3, OneDrive, …) and RAG Vector connectors move to sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform). See [TO-BE-GLOSSARY-PIPELINE.md § Connector delegation](../meta/TO-BE-GLOSSARY-PIPELINE.md#connector-delegation-planned).
 
@@ -77,34 +75,43 @@ Google Drive integration for document retrieval and embedding.
 
 ## Directory Structure
 
+> **SRP splits:** Large monoliths use thin shims + module directories. Inventory: [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · refactor order: [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md).
+
 ```
 src/
-├── config/              # Environment & feature flags
-├── controllers/         # Request handlers
-├── middleware/          # Express middleware
-│   ├── auth             # Authentication
-│   ├── validation       # Input validation
-│   └── error-handler    # Centralized error handling
-├── metrics/             # Prometheus metrics
-├── routes/              # API route definitions
-│   ├── wall-bounce-api.ts    # Wall-Bounce SSE endpoint
-│   ├── huggingface-routes.ts # HuggingFace integration
-│   ├── rag-endpoint.ts       # RAG queries
-│   └── webhook-endpoints.ts  # Webhook handlers
-├── services/            # Core business logic
-│   ├── wall-bounce-*.ts      # Wall-Bounce system
-│   ├── mcp-*.ts              # MCP services
-│   ├── codex-*.ts            # Codex integration
-│   ├── googledrive-*.ts      # RAG/Drive services
-│   └── __mocks__/            # Test mocks
-├── types/               # TypeScript definitions
-├── utils/               # Utilities and logger
-└── data/                # Static data
+├── index.ts                    # Bootstrap → server/
+├── server/                     # TechSapoServer (from index.ts split)
+├── wall-bounce-server/         # Optional legacy IT-support server
+├── config/                     # Environment & feature flags
+├── controllers/                # Request handlers
+├── middleware/                 # Express middleware
+├── metrics/
+│   ├── prometheus-client.ts    # Shim → prometheus/
+│   └── prometheus/             # Metrics domain modules
+├── routes/                     # API route definitions
+│   ├── wall-bounce-api.ts      # Wall-Bounce SSE endpoint
+│   ├── huggingface-routes.ts   # HuggingFace integration
+│   ├── rag-endpoint.ts         # RAG queries
+│   └── webhook-endpoints.ts    # Webhook handlers
+├── services/                   # Core business logic
+│   ├── wall-bounce-analyzer.ts # Shim → wall-bounce/ (constitution)
+│   ├── wall-bounce/            # Analyzer modules
+│   ├── log-analyzer/           # Log analysis modules
+│   ├── mcp-integration-service.ts  # Shim → mcp-integration/
+│   ├── codex-mcp-server.ts     # Shim → codex-mcp/
+│   ├── googledrive-connector.ts    # Shim → googledrive-connector/ (legacy RAG)
+│   ├── cost-tracking.ts        # Shim → cost-tracking/
+│   ├── mcp-config-manager.ts # Shim → mcp-config-manager/
+│   └── __mocks__/              # Test mocks
+├── types/                      # TypeScript definitions
+├── utils/
+│   └── file-type-detector/     # File type detection modules
+└── data/                       # Static data
 
-scripts/                 # Build & deployment scripts
-tests/                   # Test suites
-docs/                    # Documentation
-public/                  # Frontend assets
+scripts/                        # Build & deployment scripts
+tests/                          # Test suites
+docs/                           # Documentation
+public/                         # Frontend assets
 ```
 
 ## Data Flow

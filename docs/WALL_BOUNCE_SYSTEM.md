@@ -4,6 +4,8 @@
 
 > **AS-IS gap:** Constitution mandates 2–5 rounds and hard thresholds; current `wall-bounce-analyzer.ts` runs **one parallel or sequential pass + aggregation** without branch or round loop. See AS-IS doc §14.
 
+> **Code layout:** `wall-bounce-analyzer.ts` is the **constitution shim** → `src/services/wall-bounce/` (invokers, modes, prompts). See [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md).
+
 ## Wall-Bounce Analysis Overview
 
 The Wall-Bounce analysis system is the core capability that coordinates multiple LLM providers to produce high-quality responses.

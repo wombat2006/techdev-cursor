@@ -136,8 +136,9 @@ flowchart TB
 | 経路 | AS-IS 今日（コード） | To-Be |
 |------|---------------------|-------|
 | Cursor → MCP → adapters → CLI | ✅ 単発 `analyze_*`（集約・ラウンドなし） | 同左 + モードキーワード連携 |
-| `index.ts` → Wall-Bounce API | ✅ `WallBounceAnalyzer` · legacy spawn · 1-pass + aggregator | adapters 統一（B-1）·閾値分岐（B-4） |
-| `wall-bounce-server.ts` | デフォルトは analyzer 経路；SRP 時のみ Orchestrator | C-5 で統合 |
+| `index.ts` → `server/` | ✅ `TechSapoServer`；モジュール分割済（SRP） | 変更なし |
+| `wall-bounce-analyzer.ts` | ✅ シム → `services/wall-bounce/`（憲法パス維持） | B-1 adapters · 閾値分岐（B-4） |
+| `wall-bounce-server.ts` | シム → `wall-bounce-server/`；デフォルトは analyzer | C-5 で統合 |
 | Layer A / SSE | 型のみ · SSE 部分（応答 500 文字切り詰め）· `session_id` 未永続 | M1–M3 · B-5 |
 | term-prep-platform | `glossary-knowledge` を `.cursor/mcp.json` 登録 | PromptAnalyzer · 辞書 v0 は **platform 側** |
 
@@ -161,6 +162,7 @@ flowchart TB
 | 目的 | ドキュメント |
 |------|-------------|
 | **Gate・進捗** | [FORK_STATUS.md](./docs/ja/FORK_STATUS.md) |
+| **コード構造（SRP 分割）** | [SRP_MONOLITH_REFACTOR.md](./docs/SRP_MONOLITH_REFACTOR.md) · [依存順序](./docs/SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 | **実行 Runbook** | [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) · [正本（英語）](./docs/CURSOR_MCP_TODO.md) |
 | フォーク identity | [FORK_CURSOR.md](./docs/ja/FORK_CURSOR.md) |
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |

@@ -136,8 +136,9 @@ flowchart TB
 | Path | AS-IS today (code) | To-Be |
 |------|-------------------|-------|
 | Cursor → MCP → adapters → CLI | ✅ single `analyze_*` (no aggregate / rounds) | Same + mode keywords |
-| `index.ts` → Wall-Bounce API | ✅ `WallBounceAnalyzer` · legacy spawn · 1-pass + aggregator | adapter unify (B-1) · threshold branch (B-4) |
-| `wall-bounce-server.ts` | Default analyzer path; Orchestrator only when SRP flag on | merge (C-5) |
+| `index.ts` → `server/` | ✅ `TechSapoServer`; modular split (SRP) | unchanged |
+| `wall-bounce-analyzer.ts` | ✅ shim → `services/wall-bounce/` (constitution path) | B-1 adapters · threshold branch (B-4) |
+| `wall-bounce-server.ts` | shim → `wall-bounce-server/`; default analyzer path | merge (C-5) |
 | Layer A / SSE | Types only · partial SSE (500-char truncate) · `session_id` not persisted | M1–M3 · B-5 |
 | term-prep-platform | `glossary-knowledge` in `.cursor/mcp.json` | PromptAnalyzer · dictionary v0 on **platform** |
 
@@ -161,6 +162,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | Need | Document |
 |------|----------|
 | **Gates & progress** | [FORK_STATUS.md](./docs/FORK_STATUS.md) · [日本語](./docs/ja/FORK_STATUS.md) |
+| **Code layout (SRP splits)** | [SRP_MONOLITH_REFACTOR.md](./docs/SRP_MONOLITH_REFACTOR.md) · [dependency order](./docs/SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 | **Execution runbook** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [ja summary](./docs/ja/CURSOR_MCP_TODO_ja.md) |
 | Fork identity | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) |
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |

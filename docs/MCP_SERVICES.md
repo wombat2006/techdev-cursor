@@ -4,6 +4,8 @@
 
 TechSapo integrates Model Context Protocol (MCP) for standardized LLM tool orchestration with enterprise-grade governance and security.
 
+> **SRP layout:** `codex-mcp-server.ts`, `mcp-integration-service.ts`, and `mcp-config-manager.ts` are **shims** → module dirs. Import paths unchanged; see [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md).
+
 ## MCP Protocol Fundamentals
 
 **MCP (Model Context Protocol)**: Standardized protocol for LLM context management and tool execution.
@@ -82,7 +84,7 @@ Do **not** use for Wall-Bounce or daily coding — RAG glossary prep only. Detai
 
 **Purpose**: GPT-5/GPT-5-Codex integration with approval workflows
 
-**Location**: `src/services/codex-mcp-server.ts`
+**Location**: `src/services/codex-mcp-server.ts` (shim → `codex-mcp/`)
 
 **Tools**:
 - `codex` - Start new conversation with GPT-5/GPT-5-Codex
@@ -146,7 +148,7 @@ const docs = await context7.getLibraryDocs(libId, {
 
 ### MCP Integration Service
 
-**Location**: `src/services/mcp-integration-service.ts`
+**Location**: `src/services/mcp-integration-service.ts` (shim → `mcp-integration/`)
 
 **Role**: Central orchestrator for all MCP operations
 
@@ -218,7 +220,7 @@ class MCPApprovalManager {
 
 ### MCP Config Manager
 
-**Location**: `src/services/mcp-config-manager.ts`
+**Location**: `src/services/mcp-config-manager.ts` (shim → `mcp-config-manager/`)
 
 **Role**: Tool optimization and cost estimation
 

@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/23 02:59:52 JST  
+**Last updated:** 2026/06/23 03:00:14 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -98,6 +98,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **TS-26 wire schemas + Codex verify** | 2026/06/22 22:41:19 JST | Per-provider JSON Schema; normalized `ProviderInvokeMetadata`; Codex JSONL fixture + contract test |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
+| **SRP monolith refactor (Phase 0–2)** | TBD | 11 monoliths → module dirs + shims; 70 module tests; includes `mcp-config-manager/`; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -113,7 +114,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify beyond NullProvider — **platform change** (notify user) |
-| Glossary Phase 4 storage / Vector connectors | RAG prep | AS-IS `googledrive-connector.ts` in this repo → **term-prep-platform** (Drive, S3, OneDrive, RAG Vector) |
+| Glossary Phase 4 storage / Vector connectors | RAG prep | Legacy `googledrive-connector/` shim in this repo → **term-prep-platform** (Drive, S3, OneDrive, RAG Vector) |
 | Google Drive local mirror corpus | RAG prep | Replace interim `corpus.files` in consumer config |
 | `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
@@ -131,7 +132,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Orchestration memory** | ADR + schema/types only (Redis pending) | M1 Redis + M2–M6 wiring; TS-24 continuation/retry |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
-| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; npm scripts; legacy `googledrive-connector.ts` | Phase 2.5 filter · platform storage + RAG Vector connectors |
+| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; `googledrive-connector/` modular shim (legacy) | Phase 2.5 filter · platform storage + RAG Vector connectors |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | Same — rolling status stays in FORK_STATUS |
 | **Legacy platform docs** | `docs/legacy/` quarantine (phase 1 done) | Phase 2 optional (remaining cluster cleanup) |
 
@@ -176,6 +177,8 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| TBD | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
+| 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 splits, module tests, SRP_* docs; README + DEVELOPMENT_GUIDE sync |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR (proposed); TO-BE gap + WB-19 backlog |
 | 2026/06/22 22:41:19 JST | TS-26 per-provider wire JSON Schemas + normalized metadata; Codex JSONL verified; contract test |
 | 2026/06/22 22:05:40 JST | TS-26 CLI invoke metadata ADR; B-6 Track B; README code-accurate architecture diagram; doc cross-sync |

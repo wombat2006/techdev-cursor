@@ -20,8 +20,8 @@
 
 | Task | File Location | Entry Point |
 |------|---------------|-------------|
-| Add new LLM provider | `src/services/wall-bounce-analyzer.ts` | `initializeProviders()` |
-| Modify quality threshold | `src/services/wall-bounce-analyzer.ts` | `executeWallBounce()` |
+| Add new LLM provider | `src/services/wall-bounce/` (`provider-registry.ts`, invokers) | Shim: `wall-bounce-analyzer.ts` |
+| Modify quality threshold | `src/services/wall-bounce/analyzer.ts` | `executeWallBounce()` |
 | Inference profile / CoT | `config/inference-profiles.json` (planned), provider adapters | [TECH_STACK_INFERENCE_PROFILES.md](../decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | Cursor MCP registration | After Track A-0 in [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) | [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) |
 | **After `git pull` (MCP)** | — | `npm run build` if `src/` changed; **no** routine `cursor-mcp:config` or Reload — [.cursor/rules/cursor-mcp-post-pull.mdc](../../.cursor/rules/cursor-mcp-post-pull.mdc) |
@@ -33,9 +33,13 @@
 
 ## Project Structure
 
+> **Monolith splits (2026-06):** Several large files now use **shim + module directory** layout. Full inventory: [SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md).
+
 ```
 src/
-├── index.ts                              # Main Express server
+├── index.ts                              # Bootstrap + re-export → server/
+├── server/                               # TechSapoServer, middleware, routes (split from index.ts)
+├── wall-bounce-server/                   # Legacy IT-support server (split from wall-bounce-server.ts)
 ├── config/
 │   ├── environment.ts                    # Environment config
 │   └── feature-flags.ts                  # Feature toggles
@@ -44,26 +48,37 @@ src/
 │   ├── rag-endpoint.ts                  # RAG queries
 │   └── webhook-endpoints.ts             # Google Drive webhooks
 ├── services/
-│   ├── wall-bounce-analyzer.ts          # Wall-Bounce core
-│   ├── mcp-integration-service.ts       # MCP orchestrator
+│   ├── wall-bounce-analyzer.ts          # Shim → wall-bounce/ (constitution path)
+│   ├── wall-bounce/                     # Analyzer modules (invokers, modes, prompts)
+│   ├── log-analyzer/                    # Log analysis modules
+│   ├── mcp-integration/                 # MCP integration modules
+│   ├── mcp-integration-service.ts       # Shim → mcp-integration/
 │   ├── mcp-approval-manager.ts          # Approval workflows
-│   ├── codex-mcp-server.ts              # GPT-5 Codex integration
-│   ├── googledrive-connector.ts         # RAG (legacy AS-IS; delegating to term-prep-platform)
+│   ├── codex-mcp-server.ts              # Shim → codex-mcp/
+│   ├── codex-mcp/                       # Codex MCP server modules
+│   ├── googledrive-connector.ts         # Shim → googledrive-connector/ (legacy RAG)
+│   ├── googledrive-connector/           # Drive list/download, vector store, RAG search
+│   ├── cost-tracking.ts                 # Shim → cost-tracking/
+│   ├── cost-tracking/                   # HF cost tracking service
+│   ├── mcp-config-manager.ts            # Shim → mcp-config-manager/
+│   ├── mcp-config-manager/              # Tool configs, selection, cost estimation
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication
 │   ├── validation.ts                    # Input validation
 │   └── error-handler.ts                 # Error handling
 ├── metrics/
-│   └── prometheus-client.ts             # Metrics collection
+│   ├── prometheus-client.ts             # Shim → prometheus/
+│   └── prometheus/                      # Metrics domain modules
 └── utils/
     ├── logger.ts                        # Winston logging
-    └── security.ts                      # Security utilities
+    ├── security.ts                      # Security utilities
+    └── file-type-detector/              # File type detection modules
 ```
 
 Key directories: `scripts/` (build/deploy), `tests/` (Jest), `docs/`, `public/` (frontend UI)
 
-Details: [ARCHITECTURE.md](../ARCHITECTURE.md)
+Details: [ARCHITECTURE.md](../ARCHITECTURE.md) · [SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
 ---
 
@@ -115,6 +130,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md)
 2. [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md)
 3. [SECURITY.md](../SECURITY.md)
 4. [DEVELOPMENT_GUIDE.md](../DEVELOPMENT_GUIDE.md)
+5. [SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) — shim + module layout after monolith splits
 
 ### Integration Guides
 - [codex-mcp-implementation.md](../codex-mcp-implementation.md)

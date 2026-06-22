@@ -54,7 +54,7 @@
 | モデルカタログ（TS-21） | JSON + schema | runtime loader + TaskRouter（Track F） |
 | メモリ（TS-22） | ADR + schema；G-MEM 済 | M1 store + `sessionId`（Track B） |
 | セッション継続（TS-24） | ADR — Aggregator 後フォロー + negative retry | Track B で Layer A と配線 |
-| Glossary prep（RAG） | **Phase 0** — consumer config・初回 extract・adopt/hold；`npm run glossary:extract` | Phase 2.5 knowledge filter · platform ストレージ + RAG Vector コネクタ（`googledrive-connector.ts` から委譲） |
+| Glossary prep（RAG） | **Phase 0** — consumer config・初回 extract・adopt/hold；`npm run glossary:extract` | Phase 2.5 knowledge filter · platform ストレージ + RAG Vector コネクタ（レガシー `googledrive-connector/` シムから委譲） |
 | OpenAI の深掘り | Cookbook / prompt guidance 反映済 | Anthropic / Google へ同パターンで展開 |
 
 ---
