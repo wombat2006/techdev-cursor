@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/23 04:30:28 JST  
+**最終更新:** 2026/06/23 04:43:55 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -167,7 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
-| TBD | SRP Phase 2 #4 — `srp-safety-monitor/` 分割；86 module tests（13 suites） |
+| 2026/06/23 04:43:27 JST | SRP Phase 2 #4 — `srp-safety-monitor/` 分割；Jest uuid モック + Codex facade テスト修正；92 module tests（13 suites）；全 suite 290 pass |
 | 2026/06/23 04:30:05 JST | SRP Phase 2 #3 — `mcp-performance-monitor/` 分割；README/ARCHITECTURE/MCP_SERVICES 同期；80 module tests（12 suites） |
 | 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` 分割；75 module tests（11 suites） |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |
