@@ -3,7 +3,7 @@
 **Status:** Accepted direction (owner vision, 2026-06-22)  
 **Human entry:** [README.md](../README.md) · [README_en.md](../README_en.md)  
 **Companion:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) · [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md)  
-**ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25) · [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26)
+**ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25) · [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26) · [TECH_STACK_OLLAMA_GATEWAY.md](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) (TS-27, proposed)
 
 ---
 
@@ -148,6 +148,7 @@ Extends [TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) negati
 | Objection UX | None | **Re-query + user choice menu** |
 | CLI invoke metadata | Text only; Codex token line discarded | **usage**, **stop_reason**, **session_id** via CLI JSON ([TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md)) |
 | Adapter unification | MCP adapters vs analyzer spawn | **Single adapter path (B-1)** |
+| Ollama gateway (cloud + local) | Not implemented | **Optional `ollama` adapter** — [TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) |
 | Durable session | None in WB path | **Layer A M1–M3** |
 | MCP wall-bounce | Not available | Optional; primary strict path remains API |
 
@@ -197,5 +198,6 @@ Update [AGENTS.md](../AGENTS.md) constitution summary only after Gate C passes �
 | [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | Per-file tasks |
 | [decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
 | [decisions/TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) | TS-26 — CLI usage / stop_reason / session_id |
+| [decisions/TECH_STACK_OLLAMA_GATEWAY.md](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) | TS-27 — Ollama gateway (proposed) |
 | [WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md) | Operator guide (sync after implementation) |
 | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) | Objection + retry policy |

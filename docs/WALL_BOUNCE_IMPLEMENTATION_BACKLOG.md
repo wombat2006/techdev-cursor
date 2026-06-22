@@ -37,6 +37,7 @@
 | WB-16 | `agy-adapter.ts` / `antigravity-cli.ts` | Spike structured usage; `provisional` fallback | P2 | B-6 |
 | WB-17 | `wall-bounce-analyzer.ts` | Propagate metadata to Layer A; remove char/4 token estimates | P1 | B-1, M3 |
 | WB-18 | `config/fixtures/cli-metadata/` | Redacted CLI JSON fixtures + adapter contract tests | P1 | B-6 |
+| WB-19 | `ollama-adapter.ts` + catalog/matrix | HTTP to `localhost:11434`; cloud (`*:cloud`) + local models | P2 | TS-27 L3 |
 
 ---
 

@@ -97,6 +97,7 @@
 | **decisions/TECH_STACK_MEMORY_SUBSTRATE.md** | TS-22 |
 | **decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md** | TS-17 |
 | **decisions/TECH_STACK_CLI_INVOKE_METADATA.md** | TS-26 — CLI usage / stop_reason / session_id at adapter boundary |
+| **decisions/TECH_STACK_OLLAMA_GATEWAY.md** | TS-27 — Ollama local gateway (cloud + local models); optional adapter |
 | **decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md** | TS-25 — parallel-first; threshold branch; keyword modes |
 | **decisions/TECH_STACK_CORE_VS_ADDON_COUPLING.md** | TS-18 |
 | **decisions/TECH_STACK_AWS_PERIPHERAL.md** | TS-13 |

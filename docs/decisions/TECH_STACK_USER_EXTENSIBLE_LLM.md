@@ -72,6 +72,7 @@ Users may add models that are invoked **natively** (vendor CLI/SDK) or **via a r
 
 - Native Qwen → `transport.preferredInvocation` = vendor-specific channel; **new adapter (L3)** if none exists
 - OpenRouter-hosted Qwen → `openrouter` adapter + catalog model id as router expects; still **one matrix row per adapterId**
+- Ollama local + cloud → `ollama` adapter (TS-27) + catalog ids (`qwen3.5:cloud`, local tags); **L3** — HTTP to `localhost:11434`
 
 **Do not** encode “always OpenRouter” in schema — adapterId + catalog transport fields are sufficient.
 

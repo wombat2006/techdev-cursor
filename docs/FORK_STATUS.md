@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/22 22:06:08 JST  
+**Last updated:** 2026/06/22 22:41:19 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -96,6 +96,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Wall-Bounce AS-IS / To-Be docs** | 2026/06/22 19:47:16 JST | Code audit → AS-IS/To-BE/BACKLOG + TS-25; README Goal·AS-IS·roadmap |
 | **TS-26 CLI metadata + README arch** | 2026/06/22 22:05:40 JST | TS-26 ADR; B-6 runbook/backlog; README code-accurate mermaid (index.ts · legacy spawn · SRP branch) |
 | **TS-26 wire schemas + Codex verify** | 2026/06/22 22:41:19 JST | Per-provider JSON Schema; normalized `ProviderInvokeMetadata`; Codex JSONL fixture + contract test |
+| **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
 
 ---
 
@@ -115,6 +116,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Google Drive local mirror corpus | RAG prep | Replace interim `corpus.files` in consumer config |
 | `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
+| Ollama gateway adapter | TS-27 L3 | [TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) proposed — `ollama signin` + `localhost:11434` |
 
 ---
 
@@ -173,6 +175,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR (proposed); TO-BE gap + WB-19 backlog |
 | 2026/06/22 22:41:19 JST | TS-26 per-provider wire JSON Schemas + normalized metadata; Codex JSONL verified; contract test |
 | 2026/06/22 22:05:40 JST | TS-26 CLI invoke metadata ADR; B-6 Track B; README code-accurate architecture diagram; doc cross-sync |
 | 2026/06/22 19:47:16 | Wall-Bounce code audit — AS-IS/To-BE/BACKLOG + TS-25; README Goal/AS-IS/roadmap; Track B-4/B-5 + Gate realign |

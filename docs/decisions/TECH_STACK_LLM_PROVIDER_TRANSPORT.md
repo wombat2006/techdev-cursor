@@ -13,7 +13,7 @@ Question: Should inter-provider communication use **HTTP streaming** even when C
 
 In Wall-Bounce, LLMs do not talk to each other directly. The **Orchestrator** fans out prompts, collects responses, builds consensus, and injects context into subsequent rounds (2–5 rounds per constitution). Transport choice affects latency, complexity, and future scale-out.
 
-Related: [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) · [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md) · [TECH_STACK_CLI_INVOKE_METADATA.md](./TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26 — usage / stop_reason from CLI stdout)
+Related: [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) · [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md) · [TECH_STACK_CLI_INVOKE_METADATA.md](./TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26) · [TECH_STACK_OLLAMA_GATEWAY.md](./TECH_STACK_OLLAMA_GATEWAY.md) (TS-27)
 
 ---
 
