@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/22 19:47:16 JST  
+**Last updated:** 2026/06/22 22:05:21 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -56,6 +56,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative` | `[~]` Matrix+catalog resolver ✅; preset JSON file pending |
 | **B-4** | Execution mode routing (TS-25) | Parallel-first → threshold branch; keyword/MCP overrides | `[ ]` |
 | **B-5** | SSE + Layer A observability | Extended SSE events; round stream | `[ ]` |
+| **B-6** | CLI invoke metadata (TS-26) | `usage` / `stop_reason` / `session_id` at adapter boundary | `[ ]` ADR ✅; WB-13…18 pending |
 | **B-1** | One transport for Cursor + Wall-Bounce | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | Session continuity + legacy migration | `sessionId` · round events in Layer A · TS-22 codex-session fold | `[ ]` |
 
@@ -93,6 +94,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **ByteRover CLI** (Cipher migration) | 2026/06/22 18:57:50 JST | `byterover-cli`; `brv` MCP; `setup-brv-provider` |
 | **Portable MCP wrappers** (tracked) | 2026/06/22 19:17:51 JST | `.cursor/mcp.json` + `scripts/cursor-mcp-*.sh`; no regen/reload after routine pull |
 | **Wall-Bounce AS-IS / To-Be docs** | 2026/06/22 19:47:16 JST | Code audit → AS-IS/To-BE/BACKLOG + TS-25; README Goal·AS-IS·roadmap |
+| **TS-26 CLI metadata + README arch** | PLACEHOLDER_TS | TS-26 ADR; B-6 runbook/backlog; README code-accurate mermaid (index.ts · legacy spawn · SRP branch) |
 
 ---
 
@@ -170,6 +172,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| PLACEHOLDER_TS | TS-26 CLI invoke metadata ADR; B-6 Track B; README code-accurate architecture diagram; doc cross-sync |
 | 2026/06/22 19:47:16 | Wall-Bounce code audit — AS-IS/To-BE/BACKLOG + TS-25; README Goal/AS-IS/roadmap; Track B-4/B-5 + Gate realign |
 | 2026/06/22 19:17:51 | Portable MCP — tracked `.cursor/mcp.json` + bash wrappers; drop routine `cursor-mcp:config`/Reload after pull (reverts 007e0f90 policy) |
 | 2026/06/21 23:26:30 | Document connector delegation to term-prep-platform (Drive, S3, OneDrive, RAG Vector); legacy googledrive-connector AS-IS |

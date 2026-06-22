@@ -31,6 +31,12 @@
 | WB-10 | `consensus-engine.ts` | Expose `consensus` score separately from `confidence`; hard gate hook for C-1 | P1 | C-1 |
 | WB-11 | `wall-bounce-adapter.ts` | Redirect to unified analyzer or delete after C-5 | P2 | C-5 |
 | WB-12 | `multi-llm-session-handler.ts` | Replace Codex-only Redis with Layer A; align turn routing with TS-25 | P1 | M2 |
+| WB-13 | `src/types/adapter-types.ts` | Add `ProviderInvokeMetadata`; extend `AdapterResult.metadata` | P1 | B-6 |
+| WB-14 | `claude-adapter.ts` | `--output-format json`; parse usage / stop_reason / session_id | P1 | B-6 |
+| WB-15 | `codex-adapter.ts` | `codex exec --json` JSONL or retain `tokens used` line | P1 | B-6 |
+| WB-16 | `agy-adapter.ts` / `antigravity-cli.ts` | Spike structured usage; `provisional` fallback | P2 | B-6 |
+| WB-17 | `wall-bounce-analyzer.ts` | Propagate metadata to Layer A; remove char/4 token estimates | P1 | B-1, M3 |
+| WB-18 | `tests/fixtures/cli-metadata/` | Redacted CLI JSON fixtures + adapter contract tests | P1 | B-6 |
 
 ---
 
@@ -112,6 +118,7 @@
 
 1. **M1** — Layer A store (WB-50, WB-51)  
 2. **B-1** — Adapter wiring (WB-03)  
+2b. **B-6** — CLI invoke metadata (WB-13…18, [TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md))  
 3. **B-4** — Mode routing + threshold branch (WB-01, WB-05, WB-20, WB-61, WB-70)  
 4. **B-5** — SSE + Layer A stream (WB-21, WB-22)  
 5. **C-4** — Round loop enforce (WB-02, WB-71)  

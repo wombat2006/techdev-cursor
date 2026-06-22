@@ -50,6 +50,7 @@ Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IM
 |----------|------|-------|------|
 | 1 | Layer A persistence (`OrchestrationSessionStore` / Redis) | **M1** | B→C prerequisite |
 | 2 | Wire Wall-Bounce to `src/adapters/*` | **B-1** | B→C |
+| 2b | **usage / stop_reason / session_id** from CLI (TS-26) | **B-6** | B→C |
 | 3 | Parallel → aggregate → **threshold branch**; keyword modes (TS-25) | **B-4** | B→C G7 |
 | 4 | SSE + Layer A event stream | **B-5** | B→C |
 | 5 | `inference-profiles.json` · TS-24 retry | **B-0** | B→C |
@@ -89,33 +90,56 @@ Tools like [Antigravity](https://antigravity.google/docs/models) bundle model ac
 
 ## Architecture (overview)
 
+Code-derived paths (`src/` audit 2026-06-22). **Dashed = To-Be / not wired**.
+
 ```mermaid
 flowchart TB
-  subgraph trackA["Track A — daily (AS-IS ✅)"]
-    CUR[Cursor] --> MCP[techsapo-providers MCP]
-    MCP --> AD[adapters] --> CLI[claude / codex / agy]
+  subgraph trackA["Track A — daily Cursor MCP (AS-IS ✅)"]
+    CUR[Cursor Agent] --> CFG[".cursor/mcp.json"]
+    CFG --> MCP[techsapo-providers MCP]
+    MCP --> RESOLVE[inference-profile-resolver]
+    RESOLVE --> AD[src/adapters/*]
+    AD --> CLI[claude · codex · agy CLI]
   end
 
-  subgraph trackB["Track B — hard analysis (AS-IS: 1-pass · To-Be: branch+rounds)"]
-    API[Wall-Bounce API] --> WBA[wall-bounce-analyzer]
-    WBA --> PEER[Peer LLMs]
-    WBA --> AGG[Aggregator]
-    WBA -.->|To-Be| ROUNDS[2–5 rounds on branch]
+  subgraph trackB["Track B — Wall-Bounce API (AS-IS: 1-pass + aggregator)"]
+    IDX["index.ts — npm run start:app"] --> ROUTES[wall-bounce-api.ts]
+    ROUTES -->|"GET /api/v1/wall-bounce/analyze"| SSE[SSE: thinking · provider_response · consensus · final_answer]
+    ROUTES -->|"POST …/analyze-simple"| WBA[WallBounceAnalyzer]
+    SSE --> WBA
+    WBA -->|"legacy spawn — no adapters"| PEER[invokeGemini · invokeGPT5 · invokeClaude]
+    WBA --> AGG[Aggregator LLM]
+    WBA -.->|"To-Be TS-25"| LOOP[threshold branch → 2–5 rounds]
+  end
+
+  subgraph altSRP["Separate process wall-bounce-server.ts (optional legacy)"]
+    WBS["POST /api/v1/generate"] --> FLAG{USE_SRP_WALL_BOUNCE?}
+    FLAG -->|"default: no"| WBA
+    FLAG -->|yes| ADP[WallBounceAdapter]
+    ADP --> ORCH[WallBounceOrchestrator]
+    ORCH --> CE[ConsensusEngine — Jaccard]
+  end
+
+  subgraph platform["Sibling platform (this repo: MCP consumer only)"]
+    GK[glossary-knowledge MCP] --> TPP[term-prep-platform]
   end
 
   subgraph mem["Layer A (To-Be · M1)"]
-    REDIS[(OrchestrationSession)]
+    TYPES[types/orchestration-session.ts]
+    STORE[(OrchestrationSessionStore — not implemented)]
+    TYPES -.-> STORE
   end
 
-  WBA -.-> mem
+  WBA -.->|"session_id metadata only · no Redis"| TYPES
 ```
 
-| Path | AS-IS today | To-Be |
-|------|-------------|-------|
-| Cursor → MCP → CLIs | ✅ single `analyze_*` | Same + mode keywords |
-| Wall-Bounce API | 1-pass + aggregate | Threshold branch · round enforce |
-| Layer A / SSE | Partial / unwired | Full round log · live stream |
-| term-prep-platform → MCP | `glossary-knowledge` registered (stub) | PromptAnalyzer · dictionary v0 on **platform**; use via MCP |
+| Path | AS-IS today (code) | To-Be |
+|------|-------------------|-------|
+| Cursor → MCP → adapters → CLI | ✅ single `analyze_*` (no aggregate / rounds) | Same + mode keywords |
+| `index.ts` → Wall-Bounce API | ✅ `WallBounceAnalyzer` · legacy spawn · 1-pass + aggregator | adapter unify (B-1) · threshold branch (B-4) |
+| `wall-bounce-server.ts` | Default analyzer path; Orchestrator only when SRP flag on | merge (C-5) |
+| Layer A / SSE | Types only · partial SSE (500-char truncate) · `session_id` not persisted | M1–M3 · B-5 |
+| term-prep-platform | `glossary-knowledge` in `.cursor/mcp.json` | PromptAnalyzer · dictionary v0 on **platform** |
 
 Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 

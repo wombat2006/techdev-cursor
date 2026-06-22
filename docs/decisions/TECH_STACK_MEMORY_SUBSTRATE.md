@@ -138,6 +138,8 @@ type OrchestrationEvent =
   | (OrchestrationEventBase & { type: 'session_summarized'; reason: …; eventsBefore: number; summary: string });
 ```
 
+**Provider token usage:** When adapters return [TS-26](./TECH_STACK_CLI_INVOKE_METADATA.md) `ProviderInvokeMetadata`, append `usage`, `stopReason`, and resolved `model` on `provider_result` events (Track B **B-6** / M3). Do not estimate tokens from character length when CLI metadata is present.
+
 ### 2.1.1 Temporal metadata (mandatory)
 
 | Field | Level | Required | Format | Purpose |

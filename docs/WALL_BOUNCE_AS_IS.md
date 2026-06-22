@@ -89,6 +89,17 @@ MCP Track A uses adapters (`claude-adapter`, `codex-adapter`, `agy-adapter`) wit
 
 **Gap B-1:** Wall-Bounce API and MCP do not share the same adapter transport layer.
 
+### 5.1 Invoke metadata (usage, stop_reason)
+
+| Source | AS-IS |
+|--------|-------|
+| `AdapterResult` | Text + `executionTimeMs` only — **no** `usage` / `stop_reason` |
+| Claude adapter | `claude --print` text mode (not `--output-format json`) |
+| Codex adapter | Discards `] tokens used:` line when extracting content |
+| Analyzer | `tokens` ≈ `length/4`; `confidence` often fixed |
+
+**To-Be:** [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26) — parse CLI structured output at adapter boundary; append to Layer A.
+
 ---
 
 ## 6. Aggregation and consensus
@@ -242,4 +253,5 @@ Exact model IDs in code still reference legacy names (`gpt-5-codex`, `gemini-2.5
 | [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) | Target behavior and gaps |
 | [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | File-level change list |
 | [decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 — default routing ADR |
+| [decisions/TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) | TS-26 — CLI invoke metadata |
 | [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) | Track B / C gates and tasks |

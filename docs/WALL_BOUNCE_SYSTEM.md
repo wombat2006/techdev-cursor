@@ -1,6 +1,6 @@
 # Wall-Bounce Analysis System
 
-**Code truth:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) · **Target:** [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) · **Backlog:** [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) · **ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25)
+**Code truth:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) · **Target:** [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) · **Backlog:** [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) · **ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25) · [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26)
 
 > **AS-IS gap:** Constitution mandates 2–5 rounds and hard thresholds; current `wall-bounce-analyzer.ts` runs **one parallel or sequential pass + aggregation** without branch or round loop. See AS-IS doc §14.
 

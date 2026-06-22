@@ -647,6 +647,31 @@ npm run build
 
 ---
 
+### B-6: CLI invoke metadata (TS-26)
+
+**Purpose:** Capture `usage`, `stop_reason`, resolved model, `session_id`, and cost hints from **CLI structured output** — not HTTP API keys.
+
+**References:** [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) · [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) (WB-13…WB-18)
+
+| Provider | CLI flag | Fields |
+|----------|----------|--------|
+| Claude | `claude --print --output-format json` | `usage`, `stop_reason`, `session_id`, `total_cost_usd` |
+| Codex | `codex exec --json` | JSONL events; or `] tokens used:` line |
+| agy | TBD (spike) | provisional until JSON/stderr confirmed |
+
+**Steps:**
+
+1. Extend `AdapterResult` with `ProviderInvokeMetadata` ([adapter-types.ts](../src/types/adapter-types.ts)).
+2. Update [claude-adapter.ts](../src/adapters/claude-adapter.ts), [codex-adapter.ts](../src/adapters/codex-adapter.ts), [agy-adapter.ts](../src/adapters/agy-adapter.ts).
+3. Stop discarding Codex token lines; remove char/4 estimates in analyzer when metadata present.
+4. Append usage to Layer A round events (M3).
+
+**Done when:** `[ ]` Claude adapter returns parsed usage + stop_reason in tests; `[ ]` Codex returns token count or JSONL event; `[ ]` fixture tests under `tests/fixtures/cli-metadata/`.
+
+**Reflection memo:** _Messages API-shaped JSON is not required — normalized metadata is enough for gates, Layer A, and cost routing._
+
+---
+
 ### B-1 legacy note (superseded paths)
 
 <details>
@@ -744,8 +769,9 @@ Use adapters only for new work.
 | G6 | **E2E:** One preset works end-to-end (API or MCP) with test record | | |
 | G7 | **Mode routing (TS-25):** Threshold branch + keyword override tested | | |
 | G8 | **AS-IS doc:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) matches code at sign-off | | |
+| G9 | **CLI metadata (TS-26):** At least Claude adapter returns parsed `usage` + `stop_reason` in contract test | | |
 
-**Pass when:** G1–G8 all Yes.
+**Pass when:** G1–G9 all Yes.
 
 **Gate decision:** `[ ]` Pass → proceed to Track C  /  `[ ]` Fail → fix Track B
 

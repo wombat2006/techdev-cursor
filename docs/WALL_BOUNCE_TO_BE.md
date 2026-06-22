@@ -3,7 +3,7 @@
 **Status:** Accepted direction (owner vision, 2026-06-22)  
 **Human entry:** [README.md](../README.md) · [README_en.md](../README_en.md)  
 **Companion:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) · [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md)  
-**ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25)
+**ADR:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) (TS-25) · [TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) (TS-26)
 
 ---
 
@@ -146,6 +146,7 @@ Extends [TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) negati
 | Serial mode | `sequential` API flag; still aggregates + consensus score | Serial + **no consensus gate** |
 | SSE observability | Partial (500-char truncate) | **Full round stream + Layer A** |
 | Objection UX | None | **Re-query + user choice menu** |
+| CLI invoke metadata | Text only; Codex token line discarded | **usage**, **stop_reason**, **session_id** via CLI JSON ([TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md)) |
 | Adapter unification | MCP adapters vs analyzer spawn | **Single adapter path (B-1)** |
 | Durable session | None in WB path | **Layer A M1–M3** |
 | MCP wall-bounce | Not available | Optional; primary strict path remains API |
@@ -157,6 +158,7 @@ Extends [TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) negati
 | Work package | Track | Gate |
 |--------------|-------|------|
 | Adapter wiring to analyzer | **B** B-1 | Gate B→C prerequisite |
+| CLI invoke metadata (usage, stop_reason) | **B** B-6 ([TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md)) | Gate B→C G9 |
 | Layer A store + round events | **B** M1–M3 | Gate B→C prerequisite |
 | Mode routing + threshold branch (TS-25) | **B** B-4 | Gate B→C prerequisite |
 | SSE + Layer A stream | **B** B-5 | Gate B→C prerequisite |
@@ -194,5 +196,6 @@ Update [AGENTS.md](../AGENTS.md) constitution summary only after Gate C passes �
 | [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) | Code truth |
 | [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | Per-file tasks |
 | [decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
+| [decisions/TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) | TS-26 — CLI usage / stop_reason / session_id |
 | [WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md) | Operator guide (sync after implementation) |
 | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) | Objection + retry policy |

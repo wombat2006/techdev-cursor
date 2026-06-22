@@ -19,7 +19,7 @@
 |------|------|------|
 | **G-MEM** | TS-22 設計採択 | ✅ 2026/06/18 |
 | **Gate A→B** | G1–G7 + G-MEM | ✅ **Pass** 2026/06/18 |
-| **Gate B→C** | Track B（B-0…B-3, **B-4**, **B-5**, M1–M3 最低） | `[ ]` |
+| **Gate B→C** | Track B（B-0…B-3, **B-4**, **B-5**, **B-6**, M1–M3 最低） | `[ ]` |
 | **Gate C** | P5 Phase 0 | `[ ]` |
 
 詳細基準: [Gate A→B セクション](../CURSOR_MCP_TODO.md#gate-a-b-review-devassist)（英語）
@@ -60,6 +60,7 @@
 | **B-0** | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative`（matrix+catalog resolver ✅；preset ファイル未） |
 | **M2–M3** | `sessionId` 継続 · Layer A イベント · negative 再試行（TS-24） |
 | **B-1** | `wall-bounce-analyzer.ts` / `rag-endpoint.ts` → `src/adapters/*` |
+| **B-6** | CLI invoke metadata（TS-26）— `usage` / `stop_reason` / `session_id` |
 | **B-4** | 実行モードルーティング（TS-25）— 並列→閾値分岐 |
 | **B-5** | SSE + Layer A 可観測性 |
 
@@ -75,7 +76,7 @@
 
 **現行コード:** [AS-IS](../WALL_BOUNCE_AS_IS.md) — **enforce は Track C**。日常 Cursor は単一 MCP で可。
 
-[AGENTS.md](../../AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md) · [TS-25](../decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)
+[AGENTS.md](../../AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](../WALL_BOUNCE_SYSTEM.md) · [TS-25](../decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) · [TS-26](../decisions/TECH_STACK_CLI_INVOKE_METADATA.md)
 
 ---
 

@@ -50,6 +50,7 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 |------|------|-------|------|
 | 1 | Layer A 永続化（`OrchestrationSessionStore` / Redis） | **M1** | B→C 前提 |
 | 2 | Wall-Bounce → `src/adapters/*` 配線 | **B-1** | B→C |
+| 2b | CLI から **usage / stop_reason / session_id**（TS-26） | **B-6** | B→C |
 | 3 | 並列→合議→**閾値分岐**・キーワードモード（TS-25） | **B-4** | B→C G7 |
 | 4 | SSE + Layer A ストリーム | **B-5** | B→C |
 | 5 | `inference-profiles.json` · TS-24 retry | **B-0** | B→C |
@@ -89,33 +90,56 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 
 ## アーキテクチャ（概要）
 
+コード実態に基づく経路図（`src/` 監査 2026-06-22）。**破線 = To-Be / 未配線**。
+
 ```mermaid
 flowchart TB
-  subgraph trackA["Track A — 日常（AS-IS ✅）"]
-    CUR[Cursor] --> MCP[techsapo-providers MCP]
-    MCP --> AD[adapters] --> CLI[claude / codex / agy]
+  subgraph trackA["Track A — 日常 Cursor MCP（AS-IS ✅）"]
+    CUR[Cursor Agent] --> CFG[".cursor/mcp.json"]
+    CFG --> MCP[techsapo-providers MCP]
+    MCP --> RESOLVE[inference-profile-resolver]
+    RESOLVE --> AD[src/adapters/*]
+    AD --> CLI[claude · codex · agy CLI]
   end
 
-  subgraph trackB["Track B — 厳密分析（AS-IS: 1-pass · To-Be: 分岐+ラウンド）"]
-    API[Wall-Bounce API] --> WBA[wall-bounce-analyzer]
-    WBA --> PEER[Peer LLMs]
-    WBA --> AGG[Aggregator]
-    WBA -.->|To-Be| ROUNDS[2–5 rounds on branch]
+  subgraph trackB["Track B — Wall-Bounce API（AS-IS: 1-pass + aggregator）"]
+    IDX["index.ts — npm run start:app"] --> ROUTES[wall-bounce-api.ts]
+    ROUTES -->|"GET /api/v1/wall-bounce/analyze"| SSE[SSE: thinking · provider_response · consensus · final_answer]
+    ROUTES -->|"POST …/analyze-simple"| WBA[WallBounceAnalyzer]
+    SSE --> WBA
+    WBA -->|"legacy spawn — adapters 未使用"| PEER[invokeGemini · invokeGPT5 · invokeClaude]
+    WBA --> AGG[Aggregator LLM]
+    WBA -.->|"To-Be TS-25"| LOOP[閾値分岐 → 2–5 ラウンド]
+  end
+
+  subgraph altSRP["別プロセス wall-bounce-server.ts（任意・IT 支援レガシー）"]
+    WBS["POST /api/v1/generate"] --> FLAG{USE_SRP_WALL_BOUNCE?}
+    FLAG -->|"default: いいえ"| WBA
+    FLAG -->|はい| ADP[WallBounceAdapter]
+    ADP --> ORCH[WallBounceOrchestrator]
+    ORCH --> CE[ConsensusEngine — Jaccard]
+  end
+
+  subgraph platform["兄弟 platform（本 repo は MCP 接続のみ）"]
+    GK[glossary-knowledge MCP] --> TPP[term-prep-platform]
   end
 
   subgraph mem["Layer A（To-Be · M1）"]
-    REDIS[(OrchestrationSession)]
+    TYPES[types/orchestration-session.ts]
+    STORE[(OrchestrationSessionStore — 未実装)]
+    TYPES -.-> STORE
   end
 
-  WBA -.-> mem
+  WBA -.->|"session_id メタのみ·Redis なし"| TYPES
 ```
 
-| 経路 | AS-IS 今日 | To-Be |
-|------|-----------|-------|
-| Cursor → MCP → CLI | ✅ 単発 `analyze_*` | 同左 + モードキーワード連携 |
-| Wall-Bounce API | 1-pass 並列/逐次 + 合議 | 閾値で壁打ち分岐・ラウンド enforce |
-| Layer A / SSE | 部分・未配線 | 全ラウンド記録・ライブ表示 |
-| term-prep-platform → MCP | `glossary-knowledge` 登録（stub） | PromptAnalyzer · 辞書 v0 は **platform 側**；MCP 接続で利用 |
+| 経路 | AS-IS 今日（コード） | To-Be |
+|------|---------------------|-------|
+| Cursor → MCP → adapters → CLI | ✅ 単発 `analyze_*`（集約・ラウンドなし） | 同左 + モードキーワード連携 |
+| `index.ts` → Wall-Bounce API | ✅ `WallBounceAnalyzer` · legacy spawn · 1-pass + aggregator | adapters 統一（B-1）·閾値分岐（B-4） |
+| `wall-bounce-server.ts` | デフォルトは analyzer 経路；SRP 時のみ Orchestrator | C-5 で統合 |
+| Layer A / SSE | 型のみ · SSE 部分（応答 500 文字切り詰め）· `session_id` 未永続 | M1–M3 · B-5 |
+| term-prep-platform | `glossary-knowledge` を `.cursor/mcp.json` 登録 | PromptAnalyzer · 辞書 v0 は **platform 側** |
 
 詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
