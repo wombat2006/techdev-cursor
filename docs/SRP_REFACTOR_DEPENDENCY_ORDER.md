@@ -138,7 +138,7 @@ flowchart TB
 | `model-pricing.ts` | ~35 | Default pricing + `calculateModelCost` |
 | `types.ts` | ~27 | `CostSummary`, `BudgetAlert` |
 
-### Phase 2 — In progress
+### Phase 2 — Complete
 
 | Priority | File | Lines | Status |
 |----------|------|-------|--------|
@@ -146,7 +146,7 @@ flowchart TB
 | 2 | `ultra-conservative-monitor.ts` | 579 | ✅ → `ultra-conservative-monitor/` |
 | 3 | `mcp-performance-monitor.ts` | 543 | ✅ → `mcp-performance-monitor/` |
 | 4 | `srp-safety-monitor.ts` | 424 | ✅ → `srp-safety-monitor/` |
-| 5 | `googledrive-push-setup.ts` | 540 | pending |
+| 5 | `googledrive-push-setup.ts` | 540 | ✅ → `googledrive-push-setup/` |
 
 ### Phase 3 — After Phase 2
 
@@ -189,7 +189,7 @@ flowchart TB
 
 ```bash
 npx tsc --noEmit
-npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
+npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
 ```
 
 ---
@@ -198,6 +198,7 @@ npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file
 
 | Date | Change |
 |------|--------|
+| 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5) |
 | 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
 | 2026-06-23 | Doc sync: README, ARCHITECTURE, DEVELOPMENT_GUIDE, TESTING_GUIDE, FORK_STATUS en/ja |
 | 2026-06-22 | Initial dependency order; Phase 0–1 complete (10 monoliths split) |

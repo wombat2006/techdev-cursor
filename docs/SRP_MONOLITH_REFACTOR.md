@@ -82,8 +82,9 @@ All splits must pass before merge.
 | `ultra-conservative-monitor.ts` | 579 | `src/services/ultra-conservative-monitor/` | `ultra-conservative-monitor.ts` | 244 (`monitor.ts`) |
 | `mcp-performance-monitor.ts` | 543 | `src/services/mcp-performance-monitor/` | `mcp-performance-monitor.ts` | 154 (`monitor.ts`) |
 | `srp-safety-monitor.ts` | 424 | `src/services/srp-safety-monitor/` | `srp-safety-monitor.ts` | 155 (`monitor.ts`) |
+| `googledrive-push-setup.ts` | 540 | `src/services/googledrive-push-setup/` | `googledrive-push-setup.ts` | 147 (`channel-operations.ts`) |
 
-**Total:** 14 monoliths → 14 module trees + 14 shims. **86+ tests** in the SRP module suite (13 suites) as of this record.
+**Total:** 15 monoliths → 15 module trees + 15 shims. **95+ tests** in the SRP module suite (14 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -403,6 +404,30 @@ analyze-entry
 
 ---
 
+### 4.15 Google Drive push setup (Phase 2 #5)
+
+**Shim:** `src/services/googledrive-push-setup.ts`  
+**Modules:** `src/services/googledrive-push-setup/`  
+**Consumers:** `src/routes/webhook-setup.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `channel-operations.ts` | 147 | File/folder watch, stop, renew |
+| `setup-diagnostics.ts` | 95 | OAuth / Drive / webhook URL self-test |
+| `quick-setup.ts` | 68 | `quickSetupPushNotifications` orchestration |
+| `channel-maintenance.ts` | 99 | List active channels, expired cleanup |
+| `setup.ts` | 63 | `GoogleDrivePushSetup` facade |
+| `drive-context.ts` | 48 | OAuth client + Drive API bootstrap |
+| `channel-config.ts` | 47 | Channel config builders, HTTPS validation |
+| `channel-storage.ts` | 44 | Env-backed channel persistence (stub) |
+| `types.ts` | 40 | Push channel types |
+| `token-utils.ts` | 6 | Secure webhook token generation |
+| `index.ts` | 28 | Public exports |
+
+**Tests:** `googledrive-push-setup-modules.test.ts` (channel-config, storage, maintenance, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -421,6 +446,7 @@ analyze-entry
 | `src/services/ultra-conservative-monitor.ts` | `./ultra-conservative-monitor/index` |
 | `src/services/mcp-performance-monitor.ts` | `./mcp-performance-monitor/index` |
 | `src/services/srp-safety-monitor.ts` | `./srp-safety-monitor/index` |
+| `src/services/googledrive-push-setup.ts` | `./googledrive-push-setup/index` |
 
 ---
 
@@ -474,6 +500,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5 — Phase 2 complete) |
 | 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
 | 2026-06-23 | Phase 2 start: `mcp-config-manager/` split; `mcp-config-manager-modules.test.ts` |
 | 2026-06-23 | Phase 0–1 complete: `googledrive-connector/`, `cost-tracking/`; 64 module tests; README/ARCHITECTURE/DEVELOPMENT_GUIDE sync |

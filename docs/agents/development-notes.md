@@ -68,6 +68,8 @@ src/
 │   ├── mcp-performance-monitor/         # MCP metrics, alerts, recommendations
 │   ├── srp-safety-monitor.ts            # Shim → srp-safety-monitor/
 │   ├── srp-safety-monitor/              # Phase 3 SRP safety + emergency rollback (leaf)
+│   ├── googledrive-push-setup.ts        # Shim → googledrive-push-setup/
+│   ├── googledrive-push-setup/          # Drive push notification channel setup
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication
