@@ -139,6 +139,7 @@ flowchart TB
 | `index.ts` → `server/` | ✅ `TechSapoServer`; modular split (SRP) | unchanged |
 | `wall-bounce-analyzer.ts` | ✅ shim → `services/wall-bounce/` (constitution path) | B-1 adapters · threshold branch (B-4) |
 | `wall-bounce-server.ts` | shim → `wall-bounce-server/`; default analyzer path | merge (C-5) |
+| MCP monitoring / config (SRP) | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` | unchanged |
 | Layer A / SSE | Types only · partial SSE (500-char truncate) · `session_id` not persisted | M1–M3 · B-5 |
 | term-prep-platform | `glossary-knowledge` in `.cursor/mcp.json` | PromptAnalyzer · dictionary v0 on **platform** |
 

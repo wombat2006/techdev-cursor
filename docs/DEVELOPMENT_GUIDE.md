@@ -51,7 +51,9 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 #### MCP Integration Services
 - **MCPIntegrationService** (`src/services/mcp-integration-service.ts`): Shim → `mcp-integration/`
 - **MCPConfigManager** (`src/services/mcp-config-manager.ts`): Shim → `mcp-config-manager/` — cost optimization and tool selection
+- **MCPPerformanceMonitor** (`src/services/mcp-performance-monitor.ts`): Shim → `mcp-performance-monitor/` — metrics, alerts, recommendations (`npm run mcp-performance`)
 - **MCPApprovalManager** (`src/services/mcp-approval-manager.ts`): Multi-layer approval workflows
+- **UltraConservativeMonitor** (`src/services/ultra-conservative-monitor.ts`): Shim → `ultra-conservative-monitor/` — Phase 3 gradual rollout monitoring (leaf)
 
 #### RAG System (`src/services/googledrive-connector.ts`)
 - **Shim** → `googledrive-connector/` — **legacy AS-IS** in this repo; platform delegation per [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md)
@@ -93,6 +95,7 @@ Key variables defined in `src/config/environment.ts`:
 - **Coverage**: Collected from `src/**/*.ts` (excluding .d.ts and index.ts)
 - **Timeout**: 30 seconds for long-running integration tests
 - **Setup**: `tests/setup.ts` for test configuration
+- **SRP module suites**: `npm test -- --testPathPattern="…-modules" --forceExit` — see [TESTING_GUIDE.md](./TESTING_GUIDE.md) · [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md)
 
 ## 🎯 Development Guidelines
 
@@ -204,7 +207,9 @@ src/
 │   ├── mcp-integration-service.ts # Shim → mcp-integration/
 │   ├── googledrive-connector.ts   # Shim → googledrive-connector/ (legacy RAG)
 │   ├── cost-tracking.ts           # Shim → cost-tracking/
-│   ├── mcp-config-manager.ts    # Shim → mcp-config-manager/
+│   ├── mcp-config-manager.ts      # Shim → mcp-config-manager/
+│   ├── mcp-performance-monitor.ts # Shim → mcp-performance-monitor/
+│   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
 │   ├── codex-mcp-server.ts        # Shim → codex-mcp/
 │   └── __mocks__/                 # Test mocks
 ├── utils/

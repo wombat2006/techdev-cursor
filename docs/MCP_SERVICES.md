@@ -4,7 +4,7 @@
 
 TechSapo integrates Model Context Protocol (MCP) for standardized LLM tool orchestration with enterprise-grade governance and security.
 
-> **SRP layout:** `codex-mcp-server.ts`, `mcp-integration-service.ts`, and `mcp-config-manager.ts` are **shims** → module dirs. Import paths unchanged; see [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md).
+> **SRP layout:** `codex-mcp-server.ts`, `mcp-integration-service.ts`, `mcp-config-manager.ts`, and `mcp-performance-monitor.ts` are **shims** → module dirs. Import paths unchanged; see [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md).
 
 ## MCP Protocol Fundamentals
 
@@ -254,6 +254,16 @@ class MCPConfigManager {
 }
 ```
 
+### MCP Performance Monitor
+
+**Location**: `src/services/mcp-performance-monitor.ts` (shim → `mcp-performance-monitor/`)
+
+**Role**: Real-time MCP metrics, alerts, and optimization recommendations
+
+**CLI scripts** (`package.json`): `npm run mcp-performance` · `mcp-metrics` · `mcp-alerts` · `mcp-recommendations`
+
+**Modules**: `alerts.ts`, `recommendations.ts`, `metrics-collector.ts`, `monitor.ts` — see [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) §4.13
+
 ## Wall-Bounce MCP Integration
 
 ### Wall-Bounce Adapter
@@ -468,6 +478,8 @@ interface CostTracker {
 - 100% of budget: Auto-disable non-critical calls
 
 ## Performance Monitoring
+
+**Application monitor:** `mcp-performance-monitor.ts` (shim → `mcp-performance-monitor/`) polls `mcpIntegrationService.getPerformanceMetrics()` on a 30s interval. Details: [MCP_OPTIMIZATION_SUMMARY.md](./MCP_OPTIMIZATION_SUMMARY.md) · [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) §4.13
 
 ### Metrics Collection
 

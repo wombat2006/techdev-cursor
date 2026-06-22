@@ -98,7 +98,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **TS-26 wire schemas + Codex verify** | 2026/06/22 22:41:19 JST | Per-provider JSON Schema; normalized `ProviderInvokeMetadata`; Codex JSONL fixture + contract test |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
-| **SRP monolith refactor (Phase 0–2)** | 2026/06/23 04:09:50 JST | 11 monoliths → module dirs + shims; 70 module tests; includes `mcp-config-manager/`; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **SRP monolith refactor (Phase 0–2 + monitors)** | 2026/06/23 04:09:50 JST | 13 monoliths → module dirs + shims; Phase 2: `mcp-config-manager/`, `ultra-conservative-monitor/`, `mcp-performance-monitor/`; 80 module tests; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -177,6 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| TBD | SRP Phase 2 #3 — `mcp-performance-monitor/` split; README/ARCHITECTURE/MCP_SERVICES sync; 80 module tests (12 suites) |
 | 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` split; 75 module tests (11 suites) |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
 | 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 splits, module tests, SRP_* docs; README + DEVELOPMENT_GUIDE sync |

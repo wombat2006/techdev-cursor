@@ -139,6 +139,7 @@ flowchart TB
 | `index.ts` → `server/` | ✅ `TechSapoServer`；モジュール分割済（SRP） | 変更なし |
 | `wall-bounce-analyzer.ts` | ✅ シム → `services/wall-bounce/`（憲法パス維持） | B-1 adapters · 閾値分岐（B-4） |
 | `wall-bounce-server.ts` | シム → `wall-bounce-server/`；デフォルトは analyzer | C-5 で統合 |
+| MCP 監視・設定（SRP） | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` | 変更なし |
 | Layer A / SSE | 型のみ · SSE 部分（応答 500 文字切り詰め）· `session_id` 未永続 | M1–M3 · B-5 |
 | term-prep-platform | `glossary-knowledge` を `.cursor/mcp.json` 登録 | PromptAnalyzer · 辞書 v0 は **platform 側** |
 

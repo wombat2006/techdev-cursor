@@ -80,8 +80,9 @@ All splits must pass before merge.
 | `cost-tracking.ts` | 437 | `src/services/cost-tracking/` | `cost-tracking.ts` | ~385 (`service.ts`) |
 | `mcp-config-manager.ts` | 392 | `src/services/mcp-config-manager/` | `mcp-config-manager.ts` | 147 (`manager.ts`) |
 | `ultra-conservative-monitor.ts` | 579 | `src/services/ultra-conservative-monitor/` | `ultra-conservative-monitor.ts` | 244 (`monitor.ts`) |
+| `mcp-performance-monitor.ts` | 543 | `src/services/mcp-performance-monitor/` | `mcp-performance-monitor.ts` | 154 (`monitor.ts`) |
 
-**Total:** 12 monoliths → 12 module trees + 12 shims. **75+ tests** in the SRP module suite (11 suites) as of this record.
+**Total:** 13 monoliths → 13 module trees + 13 shims. **80+ tests** in the SRP module suite (12 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -359,6 +360,27 @@ analyze-entry
 
 ---
 
+### 4.13 MCP performance monitor
+
+**Shim:** `src/services/mcp-performance-monitor.ts`  
+**Modules:** `src/services/mcp-performance-monitor/`  
+**Consumers:** `package.json` scripts (`mcp-performance`, `mcp-metrics`, `mcp-alerts`, `mcp-recommendations`)
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `monitor.ts` | 154 | `MCPPerformanceMonitor` — interval loop, public API |
+| `alerts.ts` | 128 | Alert evaluation and deduplication |
+| `recommendations.ts` | 88 | Optimization recommendation generation |
+| `types.ts` | 87 | Metrics, alerts, thresholds types |
+| `metrics-collector.ts` | 50 | `buildPerformanceMetrics`, history trim |
+| `metric-calculations.ts` | 30 | Cache/cost/queue derivations |
+| `performance-summary.ts` | 28 | `buildPerformanceSummary` |
+| `system-metrics.ts` | 14 | Process memory/CPU snapshot |
+
+**Tests:** `mcp-performance-monitor-modules.test.ts` (alerts, recommendations, summary, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -375,6 +397,7 @@ analyze-entry
 | `src/services/cost-tracking.ts` | `./cost-tracking/index` |
 | `src/services/mcp-config-manager.ts` | `./mcp-config-manager/index` |
 | `src/services/ultra-conservative-monitor.ts` | `./ultra-conservative-monitor/index` |
+| `src/services/mcp-performance-monitor.ts` | `./mcp-performance-monitor/index` |
 
 ---
 
@@ -407,6 +430,7 @@ After any further split in this series:
 | `src/services/googledrive-connector.ts` | 792 | **Split** → `googledrive-connector/` |
 | `src/services/googledrive-webhook-handler.ts` | 588 | Webhook + RAG sync |
 | `src/services/ultra-conservative-monitor.ts` | 579 | **Split** → `ultra-conservative-monitor/` |
+| `src/services/mcp-performance-monitor.ts` | 543 | **Split** → `mcp-performance-monitor/` |
 | `src/services/codex-mcp-integration.ts` | 565 | Codex ↔ MCP integration |
 | `src/utils/migrate-to-redis.ts` | 558 | One-off migration utility |
 
@@ -427,7 +451,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
-| 2026-06-23 | `ultra-conservative-monitor/` split (Phase 2 #2) |
+| 2026-06-23 | `mcp-performance-monitor/` split (Phase 2 #3) |
 | 2026-06-23 | Phase 2 start: `mcp-config-manager/` split; `mcp-config-manager-modules.test.ts` |
 | 2026-06-23 | Phase 0–1 complete: `googledrive-connector/`, `cost-tracking/`; 64 module tests; README/ARCHITECTURE/DEVELOPMENT_GUIDE sync |
 | 2026-06-22 | Initial record: 8 monolith splits, 62 SRP module tests, shims documented |

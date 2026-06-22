@@ -58,6 +58,8 @@ private isCircuitOpen(circuitKey: string): boolean {
 
 ### 3. 包括的パフォーマンス監視システム (`src/services/mcp-performance-monitor.ts`)
 
+> **SRP:** shim → `mcp-performance-monitor/`（`monitor.ts`, `alerts.ts`, `recommendations.ts` 等）。詳細: [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) §4.13
+
 #### リアルタイム監視機能
 - **30秒間隔メトリクス収集**: 24時間データ保持
 - **自動アラート生成**: 5段階の重要度レベル

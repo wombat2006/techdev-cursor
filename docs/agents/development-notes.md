@@ -64,6 +64,8 @@ src/
 │   ├── mcp-config-manager/              # Tool configs, selection, cost estimation
 │   ├── ultra-conservative-monitor.ts    # Shim → ultra-conservative-monitor/
 │   ├── ultra-conservative-monitor/      # Phase 3 rollout monitoring (leaf)
+│   ├── mcp-performance-monitor.ts         # Shim → mcp-performance-monitor/
+│   ├── mcp-performance-monitor/         # MCP metrics, alerts, recommendations
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

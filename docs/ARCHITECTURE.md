@@ -54,6 +54,8 @@ Model Context Protocol integration for standardized LLM interactions.
 - `mcp-integration-service.ts` → `mcp-integration/` — central orchestration
 - `mcp-approval-manager.ts` — risk-based approval workflows
 - `mcp-config-manager.ts` → `mcp-config-manager/` — tool optimization and cost estimation
+- `mcp-performance-monitor.ts` → `mcp-performance-monitor/` — real-time MCP metrics and alerts
+- `ultra-conservative-monitor.ts` → `ultra-conservative-monitor/` — gradual Phase 3 rollout safety (leaf)
 - `codex-mcp-server.ts` → `codex-mcp/` — GPT-5/Codex integration
 - `wall-bounce-adapter.ts` — MCP ↔ Wall-Bounce bridge
 
@@ -101,7 +103,9 @@ src/
 │   ├── codex-mcp-server.ts     # Shim → codex-mcp/
 │   ├── googledrive-connector.ts    # Shim → googledrive-connector/ (legacy RAG)
 │   ├── cost-tracking.ts        # Shim → cost-tracking/
-│   ├── mcp-config-manager.ts # Shim → mcp-config-manager/
+│   ├── mcp-config-manager.ts     # Shim → mcp-config-manager/
+│   ├── mcp-performance-monitor.ts # Shim → mcp-performance-monitor/
+│   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
 │   └── __mocks__/              # Test mocks
 ├── types/                      # TypeScript definitions
 ├── utils/
