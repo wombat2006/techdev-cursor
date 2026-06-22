@@ -3,29 +3,28 @@
 **Target repo:** `techdev-cursor` fork.  
 **Server:** `techsapo-providers` — stdio MCP; tools `analyze_claude`, `analyze_codex`, `analyze_agy`.
 
-**`techsapo-providers`:** use the generator (recommended) or placeholder templates — Node path is host-specific.  
-**`serena` + `brv`:** registered by the same generator (`ide-assistant` context; ByteRover CLI — successor to `@byterover/cipher`).  
-**`glossary-knowledge`:** tracked in `.cursor/mcp.json` with sibling `../term-prep-platform` paths (read-only runtime; consumer agents do not commit platform changes).
+**`techsapo-providers` · `serena` · `brv`:** [`.cursor/mcp.json`](../.cursor/mcp.json) is **tracked in git** and launches via **portable bash wrappers** under `scripts/` (no absolute paths).  
+**`glossary-knowledge`:** sibling `../term-prep-platform` paths (read-only).
 
 **Prerequisites:** [CURSOR_MCP_TODO Track A-0](./CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) · [A-1](./CURSOR_MCP_TODO.md#a-1-cursor-mcp-registration-unified--in-fork) · `npm install` · `npm run build` · `npm run setup-mcp-prereqs` (Serena / `uvx`) · `brv providers connect` (memory tools)
 
 ---
 
-## After every `git pull` (mandatory)
+## After `git pull`
 
-Tracked `.cursor/mcp.json` in git contains **glossary-knowledge only**. Pulling removes locally merged **techsapo-providers**, **serena**, and **brv** entries unless you regenerate.
+**No routine `cursor-mcp:config` or MCP Reload.** Wrappers resolve `node` / `uvx` / repo root at runtime.
 
-```bash
-npm run build && npm run cursor-mcp:config
-```
-
-Then: Cursor **Settings → MCP → Reload**.
+| When | Action |
+|------|--------|
+| `src/` or deps changed | `npm run build` |
+| `.cursor/mcp.json` or wrapper scripts changed in pull | One-time Cursor MCP Reload |
+| Routine doc-only pull | Nothing MCP-specific |
 
 Cursor rule: [.cursor/rules/cursor-mcp-post-pull.mdc](../.cursor/rules/cursor-mcp-post-pull.mdc)
 
 ---
 
-## Recommended: generate config for this machine
+## First-time setup (new clone / machine)
 
 ```bash
 cd <REPO_ROOT>
@@ -34,10 +33,21 @@ npm install                        # byterover-cli (brv)
 cp .env.brv.local.example .env.brv.local   # one cloud API key (not Ollama)
 npm run setup-brv-provider         # connect brv to API
 npm run build
-npm run cursor-mcp:config              # merges techsapo-providers, serena, brv into .cursor/mcp.json
+# .cursor/mcp.json already in repo — enable project MCP in Cursor once, then Reload once
 npm run serena-brv-mcp:smoke        # optional local launch probe
-# or paste into Cursor Settings → MCP:
-npm run cursor-mcp:config -- --print
+```
+
+**Windows Cursor host, repo in WSL only:** `npm run cursor-mcp:config -- --variant windows-wsl` once per host.
+
+---
+
+## Optional: regenerate config
+
+Only needed for **windows-wsl** variant or after changing generator output shape:
+
+```bash
+npm run cursor-mcp:config -- --print   # inspect
+npm run cursor-mcp:config              # linux/WSL Remote: same portable shape as tracked file
 ```
 
 | Flag | Purpose |
@@ -49,7 +59,9 @@ npm run cursor-mcp:config -- --print
 | `--node /path/to/node` | Override Node binary (default: `command -v node`) |
 | `--output /path/to/mcp.json` | Custom output path |
 
-Then: Cursor **Settings → MCP** → enable project MCP or paste JSON → **Reload** → **Connected** + 3 tools.
+Then: Cursor **Settings → MCP** → enable project MCP once → **Reload** once → **Connected**.
+
+Tracked [`.cursor/mcp.json`](../.cursor/mcp.json) already lists all servers via `scripts/cursor-mcp-*.sh` wrappers.
 
 ---
 
@@ -57,31 +69,53 @@ Then: Cursor **Settings → MCP** → enable project MCP or paste JSON → **Rel
 
 | Environment | Variant | Generator |
 |-------------|---------|-----------|
-| **EC2 / Linux VM** (SSH, Cursor Remote SSH) | `linux` | `npm run cursor-mcp:config -- --variant linux` |
+| **EC2 / Linux VM** (SSH, Cursor Remote SSH) | `linux` | Tracked `.cursor/mcp.json` (wrappers) — or `cursor-mcp:config` to refresh |
 | **WSL Remote** (Cursor window in Linux, `vscode-remote://wsl+…`) | `linux` | same — **not** `wsl.exe` |
 | **Developer laptop — Linux native** | `linux` | same |
-| **Developer laptop — Windows Cursor, repo in WSL** | `windows-wsl` | `npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro <name>` |
+| **Developer laptop — Windows Cursor, repo in WSL** | `windows-wsl` | `npm run cursor-mcp:config -- --variant windows-wsl --wsl-distro <name>` once |
 
 | Symptom | Fix |
 |---------|-----|
 | `spawn wsl.exe ENOENT` | You are on WSL Remote — use **`linux`**, not windows template |
-| `Cannot find module …/dist/…` | Run `npm run build`; regenerate config (absolute `args`) |
-| `node not found` | Install Node ≥20 or `nvm install`; or `--node $(which node)` |
+| `Cannot find module …/dist/…` | Run `npm run build` |
+| `node not found` | Install Node ≥20 or `nvm install` |
+| `uvx not found` | `npm run setup-mcp-prereqs` |
 
 ---
 
-## Manual templates (placeholders only)
+## Manual templates (legacy / windows-wsl)
+
+Tracked config uses **bash wrappers** (no `<REPO_ROOT>` in git):
+
+```json
+{
+  "mcpServers": {
+    "techsapo-providers": {
+      "command": "bash",
+      "args": ["scripts/cursor-mcp-techsapo-providers.sh"]
+    },
+    "serena": {
+      "command": "bash",
+      "args": ["scripts/cursor-mcp-serena.sh"]
+    },
+    "brv": {
+      "command": "bash",
+      "args": ["scripts/start-brv-mcp.sh"]
+    }
+  }
+}
+```
+
+Wrappers resolve repo root from `$0`, `node`, and `uvx` at runtime.
 
 | File | Use |
 |------|-----|
-| [cursor-mcp.linux.template.json](../config/cursor-mcp.linux.template.json) | EC2 / Linux / WSL Remote (same shape) |
-| [cursor-mcp.template.json](../config/cursor-mcp.template.json) | Alias of linux shape |
-| [cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json) | Windows host + WSL |
-| [.cursor/mcp.json.example](../.cursor/mcp.json.example) | Example output shape |
+| [.cursor/mcp.json](../.cursor/mcp.json) | **Canonical** tracked config |
+| [.cursor/mcp.json.example](../.cursor/mcp.json.example) | Same shape + comment |
+| [cursor-mcp.linux.template.json](../config/cursor-mcp.linux.template.json) | Legacy absolute-path shape |
+| [cursor-mcp.windows.template.json](../config/cursor-mcp.windows.template.json) | Windows host + WSL (`wsl.exe`) |
 
-Replace `<REPO_ROOT>`, `<NODE_EXECUTABLE>`, `<WSL_DISTRO>` — or prefer **generator** to avoid typos.
-
-### Linux / EC2 / WSL Remote (shape)
+### Legacy Linux absolute-path shape (generator only)
 
 ```json
 {
@@ -129,8 +163,8 @@ cd "$(git rev-parse --show-toplevel)" && pwd   # REPO_ROOT
 
 1. Clone repo on instance; install Node ≥20 (`nvm` or distro package).
 2. Complete Track A-0 CLIs on that instance (or use CI-only MCP — usually **dev laptop + WSL** is the target).
-3. `npm run build && npm run cursor-mcp:config -- --variant linux`
-4. Cursor **Remote SSH** to EC2 → use generated `.cursor/mcp.json` or paste `--print` output.
+3. `npm run build` — wrappers need `dist/`
+4. Cursor **Remote SSH** to EC2 → open repo; tracked `.cursor/mcp.json` applies
 5. Ensure security group / SSO allows your Cursor SSH path — MCP is local stdio on the remote host (TS-17).
 
 ---
@@ -178,8 +212,8 @@ Community walkthrough (Claude Code CLI, Japanese):
 | Tool | Qiita article (Claude Code) | This fork (Cursor) |
 |------|----------------------------|-------------------|
 | **Context7** | `claude mcp add context7 -- npx --yes @upstash/context7-mcp` | Cursor plugin / built-in MCP (no repo generator entry) |
-| **Serena** | `uv run --from git+… serena-mcp-server --port 32123` (HTTP port) | `uvx --from git+… serena start-mcp-server --transport stdio --context ide-assistant --project <REPO>` via `npm run cursor-mcp:config` — **stdio required for Cursor**; `.serena/project.yml` already present |
-| **Cipher** | `npm i -g @byterover/cipher` + `OPENAI_API_KEY` (deprecated npm pkg) | **`byterover-cli`** (`brv mcp`) via `npm run cursor-mcp:config` — tools `brv-query`, `brv-curate`; provider via `brv providers connect` |
+| **Serena** | `uv run --from git+… serena-mcp-server --port 32123` (HTTP port) | `scripts/cursor-mcp-serena.sh` → `uvx … start-mcp-server --transport stdio` — **stdio required for Cursor** |
+| **Cipher** | `npm i -g @byterover/cipher` + `OPENAI_API_KEY` (deprecated npm pkg) | **`byterover-cli`** — `scripts/start-brv-mcp.sh`; tools `brv-query`, `brv-curate`; provider via `brv providers connect` |
 
 **Notes from the article (still applicable):**
 

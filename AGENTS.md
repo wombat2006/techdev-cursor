@@ -107,7 +107,7 @@ Do **not** duplicate constitution or domain docs in tool files — link to this 
 |------|-------|------|
 | **All agents** | `AGENTS.md` (this file) | Neutral constitution + navigation |
 | **Claude Code** | [CLAUDE.md](CLAUDE.md) | Native shim → AGENTS.md (P1 done) |
-| **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog / **MCP post-pull** ([cursor-mcp-post-pull.mdc](.cursor/rules/cursor-mcp-post-pull.mdc)) |
+| **Cursor** | [.cursor/rules/*.mdc](.cursor/rules/) | `alwaysApply` + globs; constitution / doc-sync / catalog / **portable MCP** ([cursor-mcp-post-pull.mdc](.cursor/rules/cursor-mcp-post-pull.mdc)) |
 | **Codex / Copilot** | `AGENTS.md` | Primary; no extra root file required |
 | **Humans** | [README.md](README.md) · [README_en.md](README_en.md) · [FORK_STATUS.md](docs/FORK_STATUS.md) · [FORK_ONBOARDING.md](docs/FORK_ONBOARDING.md) · [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) · [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) | Onboarding |
 

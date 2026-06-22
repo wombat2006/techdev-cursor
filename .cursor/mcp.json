@@ -10,6 +10,24 @@
       "env": {
         "PYTHONPATH": "../term-prep-platform/mcp/glossary-knowledge"
       }
+    },
+    "techsapo-providers": {
+      "command": "bash",
+      "args": [
+        "scripts/cursor-mcp-techsapo-providers.sh"
+      ]
+    },
+    "serena": {
+      "command": "bash",
+      "args": [
+        "scripts/cursor-mcp-serena.sh"
+      ]
+    },
+    "brv": {
+      "command": "bash",
+      "args": [
+        "scripts/start-brv-mcp.sh"
+      ]
     }
   }
 }

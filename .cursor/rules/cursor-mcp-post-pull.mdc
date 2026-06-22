@@ -1,25 +1,24 @@
 ---
-description: After git pull — regenerate Cursor MCP config (techsapo-providers, serena, brv)
+description: Cursor MCP config is portable in git — no regen/reload after every pull
 alwaysApply: true
 ---
 
-# Cursor MCP — regenerate after git pull
+# Cursor MCP — portable config (no reload after pull)
 
-Tracked [.cursor/mcp.json](../../.cursor/mcp.json) commits **glossary-knowledge only** (sibling paths).  
-**techsapo-providers**, **serena**, and **brv** (ByteRover; successor to legacy Cipher) use machine-local absolute paths and are **not** preserved across `git pull`.
+[.cursor/mcp.json](../../.cursor/mcp.json) is **fully tracked** and uses **repo-relative bash wrappers** (`scripts/cursor-mcp-*.sh`, `scripts/start-brv-mcp.sh`). No machine-specific absolute paths.
 
-## Mandatory after every `git pull`
+## After `git pull`
 
-```bash
-npm run build && npm run cursor-mcp:config
-```
+- **Do not** run `npm run cursor-mcp:config` routinely.
+- **Do not** reload Cursor MCP unless `.cursor/mcp.json` or wrapper scripts **changed** in the pull.
+- **Do** run `npm run build` when `src/` or TypeScript deps changed (wrappers need `dist/`).
 
-Then: Cursor **Settings → MCP → Reload**.
+## When to regenerate or reload (rare)
 
-## When to run again
+| Trigger | Action |
+|---------|--------|
+| First clone / new machine | `npm install` · `npm run setup-mcp-prereqs` · `npm run build` · enable project MCP once |
+| `.cursor/mcp.json` or `scripts/cursor-mcp-*.sh` changed on pull | One-time Cursor MCP Reload |
+| Windows Cursor host, repo in WSL | `npm run cursor-mcp:config -- --variant windows-wsl` once per host |
 
-- Serena, brv, or techsapo-providers missing from MCP list
-- `package.json` / MCP scripts / generator changed on pull
-- Node path or clone location changed on this machine
-
-Full procedure: [CURSOR_MCP_TEMPLATE.md](../../docs/CURSOR_MCP_TEMPLATE.md) · [commands.md](../../docs/agents/commands.md)
+Details: [CURSOR_MCP_TEMPLATE.md](../../docs/CURSOR_MCP_TEMPLATE.md)

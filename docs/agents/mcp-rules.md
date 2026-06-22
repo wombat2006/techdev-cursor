@@ -56,7 +56,7 @@ mcp__serena__read_file(relative_path="src/services/wall-bounce-analyzer.ts")
 
 Example: store a Wall-Bounce optimization pattern — auto-trigger provider escalation when consensus < 0.6.
 
-**Setup:** `npm install` · `brv providers connect <id>` · MCP server `brv` in `.cursor/mcp.json` (via `npm run cursor-mcp:config`). Legacy `@byterover/cipher` (`ask_cipher`) is **removed**.
+**Setup:** `npm install` · `brv providers connect <id>` · MCP server `brv` in tracked `.cursor/mcp.json` (`scripts/start-brv-mcp.sh`). Legacy `@byterover/cipher` (`ask_cipher`) is **removed**.
 
 ---
 

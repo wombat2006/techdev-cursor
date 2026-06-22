@@ -1,30 +1,17 @@
 {
-  "_comment": "Generate: npm install && npm run setup-mcp-prereqs && npm run build && npm run cursor-mcp:config",
+  "_comment": "Tracked in git — portable bash wrappers; no cursor-mcp:config after routine pull",
   "mcpServers": {
     "techsapo-providers": {
-      "command": "/path/to/node",
-      "args": ["/path/to/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"],
-      "cwd": "/path/to/techdev-cursor"
+      "command": "bash",
+      "args": ["scripts/cursor-mcp-techsapo-providers.sh"]
     },
     "serena": {
-      "command": "/home/wombat/.local/bin/uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server",
-        "--transport",
-        "stdio",
-        "--context",
-        "claude-code",
-        "--project",
-        "/path/to/techdev-cursor"
-      ]
+      "command": "bash",
+      "args": ["scripts/cursor-mcp-serena.sh"]
     },
     "brv": {
-      "command": "/path/to/techdev-cursor/node_modules/.bin/brv",
-      "args": ["mcp"],
-      "cwd": "/path/to/techdev-cursor"
+      "command": "bash",
+      "args": ["scripts/start-brv-mcp.sh"]
     },
     "glossary-knowledge": {
       "command": "../term-prep-platform/.venv/bin/python",

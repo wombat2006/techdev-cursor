@@ -36,7 +36,7 @@ TechSapo integrates Model Context Protocol (MCP) for standardized LLM tool orche
 // MCP: brv-query / brv-curate via Cursor MCP server "brv"
 ```
 
-**Setup**: `cp .env.brv.local.example .env.brv.local` · `npm run setup-brv-provider` · `npm run cursor-mcp:config`. Prefer **cloud API** (OpenRouter / Anthropic / OpenAI / Gemini); local Ollama is not recommended for `brv-curate`.
+**Setup**: `cp .env.brv.local.example .env.brv.local` · `npm run setup-brv-provider` · tracked `.cursor/mcp.json` (`scripts/start-brv-mcp.sh`). Prefer **cloud API** (OpenRouter / Anthropic / OpenAI / Gemini); local Ollama is not recommended for `brv-curate`.
 
 **Integration**: Background knowledge layer, not in critical path. Orchestration events may still use `source: 'cipher'` in Layer A schema (legacy label).
 

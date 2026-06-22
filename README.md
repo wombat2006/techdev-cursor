@@ -122,8 +122,8 @@ flowchart TB
 3. `npm run setup-mcp-prereqs` — Serena 用 `uv`/`uvx`（初回のみ）  
 4. `cp .env.brv.local.example .env.brv.local` — **API キー 1 つ**（OpenRouter / Anthropic / OpenAI / Gemini）  
 5. `npm run setup-brv-provider` — `brv` をクラウド API に接続（Ollama は非推奨）  
-6. `npm run build && npm run cursor-mcp:config` — Cursor に MCP 登録（`techsapo-providers` · Serena · `brv`）  
-7. **`git pull` のたび** — 手順 6 を再実行（[cursor-mcp-post-pull ルール](./.cursor/rules/cursor-mcp-post-pull.mdc)）
+6. `npm run build` — `dist/` for MCP wrappers（`git pull` 後も `src/` 変更時のみ）  
+7. `.cursor/mcp.json` はリポジトリ同梱（**pull 後の MCP Reload 不要** — [ルール](./.cursor/rules/cursor-mcp-post-pull.mdc)）
 
 ---
 
