@@ -4,7 +4,9 @@
 
 **Purpose:** Design philosophy and honest AS-IS / To-Be for human readers (recruiters, reviewers, new teammates).  
 **Not:** An execution checklist — use [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md).  
-**Status:** Active · **Last updated:** 2026/06/21 19:59:15 JST  
+**Human entry (Goal / AS-IS / roadmap):** [README.md](../README.md) · [README_en.md](../README_en.md)  
+**Wall-Bounce depth:** [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md)  
+**Status:** Active · **Last updated:** 2026/06/22  
 **Related:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 ---
@@ -48,7 +50,7 @@ For **rolling Gate timestamps**, see [FORK_STATUS.md](./FORK_STATUS.md). Summary
 |------|---------------|-----------------|
 | Unified MCP + adapters | **Implemented** + G7 pass | A-2/A-3 remainder; continue MCP/adapter operational checks |
 | Daily Cursor coding | Single-provider MCP path | Same — by design |
-| Hard multi-LLM analysis | Wall-Bounce API exists | Constitution enforced in code (Track C) |
+| Hard multi-LLM analysis | Wall-Bounce API exists; [AS-IS doc](./WALL_BOUNCE_AS_IS.md) records code truth | Default parallel-first + threshold branch ([TS-25](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)); 2–5 rounds in wall-bounce mode (Track B/C) |
 | Model catalog (TS-21) | Rich JSON + schema | Loader + cost-aware TaskRouter in runtime (Track F) |
 | Memory substrate (TS-22) | ADR + schema + types; G-MEM closed | `OrchestrationSessionStore` + `sessionId` (Track B M1) |
 | Session continuation (TS-24) | ADR — post-Aggregator follow-up + negative retry policy | Track B wiring with Layer A |

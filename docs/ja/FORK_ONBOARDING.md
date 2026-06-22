@@ -4,7 +4,9 @@
 
 **目的:** 設計思想と、現状（AS-IS）・計画（To-Be）を正直に示す（採用候補、レビュア、新メンバー向け）。  
 **ではない:** 実行チェックリスト — [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) を使う。  
-**状態:** 有効 · **最終更新:** 2026/06/21 19:59:15 JST  
+**人間向け入口（ゴール / 現在地 / 必要なこと）:** [README.md](../../README.md)  
+**Wall-Bounce 詳細:** [WALL_BOUNCE_TO_BE.md](../WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_AS_IS.md](../WALL_BOUNCE_AS_IS.md)  
+**状態:** 有効 · **最終更新:** 2026/06/22  
 **関連:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 ---
@@ -48,7 +50,7 @@
 |------|---------------|---------------|
 | 統一 MCP + adapter | **実装済** + G7 Pass | A-2 / A-3 の残タスク；MCP・adapter の動作確認を継続 |
 | Cursor 日常コーディング | 単一 MCP パス | 同左（設計どおり） |
-| 厳密なマルチ LLM 分析 | Wall-Bounce API あり | Track C で憲法をコード enforce |
+| 厳密なマルチ LLM 分析 | [AS-IS  doc](../WALL_BOUNCE_AS_IS.md) でコード実態を記録 | デフォルト並列→合議→閾値分岐（[TS-25](../decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)）；壁打ちモードで 2–5 ラウンド（Track B/C） |
 | モデルカタログ（TS-21） | JSON + schema | runtime loader + TaskRouter（Track F） |
 | メモリ（TS-22） | ADR + schema；G-MEM 済 | M1 store + `sessionId`（Track B） |
 | セッション継続（TS-24） | ADR — Aggregator 後フォロー + negative retry | Track B で Layer A と配線 |
@@ -106,4 +108,4 @@ Google     ██░░░░░░░░  基盤のみ（agy 運用；catalog e
 | **P3** | 憲法のコード enforce | C |
 | **P4** | cache · Batch RAG · grounding（任意） | D / P5+ |
 
-日常コーディング: **単一 MCP**。厳密分析: **Wall-Bounce API**（2–5 ラウンド）。コード enforce: Track C（To-Be）。
+日常コーディング: **単一 MCP**。厳密分析: **Wall-Bounce API**（デフォルト並列→閾値で壁打ち分岐 · [To-Be](../WALL_BOUNCE_TO_BE.md)）。コード実態: [AS-IS](../WALL_BOUNCE_AS_IS.md)。

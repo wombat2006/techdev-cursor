@@ -8,13 +8,13 @@
 
 ### Developer
 
-1. **[README.md](../README.md)** (ja — GitHub top) · **[README_en.md](../README_en.md)** — thin human entry
+1. **[README.md](../README.md)** (ja — GitHub top) · **[README_en.md](../README_en.md)** — **Goal (To-Be) · AS-IS · what we need** + thin entry
 2. **[FORK_STATUS.md](./FORK_STATUS.md)** · **[ja/FORK_STATUS.md](./ja/FORK_STATUS.md)** — Gate / Track progress
 3. **[CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)** · **[ja/CURSOR_MCP_TODO_ja.md](./ja/CURSOR_MCP_TODO_ja.md)** — runbook (en canonical · ja summary)
 4. **[FORK_CURSOR.md](./FORK_CURSOR.md)** · **[ja/FORK_CURSOR.md](./ja/FORK_CURSOR.md)** — fork identity
 5. **[FORK_ONBOARDING.md](./FORK_ONBOARDING.md)** · **[ja/FORK_ONBOARDING.md](./ja/FORK_ONBOARDING.md)** — design depth
 6. **[AGENTS.md](../AGENTS.md)** · **[docs/agents/](./agents/)** — AI agent navigation
-7. **[ARCHITECTURE.md](./ARCHITECTURE.md)** · **[WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md)**
+7. **[ARCHITECTURE.md](./ARCHITECTURE.md)** · **[WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md)** · **[WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md)** · **[WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md)**
 8. **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)** · **[TESTING_GUIDE.md](./TESTING_GUIDE.md)**
 
 ### Operations
@@ -59,7 +59,10 @@
 | Document | Purpose |
 |----------|---------|
 | **ARCHITECTURE.md** | System design |
-| **WALL_BOUNCE_SYSTEM.md** | Multi-LLM orchestration |
+| **WALL_BOUNCE_SYSTEM.md** | Multi-LLM orchestration (operator guide) |
+| **WALL_BOUNCE_AS_IS.md** | Code-derived AS-IS truth |
+| **WALL_BOUNCE_TO_BE.md** | Target behavior + gap matrix |
+| **WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md** | Per-file modification points |
 | **MCP_SERVICES.md** | MCP service architecture |
 | **SECURITY.md** | Security patterns |
 

@@ -69,22 +69,26 @@ docs/legacy/ (inactive)
 
 ### A1 — Thin entry
 
-README files answer only:
+README files answer only ( **parallel headings** in `README.md` / `README_en.md` ):
 
-1. **What** is this repo? (DevAssist primary repo; not IT incident analysis)
-2. **Why** does it exist? (coding accuracy + workload reduction)
-3. **Where** to go next? (links table)
-4. **Current status?** → link to [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) from `README.md`, or [FORK_STATUS.md](./FORK_STATUS.md) from `README_en.md` (not duplicated prose)
+1. **Goal (To-Be)** — target Wall-Bounce behavior; link [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md)
+2. **Where we are (AS-IS)** — explicit “code matches AS-IS doc; repair in progress”; link [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md)
+3. **What we need** — prioritized Track summary; links to [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) and [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md)
+4. **What** is this repo? (DevAssist; not IT incident analysis)
+5. **Why** does it exist? (coding accuracy + workload reduction)
+6. **Where** to go next? (links table)
+7. **Current Gate progress?** → link to [ja/FORK_STATUS.md](./ja/FORK_STATUS.md) or [FORK_STATUS.md](./FORK_STATUS.md) (not rolling milestone tables)
 
 **Do not put in README:**
 
 - Step-by-step runbooks (→ `CURSOR_MCP_TODO.md`)
-- AS-IS / To-Be tables that change every Gate (→ `FORK_STATUS.md`)
+- Rolling Gate milestone tables / Changelog (→ `FORK_STATUS.md`)
+- Full code-derived AS-IS inventory (→ `WALL_BOUNCE_AS_IS.md`)
 - Long processing-flow mermaid (→ `ARCHITECTURE.md` or runbook)
 - Legacy platform ops (PM2/Grafana/IT-incident examples) (→ `docs/legacy/` or remove links)
 - Design depth / maturity bars (→ `FORK_CURSOR.md` or future `FORK_ONBOARDING.md`)
 
-**Target size (after migration):** ~40–80 lines per README (both languages, parallel headings).
+**Target size:** concise; **Goal / AS-IS / What we need** sections are mandatory even if total exceeds ~80 lines.
 
 ### B2 — Language split
 

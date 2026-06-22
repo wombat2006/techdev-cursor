@@ -22,7 +22,7 @@
 4. **Implementation path** — Only via `src/services/wall-bounce-analyzer.ts`
 5. **Output language** — Japanese for user-facing content
 
-Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
+Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_IS.md](docs/WALL_BOUNCE_AS_IS.md) · [WALL_BOUNCE_TO_BE.md](docs/WALL_BOUNCE_TO_BE.md) (TS-25 interprets constitution for implementation)
 
 ---
 
@@ -30,7 +30,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md)
 
 | Task | Primary File | Documentation |
 |------|--------------|---------------|
-| Wall-Bounce Analysis | `src/services/wall-bounce-analyzer.ts` | [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) |
+| **Wall-Bounce AS-IS / To-Be** | `wall-bounce-analyzer.ts` | [WALL_BOUNCE_AS_IS.md](docs/WALL_BOUNCE_AS_IS.md) · [WALL_BOUNCE_TO_BE.md](docs/WALL_BOUNCE_TO_BE.md) · [TS-25](docs/decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) |
 | MCP Integration | `src/services/mcp-integration-service.ts` | [MCP_SERVICES.md](docs/MCP_SERVICES.md) |
 | Cursor MCP runbook | Phase 0: WSL CLI + auth first | [CURSOR_MCP_TODO.md](docs/CURSOR_MCP_TODO.md) · [CURSOR_MCP_PLAN.md](docs/CURSOR_MCP_PLAN.md) |
 | Memory substrate (TS-22) | Before Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |

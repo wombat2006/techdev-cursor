@@ -93,7 +93,7 @@ Runbook: [CURSOR_MCP_TODO § Memory substrate](./CURSOR_MCP_TODO.md#memory-subst
 
 ### Wall-Bounce / P5
 
-- [ ] **Track C** — constitution round enforce (TS-12), orchestrator merge, PromptAnalyzer + dictionary v0
+- [ ] **Track C** — constitution round enforce in wall-bounce mode (TS-25), orchestrator merge, PromptAnalyzer + dictionary v0, objection workflow (C-7)
 - [ ] **Haiku registration** — `fast` preset via Track B-3
 - [ ] **Provider Gateway (TS-17 To-Be)** — HTTP/SSE sidecar only if multi-node deployment required
 

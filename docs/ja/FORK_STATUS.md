@@ -54,6 +54,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 |---|--------|--------|------|
 | **M1** | Layer A オーケストレーション transcript 永続化 | `OrchestrationSessionStore` + Redis `orch:session:*` | `[ ]` 型/schema/config ✅；Redis 未 |
 | **B-0** | リクエスト単位 model / effort / CoT preset | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative` | `[~]` matrix+catalog resolver ✅；preset JSON ファイル未 |
+| **B-4** | 実行モードルーティング（TS-25） | 並列→合議→閾値分岐；キーワード/MCP 上書き | `[ ]` |
+| **B-5** | SSE + Layer A 可観測性 | SSE イベント拡張；ラウンドストリーム | `[ ]` |
 | **B-1** | Cursor + Wall-Bounce で同一 transport | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | セッション継続 + legacy 統合 | `sessionId` · Layer A ラウンドイベント · TS-22 codex-session 統合 | `[ ]` |
 
@@ -100,7 +102,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | Redis `OrchestrationSessionStore` | M1 | Layer A 本番必須 |
 | Wall-Bounce → adapter 配線 | B-1 | `wall-bounce-analyzer.ts` legacy spawn 残存 |
 | RAG `/search` legacy MCP 並行 | B-1 | `rag-endpoint.ts` 未統合 |
-| 憲法 enforce（2–5 ラウンド） | C | AS-IS: 単 pass + aggregator |
+| 憲法 enforce（2–5 ラウンド） | C | AS-IS: 1-pass；To-Be 壁打ちモード時のみ（[TS-25](../decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)） |
 | `inference-profiles.json` 実ファイル | B-0 | effort/cot preset JSON 未 |
 | simulate / legacy MCP 経路 | B-1 | `mcp-clients` ガード済；rag-endpoint は adapter 統合まで simulate |
 | A-2 InferenceProfile in MCP | A | 非ブロック |
@@ -119,7 +121,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 |------|---------------|---------------|
 | **Cursor 日常 dev** | 単一 MCP（`analyze_*`）+ サブスク CLI | 同左（設計どおり） |
 | **統一 MCP + adapter** | 実装済 + G7 Pass | A-2 / A-3 の残タスク；MCP・adapter の動作確認を継続 |
-| **Wall-Bounce API** | legacy spawn；1-pass；Hard Gate loop なし | B-1 で adapter 統合 · Track C で憲法 enforce（2–5 ラウンド） |
+| **Wall-Bounce API** | legacy spawn；1-pass 並列/逐次；閾値分岐なし | B-4 TS-25 · B-1 adapter · Track C で壁打ちモード時 2–5 ラウンド |
 | **オーケストレーション記憶** | ADR + schema・型のみ（Redis 未） | M1 Redis + M2–M6 配線；TS-24 継続・再試行 |
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
 | **Model catalog（TS-21）** | JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + コスト routing |

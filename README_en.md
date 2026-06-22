@@ -2,9 +2,63 @@
 
 Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`).
 
-> **Not** IT incident / InfraOps analysis — see [FORK_CURSOR.md](./docs/FORK_CURSOR.md) for repo identity.
+> **Not** IT incident / InfraOps analysis — see [FORK_CURSOR.md](./docs/FORK_CURSOR.md).
 
-*[English](README_en.md) | [日本語（GitHub トップ）](README.md)*
+*[English](README_en.md) | [日本語（GitHub top）](README.md)*
+
+---
+
+## Goal (To-Be)
+
+**What this repo is building toward** — full spec: [WALL_BOUNCE_TO_BE.md](./docs/WALL_BOUNCE_TO_BE.md) · ADR [TS-25](./docs/decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)
+
+| Area | To-Be |
+|------|-------|
+| **Daily Cursor (Track A)** | Unified MCP single-LLM invokes (`analyze_*`) |
+| **Hard multi-LLM (Track B)** | **Default:** parallel peers → **aggregator consensus** → if below thresholds, **auto wall-bounce mode** (constitution **2–5 rounds**) |
+| **Mode overrides** | Prompt keywords (e.g. force wall-bounce) and MCP config; **serial chain** mode with **no consensus gate** |
+| **Observability** | Follow peer outputs, deliberation, and branch decisions via **SSE** (persisted to Layer A) |
+| **Objections** | Challenge aggregator reasoning → re-query → **user picks next behavior** |
+| **Upfront difficulty scoring** | **None** — replaced by post-aggregate threshold branch |
+
+**Value:** not “which LLM” but “how LLMs cooperate” — see [Why Wall-Bounce](#why-wall-bounce).
+
+---
+
+## Where we are (AS-IS)
+
+> **Running code matches [AS-IS](./docs/WALL_BOUNCE_AS_IS.md).** Gaps vs To-Be are documented; **repair and implementation are in progress** on Track B / C. README goal text describes To-Be; for behavior guarantees use the AS-IS doc and `src/`.
+
+| Area | Works today | Main gap vs To-Be |
+|------|-------------|-------------------|
+| **Track A — MCP** | `analyze_*` single-shot via adapters — **G7 Pass** | No mode-keyword routing yet |
+| **Track B — Wall-Bounce API** | `wall-bounce-analyzer.ts`: **one** parallel or sequential pass + one aggregation | No threshold branch, no 2–5 round loop, no objection UX |
+| **Thresholds** | Warn in logs; **no retry/branch** on low scores | Auto wall-bounce on miss |
+| **Transport** | MCP uses adapters; analyzer uses **legacy spawn** | Unify in B-1 |
+| **Memory (Layer A)** | Types + ADR only; **no Redis store** | M1–M3 |
+| **SSE** | Partial (e.g. 500-char truncate) | Extend in B-5 |
+
+**Progress & Gates:** [FORK_STATUS.md](./docs/FORK_STATUS.md) · **Code truth:** [WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)
+
+---
+
+## What we need to get there
+
+Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./docs/WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) · checklist: [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
+
+| Priority | Work | Track | Gate |
+|----------|------|-------|------|
+| 1 | Layer A persistence (`OrchestrationSessionStore` / Redis) | **M1** | B→C prerequisite |
+| 2 | Wire Wall-Bounce to `src/adapters/*` | **B-1** | B→C |
+| 3 | Parallel → aggregate → **threshold branch**; keyword modes (TS-25) | **B-4** | B→C G7 |
+| 4 | SSE + Layer A event stream | **B-5** | B→C |
+| 5 | `inference-profiles.json` · TS-24 retry | **B-0** | B→C |
+| 6 | **2–5 round enforce** in wall-bounce mode | **C-4** | Gate C |
+| 7 | Hard gate · PromptAnalyzer · dictionary v0 | **C-1–C-3** | Gate C |
+| 8 | Objection workflow | **C-7** | Gate C G7 |
+| 9 | Analyzer / Orchestrator merge | **C-5** | Gate C |
+
+**Current focus:** Track **B** (Gate A→B Pass) — [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
 
 ---
 
@@ -12,88 +66,65 @@ Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `
 
 | | |
 |---|---|
-| **What** | **Multi-LLM wall-bounce** coding platform for Cursor — daily work via unified MCP (`analyze_claude` / `analyze_codex` / `analyze_agy`); hard analysis via **Wall-Bounce** (2–5 coordinated rounds + consensus gates) |
-| **Why** | Improve coding-assist **accuracy and reliability through multi-LLM coordination**, within subscription CLI cost |
-| **Not** | IT incident platform · multi-model picker only (no orchestration) |
+| **What** | Multi-LLM coding platform for Cursor — daily MCP, hard analysis via Wall-Bounce API |
+| **Why** | Better accuracy through multi-LLM coordination within subscription CLI cost |
+| **Not** | IT incident platform · model picker only |
 
 ---
 
-## Why Wall-Bounce (not just multi-model access)
+## Why Wall-Bounce
 
-Tools like [Antigravity](https://antigravity.google/docs/models) consolidate **access to Claude, GPT, and Gemini** in one harness. You can **pick a model**, but they do **not** run **multiple LLMs in coordinated rounds on the same prompt** with consensus and quality gates.
+Tools like [Antigravity](https://antigravity.google/docs/models) bundle model access but do **not** coordinate multiple LLMs on one prompt with consensus.
 
-| | Multi-model harness (e.g. Antigravity) | Wall-Bounce |
+| | Multi-model harness | This repo (To-Be) |
 |---|---|---|
-| Access to several model families | ✅ | ✅ (`agy` / `codex` / `claude`) |
-| Multi-LLM coordination on one prompt | ❌ | ✅ **2–5 rounds** + consensus gates |
+| Multi-family access | ✅ | ✅ |
+| Coordination on one prompt | ❌ | ✅ parallel → consensus → wall-bounce if needed |
 | Output | One model → one answer | 2+ providers → structured agreement |
-
-**This repo’s value is not “which LLM” but “how LLMs cooperate.”** Daily Cursor: single MCP per call; hard analysis: Wall-Bounce API.
 
 ---
 
 ## Architecture (overview)
 
-**Track A (daily):** Cursor → unified MCP → adapters → subscription CLIs.  
-**Track B (hard):** multiple LLMs **wall-bounce the same prompt in 2–5 rounds** with consensus and quality gates (`wall-bounce-analyzer.ts`).  
-Track B is **in progress** (adapter wiring, Layer A, etc.) — see [FORK_STATUS.md](./docs/FORK_STATUS.md).  
-RAG prep and storage/Vector connectors are **planned on** sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) (AS-IS: legacy `googledrive-connector.ts` in this repo).
-
 ```mermaid
 flowchart TB
-  subgraph trackA["Daily Cursor (Track A)"]
-    U1[User]
-    CUR[Cursor IDE]
-    MCP[techsapo-providers MCP<br/>analyze_claude / analyze_codex / analyze_agy]
+  subgraph trackA["Track A — daily (AS-IS ✅)"]
+    CUR[Cursor] --> MCP[techsapo-providers MCP]
+    MCP --> AD[adapters] --> CLI[claude / codex / agy]
   end
 
-  subgraph adapters["Adapter layer"]
-    AD1[claude-adapter]
-    AD2[codex-adapter]
-    AD3[agy-adapter]
+  subgraph trackB["Track B — hard analysis (AS-IS: 1-pass · To-Be: branch+rounds)"]
+    API[Wall-Bounce API] --> WBA[wall-bounce-analyzer]
+    WBA --> PEER[Peer LLMs]
+    WBA --> AGG[Aggregator]
+    WBA -.->|To-Be| ROUNDS[2–5 rounds on branch]
   end
 
-  subgraph cli["WSL subscription CLIs"]
-    CL[claude]
-    CX[codex]
-    AG[agy]
+  subgraph mem["Layer A (To-Be · M1)"]
+    REDIS[(OrchestrationSession)]
   end
 
-  subgraph wb["Wall-Bounce (hard multi-LLM)"]
-    API[Wall-Bounce API]
-    WBA[wall-bounce-analyzer]
-    PEER[Peer LLM ×2–5 rounds]
-    AGG[Aggregator]
-  end
-
-  subgraph mem["Layer A (To-Be · TS-22)"]
-    REDIS[(OrchestrationSession<br/>Redis)]
-  end
-
-  subgraph mon["Monitoring & user alerts"]
-    PROM[Prometheus / Grafana]
-    AM[Alertmanager]
-    LN[line-notification]
-    U2[User · LINE]
-  end
-
-  U1 --> CUR --> MCP
-  MCP --> AD1 & AD2 & AD3
-  AD1 --> CL
-  AD2 --> CX
-  AD3 --> AG
-  U1 --> API --> WBA --> PEER --> AGG
-  WBA -.-> REDIS
-  WBA --> PROM --> AM --> LN --> U2
+  WBA -.-> mem
 ```
 
-| Path | Role |
-|------|------|
-| **Cursor → techsapo-providers → adapters → CLIs** | Daily coding (single MCP invoke) |
-| **Wall-Bounce API → analyzer → peer LLMs** | Hard multi-LLM coordination + consensus (**2–5 rounds**) |
-| **Prometheus → line-notification** | **LINE Webhook** alerts on anomalies (implemented) |
+| Path | AS-IS today | To-Be |
+|------|-------------|-------|
+| Cursor → MCP → CLIs | ✅ single `analyze_*` | Same + mode keywords |
+| Wall-Bounce API | 1-pass + aggregate | Threshold branch · round enforce |
+| Layer A / SSE | Partial / unwired | Full round log · live stream |
 
-Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md) · [MONITORING_OPERATIONS.md](./docs/MONITORING_OPERATIONS.md)
+Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
+
+---
+
+## Wall-Bounce documentation (required reading)
+
+| Document | Role |
+|----------|------|
+| **[WALL_BOUNCE_TO_BE.md](./docs/WALL_BOUNCE_TO_BE.md)** | Target behavior · gap matrix |
+| **[WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)** | **Code-derived current state** |
+| [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./docs/WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | Modification checklist |
+| [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./docs/decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
 
 ---
 
@@ -101,36 +132,33 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 
 | Need | Document |
 |------|----------|
-| **Current status & Gates** | [FORK_STATUS.md](./docs/FORK_STATUS.md) · [日本語](./docs/ja/FORK_STATUS.md) |
-| **Execute tasks / Tracks** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [要約（日本語）](./docs/ja/CURSOR_MCP_TODO_ja.md) |
-| Fork identity & layout | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) · [日本語](./docs/ja/FORK_CURSOR.md) |
-| Design depth & maturity | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) · [日本語](./docs/ja/FORK_ONBOARDING.md) |
-| RAG · connectors (sibling · optional) | [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — storage (Google Drive / S3 / OneDrive, etc.) + RAG Vector connectors planned · consumer in this repo: [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| **Gates & progress** | [FORK_STATUS.md](./docs/FORK_STATUS.md) · [日本語](./docs/ja/FORK_STATUS.md) |
+| **Execution runbook** | [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md) · [ja summary](./docs/ja/CURSOR_MCP_TODO_ja.md) |
+| Fork identity | [FORK_CURSOR.md](./docs/FORK_CURSOR.md) |
+| Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
-| Full doc map | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| Documentation rules | [DOCUMENTATION_POLICY.md](./docs/DOCUMENTATION_POLICY.md) |
+| Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 
 ---
 
 ## Quick start (developers)
 
-**Prerequisite:** Node.js ≥20 (`package.json` `engines`)
+**Prerequisite:** Node.js ≥20
 
-1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md) — scope and directory layout  
-2. [CURSOR_MCP_TODO.md § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication) — WSL CLI auth (`claude` / `codex` / `agy`)  
-3. `npm run setup-mcp-prereqs` — `uv`/`uvx` for Serena (once per machine)  
-4. `cp .env.brv.local.example .env.brv.local` — set **one** API key (OpenRouter / Anthropic / OpenAI / Gemini)  
-5. `npm run setup-brv-provider` — connect `brv` to cloud API (Ollama not recommended)  
-6. `npm run build` — `dist/` for MCP wrappers (after `src/` changes on pull only)  
-7. `.cursor/mcp.json` is tracked in repo (**no MCP Reload after routine pull** — [rule](./.cursor/rules/cursor-mcp-post-pull.mdc))
+1. [FORK_CURSOR.md](./docs/FORK_CURSOR.md)  
+2. [CURSOR_MCP_TODO § A-0](./docs/CURSOR_MCP_TODO.md#a-0-wsl-native-install--authentication)  
+3. `npm run setup-mcp-prereqs` · `npm install`  
+4. `cp .env.brv.local.example .env.brv.local` → `npm run setup-brv-provider`  
+5. `npm run build` — after pull only when `src/` changed  
+6. `.cursor/mcp.json` tracked (**no routine MCP Reload after pull** — [rule](./.cursor/rules/cursor-mcp-post-pull.mdc))
 
 ---
 
-## Constitution (summary)
+## Constitution (target contract)
 
-Wall-Bounce: **at least 2 rounds, at most 5**; confidence ≥ 0.7; consensus ≥ 0.6; implementation via `wall-bounce-analyzer.ts` only.
+Wall-Bounce **target:** **2–5 rounds** in wall-bounce mode · confidence ≥ 0.7 · consensus ≥ 0.6 · via `wall-bounce-analyzer.ts`.
 
-**To-Be UX:** Post-Aggregator session continuation and negative-feedback retry (upward temperature jitter) — [TS-24 ADR](./docs/decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (Track B implementation).
+> Constitution describes To-Be contract. **Current code does not fully enforce it** — [AS-IS](./docs/WALL_BOUNCE_AS_IS.md) §14 · Track C planned.
 
 Details: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
@@ -138,4 +166,4 @@ Details: [AGENTS.md](./AGENTS.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_
 
 ## License & support
 
-MIT — see `license` in [package.json](./package.json). Issues: [GitHub](https://github.com/wombat2006/techdev-cursor/issues).
+MIT — [package.json](./package.json). Issues: [GitHub](https://github.com/wombat2006/techdev-cursor/issues).

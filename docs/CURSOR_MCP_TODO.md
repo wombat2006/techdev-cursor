@@ -48,7 +48,7 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 **Dev loop vs constitution (no conflict):**
 
 - **Daily coding in Cursor:** single-provider MCP (`analyze_*`) when one LLM suffices — [FORK_ONBOARDING § AS-IS](./FORK_ONBOARDING.md#honest-maturity-as-is-vs-to-be).
-- **Multi-LLM analysis / production API:** Wall-Bounce only — ≥2 providers, 2–5 rounds, thresholds per [AGENTS.md](../AGENTS.md#constitution). Round **enforcement in code** remains **Track C** (To-Be).
+- **Multi-LLM analysis / production API:** Wall-Bounce — ≥2 providers; **default** parallel → aggregate → threshold branch ([TS-25](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)); constitution **2–5 rounds** apply in wall-bounce mode (forced or branch). Code truth: [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md). Round **enforcement** = Track B (B-4) + Track C (C-4).
 
 Reference: [PROVIDER_INTEGRATION_BACKLOG.md](./PROVIDER_INTEGRATION_BACKLOG.md) · [FORK_CURSOR.md § MCP sequence](./FORK_CURSOR.md#mcp-server-implementation-sequence-fork) · [Codex review crosswalk](#codex-review-crosswalk-2026-06-18)
 
@@ -697,6 +697,41 @@ Use adapters only for new work.
 
 ---
 
+### B-4: Execution mode routing (TS-25)
+
+**Purpose:** Default `parallel-then-maybe-wall-bounce`; keyword/MCP overrides; user-configurable thresholds.
+
+**References:** [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) · [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md)
+
+**Steps:**
+
+1. Add `ExecutionMode` enum + `config/wall-bounce-modes.json` (thresholds, keyword table).
+2. Implement phase A–D in [wall-bounce-analyzer.ts](../src/services/wall-bounce-analyzer.ts): parallel peers → aggregate → threshold compare → optional wall-bounce rounds.
+3. Wire `PromptAnalyzer` keyword strip + mode (minimal regex OK until C-2).
+4. API: extend `wall-bounce-api.ts` query/body (`mode`, `confidenceMin`, `consensusMin`).
+
+**Done when:** `[ ]` Default path branches on sub-threshold in tests; `[ ]` 「壁打ちで」 forces wall-bounce mode; `[ ]` serial mode skips consensus gate.
+
+**Reflection memo:** _Constitution rounds apply in wall-bounce mode — not on every request's first parallel pass._
+
+---
+
+### B-5: Observability stream (SSE + Layer A)
+
+**Purpose:** User can follow peer outputs, aggregation, and branch decisions in real time.
+
+**AS-IS:** Partial SSE in `wall-bounce-api.ts` (500-char truncate; no round events).
+
+**Steps:**
+
+1. Extend SSE events: `round_start`, `round_end`, `threshold_decision`, `branch_wall_bounce`.
+2. Append same events to Layer A (requires M1).
+3. Document event contract in [API_REFERENCE.md](./API_REFERENCE.md).
+
+**Done when:** `[ ]` One E2E test asserts event order; `[ ]` Layer A replay matches SSE for same session.
+
+---
+
 ### Gate B → C (review before Track C)
 
 | # | Criterion | Yes | Memo |
@@ -707,8 +742,10 @@ Use adapters only for new work.
 | G4 | **CoT vs SSE:** UI thinking stream ≠ CoT policy | | |
 | G5 | **Doc sync:** ADR, API reference, WALL_BOUNCE_SYSTEM updated | | |
 | G6 | **E2E:** One preset works end-to-end (API or MCP) with test record | | |
+| G7 | **Mode routing (TS-25):** Threshold branch + keyword override tested | | |
+| G8 | **AS-IS doc:** [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md) matches code at sign-off | | |
 
-**Pass when:** G1–G6 all Yes.
+**Pass when:** G1–G8 all Yes.
 
 **Gate decision:** `[ ]` Pass → proceed to Track C  /  `[ ]` Fail → fix Track B
 
@@ -770,19 +807,19 @@ Reference: [WALL_BOUNCE_P5_ARCHITECTURE.md §4](./decisions/WALL_BOUNCE_P5_ARCHI
 
 ---
 
-### C-4: Constitution round enforce (TS-12)
+### C-4: Constitution round enforce (TS-12 + TS-25)
 
-**Purpose:** Enforce 2–5 rounds in code, not docs only.
+**Purpose:** Enforce **2–5 wall-bounce rounds** in wall-bounce mode (forced or threshold branch), not on every parallel-first pass.
 
 **Steps:**
 
-1. Add round counter in `executeWallBounce` (min 2, max 5).
-2. Reject single-round execution.
-3. Tests: 1 round fails; 2 rounds pass; 6 rounds capped at 5.
+1. Add round counter in wall-bounce phase D ([TS-25](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)).
+2. Reject wall-bounce mode completing with &lt;2 rounds.
+3. Cap at 5 rounds; tests: 1 round fails; 2 pass; 6 capped at 5.
 
-**Done when:** `[ ]` Tests prove enforce; `[ ]` matches [AGENTS.md](../AGENTS.md) Constitution.
+**Done when:** `[ ]` Tests prove enforce in wall-bounce mode; `[ ]` parallel-first fast path still allowed per TS-25.
 
-**Reflection memo:** _Constitution is supreme — implementation must not bypass via API flags._
+**Reflection memo:** _Constitution is supreme — but default entry is parallel-then-maybe-wall-bounce per owner To-Be._
 
 ---
 
@@ -800,6 +837,23 @@ Reference: [WALL_BOUNCE_P5_ARCHITECTURE.md §4](./decisions/WALL_BOUNCE_P5_ARCHI
 
 ---
 
+### C-7: User objection workflow (TS-25 + TS-24)
+
+**Purpose:** User challenges aggregator reasoning; system re-queries peers and presents **choice menu**.
+
+**Gap:** No objection API; TS-24 covers implicit negative retry only.
+
+**Steps:**
+
+1. `POST /api/v1/wall-bounce/objection` with `sessionId`, `claims[]`, `note`.
+2. Focused peer re-query + aggregator objection summary.
+3. Return user options: accept revision, another round, parallel re-run, tier escalate, keep prior.
+4. Layer A events: `user_objection`, `objection_resolution`.
+
+**Done when:** `[ ]` Integration test covers one objection cycle; `[ ]` Layer A audit trail complete.
+
+---
+
 ### Gate C — P5 Phase 0 complete
 
 | # | Criterion | Yes | Memo |
@@ -810,8 +864,9 @@ Reference: [WALL_BOUNCE_P5_ARCHITECTURE.md §4](./decisions/WALL_BOUNCE_P5_ARCHI
 | G4 | TS-12 constitution rounds enforced in code | | |
 | G5 | B3/B8 orchestrator unified | | |
 | G6 | Docs + tests synced ([documentation-sync](../.cursor/rules/documentation-sync.mdc)) | | |
+| G7 | C-7 objection workflow E2E | | |
 
-**Pass when:** G1–G6 all Yes → **P5 Phase 0 platform complete.**
+**Pass when:** G1–G7 all Yes → **P5 Phase 0 platform complete.**
 
 **Gate decision:** `[ ]` Pass  /  `[ ]` Fail
 

@@ -54,6 +54,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 |---|------|-------------|--------|
 | **M1** | Durable orchestration transcript (Layer A) | `OrchestrationSessionStore` + Redis `orch:session:*` | `[ ]` Types/schema/config ✅; Redis pending |
 | **B-0** | Request-level model / effort / CoT presets | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative` | `[~]` Matrix+catalog resolver ✅; preset JSON file pending |
+| **B-4** | Execution mode routing (TS-25) | Parallel-first → threshold branch; keyword/MCP overrides | `[ ]` |
+| **B-5** | SSE + Layer A observability | Extended SSE events; round stream | `[ ]` |
 | **B-1** | One transport for Cursor + Wall-Bounce | `wall-bounce-analyzer.ts` + `rag-endpoint.ts` → `src/adapters/*` | `[ ]` |
 | **M2–M6** | Session continuity + legacy migration | `sessionId` · round events in Layer A · TS-22 codex-session fold | `[ ]` |
 
@@ -100,7 +102,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | Redis `OrchestrationSessionStore` | M1 | Layer A mandatory for production sessions |
 | Wall-Bounce → adapter wiring | B-1 | Legacy spawn in `wall-bounce-analyzer.ts` remains |
 | RAG `/search` legacy MCP parallel | B-1 | `rag-endpoint.ts` not via unified adapters |
-| Constitution enforce (2–5 rounds, Hard Gate loop) | C | AS-IS: single pass + aggregator |
+| Constitution enforce (2–5 rounds, Hard Gate loop) | C | AS-IS: 1-pass; rounds only in To-Be wall-bounce mode ([TS-25](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)) |
 | simulate / legacy MCP paths | B-1 | `mcp-clients` guarded; rag-endpoint still simulate until adapters |
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |
 | A-3 team MCP registration | A | Non-blocking |
@@ -118,7 +120,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 |------|---------------|-----------------|
 | **Cursor daily dev** | Single MCP (`analyze_*`) via subscription CLI | Same — by design |
 | **Unified MCP + adapters** | Implemented + G7 pass | A-2/A-3 remainder; continue MCP/adapter operational checks |
-| **Wall-Bounce API** | Legacy spawn; 1-pass; no Hard Gate loop | B-1 adapter wiring · Track C constitution enforce (2–5 rounds) |
+| **Wall-Bounce API** | Legacy spawn; 1-pass parallel/sequential; no threshold branch | B-4 TS-25 routing · B-1 adapters · Track C constitution rounds in wall-bounce mode |
 | **Orchestration memory** | ADR + schema/types only (Redis pending) | M1 Redis + M2–M6 wiring; TS-24 continuation/retry |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
