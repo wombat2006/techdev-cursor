@@ -79,8 +79,9 @@ All splits must pass before merge.
 | `googledrive-connector.ts` | 792 | `src/services/googledrive-connector/` | `googledrive-connector.ts` | 194 (`rag-search.ts`) |
 | `cost-tracking.ts` | 437 | `src/services/cost-tracking/` | `cost-tracking.ts` | ~385 (`service.ts`) |
 | `mcp-config-manager.ts` | 392 | `src/services/mcp-config-manager/` | `mcp-config-manager.ts` | 147 (`manager.ts`) |
+| `ultra-conservative-monitor.ts` | 579 | `src/services/ultra-conservative-monitor/` | `ultra-conservative-monitor.ts` | 244 (`monitor.ts`) |
 
-**Total:** 11 monoliths → 11 module trees + 11 shims. **70+ tests** in the SRP module suite (10 suites) as of this record.
+**Total:** 12 monoliths → 12 module trees + 12 shims. **75+ tests** in the SRP module suite (11 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -337,6 +338,27 @@ analyze-entry
 
 ---
 
+### 4.12 Ultra-conservative monitor (Phase 3 rollout)
+
+**Shim:** `src/services/ultra-conservative-monitor.ts`  
+**Modules:** `src/services/ultra-conservative-monitor/`  
+**Consumers:** none in `src/` (leaf — legacy gradual rollout tooling)
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `monitor.ts` | 244 | `UltraConservativeMonitor` singleton — phase transitions, interval loop |
+| `phase-configurations.ts` | 77 | `buildPhaseConfigurations`, `getPreviousPhase`, traffic % |
+| `pre-transition-check.ts` | 76 | Pre-transition safety gate |
+| `types.ts` | 73 | Phase/metrics/evaluation types |
+| `metrics-collector.ts` | 54 | Simulated metrics collection |
+| `health-evaluation.ts` | 57 | `evaluatePhaseHealth` |
+| `stability-score.ts` | 32 | Rolling stability score from history |
+| `math-utils.ts` | 5 | `calculateVariance` |
+
+**Tests:** `ultra-conservative-monitor-modules.test.ts` (phase ladder, health evaluation, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -352,6 +374,7 @@ analyze-entry
 | `src/services/googledrive-connector.ts` | `./googledrive-connector/index` |
 | `src/services/cost-tracking.ts` | `./cost-tracking/index` |
 | `src/services/mcp-config-manager.ts` | `./mcp-config-manager/index` |
+| `src/services/ultra-conservative-monitor.ts` | `./ultra-conservative-monitor/index` |
 
 ---
 
@@ -383,7 +406,7 @@ After any further split in this series:
 |------|--------|-------|
 | `src/services/googledrive-connector.ts` | 792 | **Split** → `googledrive-connector/` |
 | `src/services/googledrive-webhook-handler.ts` | 588 | Webhook + RAG sync |
-| `src/services/ultra-conservative-monitor.ts` | 578 | Monitoring |
+| `src/services/ultra-conservative-monitor.ts` | 579 | **Split** → `ultra-conservative-monitor/` |
 | `src/services/codex-mcp-integration.ts` | 565 | Codex ↔ MCP integration |
 | `src/utils/migrate-to-redis.ts` | 558 | One-off migration utility |
 
@@ -404,6 +427,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `ultra-conservative-monitor/` split (Phase 2 #2) |
 | 2026-06-23 | Phase 2 start: `mcp-config-manager/` split; `mcp-config-manager-modules.test.ts` |
 | 2026-06-23 | Phase 0–1 complete: `googledrive-connector/`, `cost-tracking/`; 64 module tests; README/ARCHITECTURE/DEVELOPMENT_GUIDE sync |
 | 2026-06-22 | Initial record: 8 monolith splits, 62 SRP module tests, shims documented |

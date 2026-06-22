@@ -62,6 +62,8 @@ src/
 │   ├── cost-tracking/                   # HF cost tracking service
 │   ├── mcp-config-manager.ts            # Shim → mcp-config-manager/
 │   ├── mcp-config-manager/              # Tool configs, selection, cost estimation
+│   ├── ultra-conservative-monitor.ts    # Shim → ultra-conservative-monitor/
+│   ├── ultra-conservative-monitor/      # Phase 3 rollout monitoring (leaf)
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

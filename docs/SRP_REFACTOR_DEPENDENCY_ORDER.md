@@ -143,7 +143,7 @@ flowchart TB
 | Priority | File | Lines | Status |
 |----------|------|-------|--------|
 | 1 | `mcp-config-manager.ts` | 392 | ✅ → `mcp-config-manager/` |
-| 2 | `ultra-conservative-monitor.ts` | 579 | pending |
+| 2 | `ultra-conservative-monitor.ts` | 579 | ✅ → `ultra-conservative-monitor/` |
 | 3 | `mcp-performance-monitor.ts` | 543 | pending |
 | 4 | `srp-safety-monitor.ts` | 424 | pending |
 | 5 | `googledrive-push-setup.ts` | 540 | pending |
@@ -189,7 +189,7 @@ flowchart TB
 
 ```bash
 npx tsc --noEmit
-npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
+npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|ultra-conservative-monitor-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
 ```
 
 ---
@@ -198,6 +198,6 @@ npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file
 
 | Date | Change |
 |------|--------|
-| 2026-06-23 | `mcp-config-manager/` split (Phase 2 #1) |
+| 2026-06-23 | `ultra-conservative-monitor/` split (Phase 2 #2) |
 | 2026-06-23 | Doc sync: README, ARCHITECTURE, DEVELOPMENT_GUIDE, TESTING_GUIDE, FORK_STATUS en/ja |
 | 2026-06-22 | Initial dependency order; Phase 0–1 complete (10 monoliths split) |

@@ -39,7 +39,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_
 | API Routes | `src/routes/wall-bounce-api.ts` | [API_REFERENCE.md](docs/API_REFERENCE.md) |
 | Security & Auth | `src/middleware/` | [SECURITY.md](docs/SECURITY.md) |
 | System Architecture | `src/index.ts` → `src/server/` | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| SRP monolith splits | Shim + module dirs (11 done, Phase 2 #1) | [SRP_MONOLITH_REFACTOR.md](docs/SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](docs/SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| SRP monolith splits | Shim + module dirs (12 done, Phase 2 #2) | [SRP_MONOLITH_REFACTOR.md](docs/SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](docs/SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 | LLM Model Catalog | `config/llm-model-catalog.json` | [TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | OpenAI model IDs | catalog slice | [OPENAI_MODEL_MATRIX.md](docs/OPENAI_MODEL_MATRIX.md) |
 | OpenAI prompt guidance | `prompting.*` in catalog | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
