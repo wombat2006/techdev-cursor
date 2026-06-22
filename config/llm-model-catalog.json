@@ -10,7 +10,8 @@
     "anthropic": {
       "displayName": "Anthropic",
       "billingModel": "subscription_cli",
-      "docsUrl": "https://docs.anthropic.com/claude/docs/models-overview"
+      "docsUrl": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "systemCardsUrl": "https://www.anthropic.com/system-cards"
     },
     "google": {
       "displayName": "Google (Antigravity)",
@@ -26,8 +27,16 @@
       "displayName": "GPT-5.5",
       "status": "planned",
       "tier": 4,
-      "roles": ["llm_analyze", "llm_cross_critique", "llm_agent_edit"],
-      "modalities": ["text", "vision", "multimodal"],
+      "roles": [
+        "llm_analyze",
+        "llm_cross_critique",
+        "llm_agent_edit"
+      ],
+      "modalities": [
+        "text",
+        "vision",
+        "multimodal"
+      ],
       "presetDefault": "deep",
       "prompting": {
         "style": "structured",
@@ -67,16 +76,30 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["none", "minimal", "low", "medium", "high", "xhigh"],
+          "values": [
+            "none",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
           "default": "medium"
         },
         "verbosity": {
           "supported": true,
-          "values": ["low", "medium", "high"],
+          "values": [
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "structuredOutputs": true,
@@ -92,7 +115,10 @@
         "skillsApi": true,
         "assistantPhase": {
           "supported": true,
-          "values": ["commentary", "final_answer"]
+          "values": [
+            "commentary",
+            "final_answer"
+          ]
         }
       },
       "limits": {
@@ -104,13 +130,32 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 5, "cachedInputUsd": 0.5, "outputUsd": 30 },
-        "batch": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
-        "flex": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
-        "priority": { "inputUsd": 12.5, "cachedInputUsd": 1.25, "outputUsd": 75 }
+        "standard": {
+          "inputUsd": 5,
+          "cachedInputUsd": 0.5,
+          "outputUsd": 30
+        },
+        "batch": {
+          "inputUsd": 2.5,
+          "cachedInputUsd": 0.25,
+          "outputUsd": 15
+        },
+        "flex": {
+          "inputUsd": 2.5,
+          "cachedInputUsd": 0.25,
+          "outputUsd": 15
+        },
+        "priority": {
+          "inputUsd": 12.5,
+          "cachedInputUsd": 1.25,
+          "outputUsd": 75
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api", "codex_cli"],
+        "invocationTypes": [
+          "responses_api",
+          "codex_cli"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.5",
@@ -160,8 +205,14 @@
       "displayName": "GPT-5.5 Pro",
       "status": "planned",
       "tier": 5,
-      "roles": ["llm_aggregate", "llm_cross_critique"],
-      "modalities": ["text", "multimodal"],
+      "roles": [
+        "llm_aggregate",
+        "llm_cross_critique"
+      ],
+      "modalities": [
+        "text",
+        "multimodal"
+      ],
       "presetDefault": "critical",
       "prompting": {
         "style": "structured",
@@ -186,18 +237,26 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api"],
+        "supportedEndpoints": [
+          "responses_api"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["medium", "high"],
+          "values": [
+            "medium",
+            "high"
+          ],
           "default": "high"
         },
         "structuredOutputs": true,
         "reasoningItems": true,
         "assistantPhase": {
           "supported": true,
-          "values": ["commentary", "final_answer"]
+          "values": [
+            "commentary",
+            "final_answer"
+          ]
         },
         "promptCaching": {
           "supported": true,
@@ -205,7 +264,9 @@
         }
       },
       "transport": {
-        "invocationTypes": ["responses_api"],
+        "invocationTypes": [
+          "responses_api"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.5-pro"
@@ -239,9 +300,18 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 30, "outputUsd": 180 },
-        "batch": { "inputUsd": 15, "outputUsd": 90 },
-        "flex": { "inputUsd": 15, "outputUsd": 90 }
+        "standard": {
+          "inputUsd": 30,
+          "outputUsd": 180
+        },
+        "batch": {
+          "inputUsd": 15,
+          "outputUsd": 90
+        },
+        "flex": {
+          "inputUsd": 15,
+          "outputUsd": 90
+        }
       },
       "notes": "Higher-compute tier above GPT-5.5 for hardest problems. Outcome-first prompting (platform guide)."
     },
@@ -252,8 +322,17 @@
       "displayName": "GPT-5.4",
       "status": "planned",
       "tier": 3,
-      "roles": ["llm_analyze", "llm_agent_edit", "llm_cross_critique"],
-      "modalities": ["text", "vision", "document", "multimodal"],
+      "roles": [
+        "llm_analyze",
+        "llm_agent_edit",
+        "llm_cross_critique"
+      ],
+      "modalities": [
+        "text",
+        "vision",
+        "document",
+        "multimodal"
+      ],
       "presetDefault": "balanced",
       "prompting": {
         "style": "structured",
@@ -292,25 +371,43 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["none", "minimal", "low", "medium", "high"],
+          "values": [
+            "none",
+            "minimal",
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "verbosity": {
           "supported": true,
-          "values": ["low", "medium", "high"],
+          "values": [
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "structuredOutputs": true,
         "reasoningItems": true,
         "assistantPhase": {
           "supported": true,
-          "values": ["commentary", "final_answer"]
+          "values": [
+            "commentary",
+            "final_answer"
+          ]
         },
-        "promptCaching": { "supported": true },
+        "promptCaching": {
+          "supported": true
+        },
         "parallelToolCalls": true,
         "freeFormFunctionCalling": true,
         "contextFreeGrammar": true
@@ -324,13 +421,31 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 2.5, "cachedInputUsd": 0.25, "outputUsd": 15 },
-        "batch": { "inputUsd": 1.25, "cachedInputUsd": 0.13, "outputUsd": 7.5 },
-        "flex": { "inputUsd": 1.25, "cachedInputUsd": 0.13, "outputUsd": 7.5 },
-        "priority": { "inputUsd": 5, "cachedInputUsd": 0.5, "outputUsd": 30 }
+        "standard": {
+          "inputUsd": 2.5,
+          "cachedInputUsd": 0.25,
+          "outputUsd": 15
+        },
+        "batch": {
+          "inputUsd": 1.25,
+          "cachedInputUsd": 0.13,
+          "outputUsd": 7.5
+        },
+        "flex": {
+          "inputUsd": 1.25,
+          "cachedInputUsd": 0.13,
+          "outputUsd": 7.5
+        },
+        "priority": {
+          "inputUsd": 5,
+          "cachedInputUsd": 0.5,
+          "outputUsd": 30
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api"],
+        "invocationTypes": [
+          "responses_api"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.4",
@@ -360,8 +475,14 @@
       "displayName": "GPT-5.4 Pro",
       "status": "planned",
       "tier": 4,
-      "roles": ["llm_aggregate", "llm_cross_critique"],
-      "modalities": ["text", "multimodal"],
+      "roles": [
+        "llm_aggregate",
+        "llm_cross_critique"
+      ],
+      "modalities": [
+        "text",
+        "multimodal"
+      ],
       "presetDefault": "deep",
       "prompting": {
         "style": "structured",
@@ -383,17 +504,25 @@
         "multimodal": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api"],
+        "supportedEndpoints": [
+          "responses_api"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["medium", "high"],
+          "values": [
+            "medium",
+            "high"
+          ],
           "default": "high"
         },
         "structuredOutputs": true,
         "assistantPhase": {
           "supported": true,
-          "values": ["commentary", "final_answer"]
+          "values": [
+            "commentary",
+            "final_answer"
+          ]
         }
       },
       "limits": {
@@ -405,12 +534,23 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 30, "outputUsd": 180 },
-        "batch": { "inputUsd": 15, "outputUsd": 90 },
-        "flex": { "inputUsd": 15, "outputUsd": 90 }
+        "standard": {
+          "inputUsd": 30,
+          "outputUsd": 180
+        },
+        "batch": {
+          "inputUsd": 15,
+          "outputUsd": 90
+        },
+        "flex": {
+          "inputUsd": 15,
+          "outputUsd": 90
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api"],
+        "invocationTypes": [
+          "responses_api"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.4-pro"
@@ -438,8 +578,15 @@
       "displayName": "GPT-5.4 mini",
       "status": "planned",
       "tier": 2,
-      "roles": ["llm_analyze", "llm_codegen"],
-      "modalities": ["text", "vision", "document"],
+      "roles": [
+        "llm_analyze",
+        "llm_codegen"
+      ],
+      "modalities": [
+        "text",
+        "vision",
+        "document"
+      ],
       "presetDefault": "balanced",
       "prompting": {
         "style": "balanced",
@@ -473,20 +620,35 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["none", "minimal", "low", "medium", "high"],
+          "values": [
+            "none",
+            "minimal",
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "verbosity": {
           "supported": true,
-          "values": ["low", "medium", "high"],
+          "values": [
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "structuredOutputs": true,
-        "promptCaching": { "supported": true },
+        "promptCaching": {
+          "supported": true
+        },
         "parallelToolCalls": true,
         "freeFormFunctionCalling": true,
         "contextFreeGrammar": true,
@@ -504,13 +666,32 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 0.75, "cachedInputUsd": 0.075, "outputUsd": 4.5 },
-        "batch": { "inputUsd": 0.375, "cachedInputUsd": 0.0375, "outputUsd": 2.25 },
-        "flex": { "inputUsd": 0.375, "cachedInputUsd": 0.0375, "outputUsd": 2.25 },
-        "priority": { "inputUsd": 1.5, "cachedInputUsd": 0.15, "outputUsd": 9 }
+        "standard": {
+          "inputUsd": 0.75,
+          "cachedInputUsd": 0.075,
+          "outputUsd": 4.5
+        },
+        "batch": {
+          "inputUsd": 0.375,
+          "cachedInputUsd": 0.0375,
+          "outputUsd": 2.25
+        },
+        "flex": {
+          "inputUsd": 0.375,
+          "cachedInputUsd": 0.0375,
+          "outputUsd": 2.25
+        },
+        "priority": {
+          "inputUsd": 1.5,
+          "cachedInputUsd": 0.15,
+          "outputUsd": 9
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api", "codex_cli"],
+        "invocationTypes": [
+          "responses_api",
+          "codex_cli"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.4-mini",
@@ -559,15 +740,22 @@
       "displayName": "GPT-5.4 nano",
       "status": "planned",
       "tier": 2,
-      "roles": ["llm_analyze"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "fast",
       "prompting": {
         "style": "minimal",
         "approach": "minimal",
         "platformGuideUrl": "https://developers.openai.com/api/docs/guides/prompt-guidance/gpt-5.4.md",
         "platformGuideModel": "gpt-5.4",
-        "guidanceTopics": ["output-contract", "formatting-verbosity"],
+        "guidanceTopics": [
+          "output-contract",
+          "formatting-verbosity"
+        ],
         "notes": "Minimal reasoning; nano tier in GPT-5.4 guide. No tool search / computer use."
       },
       "capabilities": {
@@ -578,19 +766,30 @@
         "compaction": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["minimal", "low"],
+          "values": [
+            "minimal",
+            "low"
+          ],
           "default": "minimal"
         },
         "verbosity": {
           "supported": true,
-          "values": ["low", "medium"],
+          "values": [
+            "low",
+            "medium"
+          ],
           "default": "low"
         },
-        "promptCaching": { "supported": true },
+        "promptCaching": {
+          "supported": true
+        },
         "parallelToolCalls": false,
         "freeFormFunctionCalling": false,
         "batchApi": {
@@ -607,12 +806,27 @@
         "unit": "per_1m_tokens",
         "lastReviewed": "2026-06-18",
         "pricingUrl": "https://developers.openai.com/api/docs/pricing",
-        "standard": { "inputUsd": 0.2, "cachedInputUsd": 0.02, "outputUsd": 1.25 },
-        "batch": { "inputUsd": 0.1, "cachedInputUsd": 0.01, "outputUsd": 0.625 },
-        "flex": { "inputUsd": 0.1, "cachedInputUsd": 0.01, "outputUsd": 0.625 }
+        "standard": {
+          "inputUsd": 0.2,
+          "cachedInputUsd": 0.02,
+          "outputUsd": 1.25
+        },
+        "batch": {
+          "inputUsd": 0.1,
+          "cachedInputUsd": 0.01,
+          "outputUsd": 0.625
+        },
+        "flex": {
+          "inputUsd": 0.1,
+          "cachedInputUsd": 0.01,
+          "outputUsd": 0.625
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api", "codex_cli"],
+        "invocationTypes": [
+          "responses_api",
+          "codex_cli"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5.4-nano"
@@ -647,8 +861,13 @@
       "status": "planned",
       "replaces": "gpt-5-codex",
       "tier": 2,
-      "roles": ["llm_codegen", "llm_agent_edit"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_codegen",
+        "llm_agent_edit"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "balanced",
       "prompting": {
         "style": "minimal",
@@ -679,26 +898,41 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "cli_only"],
+        "supportedEndpoints": [
+          "responses_api",
+          "cli_only"
+        ],
         "recommendedEndpoint": "cli_only",
         "reasoningEffort": {
           "supported": true,
-          "values": ["medium", "high", "xhigh"],
+          "values": [
+            "medium",
+            "high",
+            "xhigh"
+          ],
           "default": "medium"
         },
         "adaptiveReasoning": true,
         "goals": true,
         "structuredOutputs": true,
-        "promptCaching": { "supported": true },
+        "promptCaching": {
+          "supported": true
+        },
         "parallelToolCalls": true,
         "freeFormFunctionCalling": true,
         "assistantPhase": {
           "supported": true,
-          "values": ["commentary", "final_answer"]
+          "values": [
+            "commentary",
+            "final_answer"
+          ]
         }
       },
       "transport": {
-        "invocationTypes": ["codex_cli", "responses_api"],
+        "invocationTypes": [
+          "codex_cli",
+          "responses_api"
+        ],
         "preferredInvocation": "codex_cli",
         "apiSurface": "cli_only",
         "nativeModelFlag": "gpt-5.3-codex",
@@ -730,13 +964,20 @@
       "status": "active",
       "deprecatedBy": "gpt-5.3-codex",
       "tier": 2,
-      "roles": ["llm_codegen", "llm_agent_edit"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_codegen",
+        "llm_agent_edit"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "balanced",
       "prompting": {
         "style": "minimal",
         "approach": "minimal",
-        "guidanceTopics": ["validation-loops"],
+        "guidanceTopics": [
+          "validation-loops"
+        ],
         "notes": "Less-is-more prompting; avoid verbose instructions (cookbook: codex-prompting-guide). Not GPT-5.5 outcome-first stack."
       },
       "capabilities": {
@@ -753,17 +994,24 @@
         "customTool": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "cli_only"],
+        "supportedEndpoints": [
+          "responses_api",
+          "cli_only"
+        ],
         "recommendedEndpoint": "cli_only",
         "adaptiveReasoning": true,
         "goals": true,
         "structuredOutputs": true,
-        "promptCaching": { "supported": true },
+        "promptCaching": {
+          "supported": true
+        },
         "parallelToolCalls": false,
         "freeFormFunctionCalling": true
       },
       "transport": {
-        "invocationTypes": ["codex_cli"],
+        "invocationTypes": [
+          "codex_cli"
+        ],
         "preferredInvocation": "codex_cli",
         "apiSurface": "cli_only",
         "nativeModelFlag": "gpt-5-codex",
@@ -809,8 +1057,12 @@
       "status": "deprecated",
       "deprecatedBy": "gpt-5.4-mini",
       "tier": 2,
-      "roles": ["llm_analyze"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "balanced",
       "capabilities": {
         "reasoning": "medium",
@@ -818,23 +1070,38 @@
         "codegen": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["minimal", "low", "medium", "high"],
+          "values": [
+            "minimal",
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "verbosity": {
           "supported": true,
-          "values": ["low", "medium", "high"],
+          "values": [
+            "low",
+            "medium",
+            "high"
+          ],
           "default": "medium"
         },
         "freeFormFunctionCalling": true,
         "contextFreeGrammar": true
       },
       "transport": {
-        "invocationTypes": ["responses_api", "openai_sdk"],
+        "invocationTypes": [
+          "responses_api",
+          "openai_sdk"
+        ],
         "preferredInvocation": "responses_api",
         "apiSurface": "responses_api",
         "nativeModelFlag": "gpt-5-mini"
@@ -858,25 +1125,46 @@
       "status": "deprecated",
       "deprecatedBy": "gpt-5.4-nano",
       "tier": 2,
-      "roles": ["llm_analyze"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "fast",
       "capabilities": {
         "reasoning": "low",
         "toolUse": true
       },
       "apiFeatures": {
-        "supportedEndpoints": ["responses_api", "chat_completions"],
+        "supportedEndpoints": [
+          "responses_api",
+          "chat_completions"
+        ],
         "recommendedEndpoint": "responses_api",
         "reasoningEffort": {
           "supported": true,
-          "values": ["minimal", "low", "medium"],
+          "values": [
+            "minimal",
+            "low",
+            "medium"
+          ],
           "default": "minimal"
         },
-        "verbosity": { "supported": true, "values": ["low", "medium", "high"], "default": "low" }
+        "verbosity": {
+          "supported": true,
+          "values": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "default": "low"
+        }
       },
       "transport": {
-        "invocationTypes": ["responses_api"],
+        "invocationTypes": [
+          "responses_api"
+        ],
         "preferredInvocation": "responses_api",
         "nativeModelFlag": "gpt-5-nano"
       },
@@ -897,17 +1185,219 @@
       "displayName": "Claude Haiku 4.5",
       "status": "planned",
       "tier": 3,
-      "roles": ["llm_analyze"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "fast",
+      "prompting": {
+        "style": "minimal",
+        "approach": "fast",
+        "guidanceTopics": [
+          "structured-json-tool-use",
+          "web-page-summarization",
+          "iterative-search-tool-use",
+          "parallel-tool-use",
+          "parallel-tool-result-batching",
+          "context-window-management",
+          "context-awareness",
+          "multilingual-prompting",
+          "multilingual-native-script",
+          "multilingual-japanese",
+          "message-streaming-sse",
+          "streaming-final-message",
+          "prompt-caching-explicit-breakpoints",
+          "prompt-caching-usage-fields",
+          "token-counting-api",
+          "token-counting-tools-modality",
+          "token-counting-rate-limits",
+          "anthropic-pricing-catalog-as-is",
+          "anthropic-pricing-batch-discount",
+          "anthropic-pricing-tool-features",
+          "anthropic-models-overview-current-tier",
+          "anthropic-models-overview-id-versioning",
+          "anthropic-system-cards-catalog-as-is"
+        ],
+        "notes": "Tool-schema JSON extraction and web-page summarize; atomic keyword search (legacy Wikipedia pattern). Japanese MMLU ~93.5% — good tier; escalate to Sonnet for high-stakes JP synthesis. Prompt cache only when prefix ≥4096 tokens. See ANTHROPIC_MULTILINGUAL_SUPPORT.md · ANTHROPIC_PROMPT_CACHING.md."
+      },
       "capabilities": {
         "reasoning": "low",
         "toolUse": true,
         "codegen": true,
         "japaneseQuality": "good"
       },
+      "apiFeatures": {
+        "batchApi": {
+          "supported": true,
+          "notes": "Message Batches API — optional RAG ingest only; see ANTHROPIC_BATCH_API_RAG.md; gated by volume"
+        },
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 1,
+          "minCacheTokens": 4096,
+          "automaticCaching": true,
+          "explicitBreakpointsMax": 4,
+          "notes": "High min threshold — cache large shared tool schemas only; batch 1h TTL — ANTHROPIC_PROMPT_CACHING.md"
+        },
+        "parallelToolCalls": true,
+        "messageStreaming": {
+          "supported": true,
+          "protocol": "sse",
+          "notes": "Adapter AS-IS uses claude --print (non-streaming); API/SDK reference — ANTHROPIC_MESSAGE_STREAMING.md"
+        },
+        "fineGrainedToolStreaming": {
+          "supported": true,
+          "toolFlag": "eager_input_streaming",
+          "requiresStream": true,
+          "notes": "Use sparingly on fast tier — small tool inputs only"
+        },
+        "extendedThinking": {
+          "supported": true,
+          "preferredMode": "manual_enabled",
+          "blockPreservation": "last_turn_only",
+          "displayDefault": "summarized",
+          "notes": "Avoid large budgets on fast tier; prefer Sonnet for tool+thinking loops"
+        },
+        "contextAwareness": {
+          "supported": true,
+          "notes": "budget:token_budget + system_warning after tools — ANTHROPIC_CONTEXT_WINDOW.md"
+        },
+        "serverSideCompaction": {
+          "supported": false,
+          "notes": "Platform compaction on 4.6+; not this catalog id"
+        },
+        "tokenCounting": {
+          "supported": true,
+          "endpoint": "messages/count_tokens",
+          "zdrEligible": true,
+          "notes": "Preflight extract payloads — ANTHROPIC_TOKEN_COUNTING.md"
+        }
+      },
+      "limits": {
+        "contextTokens": 200000,
+        "maxOutputTokens": 64000
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-22",
+        "pricingUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "standard": {
+          "inputUsd": 1,
+          "cachedInputUsd": 0.1,
+          "outputUsd": 5
+        },
+        "batch": {
+          "inputUsd": 0.5,
+          "outputUsd": 2.5
+        }
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "tool-use-extracting-structured-json",
+          "title": "Extracting structured JSON using tool use",
+          "url": "https://platform.claude.com/cookbook/tool-use-extracting-structured-json",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-read-web-pages-with-haiku",
+          "title": "Summarizing web page content with Haiku",
+          "url": "https://platform.claude.com/cookbook/misc-read-web-pages-with-haiku",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "third-party-wikipedia-wikipedia-search-cookbook",
+          "title": "Iteratively searching Wikipedia (legacy)",
+          "url": "https://platform.claude.com/cookbook/third-party-wikipedia-wikipedia-search-cookbook",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-batches-api",
+          "title": "Message Batches API",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "parallel-tool-use",
+          "title": "Parallel tool use",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/parallel-tool-use",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "fine-grained-tool-streaming",
+          "title": "Fine-grained tool streaming",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "context-windows",
+          "title": "Context windows",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/context-windows",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "capabilities-overview",
+          "title": "Capabilities overview",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "multilingual-support",
+          "title": "Multilingual support",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/multilingual-support",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-streaming",
+          "title": "Streaming messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "prompt-caching",
+          "title": "Prompt caching",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "token-counting",
+          "title": "Token counting",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/token-counting",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-prompt-caching",
+          "title": "Prompt caching patterns",
+          "url": "https://platform.claude.com/cookbook/misc-prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "system_card",
+          "slug": "claude-haiku-4-5-system-card",
+          "title": "Claude Haiku 4.5 system card",
+          "url": "https://www-cdn.anthropic.com/7aad69bf12627d42234e01ee7c36305dc2f6a970.pdf",
+          "lastReviewed": "2026-06-22"
+        }
+      ],
       "transport": {
-        "invocationTypes": ["claude_cli"],
+        "invocationTypes": [
+          "claude_cli"
+        ],
         "preferredInvocation": "claude_cli",
         "nativeModelFlag": "haiku"
       },
@@ -915,46 +1405,1401 @@
       "notes": "Planned — Contract Layer preset binding; CLI alias haiku"
     },
     {
-      "id": "claude-sonnet-4-5-20250929",
+      "id": "claude-sonnet-4-6",
       "vendor": "anthropic",
       "modelFamily": "claude-sonnet-4",
-      "displayName": "Claude Sonnet 4.5",
+      "displayName": "Claude Sonnet 4.6",
       "status": "active",
       "tier": 3,
-      "roles": ["llm_analyze", "llm_agent_edit", "llm_aggregate"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_analyze",
+        "llm_agent_edit",
+        "llm_aggregate"
+      ],
+      "modalities": [
+        "text",
+        "vision",
+        "document"
+      ],
       "presetDefault": "balanced",
+      "prompting": {
+        "style": "agentic",
+        "approach": "agentic_long_horizon",
+        "guidanceTopics": [
+          "extended-thinking-tool-use",
+          "preserve-thinking-blocks",
+          "interleaved-thinking-beta",
+          "thinking-display-omitted",
+          "adaptive-thinking-migration",
+          "adaptive-thinking-effort",
+          "thinking-prompt-steering",
+          "thinking-mode-cache-invalidation",
+          "context-compaction",
+          "tool-result-clearing",
+          "memory-tool-cross-session",
+          "skills-document-generation",
+          "pdf-document-blocks",
+          "pdf-source-url-base64-file",
+          "pdf-limits-chunking",
+          "pdf-caching-batch",
+          "vision-image-blocks",
+          "vision-source-url-base64-file",
+          "vision-limits-token-cost",
+          "vision-prompt-placement",
+          "vision-coordinates-bounding-box",
+          "vision-multi-image-comparison",
+          "vision-high-resolution-migration",
+          "iterative-search-tool-use",
+          "parallel-tool-use",
+          "parallel-tool-result-batching",
+          "parallel-tool-prompting",
+          "fine-grained-tool-streaming",
+          "tool-input-json-delta",
+          "skills-authoring-best-practices",
+          "skills-progressive-disclosure",
+          "skills-executable-scripts",
+          "skills-api-container",
+          "skills-prebuilt-office-pdf",
+          "skills-security-audit",
+          "skills-surface-constraints",
+          "claude-code-skills-layout",
+          "claude-code-skills-frontmatter",
+          "claude-code-skills-shell-injection",
+          "claude-code-skills-subagent-fork",
+          "claude-code-skills-skill-overrides",
+          "claude-code-bundled-run-verify",
+          "claude-code-mcp-scopes",
+          "claude-code-mcp-transports",
+          "claude-code-mcp-oauth-auth",
+          "claude-code-mcp-troubleshooting",
+          "claude-code-hooks-events",
+          "claude-code-hooks-command-io",
+          "claude-code-hooks-matchers",
+          "claude-code-hooks-compaction",
+          "claude-code-hooks-permissions",
+          "claude-code-debug-context-commands",
+          "claude-code-debug-settings-scope",
+          "claude-code-debug-isolation",
+          "claude-code-debug-common-causes",
+          "claude-code-cost-usage-tracking",
+          "claude-code-cost-context-management",
+          "claude-code-cost-model-mcp",
+          "claude-code-cost-hooks-skills",
+          "claude-code-cost-thinking-teams",
+          "claude-code-plugins-marketplaces",
+          "claude-code-plugins-install-scopes",
+          "claude-code-plugins-code-intelligence",
+          "claude-code-plugins-reload-cost",
+          "claude-code-plugins-team-config",
+          "claude-code-scheduled-loop",
+          "claude-code-scheduled-loop-md",
+          "claude-code-scheduled-cron-tools",
+          "claude-code-scheduled-jitter-expiry",
+          "claude-code-scheduled-vs-cloud",
+          "claude-code-programmatic-print-mode",
+          "claude-code-programmatic-bare-mode",
+          "claude-code-programmatic-structured-output",
+          "claude-code-programmatic-permissions-ci",
+          "claude-code-programmatic-sessions",
+          "claude-code-deeplink-build",
+          "claude-code-deeplink-cwd-repo",
+          "claude-code-deeplink-runbooks",
+          "claude-code-deeplink-registration",
+          "claude-code-deeplink-troubleshooting",
+          "claude-code-best-practices-context",
+          "claude-code-best-practices-verification",
+          "claude-code-best-practices-plan-workflow",
+          "claude-code-best-practices-claude-md",
+          "claude-code-best-practices-session-management",
+          "claude-code-best-practices-automation",
+          "claude-code-cli-commands-core",
+          "claude-code-cli-print-flags",
+          "claude-code-cli-session-resume",
+          "claude-code-cli-permissions",
+          "claude-code-cli-background-agents",
+          "claude-code-glossary-core",
+          "claude-code-glossary-context",
+          "claude-code-glossary-extensions",
+          "claude-code-glossary-permissions",
+          "claude-code-glossary-deprecated",
+          "claude-code-auto-mode-scopes",
+          "claude-code-auto-mode-environment",
+          "claude-code-auto-mode-rules",
+          "claude-code-auto-mode-inspect",
+          "claude-code-monitoring-otel-setup",
+          "claude-code-monitoring-metrics",
+          "claude-code-monitoring-events-audit",
+          "claude-code-monitoring-traces",
+          "claude-code-monitoring-privacy",
+          "anthropic-pricing-catalog-as-is",
+          "anthropic-pricing-prompt-caching-multipliers",
+          "anthropic-pricing-batch-discount",
+          "anthropic-pricing-tool-features",
+          "anthropic-pricing-cloud-billing",
+          "anthropic-models-overview-current-tier",
+          "anthropic-models-overview-lineup",
+          "anthropic-models-overview-version-policy",
+          "anthropic-models-overview-id-versioning",
+          "anthropic-models-overview-fable-mythos",
+          "anthropic-models-overview-migration",
+          "anthropic-system-cards-index",
+          "anthropic-system-cards-catalog-as-is",
+          "anthropic-system-cards-migration-tier",
+          "context-window-management",
+          "context-awareness",
+          "context-window-overflow",
+          "multilingual-prompting",
+          "multilingual-native-script",
+          "multilingual-japanese",
+          "message-streaming-sse",
+          "streaming-thinking-delta",
+          "streaming-error-recovery",
+          "streaming-final-message",
+          "programmatic-tool-calling",
+          "allowed-callers-field",
+          "programmatic-container-lifecycle",
+          "programmatic-tool-result-only",
+          "programmatic-async-await",
+          "programmatic-token-efficiency",
+          "programmatic-error-handling",
+          "prompt-caching-automatic",
+          "prompt-caching-explicit-breakpoints",
+          "prompt-caching-1h-ttl",
+          "prompt-caching-pre-warm",
+          "prompt-caching-usage-fields",
+          "prompt-caching-invalidation",
+          "token-counting-api",
+          "token-counting-tools-modality",
+          "token-counting-extended-thinking",
+          "token-counting-vs-prompt-cache",
+          "token-counting-rate-limits"
+        ],
+        "notes": "Primary agent — adaptive thinking + effort (not manual budget_tokens). Interleaved: interleaved-thinking-2025-05-14 beta. Preserve thinking blocks on tool replay. Programmatic tool calling (code_execution_20260120) — ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md. Vision + PDF — ANTHROPIC_VISION.md · ANTHROPIC_PDF_SUPPORT.md. Prompt caching + count_tokens — ANTHROPIC_PROMPT_CACHING.md · ANTHROPIC_TOKEN_COUNTING.md. Japanese MMLU 96.8% — excellent. 1M context; platform compaction. See ANTHROPIC_MULTILINGUAL_SUPPORT.md · ANTHROPIC_CONTEXT_WINDOW.md · ANTHROPIC_ADAPTIVE_THINKING.md · ANTHROPIC_PARALLEL_TOOL_USE.md · ANTHROPIC_FINE_GRAINED_TOOL_STREAMING.md · ANTHROPIC_SKILLS_AUTHORING.md."
+      },
       "capabilities": {
         "reasoning": "high",
         "toolUse": true,
         "codegen": true,
         "japaneseQuality": "excellent",
-        "longWorkflow": true
+        "longWorkflow": true,
+        "compaction": true,
+        "documentUnderstanding": true,
+        "imageUnderstanding": true
       },
+      "apiFeatures": {
+        "batchApi": {
+          "supported": true,
+          "notes": "Message Batches API — optional RAG ingest; PDF blocks supported in batch params"
+        },
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 1,
+          "minCacheTokens": 1024,
+          "automaticCaching": true,
+          "explicitBreakpointsMax": 4,
+          "notes": "Primary agent cache target; automatic for multi-turn; 1h TTL for batch RAG — ANTHROPIC_PROMPT_CACHING.md"
+        },
+        "parallelToolCalls": true,
+        "messageStreaming": {
+          "supported": true,
+          "protocol": "sse",
+          "notes": "Required with eager_input_streaming; adapter AS-IS non-streaming — ANTHROPIC_MESSAGE_STREAMING.md"
+        },
+        "fineGrainedToolStreaming": {
+          "supported": true,
+          "toolFlag": "eager_input_streaming",
+          "requiresStream": true,
+          "notes": "Large file/array tool params on agent-edit paths"
+        },
+        "agentSkills": {
+          "supported": true,
+          "zdrEligible": false,
+          "skillMdMaxLines": 500,
+          "preBuiltSkillIds": [
+            "pptx",
+            "xlsx",
+            "docx",
+            "pdf"
+          ],
+          "betaHeaders": [
+            "code-execution-2025-08-25",
+            "skills-2025-10-02",
+            "files-api-2025-04-14"
+          ],
+          "skillsApiEndpoint": "/v1/skills",
+          "requiresCodeExecution": true,
+          "requiresFilesApi": true,
+          "claudeCode": {
+            "supported": true,
+            "openStandardUrl": "https://agentskills.io",
+            "personalSkillsPath": "~/.claude/skills/",
+            "projectSkillsPath": ".claude/skills/",
+            "legacyCommandsPath": ".claude/commands/",
+            "minVersionBundledRun": "2.1.145",
+            "mcp": {
+              "supported": true,
+              "userConfigPath": "~/.claude.json",
+              "projectConfigFile": ".mcp.json",
+              "defaultStartupTimeoutMs": 30000,
+              "sessionManageCommand": "/mcp",
+              "notes": "Distinct from Cursor .cursor/mcp.json — CLAUDE_CODE_MCP_CONNECT.md"
+            },
+            "hooks": {
+              "supported": true,
+              "userSettingsPath": "~/.claude/settings.json",
+              "projectSettingsPath": ".claude/settings.json",
+              "projectLocalSettingsPath": ".claude/settings.local.json",
+              "hooksScriptsPath": ".claude/hooks/",
+              "browseCommand": "/hooks",
+              "minVersionIfField": "2.1.85",
+              "notes": "PreToolUse/PostToolUse/SessionStart compact — CLAUDE_CODE_HOOKS.md"
+            },
+            "debug": {
+              "supported": true,
+              "contextCommand": "/context",
+              "doctorCommand": "/doctor",
+              "statusCommand": "/status",
+              "safeModeFlag": "--safe-mode",
+              "minVersionSafeMode": "2.1.169",
+              "cleanConfigEnvVar": "CLAUDE_CONFIG_DIR",
+              "notes": "/context /doctor /hooks /mcp — CLAUDE_CODE_DEBUG.md"
+            },
+            "costManagement": {
+              "supported": true,
+              "usageCommand": "/usage",
+              "usageCreditsCommand": "/usage-credits",
+              "platformUrl": "https://code.claude.com/docs/en/costs",
+              "minVersionUsageBreakdown": "2.1.174",
+              "agentTeamsEnvVar": "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS",
+              "notes": "Context, model, MCP, hooks, skills — CLAUDE_CODE_COST_MANAGEMENT.md"
+            },
+            "plugins": {
+              "supported": true,
+              "managerCommand": "/plugin",
+              "reloadCommand": "/reload-plugins",
+              "officialMarketplaceId": "claude-plugins-official",
+              "communityMarketplaceId": "claude-community",
+              "demoMarketplaceId": "claude-code-plugins",
+              "minVersionContextCost": "2.1.143",
+              "minVersionWillInstall": "2.1.145",
+              "minVersionSuggestedPlugins": "2.1.154",
+              "minVersionReloadCacheWarn": "2.1.163",
+              "notes": "LSP, MCP bundles, skills — CLAUDE_CODE_PLUGINS.md"
+            },
+            "scheduledTasks": {
+              "supported": true,
+              "loopCommand": "/loop",
+              "minVersion": "2.1.72",
+              "maxTasksPerSession": 50,
+              "recurringExpiryDays": 7,
+              "disableEnvVar": "CLAUDE_CODE_DISABLE_CRON",
+              "projectLoopFile": ".claude/loop.md",
+              "userLoopFile": "~/.claude/loop.md",
+              "cronTools": [
+                "CronCreate",
+                "CronList",
+                "CronDelete"
+              ],
+              "notes": "Session-scoped /loop — CLAUDE_CODE_SCHEDULED_TASKS.md"
+            },
+            "programmaticCli": {
+              "supported": true,
+              "printFlag": "-p",
+              "bareFlag": "--bare",
+              "outputFormats": [
+                "text",
+                "json",
+                "stream-json"
+              ],
+              "stdinMaxMb": 10,
+              "minVersionStdinCap": "2.1.128",
+              "minVersionBgGrace": "2.1.163",
+              "minVersionBgWaitCeiling": "2.1.182",
+              "bgWaitCeilingEnvVar": "CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS",
+              "agentSdkOverviewUrl": "https://code.claude.com/docs/en/agent-sdk/overview",
+              "notes": "claude-adapter.ts --print AS-IS — CLAUDE_CODE_PROGRAMMATIC.md"
+            },
+            "deepLinks": {
+              "supported": true,
+              "urlScheme": "claude-cli",
+              "openPath": "/open",
+              "minVersion": "2.1.91",
+              "maxPromptChars": 5000,
+              "queryParams": [
+                "q",
+                "cwd",
+                "repo"
+              ],
+              "vscodeOpenUrl": "vscode://anthropic.claude-code/open",
+              "disableSettingKey": "disableDeepLinkRegistration",
+              "notes": "Runbooks, alerts — CLAUDE_CODE_DEEP_LINKS.md"
+            },
+            "bestPractices": {
+              "supported": true,
+              "initCommand": "/init",
+              "platformGuideUrl": "https://code.claude.com/docs/en/best-practices",
+              "notes": "Synthesis + links to CLAUDE_CODE_* docs — CLAUDE_CODE_BEST_PRACTICES.md"
+            },
+            "cliReference": {
+              "supported": true,
+              "platformUrl": "https://code.claude.com/docs/en/cli-reference",
+              "printFlag": "-p",
+              "bareFlag": "--bare",
+              "safeModeFlag": "--safe-mode",
+              "strictMcpConfigFlag": "--strict-mcp-config",
+              "notes": "Full flag list on platform — CLAUDE_CODE_CLI_REFERENCE.md; adapter subset"
+            },
+            "glossary": {
+              "supported": true,
+              "platformUrl": "https://code.claude.com/docs/en/glossary",
+              "platformModelGlossaryUrl": "https://platform.claude.com/docs/en/about-claude/glossary",
+              "notes": "Term index — CLAUDE_CODE_GLOSSARY.md"
+            },
+            "autoMode": {
+              "supported": true,
+              "platformUrl": "https://code.claude.com/docs/en/auto-mode-config",
+              "permissionModesUrl": "https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode",
+              "defaultsSubcommand": "claude auto-mode defaults",
+              "configSubcommand": "claude auto-mode config",
+              "critiqueSubcommand": "claude auto-mode critique",
+              "bedrockEnableEnv": "CLAUDE_CODE_ENABLE_AUTO_MODE",
+              "notes": "Classifier trusted infra + rule overrides — CLAUDE_CODE_AUTO_MODE.md"
+            },
+            "monitoring": {
+              "supported": true,
+              "platformUrl": "https://code.claude.com/docs/en/monitoring-usage",
+              "enableEnv": "CLAUDE_CODE_ENABLE_TELEMETRY",
+              "metricsExporterEnv": "OTEL_METRICS_EXPORTER",
+              "logsExporterEnv": "OTEL_LOGS_EXPORTER",
+              "tracesBetaEnv": "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA",
+              "serviceName": "claude-code",
+              "roiGuideUrl": "https://github.com/anthropics/claude-code-monitoring-guide",
+              "notes": "OTel metrics/events/traces — CLAUDE_CODE_MONITORING.md; server stack MONITORING_OPERATIONS.md"
+            },
+            "notes": "Monitoring, auto mode, glossary, CLI ref, best practices, skills, MCP, hooks, debug, costs, plugins, scheduled, programmatic, deepLinks — CLAUDE_CODE_MONITORING.md · CLAUDE_CODE_AUTO_MODE.md · CLAUDE_CODE_GLOSSARY.md · CLAUDE_CODE_CLI_REFERENCE.md · CLAUDE_CODE_BEST_PRACTICES.md · CLAUDE_CODE_SKILLS.md · CLAUDE_CODE_MCP_CONNECT.md · CLAUDE_CODE_HOOKS.md · CLAUDE_CODE_DEBUG.md · CLAUDE_CODE_COST_MANAGEMENT.md · CLAUDE_CODE_PLUGINS.md · CLAUDE_CODE_SCHEDULED_TASKS.md · CLAUDE_CODE_PROGRAMMATIC.md · CLAUDE_CODE_DEEP_LINKS.md"
+          },
+          "notes": "Primary Skills consumer; API container + skill_id — ANTHROPIC_AGENT_SKILLS.md · Claude Code CLAUDE_CODE_SKILLS.md · authoring ANTHROPIC_SKILLS_AUTHORING.md"
+        },
+        "programmaticToolCalling": {
+          "supported": true,
+          "codeExecutionType": "code_execution_20260120",
+          "zdrEligible": false,
+          "notes": "Sonnet 4.6 only in catalog; fan-out/filter workloads; not Bedrock/Vertex — ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md"
+        },
+        "extendedThinking": {
+          "supported": true,
+          "preferredMode": "adaptive",
+          "interleavedBetaHeader": "interleaved-thinking-2025-05-14",
+          "blockPreservation": "last_turn_only",
+          "displayDefault": "summarized",
+          "notes": "Adaptive thinking + effort — ANTHROPIC_ADAPTIVE_THINKING.md"
+        },
+        "contextAwareness": {
+          "supported": true,
+          "notes": "Token budget XML + post-tool warnings — ANTHROPIC_CONTEXT_WINDOW.md"
+        },
+        "serverSideCompaction": {
+          "supported": true,
+          "notes": "Platform compaction on 4.6+ — ANTHROPIC_CONTEXT_WINDOW.md"
+        },
+        "tokenCounting": {
+          "supported": true,
+          "endpoint": "messages/count_tokens",
+          "zdrEligible": true,
+          "notes": "PDF/thinking/tools preflight — ANTHROPIC_TOKEN_COUNTING.md"
+        },
+        "pdfSupport": {
+          "supported": true,
+          "zdrEligible": true,
+          "maxRequestSizeMb": 32,
+          "maxPages": 600,
+          "maxPages100kContext": 100,
+          "sourceTypes": [
+            "url",
+            "base64",
+            "file"
+          ],
+          "filesApiBeta": "files-api-2025-04-14",
+          "notes": "Primary PDF agent path; document before text; cache + batch — ANTHROPIC_PDF_SUPPORT.md"
+        },
+        "visionSupport": {
+          "supported": true,
+          "zdrEligible": true,
+          "maxImagesPerRequest200k": 100,
+          "maxImagesPerRequestDefault": 600,
+          "maxImageSizeMb": 10,
+          "maxImageDimensionPx": 8000,
+          "maxEdgePx": 1568,
+          "maxVisualTokens": 1568,
+          "highResolution": {
+            "supported": false,
+            "platformModelMin": "claude-opus-4-7",
+            "maxEdgePx": 2576,
+            "maxVisualTokens": 4784
+          },
+          "sourceTypes": [
+            "url",
+            "base64",
+            "file"
+          ],
+          "mediaTypes": [
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp"
+          ],
+          "filesApiBeta": "files-api-2025-04-14",
+          "notes": "Primary vision agent path; image before text; Files API for multi-turn — ANTHROPIC_VISION.md"
+        }
+      },
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 64000
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-22",
+        "pricingUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "standard": {
+          "inputUsd": 3,
+          "cachedInputUsd": 0.3,
+          "outputUsd": 15
+        },
+        "batch": {
+          "inputUsd": 1.5,
+          "outputUsd": 7.5
+        }
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "extended-thinking-extended-thinking-with-tool-use",
+          "title": "Extended thinking with tool use",
+          "url": "https://platform.claude.com/cookbook/extended-thinking-extended-thinking-with-tool-use",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "tool-use-context-engineering-context-engineering-tools",
+          "title": "Context engineering: memory, compaction, and tool clearing",
+          "url": "https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "tool-use-automatic-context-compaction",
+          "title": "Automatic context compaction",
+          "url": "https://platform.claude.com/cookbook/tool-use-automatic-context-compaction",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "tool-use-memory-cookbook",
+          "title": "Memory & context management",
+          "url": "https://platform.claude.com/cookbook/tool-use-memory-cookbook",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "skills-notebooks-01-skills-introduction",
+          "title": "Introduction to Claude Skills",
+          "url": "https://platform.claude.com/cookbook/skills-notebooks-01-skills-introduction",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-pdf-upload-summarization",
+          "title": "PDF upload summarization",
+          "url": "https://platform.claude.com/cookbook/misc-pdf-upload-summarization",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "third-party-wikipedia-wikipedia-search-cookbook",
+          "title": "Iteratively searching Wikipedia (legacy)",
+          "url": "https://platform.claude.com/cookbook/third-party-wikipedia-wikipedia-search-cookbook",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-batches-api",
+          "title": "Message Batches API",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "extended-thinking",
+          "title": "Extended thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/extended-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "adaptive-thinking",
+          "title": "Adaptive thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/adaptive-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "parallel-tool-use",
+          "title": "Parallel tool use",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/parallel-tool-use",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "fine-grained-tool-streaming",
+          "title": "Fine-grained tool streaming",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-monitoring",
+          "title": "Claude Code — Monitoring (OpenTelemetry)",
+          "url": "https://code.claude.com/docs/en/monitoring-usage",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-auto-mode-config",
+          "title": "Claude Code — Configure auto mode",
+          "url": "https://code.claude.com/docs/en/auto-mode-config",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-glossary",
+          "title": "Claude Code glossary",
+          "url": "https://code.claude.com/docs/en/glossary",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-cli-reference",
+          "title": "Claude Code CLI reference",
+          "url": "https://code.claude.com/docs/en/cli-reference",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-best-practices",
+          "title": "Claude Code — Best practices",
+          "url": "https://code.claude.com/docs/en/best-practices",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-deep-links",
+          "title": "Claude Code — Launch sessions from links",
+          "url": "https://code.claude.com/docs/en/deep-links",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-programmatic",
+          "title": "Claude Code — Run programmatically",
+          "url": "https://code.claude.com/docs/en/programmatic",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-agent-sdk-overview",
+          "title": "Claude Agent SDK overview",
+          "url": "https://code.claude.com/docs/en/agent-sdk/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-scheduled-tasks",
+          "title": "Claude Code — Run prompts on a schedule",
+          "url": "https://code.claude.com/docs/en/scheduled-tasks",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-discover-plugins",
+          "title": "Claude Code — Discover and install plugins",
+          "url": "https://code.claude.com/docs/en/discover-plugins",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-cost-management",
+          "title": "Claude Code — Manage costs effectively",
+          "url": "https://code.claude.com/docs/en/costs",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "anthropic-models-overview",
+          "title": "Anthropic — Models overview",
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "system_card",
+          "slug": "anthropic-system-cards-index",
+          "title": "Anthropic model system cards",
+          "url": "https://www.anthropic.com/system-cards",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "pricing",
+          "slug": "anthropic-api-pricing",
+          "title": "Anthropic API pricing",
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-debug-config",
+          "title": "Claude Code — Debug your configuration",
+          "url": "https://code.claude.com/docs/en/debug-config",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-hooks-guide",
+          "title": "Claude Code — Automate with hooks",
+          "url": "https://code.claude.com/docs/en/hooks-guide",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-hooks-reference",
+          "title": "Claude Code hooks reference",
+          "url": "https://code.claude.com/docs/en/hooks",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-mcp-connect",
+          "title": "Claude Code — Connect MCP servers",
+          "url": "https://code.claude.com/docs/en/mcp",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "claude-code-skills",
+          "title": "Claude Code — Extend with skills",
+          "url": "https://code.claude.com/docs/en/skills",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "agent-skills-overview",
+          "title": "Agent Skills overview",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/agent-skills/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "skills-guide",
+          "title": "Skills guide (API)",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/skills-guide",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "agent-skills-quickstart",
+          "title": "Agent Skills quickstart",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/agent-skills/quickstart",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "skills-authoring-best-practices",
+          "title": "Agent Skills authoring best practices",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/agent-skills/best-practices",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "context-windows",
+          "title": "Context windows",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/context-windows",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "capabilities-overview",
+          "title": "Capabilities overview",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "multilingual-support",
+          "title": "Multilingual support",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/multilingual-support",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-streaming",
+          "title": "Streaming messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "programmatic-tool-calling",
+          "title": "Programmatic tool calling",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/programmatic-tool-calling",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "prompt-caching",
+          "title": "Prompt caching",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "token-counting",
+          "title": "Token counting",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/token-counting",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "pdf-support",
+          "title": "PDF support",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/pdf-support",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "vision",
+          "title": "Vision",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/vision",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "multimodal-getting-started-with-vision",
+          "title": "Getting started with vision",
+          "url": "https://platform.claude.com/cookbook/multimodal-getting-started-with-vision",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "multimodal-best-practices-for-vision",
+          "title": "Best practices for vision",
+          "url": "https://platform.claude.com/cookbook/multimodal-best-practices-for-vision",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "multimodal-reading-charts-graphs-powerpoints",
+          "title": "Reading charts, graphs, and PowerPoints",
+          "url": "https://platform.claude.com/cookbook/multimodal-reading-charts-graphs-powerpoints",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-prompt-caching",
+          "title": "Prompt caching patterns",
+          "url": "https://platform.claude.com/cookbook/misc-prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "system_card",
+          "slug": "claude-sonnet-4-6-system-card",
+          "title": "Claude Sonnet 4.6 system card",
+          "url": "http://anthropic.com/claude-sonnet-4-6-system-card",
+          "lastReviewed": "2026-06-22"
+        }
+      ],
       "transport": {
-        "invocationTypes": ["claude_cli", "anthropic_sdk"],
+        "invocationTypes": [
+          "claude_cli",
+          "anthropic_sdk"
+        ],
         "preferredInvocation": "claude_cli",
         "nativeModelFlag": "sonnet"
       },
       "costHint": "standard"
     },
     {
-      "id": "claude-opus-4.1",
+      "id": "claude-opus-4-6",
       "vendor": "anthropic",
       "modelFamily": "claude-opus-4",
-      "displayName": "Claude Opus 4.1",
+      "displayName": "Claude Opus 4.6",
       "status": "active",
       "tier": 5,
-      "roles": ["llm_aggregate", "llm_cross_critique"],
-      "modalities": ["text"],
+      "roles": [
+        "llm_aggregate"
+      ],
+      "modalities": [
+        "text"
+      ],
       "presetDefault": "critical",
+      "prompting": {
+        "style": "orchestrator",
+        "approach": "orchestrator",
+        "guidanceTopics": [
+          "hub-peer-messaging",
+          "subagent-lifecycle",
+          "json-mode-prefill",
+          "multi-document-react-agents",
+          "extended-thinking-tool-use",
+          "preserve-thinking-blocks",
+          "interleaved-thinking-beta",
+          "thinking-display-omitted",
+          "adaptive-thinking-migration",
+          "adaptive-thinking-effort",
+          "thinking-prompt-steering",
+          "thinking-mode-cache-invalidation",
+          "parallel-tool-use",
+          "parallel-tool-result-batching",
+          "parallel-tool-prompting",
+          "fine-grained-tool-streaming",
+          "tool-input-json-delta",
+          "context-window-management",
+          "context-window-overflow",
+          "multilingual-prompting",
+          "multilingual-native-script",
+          "multilingual-japanese",
+          "message-streaming-sse",
+          "streaming-thinking-delta",
+          "streaming-error-recovery",
+          "streaming-final-message",
+          "prompt-caching-automatic",
+          "prompt-caching-explicit-breakpoints",
+          "prompt-caching-1h-ttl",
+          "prompt-caching-pre-warm",
+          "prompt-caching-usage-fields",
+          "prompt-caching-invalidation",
+          "mid-conversation-system-message",
+          "mid-conversation-placement",
+          "mid-conversation-prompt-caching",
+          "mid-conversation-tool-relay",
+          "token-counting-api",
+          "token-counting-tools-modality",
+          "token-counting-extended-thinking",
+          "token-counting-vs-prompt-cache",
+          "token-counting-rate-limits",
+          "anthropic-pricing-catalog-as-is",
+          "anthropic-pricing-prompt-caching-multipliers",
+          "anthropic-pricing-batch-discount",
+          "anthropic-pricing-tool-features",
+          "anthropic-pricing-cloud-billing",
+          "anthropic-models-overview-current-tier",
+          "anthropic-models-overview-lineup",
+          "anthropic-models-overview-version-policy",
+          "anthropic-models-overview-id-versioning",
+          "anthropic-models-overview-fable-mythos",
+          "anthropic-models-overview-migration",
+          "anthropic-system-cards-index",
+          "anthropic-system-cards-catalog-as-is",
+          "anthropic-system-cards-migration-tier",
+          "vision-high-resolution-migration"
+        ],
+        "notes": "Default Wall-Bounce aggregator — pre-4.7 tokenizer (~30% fewer tokens vs 4.8 on same text). Adaptive thinking + effort; escalate to claude-opus-4-8 when confidence or peer consensus below gates. ANTHROPIC_MODELS_OVERVIEW § Opus tier — aggregator."
+      },
       "capabilities": {
         "reasoning": "frontier",
         "toolUse": true,
-        "japaneseQuality": "excellent"
+        "japaneseQuality": "excellent",
+        "longWorkflow": true
       },
+      "apiFeatures": {
+        "batchApi": {
+          "supported": true,
+          "notes": "Message Batches API supported; extended-output-300k beta is batch-only (newer Opus/Sonnet in platform docs)"
+        },
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 1,
+          "minCacheTokens": 1024,
+          "automaticCaching": true,
+          "explicitBreakpointsMax": 4,
+          "notes": "Cache Wall-Bounce static prefix (system + tools); best-effort in batch — ANTHROPIC_PROMPT_CACHING.md"
+        },
+        "parallelToolCalls": true,
+        "messageStreaming": {
+          "supported": true,
+          "protocol": "sse",
+          "notes": "Large aggregate outputs; adapter AS-IS non-streaming — ANTHROPIC_MESSAGE_STREAMING.md"
+        },
+        "fineGrainedToolStreaming": {
+          "supported": true,
+          "toolFlag": "eager_input_streaming",
+          "requiresStream": true,
+          "notes": "Large tool payloads on synthesis paths when needed"
+        },
+        "extendedThinking": {
+          "supported": true,
+          "preferredMode": "adaptive",
+          "interleavedBetaHeader": "interleaved-thinking-2025-05-14",
+          "blockPreservation": "last_turn_only",
+          "displayDefault": "summarized",
+          "notes": "Adaptive only — manual enabled returns 400 — ANTHROPIC_ADAPTIVE_THINKING.md"
+        },
+        "contextAwareness": {
+          "supported": true,
+          "notes": "Token budget XML + post-tool warnings — ANTHROPIC_CONTEXT_WINDOW.md"
+        },
+        "serverSideCompaction": {
+          "supported": true,
+          "notes": "Platform compaction on 4.6+"
+        },
+        "midConversationSystemMessages": {
+          "supported": false,
+          "platformModelMin": "claude-opus-4-8",
+          "notes": "Opus 4.8+ only — ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md"
+        },
+        "tokenCounting": {
+          "supported": true,
+          "endpoint": "messages/count_tokens",
+          "zdrEligible": true,
+          "notes": "Aggregate round budget preflight — ANTHROPIC_TOKEN_COUNTING.md"
+        }
+      },
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-22",
+        "pricingUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "standard": {
+          "inputUsd": 5,
+          "cachedInputUsd": 0.5,
+          "outputUsd": 25
+        },
+        "batch": {
+          "inputUsd": 2.5,
+          "outputUsd": 12.5
+        }
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "patterns-agents-async-multi-agent-orchestration",
+          "title": "Async multi-agent orchestration",
+          "url": "https://platform.claude.com/cookbook/patterns-agents-async-multi-agent-orchestration",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-how-to-enable-json-mode",
+          "title": "Prompting Claude for JSON mode",
+          "url": "https://platform.claude.com/cookbook/misc-how-to-enable-json-mode",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "third-party-llamaindex-multi-document-agents",
+          "title": "Multi-document agents (LlamaIndex)",
+          "url": "https://platform.claude.com/cookbook/third-party-llamaindex-multi-document-agents",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-batches-api",
+          "title": "Message Batches API",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "extended-thinking",
+          "title": "Extended thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/extended-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "adaptive-thinking",
+          "title": "Adaptive thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/adaptive-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "parallel-tool-use",
+          "title": "Parallel tool use",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/parallel-tool-use",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "fine-grained-tool-streaming",
+          "title": "Fine-grained tool streaming",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "context-windows",
+          "title": "Context windows",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/context-windows",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "capabilities-overview",
+          "title": "Capabilities overview",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "multilingual-support",
+          "title": "Multilingual support",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/multilingual-support",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-streaming",
+          "title": "Streaming messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "prompt-caching",
+          "title": "Prompt caching",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-prompt-caching",
+          "title": "Prompt caching patterns",
+          "url": "https://platform.claude.com/cookbook/misc-prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "mid-conversation-system-messages",
+          "title": "Mid-conversation system messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/mid-conversation-system-messages",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "token-counting",
+          "title": "Token counting",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/token-counting",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "system_card",
+          "slug": "claude-opus-4-6-system-card",
+          "title": "Claude Opus 4.6 system card",
+          "url": "https://anthropic.com/claude-opus-4-6-system-card",
+          "lastReviewed": "2026-06-22"
+        }
+      ],
       "transport": {
-        "invocationTypes": ["claude_cli", "anthropic_sdk"],
+        "invocationTypes": [
+          "claude_cli",
+          "anthropic_sdk"
+        ],
+        "preferredInvocation": "claude_cli",
+        "nativeModelFlag": "claude-opus-4-6"
+      },
+      "costHint": "frontier",
+      "notes": "Aggregator-only in DevAssist fork",
+      "escalation": {
+        "targetModelId": "claude-opus-4-8",
+        "confidenceBelow": 0.7,
+        "peerConsensusBelow": 0.6
+      }
+    },
+    {
+      "id": "claude-opus-4-8",
+      "vendor": "anthropic",
+      "modelFamily": "claude-opus-4",
+      "displayName": "Claude Opus 4.8",
+      "status": "active",
+      "tier": 5,
+      "roles": [
+        "llm_cross_critique"
+      ],
+      "modalities": [
+        "text"
+      ],
+      "presetDefault": "critical",
+      "prompting": {
+        "style": "orchestrator",
+        "approach": "orchestrator",
+        "guidanceTopics": [
+          "hub-peer-messaging",
+          "subagent-lifecycle",
+          "json-mode-prefill",
+          "multi-document-react-agents",
+          "extended-thinking-tool-use",
+          "preserve-thinking-blocks",
+          "interleaved-thinking-beta",
+          "thinking-display-omitted",
+          "adaptive-thinking-migration",
+          "adaptive-thinking-effort",
+          "thinking-prompt-steering",
+          "thinking-mode-cache-invalidation",
+          "parallel-tool-use",
+          "parallel-tool-result-batching",
+          "parallel-tool-prompting",
+          "fine-grained-tool-streaming",
+          "tool-input-json-delta",
+          "context-window-management",
+          "context-window-overflow",
+          "multilingual-prompting",
+          "multilingual-native-script",
+          "multilingual-japanese",
+          "message-streaming-sse",
+          "streaming-thinking-delta",
+          "streaming-error-recovery",
+          "streaming-final-message",
+          "prompt-caching-automatic",
+          "prompt-caching-explicit-breakpoints",
+          "prompt-caching-1h-ttl",
+          "prompt-caching-pre-warm",
+          "prompt-caching-usage-fields",
+          "prompt-caching-invalidation",
+          "mid-conversation-system-message",
+          "mid-conversation-placement",
+          "mid-conversation-prompt-caching",
+          "mid-conversation-tool-relay",
+          "token-counting-api",
+          "token-counting-tools-modality",
+          "token-counting-extended-thinking",
+          "token-counting-vs-prompt-cache",
+          "token-counting-rate-limits",
+          "anthropic-pricing-catalog-as-is",
+          "anthropic-pricing-prompt-caching-multipliers",
+          "anthropic-pricing-batch-discount",
+          "anthropic-pricing-tool-features",
+          "anthropic-pricing-cloud-billing",
+          "anthropic-models-overview-current-tier",
+          "anthropic-models-overview-lineup",
+          "anthropic-models-overview-version-policy",
+          "anthropic-models-overview-id-versioning",
+          "anthropic-models-overview-fable-mythos",
+          "anthropic-models-overview-migration",
+          "anthropic-system-cards-index",
+          "anthropic-system-cards-catalog-as-is",
+          "anthropic-system-cards-migration-tier",
+          "vision-high-resolution-migration"
+        ],
+        "notes": "Escalation tier for aggregate + hardest synthesis. Adaptive thinking; effort defaults high — set medium for routine re-runs. Mid-session operator policy — ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md. See ANTHROPIC_MODELS_OVERVIEW § Opus tier — aggregator."
+      },
+      "capabilities": {
+        "reasoning": "frontier",
+        "toolUse": true,
+        "japaneseQuality": "excellent",
+        "longWorkflow": true
+      },
+      "apiFeatures": {
+        "batchApi": {
+          "supported": true,
+          "notes": "Message Batches API supported; extended-output-300k beta is batch-only (newer Opus/Sonnet in platform docs)"
+        },
+        "promptCaching": {
+          "supported": true,
+          "maxTtlHours": 1,
+          "minCacheTokens": 1024,
+          "automaticCaching": true,
+          "explicitBreakpointsMax": 4,
+          "notes": "Cache Wall-Bounce static prefix (system + tools); best-effort in batch — ANTHROPIC_PROMPT_CACHING.md"
+        },
+        "parallelToolCalls": true,
+        "messageStreaming": {
+          "supported": true,
+          "protocol": "sse",
+          "notes": "Large aggregate outputs; adapter AS-IS non-streaming — ANTHROPIC_MESSAGE_STREAMING.md"
+        },
+        "fineGrainedToolStreaming": {
+          "supported": true,
+          "toolFlag": "eager_input_streaming",
+          "requiresStream": true,
+          "notes": "Large tool payloads on synthesis paths when needed"
+        },
+        "extendedThinking": {
+          "supported": true,
+          "preferredMode": "adaptive",
+          "interleavedBetaHeader": "interleaved-thinking-2025-05-14",
+          "blockPreservation": "last_turn_only",
+          "displayDefault": "summarized",
+          "notes": "Adaptive only — manual enabled returns 400 — ANTHROPIC_ADAPTIVE_THINKING.md"
+        },
+        "contextAwareness": {
+          "supported": true,
+          "notes": "Token budget XML + post-tool warnings — ANTHROPIC_CONTEXT_WINDOW.md"
+        },
+        "serverSideCompaction": {
+          "supported": true,
+          "notes": "Platform compaction on 4.6+"
+        },
+        "midConversationSystemMessages": {
+          "supported": true,
+          "platformModelMin": "claude-opus-4-8",
+          "zdrEligible": true,
+          "notes": "API + AWS — not Bedrock/Vertex/Foundry — ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md"
+        },
+        "tokenCounting": {
+          "supported": true,
+          "endpoint": "messages/count_tokens",
+          "zdrEligible": true,
+          "notes": "Aggregate round budget preflight — ANTHROPIC_TOKEN_COUNTING.md"
+        }
+      },
+      "limits": {
+        "contextTokens": 1000000,
+        "maxOutputTokens": 128000
+      },
+      "apiPricing": {
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "lastReviewed": "2026-06-22",
+        "pricingUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "standard": {
+          "inputUsd": 5,
+          "cachedInputUsd": 0.5,
+          "outputUsd": 25
+        },
+        "batch": {
+          "inputUsd": 2.5,
+          "outputUsd": 12.5
+        }
+      },
+      "references": [
+        {
+          "type": "cookbook",
+          "slug": "patterns-agents-async-multi-agent-orchestration",
+          "title": "Async multi-agent orchestration",
+          "url": "https://platform.claude.com/cookbook/patterns-agents-async-multi-agent-orchestration",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-how-to-enable-json-mode",
+          "title": "Prompting Claude for JSON mode",
+          "url": "https://platform.claude.com/cookbook/misc-how-to-enable-json-mode",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "third-party-llamaindex-multi-document-agents",
+          "title": "Multi-document agents (LlamaIndex)",
+          "url": "https://platform.claude.com/cookbook/third-party-llamaindex-multi-document-agents",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-batches-api",
+          "title": "Message Batches API",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "extended-thinking",
+          "title": "Extended thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/extended-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "adaptive-thinking",
+          "title": "Adaptive thinking",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/adaptive-thinking",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "parallel-tool-use",
+          "title": "Parallel tool use",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/parallel-tool-use",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "fine-grained-tool-streaming",
+          "title": "Fine-grained tool streaming",
+          "url": "https://platform.claude.com/docs/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "context-windows",
+          "title": "Context windows",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/context-windows",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "capabilities-overview",
+          "title": "Capabilities overview",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/overview",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "multilingual-support",
+          "title": "Multilingual support",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/multilingual-support",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "message-streaming",
+          "title": "Streaming messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/streaming",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "prompt-caching",
+          "title": "Prompt caching",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "cookbook",
+          "slug": "misc-prompt-caching",
+          "title": "Prompt caching patterns",
+          "url": "https://platform.claude.com/cookbook/misc-prompt-caching",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "mid-conversation-system-messages",
+          "title": "Mid-conversation system messages",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/mid-conversation-system-messages",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "platform_docs",
+          "slug": "token-counting",
+          "title": "Token counting",
+          "url": "https://platform.claude.com/docs/en/docs/build-with-claude/token-counting",
+          "lastReviewed": "2026-06-22"
+        },
+        {
+          "type": "system_card",
+          "slug": "claude-opus-4-8-system-card",
+          "title": "Claude Opus 4.8 system card",
+          "url": "https://anthropic.com/claude-opus-4-8-system-card",
+          "lastReviewed": "2026-06-22"
+        }
+      ],
+      "transport": {
+        "invocationTypes": [
+          "claude_cli",
+          "anthropic_sdk"
+        ],
         "preferredInvocation": "claude_cli",
         "nativeModelFlag": "opus"
       },
@@ -968,8 +2813,13 @@
       "displayName": "Gemini 2.5 Pro",
       "status": "active",
       "tier": 1,
-      "roles": ["llm_analyze"],
-      "modalities": ["text", "multimodal"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text",
+        "multimodal"
+      ],
       "presetDefault": "deep",
       "capabilities": {
         "reasoning": "high",
@@ -977,7 +2827,9 @@
         "japaneseQuality": "good"
       },
       "transport": {
-        "invocationTypes": ["agy_cli"],
+        "invocationTypes": [
+          "agy_cli"
+        ],
         "preferredInvocation": "agy_cli",
         "apiSurface": "cli_only",
         "nativeModelFlag": "gemini-2.5-pro"
@@ -991,8 +2843,13 @@
       "displayName": "Gemini 2.5 Flash",
       "status": "active",
       "tier": 1,
-      "roles": ["llm_analyze"],
-      "modalities": ["text", "multimodal"],
+      "roles": [
+        "llm_analyze"
+      ],
+      "modalities": [
+        "text",
+        "multimodal"
+      ],
       "presetDefault": "fast",
       "capabilities": {
         "reasoning": "medium",
@@ -1000,7 +2857,9 @@
         "japaneseQuality": "good"
       },
       "transport": {
-        "invocationTypes": ["agy_cli"],
+        "invocationTypes": [
+          "agy_cli"
+        ],
         "preferredInvocation": "agy_cli",
         "nativeModelFlag": "gemini-2.5-flash"
       },
@@ -1009,8 +2868,8 @@
   ],
   "aliases": {
     "haiku": "claude-haiku-4-5",
-    "sonnet": "claude-sonnet-4-5-20250929",
-    "opus": "claude-opus-4.1",
+    "sonnet": "claude-sonnet-4-6",
+    "opus": "claude-opus-4-6",
     "gpt-5.5": "gpt-5.5",
     "gpt-5.4": "gpt-5.4",
     "gpt-5.3-codex": "gpt-5.3-codex",
@@ -1021,38 +2880,803 @@
     "gemini-flash": "gemini-2.5-flash"
   },
   "cookbookIndex": {
-    "gpt-5-prompting-guide": ["gpt-5.5", "gpt-5-mini"],
-    "gpt-5-new-params-and-tools": ["gpt-5.4-mini", "gpt-5.4-nano", "gpt-5-mini", "gpt-5-nano"],
-    "codex-prompting-guide": ["gpt-5.3-codex", "gpt-5-codex"],
-    "using-goals-in-codex": ["gpt-5-codex"],
-    "reasoning-items": ["gpt-5.5", "gpt-5.5-pro"],
-    "mcp-tool-guide": ["gpt-5.5", "gpt-5.4-mini"],
-    "vision-understanding": ["gpt-5.4-mini"],
-    "grounded-spatial-reasoning-layouts": ["gpt-5.5"],
-    "building-reliable-agents-memory-compaction": ["gpt-5-codex", "gpt-5.4-mini", "gpt-5.4-nano"],
-    "prompt-caching101": ["gpt-5.5", "gpt-5.4-mini"],
-    "model-selection-guide": ["gpt-5.5", "gpt-5.4-mini", "gpt-5.4-nano"],
-    "batch-processing": ["gpt-5.4-mini", "gpt-5.4-nano"]
+    "gpt-5-prompting-guide": [
+      "gpt-5.5",
+      "gpt-5-mini"
+    ],
+    "gpt-5-new-params-and-tools": [
+      "gpt-5.4-mini",
+      "gpt-5.4-nano",
+      "gpt-5-mini",
+      "gpt-5-nano"
+    ],
+    "codex-prompting-guide": [
+      "gpt-5.3-codex",
+      "gpt-5-codex"
+    ],
+    "using-goals-in-codex": [
+      "gpt-5-codex"
+    ],
+    "reasoning-items": [
+      "gpt-5.5",
+      "gpt-5.5-pro"
+    ],
+    "mcp-tool-guide": [
+      "gpt-5.5",
+      "gpt-5.4-mini"
+    ],
+    "vision-understanding": [
+      "gpt-5.4-mini"
+    ],
+    "grounded-spatial-reasoning-layouts": [
+      "gpt-5.5"
+    ],
+    "building-reliable-agents-memory-compaction": [
+      "gpt-5-codex",
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "prompt-caching101": [
+      "gpt-5.5",
+      "gpt-5.4-mini"
+    ],
+    "model-selection-guide": [
+      "gpt-5.5",
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "batch-processing": [
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "patterns-agents-async-multi-agent-orchestration": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "tool-use-context-engineering-context-engineering-tools": [
+      "claude-sonnet-4-6"
+    ],
+    "tool-use-automatic-context-compaction": [
+      "claude-sonnet-4-6"
+    ],
+    "tool-use-memory-cookbook": [
+      "claude-sonnet-4-6"
+    ],
+    "extended-thinking-extended-thinking-with-tool-use": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-notebooks-01-skills-introduction": [
+      "claude-sonnet-4-6"
+    ],
+    "misc-batch-processing": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "capabilities-contextual-embeddings-guide": [],
+    "capabilities-retrieval-augmented-generation-guide": [],
+    "tool-use-extracting-structured-json": [
+      "claude-haiku-4-5"
+    ],
+    "misc-read-web-pages-with-haiku": [
+      "claude-haiku-4-5"
+    ],
+    "misc-how-to-enable-json-mode": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "third-party-llamaindex-multi-document-agents": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "misc-pdf-upload-summarization": [
+      "claude-sonnet-4-6"
+    ],
+    "third-party-wikipedia-wikipedia-search-cookbook": [
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6"
+    ]
   },
   "promptGuidanceIndex": {
-    "personality-behavior": ["gpt-5.5"],
-    "preamble-streaming": ["gpt-5.5", "gpt-5.5-pro"],
-    "outcome-first-stopping": ["gpt-5.5", "gpt-5.5-pro"],
-    "formatting-verbosity": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-mini", "gpt-5.4-nano"],
-    "retrieval-budget-citations": ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini"],
-    "creative-guardrails": ["gpt-5.5"],
-    "frontend-quality": ["gpt-5.5"],
-    "validation-loops": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-mini", "gpt-5.3-codex", "gpt-5-codex"],
-    "assistant-phase": ["gpt-5.5", "gpt-5.5-pro", "gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini"],
-    "output-contract": ["gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini", "gpt-5.4-nano"],
-    "follow-through-policy": ["gpt-5.4", "gpt-5.4-pro"],
-    "instruction-priority": ["gpt-5.4", "gpt-5.4-pro"],
-    "missing-context-gating": ["gpt-5.4", "gpt-5.4-mini"],
-    "tool-persistence": ["gpt-5.4", "gpt-5.4-pro"],
-    "codex-autonomy": ["gpt-5.3-codex"],
-    "avoid-upfront-preamble": ["gpt-5.3-codex"],
-    "phase-required": ["gpt-5.3-codex"],
-    "compaction-guidance": ["gpt-5.3-codex", "gpt-5.4-mini", "gpt-5.4-nano"],
-    "context-gathering-batch": ["gpt-5.3-codex"]
+    "personality-behavior": [
+      "gpt-5.5"
+    ],
+    "preamble-streaming": [
+      "gpt-5.5",
+      "gpt-5.5-pro"
+    ],
+    "outcome-first-stopping": [
+      "gpt-5.5",
+      "gpt-5.5-pro"
+    ],
+    "formatting-verbosity": [
+      "gpt-5.5",
+      "gpt-5.5-pro",
+      "gpt-5.4",
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "retrieval-budget-citations": [
+      "gpt-5.5",
+      "gpt-5.4",
+      "gpt-5.4-mini"
+    ],
+    "creative-guardrails": [
+      "gpt-5.5"
+    ],
+    "frontend-quality": [
+      "gpt-5.5"
+    ],
+    "validation-loops": [
+      "gpt-5.5",
+      "gpt-5.5-pro",
+      "gpt-5.4",
+      "gpt-5.4-mini",
+      "gpt-5.3-codex",
+      "gpt-5-codex"
+    ],
+    "assistant-phase": [
+      "gpt-5.5",
+      "gpt-5.5-pro",
+      "gpt-5.4",
+      "gpt-5.4-pro",
+      "gpt-5.4-mini"
+    ],
+    "output-contract": [
+      "gpt-5.4",
+      "gpt-5.4-pro",
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "follow-through-policy": [
+      "gpt-5.4",
+      "gpt-5.4-pro"
+    ],
+    "instruction-priority": [
+      "gpt-5.4",
+      "gpt-5.4-pro"
+    ],
+    "missing-context-gating": [
+      "gpt-5.4",
+      "gpt-5.4-mini"
+    ],
+    "tool-persistence": [
+      "gpt-5.4",
+      "gpt-5.4-pro"
+    ],
+    "codex-autonomy": [
+      "gpt-5.3-codex"
+    ],
+    "avoid-upfront-preamble": [
+      "gpt-5.3-codex"
+    ],
+    "phase-required": [
+      "gpt-5.3-codex"
+    ],
+    "compaction-guidance": [
+      "gpt-5.3-codex",
+      "gpt-5.4-mini",
+      "gpt-5.4-nano"
+    ],
+    "context-gathering-batch": [
+      "gpt-5.3-codex"
+    ],
+    "hub-peer-messaging": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "subagent-lifecycle": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "extended-thinking-tool-use": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "preserve-thinking-blocks": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "interleaved-thinking-beta": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "thinking-display-omitted": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "adaptive-thinking-migration": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "adaptive-thinking": [],
+    "adaptive-thinking-effort": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "thinking-prompt-steering": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "thinking-mode-cache-invalidation": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "parallel-tool-use": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "parallel-tool-result-batching": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "parallel-tool-prompting": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "fine-grained-tool-streaming": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "tool-input-json-delta": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "context-window-management": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "context-awareness": [
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6"
+    ],
+    "context-window-overflow": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "context-compaction": [
+      "claude-sonnet-4-6"
+    ],
+    "tool-result-clearing": [
+      "claude-sonnet-4-6"
+    ],
+    "memory-tool-cross-session": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-document-generation": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-authoring-best-practices": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-progressive-disclosure": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-executable-scripts": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-api-container": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-prebuilt-office-pdf": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-security-audit": [
+      "claude-sonnet-4-6"
+    ],
+    "skills-surface-constraints": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-skills-layout": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-skills-frontmatter": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-skills-shell-injection": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-skills-subagent-fork": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-skills-skill-overrides": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-bundled-run-verify": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-mcp-scopes": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-mcp-transports": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-mcp-oauth-auth": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-mcp-troubleshooting": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-hooks-events": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-hooks-command-io": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-hooks-matchers": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-hooks-compaction": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-hooks-permissions": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-debug-context-commands": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-debug-settings-scope": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-debug-isolation": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-debug-common-causes": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cost-usage-tracking": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cost-context-management": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cost-model-mcp": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cost-hooks-skills": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cost-thinking-teams": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-pricing-catalog-as-is": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-pricing-prompt-caching-multipliers": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-pricing-batch-discount": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-pricing-tool-features": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-pricing-cloud-billing": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "anthropic-models-overview-current-tier": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-models-overview-lineup": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-models-overview-version-policy": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-models-overview-id-versioning": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-models-overview-fable-mythos": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "anthropic-models-overview-migration": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "anthropic-system-cards-index": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-system-cards-catalog-as-is": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8",
+      "claude-haiku-4-5"
+    ],
+    "anthropic-system-cards-migration-tier": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "claude-code-plugins-marketplaces": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-plugins-install-scopes": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-plugins-code-intelligence": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-plugins-reload-cost": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-plugins-team-config": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-scheduled-loop": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-scheduled-loop-md": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-scheduled-cron-tools": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-scheduled-jitter-expiry": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-scheduled-vs-cloud": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-programmatic-print-mode": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-programmatic-bare-mode": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-programmatic-structured-output": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-programmatic-permissions-ci": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-programmatic-sessions": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-deeplink-build": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-deeplink-cwd-repo": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-deeplink-runbooks": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-deeplink-registration": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-deeplink-troubleshooting": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-context": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-verification": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-plan-workflow": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-claude-md": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-session-management": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-best-practices-automation": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cli-commands-core": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cli-print-flags": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cli-session-resume": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cli-permissions": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-cli-background-agents": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-glossary-core": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-glossary-context": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-glossary-extensions": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-glossary-permissions": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-glossary-deprecated": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-auto-mode-scopes": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-auto-mode-environment": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-auto-mode-rules": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-auto-mode-inspect": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-monitoring-otel-setup": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-monitoring-metrics": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-monitoring-events-audit": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-monitoring-traces": [
+      "claude-sonnet-4-6"
+    ],
+    "claude-code-monitoring-privacy": [
+      "claude-sonnet-4-6"
+    ],
+    "pdf-document-blocks": [
+      "claude-sonnet-4-6"
+    ],
+    "pdf-source-url-base64-file": [
+      "claude-sonnet-4-6"
+    ],
+    "pdf-limits-chunking": [
+      "claude-sonnet-4-6"
+    ],
+    "pdf-caching-batch": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-image-blocks": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-source-url-base64-file": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-limits-token-cost": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-prompt-placement": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-coordinates-bounding-box": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-multi-image-comparison": [
+      "claude-sonnet-4-6"
+    ],
+    "vision-high-resolution-migration": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "structured-json-tool-use": [
+      "claude-haiku-4-5"
+    ],
+    "web-page-summarization": [
+      "claude-haiku-4-5"
+    ],
+    "json-mode-prefill": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "multi-document-react-agents": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "iterative-search-tool-use": [
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6"
+    ],
+    "contextual-embeddings-rag": [],
+    "rag-summary-indexing-reranking": [],
+    "batch-api-offline": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "multilingual-prompting": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "multilingual-native-script": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "multilingual-japanese": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "message-streaming-sse": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "streaming-thinking-delta": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "streaming-error-recovery": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "streaming-final-message": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "programmatic-tool-calling": [
+      "claude-sonnet-4-6"
+    ],
+    "allowed-callers-field": [
+      "claude-sonnet-4-6"
+    ],
+    "programmatic-container-lifecycle": [
+      "claude-sonnet-4-6"
+    ],
+    "programmatic-tool-result-only": [
+      "claude-sonnet-4-6"
+    ],
+    "programmatic-async-await": [
+      "claude-sonnet-4-6"
+    ],
+    "programmatic-token-efficiency": [
+      "claude-sonnet-4-6"
+    ],
+    "programmatic-error-handling": [
+      "claude-sonnet-4-6"
+    ],
+    "prompt-caching-automatic": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "prompt-caching-explicit-breakpoints": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "prompt-caching-1h-ttl": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "prompt-caching-pre-warm": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "prompt-caching-usage-fields": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "prompt-caching-invalidation": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "mid-conversation-system-message": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "mid-conversation-placement": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "mid-conversation-prompt-caching": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "mid-conversation-tool-relay": [
+      "claude-opus-4-6",
+      "claude-opus-4-8"
+    ],
+    "token-counting-api": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "token-counting-tools-modality": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "token-counting-extended-thinking": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "token-counting-vs-prompt-cache": [
+      "claude-opus-4-6",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ],
+    "token-counting-rate-limits": [
+      "claude-opus-4-6",
+      "claude-haiku-4-5",
+      "claude-sonnet-4-6",
+      "claude-opus-4-8"
+    ]
   }
 }

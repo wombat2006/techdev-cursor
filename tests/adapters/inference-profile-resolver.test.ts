@@ -26,6 +26,7 @@ describe('inference-profile-resolver', () => {
   });
 
   it('maps sonnet alias for claude', () => {
-    expect(resolveModelAlias('claude', 'sonnet-4.5')).toBe('sonnet');
+    expect(resolveModelAlias('claude', 'sonnet-4.6')).toBe('sonnet');
+    expect(resolveModelAlias('claude', 'claude-sonnet-4-6')).toBe('sonnet');
   });
 });

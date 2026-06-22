@@ -19,9 +19,9 @@ describe('adapter-preset-matrix schema (open map)', () => {
       adapters: {
         claude: {
           fast: 'claude-haiku-4-5',
-          balanced: 'claude-sonnet-4-5-20250929',
-          deep: 'claude-sonnet-4-5-20250929',
-          critical: 'claude-opus-4.1',
+          balanced: 'claude-sonnet-4-6',
+          deep: 'claude-sonnet-4-6',
+          critical: 'claude-opus-4-6',
         },
         qwen_native: {
           fast: 'qwen-stub-fast',

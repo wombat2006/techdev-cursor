@@ -98,6 +98,9 @@ export interface ParamSupport {
 export interface PromptCachingFeature {
   supported?: boolean;
   maxTtlHours?: number;
+  minCacheTokens?: number;
+  automaticCaching?: boolean;
+  explicitBreakpointsMax?: number;
   notes?: string;
 }
 
@@ -193,6 +196,12 @@ export interface ModelTransport {
   invocationBindingRef?: string;
 }
 
+export interface AggregateEscalationPolicy {
+  targetModelId: string;
+  confidenceBelow?: number;
+  peerConsensusBelow?: number;
+}
+
 export interface ModelCatalogEntry {
   id: string;
   vendor: string;
@@ -216,6 +225,8 @@ export interface ModelCatalogEntry {
   /** API token pricing for cost-aware TaskRouter (OpenAI models) */
   apiPricing?: ApiPricing;
   notes?: string;
+  /** Default tier → escalation target (e.g. Opus 4.6 → 4.8) */
+  escalation?: AggregateEscalationPolicy;
 }
 
 export interface LlmModelCatalog {

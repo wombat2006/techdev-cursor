@@ -4,7 +4,7 @@
 
 This guide integrates advanced techniques from the [OpenAI Cookbook](https://cookbook.openai.com) ([GitHub](https://github.com/openai/openai-cookbook)) into TechSapo's architecture, filling gaps in our current implementation and enhancing AI capabilities.
 
-> **Model traits (machine-readable):** OpenAI Cookbook findings are normalized into [config/llm-model-catalog.json](../config/llm-model-catalog.json) per [TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) — `apiFeatures`, `builtinTools`, `references[]`, and `cookbookIndex` (from `registry.yaml` slugs). **Platform prompt guidance** ([GPT-5.5](https://developers.openai.com/api/docs/guides/prompt-guidance)) → `prompting.approach`, `guidanceTopics[]`, `promptGuidanceIndex`. Human summaries: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) · [OPENAI_PROMPT_GUIDANCE.md](./OPENAI_PROMPT_GUIDANCE.md).
+> **Model traits (machine-readable):** OpenAI Cookbook findings are normalized into [config/llm-model-catalog.json](../config/llm-model-catalog.json) per [TS-21](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) — `apiFeatures`, `builtinTools`, `references[]`, and `cookbookIndex` (from `registry.yaml` slugs). **Platform prompt guidance** ([GPT-5.5](https://developers.openai.com/api/docs/guides/prompt-guidance)) → `prompting.approach`, `guidanceTopics[]`, `promptGuidanceIndex`. Human summaries: [OPENAI_MODEL_MATRIX.md](./OPENAI_MODEL_MATRIX.md) · [OPENAI_PROMPT_GUIDANCE.md](./OPENAI_PROMPT_GUIDANCE.md). **Anthropic parallel:** [ANTHROPIC_COOKBOOK_INTEGRATION.md](./ANTHROPIC_COOKBOOK_INTEGRATION.md) · [ANTHROPIC_PROMPT_GUIDANCE.md](./ANTHROPIC_PROMPT_GUIDANCE.md).
 
 ## 📚 Cookbook Topics Integration Status
 

@@ -7,7 +7,10 @@ import { EventEmitter } from 'events';
 import { logger } from '../utils/logger';
 import { config } from '../config/environment';
 import { executeAgyPrint } from '../utils/antigravity-cli';
-import { createCodexGPT5Provider } from './codex-gpt5-provider';
+import {
+  OPUS_AGGREGATE_PROVIDER_ESCALATION,
+  shouldEscalateOpusAggregate,
+} from './opus-aggregate-escalation';
 
 
 // Load provider configuration from external file
@@ -206,7 +209,7 @@ export class WallBounceAnalyzer extends EventEmitter {
 
   private initializeProviders() {
     // 高品質LLMプロバイダーのみに限定
-    // "Gemini-2.5-pro", "GPT-5-codex", "GPT-5", "Sonnet4", "Opus4.1"
+    // "Gemini-2.5-pro", "GPT-5-codex", "GPT-5", "Sonnet4", "Opus4.8"
 
     // Tier 1a: Gemini 2.5 Pro (CLI必須 - 技術的クエリ用)
     this.providers.set('gemini-2.5-pro', {
@@ -248,27 +251,34 @@ export class WallBounceAnalyzer extends EventEmitter {
     });
     this.providerOrder.push('sonnet-4');
 
-    // Tier 3.5: Anthropic Sonnet 4.5 (内部呼び出しのみ - Default Aggregator)
-    this.providers.set('sonnet-4.5', {
-      name: 'Sonnet4.5',
-      model: 'claude-sonnet-4-5-20250929',
+    // Tier 3.5: Anthropic Sonnet 4.6 (内部呼び出しのみ - Default Aggregator)
+    this.providers.set('sonnet-4.6', {
+      name: 'Sonnet4.6',
+      model: 'claude-sonnet-4-6',
       invoke: this.invokeClaude.bind(this) // 内部呼び出しのみ、API禁止
     });
-    this.providerOrder.push('sonnet-4.5');
+    this.providerOrder.push('sonnet-4.6');
 
-    // Tier 4: Anthropic Opus 4.1 (内部呼び出しのみ - Complex Queries Aggregator)
-    this.providers.set('opus-4.1', {
-      name: 'Opus4.1',
-      model: 'claude-opus-4.1',
+    // Tier 4: Anthropic Opus 4.6 (default aggregate) + 4.8 (escalation)
+    this.providers.set('opus-4.6', {
+      name: 'Opus4.6',
+      model: 'claude-opus-4-6',
+      invoke: this.invokeClaude.bind(this)
+    });
+    this.providerOrder.push('opus-4.6');
+
+    this.providers.set('opus-4.8', {
+      name: 'Opus4.8',
+      model: 'claude-opus-4-8',
       invoke: this.invokeClaude.bind(this) // 内部呼び出しのみ、API禁止
     });
-    this.providerOrder.push('opus-4.1');
+    this.providerOrder.push('opus-4.8');
 
     logger.info('🚀 Wall-Bounce Providers初期化完了（高品質モデルのみ）', {
       total_providers: this.providers.size,
       gemini_pro_providers: 1, // Gemini-2.5-pro only
       gpt5_providers: 2, // GPT-5-codex + GPT-5
-      anthropic_providers: 2, // Sonnet4 + Opus4.1
+      anthropic_providers: 2, // Sonnet4 + Opus4.8
       excluded_models: ['gemini-2.5-flash', 'lower-tier-models'],
       enforced_restrictions: {
         openai_gemini: 'CLI_ONLY',
@@ -402,11 +412,11 @@ export class WallBounceAnalyzer extends EventEmitter {
     
     // シンプルなクエリは軽量アグリゲーター
     if (taskType === 'simple') {
-      logger.info(`🎯 Simple query detected → Using Sonnet 4.5 for fast aggregation`);
-      return config.defaultAggregator; // Sonnet 4.5
+      logger.info(`🎯 Simple query detected → Using Sonnet 4.6 for fast aggregation`);
+      return config.defaultAggregator; // Sonnet 4.6
     }
     
-    // criticalタスクは常にOpus 4.1
+    // critical → Opus 4.8 from first pass; routine complexity → Opus 4.6
     if (taskType === 'critical' || providersConfig.taskTypeMapping[taskType]) {
       const mappedAggregator = providersConfig.taskTypeMapping[taskType];
       if (mappedAggregator) {
@@ -427,7 +437,7 @@ export class WallBounceAnalyzer extends EventEmitter {
     
     const complexityScore = structuralComplexity + cognitiveDepth + domainBreadth;
     
-    // スコアが高い場合はOpus 4.1を使用
+    // High structural complexity → Opus 4.6 (escalate to 4.8 if gates fail)
     if (complexityScore >= 6) {
       logger.info(`🎯 High complexity detected (score: ${complexityScore}) → ${config.complexAggregator}`, {
         structural: structuralComplexity,
@@ -625,7 +635,8 @@ export class WallBounceAnalyzer extends EventEmitter {
 
     const primaryProviders = providerOrder.filter(name => 
       name !== providersConfig.aggregatorSelection.defaultAggregator && 
-      name !== providersConfig.aggregatorSelection.complexAggregator
+      name !== providersConfig.aggregatorSelection.complexAggregator &&
+      name !== OPUS_AGGREGATE_PROVIDER_ESCALATION
     );
     const taskBasedCount = taskType === 'basic' ? 2 : taskType === 'premium' ? 4 : primaryProviders.length;
     const minProviders = Math.max(options.minProviders ?? 2, 1);
@@ -663,16 +674,17 @@ export class WallBounceAnalyzer extends EventEmitter {
     );
 
     if (mode === 'sequential') {
-      return await this.executeSequentialMode(prompt, selectedPrimary, aggregator, effectiveMinProviders, startTime, depth, flowDetails, options, taskType);
+      return await this.executeSequentialMode(prompt, selectedPrimary, aggregator, aggregatorKey, effectiveMinProviders, startTime, depth, flowDetails, options, taskType);
     }
 
-    return await this.executeParallelMode(prompt, selectedPrimary, aggregator, effectiveMinProviders, startTime, taskType, flowDetails, options);
+    return await this.executeParallelMode(prompt, selectedPrimary, aggregator, aggregatorKey, effectiveMinProviders, startTime, taskType, flowDetails, options);
   }
 
   private async executeParallelMode(
     prompt: string,
     providers: Array<{ name: string; handler: LLMProvider }>,
     aggregator: LLMProvider,
+    aggregatorKey: string,
     minProviders: number,
     startTime: number,
     taskType: 'basic' | 'premium' | 'critical' | 'simple',
@@ -761,7 +773,7 @@ export class WallBounceAnalyzer extends EventEmitter {
       });
 
       // Claude Internalプロバイダーをフォールバックとして実行
-      const fallbackProviders = ['opus-4.1', 'sonnet-4'];
+      const fallbackProviders = [OPUS_AGGREGATE_PROVIDER_ESCALATION, 'sonnet-4'];
       for (const fallbackName of fallbackProviders) {
         if (providerResponses.length >= minProviders) break;
         
@@ -817,35 +829,53 @@ export class WallBounceAnalyzer extends EventEmitter {
 
     const aggregatorPrompt = this.buildAggregatorPrompt(prompt, providerResponses, taskType);
 
-    // Thinking: Aggregator execution
     emitThinking(
-      DEFAULT_AGGREGATOR_PROVIDER,
+      aggregatorKey,
       'Final Synthesis',
       `Aggregator analyzing all provider responses. Identifying consensus patterns, resolving conflicts, and generating unified response.`
     );
 
-    const aggregatorResponse = await this.invokeProvider(aggregator, aggregatorPrompt, DEFAULT_AGGREGATOR_PROVIDER);
+    const {
+      response: aggregatorResponse,
+      aggregatorKey: finalAggregatorKey,
+      tierEscalated,
+    } = await this.runAggregateWithEscalation(
+      aggregator,
+      aggregatorKey,
+      aggregatorPrompt,
+      providerResponses,
+      taskType,
+      options
+    );
     const processingTimeMs = Date.now() - startTime;
 
-    // Thinking: Completion
     emitThinking(
       'Claude Code (Orchestrator)',
       'Analysis Complete',
-      `Wall-Bounce analysis completed in ${processingTimeMs}ms. ${providerResponses.length} providers contributed. Final consensus confidence: ${(aggregatorResponse.confidence * 100).toFixed(0)}%.`
+      `Wall-Bounce analysis completed in ${processingTimeMs}ms. ${providerResponses.length} providers contributed. Final consensus confidence: ${(aggregatorResponse.confidence * 100).toFixed(0)}%.${tierEscalated ? ' (Opus tier escalated 4.6→4.8)' : ''}`
     );
 
-    // Emit final consensus update
     if (options.onConsensusUpdate) {
       options.onConsensusUpdate(aggregatorResponse.confidence);
     }
 
-    return this.buildWallBounceResult(providerResponses, aggregatorResponse, DEFAULT_AGGREGATOR_PROVIDER, providerErrors, processingTimeMs, undefined, flowDetails);
+    return this.buildWallBounceResult(
+      providerResponses,
+      aggregatorResponse,
+      finalAggregatorKey,
+      providerErrors,
+      processingTimeMs,
+      undefined,
+      flowDetails,
+      tierEscalated
+    );
   }
 
   private async executeSequentialMode(
     prompt: string,
     providers: Array<{ name: string; handler: LLMProvider }>,
     aggregator: LLMProvider,
+    aggregatorKey: string,
     minProviders: number,
     startTime: number,
     depth: number,
@@ -1005,12 +1035,12 @@ ${this.truncateForDisplay(response.content, 600)}`);
 
     console.log(`
 ┌─────────────────────────────────────────────────────────────┐`);
-    console.log(`│ 🔗 AGGREGATION: ${DEFAULT_AGGREGATOR_PROVIDER.toUpperCase()} 統合処理`);
+    console.log(`│ 🔗 AGGREGATION: ${aggregatorKey.toUpperCase()} 統合処理`);
     console.log(`└─────────────────────────────────────────────────────────────┘`);
     console.log(`🕐 開始時刻: ${new Date().toISOString()}`);
     console.log(`📊 統合対象: ${providerResponses.length}個のLLM応答`);
 
-    const aggregatorPrompt = this.buildAggregatorPrompt(prompt, providerResponses, undefined, depth);
+    const aggregatorPrompt = this.buildAggregatorPrompt(prompt, providerResponses, taskType, depth);
     console.log(`📝 Aggregator送信プロンプト:
 ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
 
@@ -1030,14 +1060,25 @@ ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
 
     // Thinking: Aggregator execution
     emitThinking(
-      DEFAULT_AGGREGATOR_PROVIDER,
+      aggregatorKey,
       'Final Synthesis',
       `Aggregator analyzing ${providerResponses.length} sequential responses. Identifying patterns, resolving conflicts, and synthesizing coherent final answer.`
     );
 
-    console.log(`⏳ Opus4.1で統合処理中...`);
+    console.log(`⏳ ${aggregatorKey}で統合処理中...`);
     const aggregatorStartTime = Date.now();
-    const aggregatorResponse = await this.invokeProvider(aggregator, aggregatorPrompt, DEFAULT_AGGREGATOR_PROVIDER);
+    const {
+      response: aggregatorResponse,
+      aggregatorKey: finalAggregatorKey,
+      tierEscalated,
+    } = await this.runAggregateWithEscalation(
+      aggregator,
+      aggregatorKey,
+      aggregatorPrompt,
+      providerResponses,
+      taskType,
+      options
+    );
     const aggregatorProcessingTime = Date.now() - aggregatorStartTime;
     const processingTimeMs = Date.now() - startTime;
 
@@ -1049,7 +1090,7 @@ ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
     );
 
     // Emit provider response for aggregator
-    emitProviderResponse(DEFAULT_AGGREGATOR_PROVIDER, aggregatorResponse.content);
+    emitProviderResponse(finalAggregatorKey, aggregatorResponse.content);
 
     // Emit final consensus update
     if (options.onConsensusUpdate) {
@@ -1075,7 +1116,63 @@ ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
     flowDetails.aggregation.final_response = aggregatorResponse.content;
     flowDetails.aggregation.timestamp = new Date().toISOString();
 
-    return this.buildWallBounceResult(providerResponses, aggregatorResponse, DEFAULT_AGGREGATOR_PROVIDER, providerErrors, processingTimeMs, depth, flowDetails);
+    return this.buildWallBounceResult(
+      providerResponses,
+      aggregatorResponse,
+      finalAggregatorKey,
+      providerErrors,
+      processingTimeMs,
+      depth,
+      flowDetails,
+      tierEscalated
+    );
+  }
+
+  private async runAggregateWithEscalation(
+    aggregator: LLMProvider,
+    aggregatorKey: string,
+    aggregatorPrompt: string,
+    providerResponses: Array<LLMResponse & { provider: string }>,
+    taskType: 'basic' | 'premium' | 'critical' | 'simple',
+    options: ExecuteOptions = {}
+  ): Promise<{
+    response: LLMResponse;
+    aggregatorKey: string;
+    tierEscalated: boolean;
+  }> {
+    let response = await this.invokeProvider(aggregator, aggregatorPrompt, aggregatorKey);
+    let key = aggregatorKey;
+    let tierEscalated = false;
+
+    const aggregatorModelId = this.providers.get(aggregatorKey)?.model ?? aggregatorKey;
+    const escalate = shouldEscalateOpusAggregate({
+      aggregatorModelId,
+      aggregatorConfidence: response.confidence,
+      peerConfidences: providerResponses.map((r) => r.confidence),
+      taskType,
+    });
+
+    if (escalate) {
+      const escalated = this.providers.get(OPUS_AGGREGATE_PROVIDER_ESCALATION);
+      if (escalated) {
+        if (options.onThinking) {
+          options.onThinking(
+            OPUS_AGGREGATE_PROVIDER_ESCALATION,
+            'Opus Tier Escalation',
+            `Aggregate confidence ${response.confidence.toFixed(2)} or peer consensus below gate — retrying with Opus 4.8.`
+          );
+        }
+        response = await this.invokeProvider(
+          escalated,
+          aggregatorPrompt,
+          OPUS_AGGREGATE_PROVIDER_ESCALATION
+        );
+        key = OPUS_AGGREGATE_PROVIDER_ESCALATION;
+        tierEscalated = true;
+      }
+    }
+
+    return { response, aggregatorKey: key, tierEscalated };
   }
 
 
@@ -1102,8 +1199,14 @@ ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
       case 'sonnet-4':
         response = await this.invokeClaude(prompt, 'sonnet-4');
         break;
-      case 'opus-4.1':
-        response = await this.invokeClaude(prompt, 'opus-4.1');
+      case 'sonnet-4.6':
+        response = await this.invokeClaude(prompt, 'sonnet-4.6');
+        break;
+      case 'opus-4.6':
+        response = await this.invokeClaude(prompt, 'opus-4.6');
+        break;
+      case 'opus-4.8':
+        response = await this.invokeClaude(prompt, 'opus-4.8');
         break;
       default:
         response = await provider.invoke(prompt);
@@ -1343,7 +1446,7 @@ ${this.truncateForDisplay(aggregatorPrompt, 800)}`);
     logger.info('🤖 Invoking Claude via MCP Server', { version, promptLength: prompt.length });
 
     try {
-      // Use Claude Code MCP Server to ensure Sonnet 4.5 model selection
+      // Use Claude Code MCP Server to ensure Sonnet 4.6 model selection
       const { Client } = require('@modelcontextprotocol/sdk/client');
       const { StdioClientTransport } = require('@modelcontextprotocol/sdk/client/stdio.js');
       const { spawn } = require('child_process');
@@ -1608,7 +1711,8 @@ ${responseSection}
     providerErrors: string[],
     processingTimeMs: number,
     depth?: number,
-    flowDetails?: WallBounceFlowDetails
+    flowDetails?: WallBounceFlowDetails,
+    tierEscalated = false
   ): WallBounceResult {
     const totalCost = providerResponses.reduce((sum, resp) => sum + (resp.cost || 0), aggregatorResponse.cost || 0);
     const votes = [
@@ -1640,7 +1744,7 @@ ${responseSection}
       debug: {
         wall_bounce_verified: true,
         providers_used: providerResponses.map(resp => resp.provider).concat(aggregatorKey),
-        tier_escalated: false,
+        tier_escalated: tierEscalated,
         provider_errors: providerErrors,
         ...(depth && { depth_executed: depth })
       },
@@ -1667,13 +1771,13 @@ ${responseSection}
         .replace('{provider_name}', providerName)
         .replace('{task_type}', taskType);
 
-      // Use Opus 4.1 for meta-analysis
+      // Use Opus 4.8 for meta-analysis
       const aggregator = this.providers.get(DEFAULT_AGGREGATOR_PROVIDER);
       if (!aggregator) {
         throw new Error('Aggregator provider not available for meta-prompting');
       }
 
-      const metaResponse = await this.invokeClaude(metaPrompt, 'opus-4.1');
+      const metaResponse = await this.invokeClaude(metaPrompt, 'opus-4.8');
 
       // Extract optimization suggestions
       const improvements = this.extractImprovements(metaResponse.content);

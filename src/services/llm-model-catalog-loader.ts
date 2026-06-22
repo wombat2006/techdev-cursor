@@ -23,6 +23,8 @@ export interface AdapterPresetMatrix {
   /** Subset of adapters.adapters keys required for Wall-Bounce peer rounds (Track C). */
   constitutionPeerAdapters?: AdapterId[];
   adapters: Record<AdapterId, Record<InferencePreset, string>>;
+  /** Optional preset escalation (e.g. claude critical 4.6 → 4.8). */
+  escalation?: Record<AdapterId, Partial<Record<InferencePreset, string>>>;
 }
 
 const REPO_ROOT = join(__dirname, '..', '..');
@@ -166,4 +168,25 @@ export function resolvePresetNativeModelForProvider(
   preset: InferencePreset
 ): string {
   return resolvePresetNativeModel(provider, preset);
+}
+
+export function getAggregateEscalationPolicy(
+  modelId: string
+): import('../types/llm-model-catalog').AggregateEscalationPolicy | undefined {
+  return getModelById(modelId)?.escalation;
+}
+
+export function resolvePresetEscalationCatalogModelId(
+  adapterId: AdapterId,
+  preset: InferencePreset
+): string | undefined {
+  const matrix = loadAdapterPresetMatrix();
+  const catalogId = matrix.escalation?.[adapterId]?.[preset];
+  if (!catalogId) {
+    return undefined;
+  }
+  if (!getModelById(catalogId)) {
+    throw new Error(`Escalation matrix ${adapterId}/${preset} → ${catalogId} not found in catalog`);
+  }
+  return catalogId;
 }

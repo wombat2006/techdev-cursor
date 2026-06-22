@@ -43,58 +43,324 @@
       ]
     },
     {
-      "key": "sonnet-4.5",
-      "name": "Claude Sonnet 4.5",
+      "key": "claude-haiku-4-5",
+      "name": "Claude Haiku 4.5",
       "personality": {
-        "type": "Agent Excellence",
-        "traits": ["autonomous", "context-aware", "tool-coordinator", "coding-expert"],
-        "style": "Extended autonomous operation with fact-based progress updates"
+        "type": "Fast Extractor",
+        "traits": ["direct", "cost-efficient", "schema-driven", "low-latency"],
+        "style": "Tool-schema JSON extraction and single-pass web summarize"
       },
       "strengths": [
-        "Best coding model (SWE-bench Verified SOTA)",
-        "Extended autonomous operation for hours",
-        "Enhanced tool usage with parallel calls",
-        "Context awareness and token tracking",
-        "Advanced context management",
-        "Creative content generation"
+        "Structured JSON via custom tool input_schema",
+        "NER, sentiment, classification, summarization tools",
+        "Web page fetch + concise summary",
+        "Atomic keyword search queries (legacy Wikipedia pattern)"
       ],
       "bestFor": [
-        "Complex agents and long-running tasks",
-        "Coding excellence with extended thinking",
-        "Multi-tool coordination",
-        "Presentations and animations",
-        "Agentic workflows"
+        "Fast preset analyze rounds",
+        "High-volume structured extraction",
+        "Web content ingest + summary",
+        "Screening passes with fixed output shape"
       ],
-      "notes": "Performs significantly better with extended thinking enabled for coding tasks"
+      "promptingDos": [
+        "Define explicit input_schema per extraction task",
+        "Wrap source in <content> or <article> tags",
+        "Use tool_choice when output shape is fixed",
+        "Prefer tool_use over free-form JSON text",
+        "When multiple independent reads, expect parallel tool_use in one turn",
+        "State output language explicitly; use native script for source text",
+        "Escalate high-stakes Japanese synthesis to Sonnet (Haiku JP MMLU ~93.5%)"
+      ],
+      "promptingDonts": [
+        "Subagent orchestration lead role",
+        "Long compaction-heavy sessions",
+        "Opus-style JSON prefill (use tools instead)",
+        "Split parallel tool_result across separate user messages",
+        "Romanized Japanese when kanji/kana source is available"
+      ],
+      "platformRefs": [
+        "multilingual-support",
+        "token-counting"
+      ],
+      "cookbookRefs": [
+        "tool-use-extracting-structured-json",
+        "misc-read-web-pages-with-haiku",
+        "third-party-wikipedia-wikipedia-search-cookbook"
+      ]
     },
     {
-      "key": "opus-4.1",
-      "name": "Claude Opus 4.1",
+      "key": "claude-sonnet-4-6",
+      "name": "Claude Sonnet 4.6",
       "personality": {
-        "type": "Strategic Architect",
-        "traits": ["deep-thinking", "strategic", "comprehensive", "visionary"],
-        "style": "Deep, multi-layered analysis with strategic insights"
+        "type": "Long-Horizon Agent",
+        "traits": ["tool-coordinator", "context-aware", "reasoning-transparent", "session-persistent"],
+        "style": "Extended thinking before tools; composes compaction, clearing, and memory by workload"
       },
       "strengths": [
-        "Complex problem decomposition",
-        "Strategic architecture design",
-        "Security and performance analysis",
-        "Multi-dimensional synthesis",
-        "Superior reasoning capabilities"
+        "Extended thinking with tool use",
+        "Context compaction for long sessions",
+        "Tool-result clearing for re-fetchable bloat",
+        "Cross-session memory tool",
+        "Document Skills (Excel, PowerPoint, PDF)",
+        "PDF document blocks (text + charts)"
       ],
       "bestFor": [
-        "Specialized complex tasks",
+        "Multi-step agentic analyze",
+        "Long-running tool workflows",
+        "Coding with preserved thinking blocks",
+        "Cross-session agent continuity",
+        "PDF report analysis"
+      ],
+      "promptingDos": [
+        "Enable extended thinking for multi-step tool plans",
+        "Preserve thinking blocks on replay",
+        "Add interleaved-thinking-2025-05-14 beta header for tool loops",
+        "Use display: omitted when automation does not show thinking text",
+        "Batch all parallel tool_result blocks in one user message",
+        "Set eager_input_streaming on tools with large payloads (files, long arrays)",
+        "Accumulate input_json_delta per block index; parse only at content_block_stop",
+        "Set stream: true when using eager_input_streaming or large max_tokens",
+        "Prompt for simultaneous independent tool calls when reading multiple sources",
+        "Pick compaction vs clearing vs memory by workload",
+        "Write durable facts to memory paths for session 2",
+        "Author Skills: third-person description, SKILL.md under 500 lines, one-level file refs",
+        "Respect context budget warnings; compact or clear before hitting 200k window",
+        "Give verification criteria in prompt — tests, build, or linter pass before stop",
+        "Run /init for CLAUDE.md starter; keep lean — workflow detail in on-demand skills",
+        "On 4.6+ migration: use thinking.type adaptive + effort instead of budget_tokens",
+        "Respond in Japanese for user-facing output; idiomatic technical prose",
+        "Use native script for non-Latin source material",
+        "Fan-out tool workloads: allowed_callers code_execution_20260120 + filter in sandbox",
+        "Cache stable system + tool defs: explicit breakpoint or top-level automatic cache_control",
+        "Use 1h TTL for batch RAG prefixes; monitor cache_read_input_tokens in usage",
+        "Place document block before question text; use logical PDF page numbers in prompts",
+        "Place image blocks before question text; label multi-image turns (Image 1:, Image 2:)",
+        "Pre-resize screenshots to model limits; request pixel bounding boxes not normalized coords",
+        "Use Files API file_id for images in long multi-turn agent threads",
+        "Audit third-party Skills before production; API Skills have no network — bundle deps",
+        "Use pre-built pptx/xlsx/docx/pdf skill_id on API container for document automation",
+        "Commit repo skills under .claude/skills/; use disable-model-invocation for deploy/commit workflows",
+        "Use !`cmd` shell injection for live git/PR context in Claude Code skills",
+        "Register MCP servers via claude mcp add outside sessions; commit .mcp.json for team project scope",
+        "Use --scope user for personal MCP servers across all projects; not Cursor .cursor/mcp.json",
+        "Use SessionStart compact hook to re-inject fork rules after Claude Code compaction",
+        "PreToolUse hooks to block .env and package-lock edits; PostToolUse for prettier/eslint",
+        "Run /context and /doctor when Claude Code config seems ignored; hooks go in settings.json not ~/.claude.json",
+        "Use /clear between unrelated tasks; move workflow-specific rules from CLAUDE.md into on-demand skills",
+        "Prefer Sonnet for routine coding; Haiku for lightweight subagents; PreToolUse hooks to filter verbose logs",
+        "Check plugin Context cost in /plugin Discover before install; run /reload-plugins after enable",
+        "Use /loop with dynamic interval for PR babysitting; prefer Monitor tool over fixed poll when possible",
+        "Use claude --bare -p in CI scripts; pass --allowedTools explicitly for reproducible runs",
+        "Embed claude-cli:// links in internal runbooks; URL-encode q; use repo= for shared clones",
+        "Use CLAUDE_CODE_GLOSSARY for term lookup — agentic loop, compaction, hooks vs skills vs commands",
+        "Configure autoMode.environment with $defaults for org repos/buckets; use permissions.deny for hard org blocks",
+        "Run claude auto-mode config after editing autoMode; never omit $defaults unless you own the full rule list",
+        "Enable CLAUDE_CODE_ENABLE_TELEMETRY + OTEL_LOGS_EXPORTER for fleet audit; keep OTEL_LOG_TOOL_DETAILS off unless SIEM needs command detail",
+        "Use Batch API for offline RAG when latency allows — 50% token discount per ANTHROPIC_PRICING",
+        "Use adaptive thinking + effort — not manual budget_tokens on Sonnet 4.6",
+        "Chunk PDFs exceeding page/context limits; cache document block for repeat Q&A",
+        "Preflight large PDF/tool payloads with messages/count_tokens before send"
+      ],
+      "promptingDonts": [
+        "Expect thinking block after every tool_result (interleaved adds blocks between tools)",
+        "Force tool_choice any/name with thinking enabled",
+        "Use manual budget_tokens — use adaptive thinking + effort on Sonnet 4.6",
+        "Rely on allowed_callers as security boundary for programmatic tools",
+        "Mix tool_result with text on programmatic pending turns",
+        "Use programmatic calling for 1–2 small sequential tools per turn",
+        "Split parallel tool_result across multiple user messages",
+        "Parse partial_json before content_block_stop without incremental-UI need",
+        "Enable eager_input_streaming on small-schema tools without large payloads",
+        "Install untrusted Skills on production systems without file audit",
+        "Assume Cursor .cursor/mcp.json applies to Claude Code CLI sessions",
+        "Auto-approve all PermissionRequest hooks with empty matcher — scope narrowly",
+        "Put hooks or permissions in ~/.claude.json — use ~/.claude/settings.json",
+        "Keep bloated CLAUDE.md with workflow-specific detail — use skills for on-demand load",
+        "Install untrusted plugins or marketplaces without security review",
+        "Leave /loop running past 7 days without recreating — recurring tasks auto-expire",
+        "Rely on claude -p without --bare in CI — local hooks/MCP may change behavior",
+        "Click external claude-cli:// links without reading Prompt from external link warning",
+        "Accumulate failed corrections in one session — /clear and rewrite prompt after two misses",
+        "Assume Skills sync between Claude API, claude.ai, and Claude Code",
+        "Verbose SKILL.md with basics Claude already knows",
+        "Clear irreplaceable tool output",
+        "Stack all context primitives without diagnosis",
+        "Send password-protected or encrypted PDFs without pre-processing",
+        "Ask for normalized 0–1000 bounding boxes on vision tasks",
+        "Rely on PDF document-block coordinates for precise overlay mapping",
+        "Assume Cursor permission UX maps to Claude Code autoMode settings",
+        "Omit $defaults from autoMode.soft_deny or hard_deny — drops built-in security blocks",
+        "Put autoMode allow rules in committed .claude/settings.json — classifier ignores shared project settings",
+        "Enable OTEL_LOG_RAW_API_BODIES or OTEL_LOG_USER_PROMPTS without backend redaction — exports full conversation",
+        "Confuse TechSapo Prometheus (MONITORING_OPERATIONS) with Claude Code OTel — separate pipelines",
+        "Treat /usage local dollar estimate as authoritative invoice — use Console or OTel cost metrics",
+        "Pin Sonnet 4.5 or Opus 4.1 when same-family latest id is available at equal or lower list price",
+        "Place cache_control on per-request timestamps or user text — use static prefix end"
+      ],
+      "platformRefs": [
+        "extended-thinking",
+        "adaptive-thinking",
+        "parallel-tool-use",
+        "fine-grained-tool-streaming",
+        "skills-authoring-best-practices",
+        "agent-skills-overview",
+        "claude-code-skills",
+        "claude-code-mcp-connect",
+        "claude-code-hooks",
+        "claude-code-debug",
+        "anthropic-api-pricing",
+        "anthropic-models-overview",
+        "anthropic-system-cards",
+        "claude-code-cost-management",
+        "claude-code-plugins",
+        "claude-code-scheduled-tasks",
+        "claude-code-programmatic",
+        "claude-code-deep-links",
+        "claude-code-best-practices",
+        "claude-code-glossary",
+        "claude-code-auto-mode",
+        "claude-code-monitoring",
+        "claude-code-cli-reference",
+        "context-windows",
+        "multilingual-support",
+        "message-streaming",
+        "programmatic-tool-calling",
+        "prompt-caching",
+        "token-counting",
+        "pdf-support",
+        "vision"
+      ],
+      "cookbookRefs": [
+        "extended-thinking-extended-thinking-with-tool-use",
+        "tool-use-context-engineering-context-engineering-tools",
+        "tool-use-automatic-context-compaction",
+        "tool-use-memory-cookbook",
+        "skills-notebooks-01-skills-introduction",
+        "misc-pdf-upload-summarization",
+        "multimodal-getting-started-with-vision",
+        "multimodal-best-practices-for-vision",
+        "multimodal-reading-charts-graphs-powerpoints",
+        "third-party-wikipedia-wikipedia-search-cookbook",
+        "misc-prompt-caching"
+      ]
+    },
+    {
+      "key": "claude-opus-4-6",
+      "name": "Claude Opus 4.6",
+      "personality": {
+        "type": "Orchestrator",
+        "traits": ["strategic", "synthesis-focused", "cost-aware", "consensus-driven"],
+        "style": "Default aggregate tier — synthesizes peer outputs; escalates to 4.8 when gates fail"
+      },
+      "strengths": [
+        "Wall-Bounce default aggregation",
+        "Pre-4.7 tokenizer — lower effective $/token on large synthesis inputs",
+        "Adaptive thinking for hard synthesis",
+        "JSON aggregate and cross-peer reconciliation"
+      ],
+      "bestFor": [
+        "Routine Wall-Bounce aggregate rounds",
+        "Multi-provider synthesis when peers agree",
+        "Cost-sensitive aggregate with 4.8 escalation path"
+      ],
+      "promptingDos": [
+        "Use as default aggregate model — escalate to 4.8 only when confidence or peer consensus fails gates",
+        "Set effort medium for routine synthesis; reserve high for escalation tier",
+        "Batch parallel tool_result in one user message on multi-tool aggregate paths",
+        "Cache static orchestrator system + tool definitions across aggregate rounds",
+        "Preflight aggregate payload with count_tokens before synthesis"
+      ],
+      "promptingDonts": [
+        "Start on Opus 4.8 when 4.6 aggregate passes quality gates",
+        "Use manual budget_tokens — adaptive thinking + effort only",
+        "Skip escalation when confidence < 0.7 or peer min < 0.6 after 4.6 pass"
+      ],
+      "platformRefs": [
+        "extended-thinking",
+        "adaptive-thinking",
+        "parallel-tool-use",
+        "prompt-caching",
+        "token-counting"
+      ],
+      "cookbookRefs": [
+        "patterns-agents-async-multi-agent-orchestration",
+        "misc-how-to-enable-json-mode",
+        "misc-prompt-caching"
+      ]
+    },
+    {
+      "key": "claude-opus-4-8",
+      "name": "Claude Opus 4.8",
+      "personality": {
+        "type": "Orchestrator",
+        "traits": ["strategic", "multi-agent-lead", "synthesis-focused", "status-driven"],
+        "style": "Spawns helpers, polls status, collects hub messages, dismisses subagents, one team summary"
+      },
+      "strengths": [
+        "Async multi-agent orchestration",
+        "Hub peer messaging discipline",
+        "Dynamic subagent lifecycle",
+        "Strategic aggregation and cross-critique",
+        "JSON prefill and XML-tagged multi-object output",
+        "Per-corpus ReAct multi-document routing"
+      ],
+      "bestFor": [
+        "Escalated Wall-Bounce aggregate rounds",
+        "Critical taskType synthesis from first pass",
+        "Cross-critique synthesis",
+        "Coordinating parallel helper agents",
         "Complex architecture decisions",
-        "Security audits",
-        "Performance optimization",
-        "Strategic planning"
+        "Parseable aggregate JSON for downstream consumers"
+      ],
+      "promptingDos": [
+        "Coordinate via explicit structured messages only",
+        "Poll status while helpers run",
+        "Collect all reports then kill_subagents",
+        "Finish with one consolidated team summary",
+        "Enable thinking for hard synthesis; preserve blocks on tool aggregate paths",
+        "Use display: omitted for low-latency aggregate when thinking text is not shown",
+        "Batch parallel tool_result in one user message on multi-tool aggregate paths",
+        "Prefill assistant with { for preamble-free JSON when tools are not used",
+        "Use XML wrapper tags for multiple JSON objects",
+        "Use claude-opus-4-8 when 4.6 aggregate fails gates or taskType is critical",
+        "On 4.8: adaptive thinking + effort only; set effort explicitly (defaults high)",
+        "Japanese aggregate synthesis: idiomatic output; preserve English API identifiers",
+        "Cache static orchestrator system + tool definitions across aggregate rounds",
+        "On Opus 4.8+: mid-session operator policy via role:system in messages (preserves prompt cache)",
+        "Preflight aggregate payload size with count_tokens before synthesis rounds"
+      ],
+      "promptingDonts": [
+        "Assume inline prose reaches other agents",
+        "Leave orphaned subagents after synthesis",
+        "JSON prefill when chain-of-thought before JSON is required",
+        "Force tool_choice with thinking enabled",
+        "Default to Opus 4.6 when 4.8 escalation is not required",
+        "Put tool output or RAG text in role:system messages",
+        "Place mid-conversation system between tool_use and tool_result"
+      ],
+      "platformRefs": [
+        "extended-thinking",
+        "adaptive-thinking",
+        "parallel-tool-use",
+        "fine-grained-tool-streaming",
+        "multilingual-support",
+        "message-streaming",
+        "prompt-caching",
+        "mid-conversation-system-messages",
+        "token-counting"
+      ],
+      "cookbookRefs": [
+        "patterns-agents-async-multi-agent-orchestration",
+        "misc-how-to-enable-json-mode",
+        "third-party-llamaindex-multi-document-agents",
+        "misc-prompt-caching"
       ]
     }
   ],
   "selectionRules": {
     "priority": "cognitive_analysis",
     "fallbackStrategy": "use_default",
-    "defaultProvider": "sonnet-4.5",
-    "complexProvider": "opus-4.1"
+    "defaultProvider": "claude-sonnet-4-6",
+    "complexProvider": "claude-opus-4-6"
   }
 }

@@ -176,7 +176,7 @@ class ThinkingProcessDisplay {
             'gpt-5': 'brain',
             'gemini-2.5-pro': 'lightbulb',
             'claude-sonnet-4': 'check-circle',
-            'claude-opus-4.1': 'rocket'
+            'claude-opus-4-8': 'rocket'
         };
         return icons[provider.toLowerCase()] || 'cog';
     }

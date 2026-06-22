@@ -42,6 +42,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_
 | LLM Model Catalog | `config/llm-model-catalog.json` | [TECH_STACK_LLM_MODEL_CATALOG.md](docs/decisions/TECH_STACK_LLM_MODEL_CATALOG.md) |
 | OpenAI model IDs | catalog slice | [OPENAI_MODEL_MATRIX.md](docs/OPENAI_MODEL_MATRIX.md) |
 | OpenAI prompt guidance | `prompting.*` in catalog | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
+| Anthropic cookbook / prompt guidance | `prompting.*`, `cookbookIndex` | [ANTHROPIC_CAPABILITIES_OVERVIEW.md](docs/ANTHROPIC_CAPABILITIES_OVERVIEW.md) · [ANTHROPIC_COOKBOOK_INTEGRATION.md](docs/ANTHROPIC_COOKBOOK_INTEGRATION.md) · [ANTHROPIC_PROMPT_GUIDANCE.md](docs/ANTHROPIC_PROMPT_GUIDANCE.md) |
 | RAG ingest (AS-IS → platform) | Legacy `googledrive-connector.ts` → **term-prep-platform** storage + Vector connectors | [RAG_SETUP_GUIDE.md](docs/RAG_SETUP_GUIDE.md) |
 | Glossary prep (consumer) | `meta/glossary-config.json` | [TO-BE-GLOSSARY-PIPELINE.md](meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | Provider backlog | `src/adapters/*` | [PROVIDER_INTEGRATION_BACKLOG.md](docs/PROVIDER_INTEGRATION_BACKLOG.md) |
@@ -65,8 +66,8 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_
 ```
 Tier 1: Gemini (agy)           → Antigravity CLI
 Tier 2: OpenAI                 → Codex CLI today; GPT-5.4 mini/nano, GPT-5.5 (To-Be — OPENAI_MODEL_MATRIX.md)
-Tier 3: Claude Sonnet 4.5      → Internal SDK / Claude Code CLI
-Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
+Tier 3: Claude Sonnet 4.6      → Internal SDK / Claude Code CLI
+Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.6 aggregate (4.8 escalate)
 ```
 
 > **AS-IS code** may still reference `gpt-5-codex` until [PROVIDER_INTEGRATION_BACKLOG.md](docs/PROVIDER_INTEGRATION_BACKLOG.md#openai-model-catalog-migration).
@@ -89,6 +90,42 @@ Tier 4: GPT-5.5 / GPT-5.5 Pro  → Responses API (To-Be); Opus 4.1 aggregator
 | Session continuation + retry (TS-24) | [decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](docs/decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
 | OpenAI Cookbook integration | [OPENAI_COOKBOOK_INTEGRATION.md](docs/OPENAI_COOKBOOK_INTEGRATION.md) |
 | OpenAI prompt guidance | [OPENAI_PROMPT_GUIDANCE.md](docs/OPENAI_PROMPT_GUIDANCE.md) |
+| Anthropic Cookbook integration | [ANTHROPIC_COOKBOOK_INTEGRATION.md](docs/ANTHROPIC_COOKBOOK_INTEGRATION.md) |
+| Anthropic prompt guidance | [ANTHROPIC_PROMPT_GUIDANCE.md](docs/ANTHROPIC_PROMPT_GUIDANCE.md) |
+| Anthropic capabilities overview (platform hub) | [ANTHROPIC_CAPABILITIES_OVERVIEW.md](docs/ANTHROPIC_CAPABILITIES_OVERVIEW.md) |
+| Anthropic Message Batches for RAG (optional, gated) | [ANTHROPIC_BATCH_API_RAG.md](docs/ANTHROPIC_BATCH_API_RAG.md) |
+| Anthropic extended thinking | [ANTHROPIC_EXTENDED_THINKING.md](docs/ANTHROPIC_EXTENDED_THINKING.md) |
+| Anthropic adaptive thinking | [ANTHROPIC_ADAPTIVE_THINKING.md](docs/ANTHROPIC_ADAPTIVE_THINKING.md) |
+| Anthropic multilingual support | [ANTHROPIC_MULTILINGUAL_SUPPORT.md](docs/ANTHROPIC_MULTILINGUAL_SUPPORT.md) |
+| Anthropic message streaming | [ANTHROPIC_MESSAGE_STREAMING.md](docs/ANTHROPIC_MESSAGE_STREAMING.md) |
+| Anthropic programmatic tool calling | [ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md](docs/ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md) |
+| Anthropic prompt caching | [ANTHROPIC_PROMPT_CACHING.md](docs/ANTHROPIC_PROMPT_CACHING.md) |
+| Anthropic mid-conversation system messages | [ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md](docs/ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md) |
+| Anthropic token counting | [ANTHROPIC_TOKEN_COUNTING.md](docs/ANTHROPIC_TOKEN_COUNTING.md) |
+| Anthropic PDF support | [ANTHROPIC_PDF_SUPPORT.md](docs/ANTHROPIC_PDF_SUPPORT.md) |
+| Anthropic vision | [ANTHROPIC_VISION.md](docs/ANTHROPIC_VISION.md) |
+| Anthropic parallel tool use | [ANTHROPIC_PARALLEL_TOOL_USE.md](docs/ANTHROPIC_PARALLEL_TOOL_USE.md) |
+| Anthropic fine-grained tool streaming | [ANTHROPIC_FINE_GRAINED_TOOL_STREAMING.md](docs/ANTHROPIC_FINE_GRAINED_TOOL_STREAMING.md) |
+| Anthropic Agent Skills authoring | [ANTHROPIC_SKILLS_AUTHORING.md](docs/ANTHROPIC_SKILLS_AUTHORING.md) |
+| Anthropic Agent Skills overview | [ANTHROPIC_AGENT_SKILLS.md](docs/ANTHROPIC_AGENT_SKILLS.md) |
+| Claude Code Skills | [CLAUDE_CODE_SKILLS.md](docs/CLAUDE_CODE_SKILLS.md) |
+| Claude Code MCP connect | [CLAUDE_CODE_MCP_CONNECT.md](docs/CLAUDE_CODE_MCP_CONNECT.md) |
+| Claude Code hooks | [CLAUDE_CODE_HOOKS.md](docs/CLAUDE_CODE_HOOKS.md) |
+| Claude Code debug config | [CLAUDE_CODE_DEBUG.md](docs/CLAUDE_CODE_DEBUG.md) |
+| Anthropic models overview | [ANTHROPIC_MODELS_OVERVIEW.md](docs/ANTHROPIC_MODELS_OVERVIEW.md) |
+| Anthropic model system cards | [ANTHROPIC_MODEL_SYSTEM_CARDS.md](docs/ANTHROPIC_MODEL_SYSTEM_CARDS.md) |
+| Anthropic API pricing | [ANTHROPIC_PRICING.md](docs/ANTHROPIC_PRICING.md) |
+| Claude Code cost management | [CLAUDE_CODE_COST_MANAGEMENT.md](docs/CLAUDE_CODE_COST_MANAGEMENT.md) |
+| Claude Code plugins | [CLAUDE_CODE_PLUGINS.md](docs/CLAUDE_CODE_PLUGINS.md) |
+| Claude Code scheduled tasks | [CLAUDE_CODE_SCHEDULED_TASKS.md](docs/CLAUDE_CODE_SCHEDULED_TASKS.md) |
+| Claude Code programmatic CLI | [CLAUDE_CODE_PROGRAMMATIC.md](docs/CLAUDE_CODE_PROGRAMMATIC.md) |
+| Claude Code deep links | [CLAUDE_CODE_DEEP_LINKS.md](docs/CLAUDE_CODE_DEEP_LINKS.md) |
+| Claude Code best practices | [CLAUDE_CODE_BEST_PRACTICES.md](docs/CLAUDE_CODE_BEST_PRACTICES.md) |
+| Claude Code glossary | [CLAUDE_CODE_GLOSSARY.md](docs/CLAUDE_CODE_GLOSSARY.md) |
+| Claude Code auto mode | [CLAUDE_CODE_AUTO_MODE.md](docs/CLAUDE_CODE_AUTO_MODE.md) |
+| Claude Code monitoring (OTel) | [CLAUDE_CODE_MONITORING.md](docs/CLAUDE_CODE_MONITORING.md) |
+| Claude Code CLI reference | [CLAUDE_CODE_CLI_REFERENCE.md](docs/CLAUDE_CODE_CLI_REFERENCE.md) |
+| Anthropic context windows | [ANTHROPIC_CONTEXT_WINDOW.md](docs/ANTHROPIC_CONTEXT_WINDOW.md) |
 | OpenAI Batch API for RAG ingest (optional, gated) | [OPENAI_BATCH_API_RAG.md](docs/OPENAI_BATCH_API_RAG.md) |
 | Project structure and tech stack | [ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 | Testing | [TESTING_GUIDE.md](docs/TESTING_GUIDE.md) |

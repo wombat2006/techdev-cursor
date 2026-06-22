@@ -8,6 +8,8 @@
 
 ## Integrated MCP Servers
 
+> **Cursor vs Claude Code:** This table is for **Cursor** (`.cursor/mcp.json`). Claude Code CLI uses separate MCP config — [CLAUDE_CODE_MCP_CONNECT.md](../CLAUDE_CODE_MCP_CONNECT.md).
+
 | Server | Purpose |
 |--------|---------|
 | **Serena MCP** | Semantic code navigation and symbol-based editing (PRIMARY) |

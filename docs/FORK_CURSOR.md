@@ -286,8 +286,8 @@ Note: `groundingProviders` as empty file `[]` satisfies TS-18 degraded mode unti
   },
   "rules": [
     { "kind": "llm_codegen", "preset": "fast", "pinnedProviders": ["gpt-5-codex"] },
-    { "kind": "llm_agent_edit", "preset": "balanced", "pinnedProviders": ["sonnet-4.5"] },
-    { "kind": "llm_aggregate", "preset": "critical", "pinnedProviders": ["opus-4.1"], "requiresWallBounce": true }
+    { "kind": "llm_agent_edit", "preset": "balanced", "pinnedProviders": ["sonnet-4.6"] },
+    { "kind": "llm_aggregate", "preset": "critical", "pinnedProviders": ["opus-4.8"], "requiresWallBounce": true }
   ]
 }
 ```
@@ -367,7 +367,7 @@ interface AnalyzeToolInput {
 }
 ```
 
-Model aliases resolve in adapters (e.g. `sonnet` → `claude-sonnet-4-5-20250929`).
+Model aliases resolve in adapters (e.g. `sonnet` → `claude-sonnet-4-6`).
 
 ---
 

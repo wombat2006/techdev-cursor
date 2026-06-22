@@ -1,7 +1,7 @@
 /**
  * Claude Code MCP Server
  * 
- * MCPサーバとしてClaude Codeを呼び出し、明示的にSonnet 4.5を使用する
+ * MCPサーバとしてClaude Codeを呼び出し、明示的にSonnet 4.6を使用する
  * Wall-Bounce systemからの信頼性の高いモデル選択を保証
  */
 
@@ -32,17 +32,17 @@ interface ClaudeCodeResult {
 }
 
 /**
- * Claude Codeをサブプロセスとして実行し、Sonnet 4.5で分析を実行
+ * Claude Codeをサブプロセスとして実行し、Sonnet 4.6で分析を実行
  */
 async function executeClaudeCode(query: ClaudeCodeQuery): Promise<ClaudeCodeResult> {
   const startTime = Date.now();
   
   return new Promise((resolve) => {
-    const model = query.model || 'claude-sonnet-4-5-20250929';
+    const model = query.model || 'claude-sonnet-4-6';
     const workingDir = query.workingDirectory || process.cwd();
     
     // Claude Code CLI呼び出し
-    // --model で明示的にSonnet 4.5を指定
+    // --model で明示的にSonnet 4.6を指定
     const args = [
       '--model', model,
       '--permission-mode', 'bypassPermissions',
@@ -144,7 +144,7 @@ Context: ${query.context}`
 const tools: Tool[] = [
   {
     name: 'analyze_with_sonnet45',
-    description: 'Analyze using Claude Sonnet 4.5 via Claude Code. Ensures reliable model selection for Wall-Bounce system.',
+    description: 'Analyze using Claude Sonnet 4.6 via Claude Code. Ensures reliable model selection for Wall-Bounce system.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -175,7 +175,7 @@ const tools: Tool[] = [
   },
   {
     name: 'code_with_sonnet45',
-    description: 'Execute coding tasks using Claude Sonnet 4.5 with extended thinking. Best for complex coding and debugging.',
+    description: 'Execute coding tasks using Claude Sonnet 4.6 with extended thinking. Best for complex coding and debugging.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -238,7 +238,7 @@ export async function startClaudeCodeMcpServer(): Promise<void> {
           workingDirectory: args.workingDirectory as string | undefined,
           allowedTools: args.allowedTools as string[] | undefined,
           maxTurns: args.maxTurns as number | undefined,
-          model: 'claude-sonnet-4-5-20250929'
+          model: 'claude-sonnet-4-6'
         });
         
         if (result.success) {
@@ -268,7 +268,7 @@ export async function startClaudeCodeMcpServer(): Promise<void> {
           workingDirectory: args.workingDirectory as string | undefined,
           allowedTools: ['Read', 'Write', 'Edit', 'Grep', 'Glob', 'Bash'],
           maxTurns: args.maxTurns as number || 20,
-          model: 'claude-sonnet-4-5-20250929'
+          model: 'claude-sonnet-4-6'
         });
         
         if (result.success) {

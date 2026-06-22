@@ -99,7 +99,7 @@ Peer provider (Tier 3). Models: **Haiku, Sonnet, Opus** (aliases or full ids). O
 
 ```typescript
 const claudeDefaults: InferenceProfile = {
-  model: 'claude-sonnet-4-5-20250929',
+  model: 'claude-sonnet-4-6',
   effort: 'medium',           // CLI: --effort low | medium | high | xhigh | max
   cot: 'brief'
 };

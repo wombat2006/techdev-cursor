@@ -23,37 +23,56 @@
       "capabilities": ["coding", "debugging", "architecture"],
       "invocationType": "gpt5"
     },
-{
-      "key": "sonnet-4.5",
-      "name": "Sonnet4.5",
-      "model": "claude-sonnet-4-5-20250929",
+    {
+      "key": "sonnet-4.6",
+      "name": "Sonnet4.6",
+      "model": "claude-sonnet-4-6",
       "modelArgs": {
-        "version": "sonnet-4.5"
+        "version": "sonnet-4.6"
       },
       "tier": 3.5,
       "capabilities": ["agent-excellence", "extended-thinking", "coding", "tool-coordination", "context-awareness"],
       "invocationType": "claude",
       "role": "default-aggregator",
-      "notes": "Best for complex agents, coding excellence, extended autonomous operation"
+      "notes": "Simple-query aggregation; analyze rounds use Sonnet via peers"
     },
     {
-      "key": "opus-4.1",
-      "name": "Opus4.1",
-      "model": "claude-opus-4.1",
+      "key": "opus-4.6",
+      "name": "Opus4.6",
+      "model": "claude-opus-4-6",
       "modelArgs": {
-        "version": "opus-4.1"
+        "version": "opus-4.6"
       },
       "tier": 4,
       "capabilities": ["complex-analysis", "architecture", "synthesis"],
       "invocationType": "claude",
       "role": "complex-aggregator"
+    },
+    {
+      "key": "opus-4.8",
+      "name": "Opus4.8",
+      "model": "claude-opus-4-8",
+      "modelArgs": {
+        "version": "opus-4.8"
+      },
+      "tier": 4.5,
+      "capabilities": ["complex-analysis", "architecture", "synthesis", "escalation"],
+      "invocationType": "claude",
+      "role": "escalation-aggregator"
     }
   ],
   "aggregatorSelection": {
-    "defaultAggregator": "sonnet-4.5",
-    "complexAggregator": "opus-4.1"
+    "defaultAggregator": "sonnet-4.6",
+    "complexAggregator": "opus-4.6",
+    "complexityThreshold": 6,
+    "complexityIndicators": {
+      "keywords": [],
+      "japaneseKeywords": [],
+      "promptLengthThreshold": 400,
+      "questionMarkThreshold": 2
+    }
   },
   "taskTypeMapping": {
-    "critical": "opus-4.1"
+    "critical": "opus-4.8"
   }
 }

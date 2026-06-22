@@ -65,6 +65,11 @@
           "type": "string",
           "format": "uri",
           "description": "Vendor cookbook root (e.g. https://cookbook.openai.com)"
+        },
+        "systemCardsUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Model system cards index — see ANTHROPIC_MODEL_SYSTEM_CARDS.md"
         }
       }
     },
@@ -75,7 +80,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["cookbook", "platform_docs", "pricing", "adr"]
+          "enum": ["cookbook", "platform_docs", "pricing", "adr", "system_card"]
         },
         "title": { "type": "string" },
         "slug": {
@@ -99,12 +104,20 @@
       "properties": {
         "style": {
           "type": "string",
-          "enum": ["minimal", "balanced", "structured", "agentic"]
+          "enum": ["minimal", "balanced", "structured", "agentic", "orchestrator"]
         },
         "approach": {
           "type": "string",
-          "enum": ["outcome_first", "minimal", "balanced", "process_heavy_legacy"],
-          "description": "Platform prompt guidance: GPT-5.5 prefers outcome_first; Codex prefers minimal"
+          "enum": [
+            "outcome_first",
+            "minimal",
+            "balanced",
+            "process_heavy_legacy",
+            "orchestrator",
+            "agentic_long_horizon",
+            "fast"
+          ],
+          "description": "Platform prompt guidance: GPT-5.5 outcome_first; Codex minimal; Anthropic orchestrator / agentic_long_horizon / fast"
         },
         "platformGuideUrl": {
           "type": "string",
@@ -139,7 +152,168 @@
               "avoid-upfront-preamble",
               "phase-required",
               "compaction-guidance",
-              "context-gathering-batch"
+              "context-gathering-batch",
+              "hub-peer-messaging",
+              "subagent-lifecycle",
+              "extended-thinking-tool-use",
+              "preserve-thinking-blocks",
+              "context-compaction",
+              "tool-result-clearing",
+              "memory-tool-cross-session",
+              "skills-document-generation",
+              "contextual-embeddings-rag",
+              "batch-api-offline",
+              "structured-json-tool-use",
+              "web-page-summarization",
+              "json-mode-prefill",
+              "multi-document-react-agents",
+              "pdf-document-blocks",
+              "pdf-source-url-base64-file",
+              "pdf-limits-chunking",
+              "pdf-caching-batch",
+              "vision-image-blocks",
+              "vision-source-url-base64-file",
+              "vision-limits-token-cost",
+              "vision-prompt-placement",
+              "vision-coordinates-bounding-box",
+              "vision-multi-image-comparison",
+              "vision-high-resolution-migration",
+              "iterative-search-tool-use",
+              "rag-summary-indexing-reranking",
+              "interleaved-thinking-beta",
+              "thinking-display-omitted",
+              "adaptive-thinking-migration",
+              "adaptive-thinking",
+              "adaptive-thinking-effort",
+              "thinking-prompt-steering",
+              "thinking-mode-cache-invalidation",
+              "multilingual-prompting",
+              "multilingual-native-script",
+              "multilingual-japanese",
+              "message-streaming-sse",
+              "streaming-thinking-delta",
+              "streaming-error-recovery",
+              "streaming-final-message",
+              "programmatic-tool-calling",
+              "allowed-callers-field",
+              "programmatic-container-lifecycle",
+              "programmatic-tool-result-only",
+              "programmatic-async-await",
+              "programmatic-token-efficiency",
+              "programmatic-error-handling",
+              "prompt-caching-automatic",
+              "prompt-caching-explicit-breakpoints",
+              "prompt-caching-1h-ttl",
+              "prompt-caching-pre-warm",
+              "prompt-caching-usage-fields",
+              "prompt-caching-invalidation",
+              "anthropic-pricing-catalog-as-is",
+              "anthropic-pricing-prompt-caching-multipliers",
+              "anthropic-pricing-batch-discount",
+              "anthropic-pricing-tool-features",
+              "anthropic-pricing-cloud-billing",
+              "anthropic-models-overview-current-tier",
+              "anthropic-models-overview-lineup",
+              "anthropic-models-overview-version-policy",
+              "anthropic-models-overview-id-versioning",
+              "anthropic-models-overview-fable-mythos",
+              "anthropic-models-overview-migration",
+              "anthropic-system-cards-index",
+              "anthropic-system-cards-catalog-as-is",
+              "anthropic-system-cards-migration-tier",
+              "mid-conversation-system-message",
+              "mid-conversation-placement",
+              "mid-conversation-prompt-caching",
+              "mid-conversation-tool-relay",
+              "token-counting-api",
+              "token-counting-tools-modality",
+              "token-counting-extended-thinking",
+              "token-counting-vs-prompt-cache",
+              "token-counting-rate-limits",
+              "parallel-tool-use",
+              "parallel-tool-result-batching",
+              "parallel-tool-prompting",
+              "fine-grained-tool-streaming",
+              "tool-input-json-delta",
+              "skills-authoring-best-practices",
+              "skills-progressive-disclosure",
+              "skills-executable-scripts",
+              "skills-api-container",
+              "skills-prebuilt-office-pdf",
+              "skills-security-audit",
+              "skills-surface-constraints",
+              "claude-code-skills-layout",
+              "claude-code-skills-frontmatter",
+              "claude-code-skills-shell-injection",
+              "claude-code-skills-subagent-fork",
+              "claude-code-skills-skill-overrides",
+              "claude-code-bundled-run-verify",
+              "claude-code-mcp-scopes",
+              "claude-code-mcp-transports",
+              "claude-code-mcp-oauth-auth",
+              "claude-code-mcp-troubleshooting",
+              "claude-code-hooks-events",
+              "claude-code-hooks-command-io",
+              "claude-code-hooks-matchers",
+              "claude-code-hooks-compaction",
+              "claude-code-hooks-permissions",
+              "claude-code-debug-context-commands",
+              "claude-code-debug-settings-scope",
+              "claude-code-debug-isolation",
+              "claude-code-debug-common-causes",
+              "claude-code-cost-usage-tracking",
+              "claude-code-cost-context-management",
+              "claude-code-cost-model-mcp",
+              "claude-code-cost-hooks-skills",
+              "claude-code-cost-thinking-teams",
+              "claude-code-plugins-marketplaces",
+              "claude-code-plugins-install-scopes",
+              "claude-code-plugins-code-intelligence",
+              "claude-code-plugins-reload-cost",
+              "claude-code-plugins-team-config",
+              "claude-code-scheduled-loop",
+              "claude-code-scheduled-loop-md",
+              "claude-code-scheduled-cron-tools",
+              "claude-code-scheduled-jitter-expiry",
+              "claude-code-scheduled-vs-cloud",
+              "claude-code-programmatic-print-mode",
+              "claude-code-programmatic-bare-mode",
+              "claude-code-programmatic-structured-output",
+              "claude-code-programmatic-permissions-ci",
+              "claude-code-programmatic-sessions",
+              "claude-code-deeplink-build",
+              "claude-code-deeplink-cwd-repo",
+              "claude-code-deeplink-runbooks",
+              "claude-code-deeplink-registration",
+              "claude-code-deeplink-troubleshooting",
+              "claude-code-best-practices-context",
+              "claude-code-best-practices-verification",
+              "claude-code-best-practices-plan-workflow",
+              "claude-code-best-practices-claude-md",
+              "claude-code-best-practices-session-management",
+              "claude-code-best-practices-automation",
+              "claude-code-cli-commands-core",
+              "claude-code-cli-print-flags",
+              "claude-code-cli-session-resume",
+              "claude-code-cli-permissions",
+              "claude-code-cli-background-agents",
+              "claude-code-glossary-core",
+              "claude-code-glossary-context",
+              "claude-code-glossary-extensions",
+              "claude-code-glossary-permissions",
+              "claude-code-glossary-deprecated",
+              "claude-code-auto-mode-scopes",
+              "claude-code-auto-mode-environment",
+              "claude-code-auto-mode-rules",
+              "claude-code-auto-mode-inspect",
+              "claude-code-monitoring-otel-setup",
+              "claude-code-monitoring-metrics",
+              "claude-code-monitoring-events-audit",
+              "claude-code-monitoring-traces",
+              "claude-code-monitoring-privacy",
+              "context-window-management",
+              "context-awareness",
+              "context-window-overflow"
             ]
           }
         },
@@ -184,13 +358,145 @@
         "promptCaching": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Anthropic prompt caching — see ANTHROPIC_PROMPT_CACHING.md",
           "properties": {
             "supported": { "type": "boolean" },
             "maxTtlHours": { "type": "number", "minimum": 0 },
+            "minCacheTokens": { "type": "integer", "minimum": 1 },
+            "automaticCaching": { "type": "boolean" },
+            "explicitBreakpointsMax": {
+              "type": "integer",
+              "const": 4
+            },
             "notes": { "type": "string" }
           }
         },
-        "parallelToolCalls": { "type": "boolean" },
+        "parallelToolCalls": {
+          "type": "boolean",
+          "description": "Provider supports multiple tool_use blocks per assistant turn — Anthropic: see ANTHROPIC_PARALLEL_TOOL_USE.md; OpenAI: Responses parallel tools"
+        },
+        "messageStreaming": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Messages API SSE streaming — see ANTHROPIC_MESSAGE_STREAMING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "protocol": {
+              "type": "string",
+              "enum": ["sse"]
+            },
+            "notes": { "type": "string" }
+          }
+        },
+        "programmaticToolCalling": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Code execution sandbox tool calls — see ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "codeExecutionType": {
+              "type": "string",
+              "const": "code_execution_20260120"
+            },
+            "zdrEligible": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "midConversationSystemMessages": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "role: system in messages array — see ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "platformModelMin": { "type": "string" },
+            "zdrEligible": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "tokenCounting": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "messages/count_tokens preflight — see ANTHROPIC_TOKEN_COUNTING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "endpoint": {
+              "type": "string",
+              "const": "messages/count_tokens"
+            },
+            "zdrEligible": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "pdfSupport": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "PDF document blocks — see ANTHROPIC_PDF_SUPPORT.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "zdrEligible": { "type": "boolean" },
+            "maxRequestSizeMb": { "type": "number", "minimum": 1 },
+            "maxPages": { "type": "integer", "minimum": 1 },
+            "maxPages100kContext": { "type": "integer", "minimum": 1 },
+            "sourceTypes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": ["url", "base64", "file"]
+              }
+            },
+            "filesApiBeta": { "type": "string" },
+            "notes": { "type": "string" }
+          }
+        },
+        "visionSupport": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Image vision blocks — see ANTHROPIC_VISION.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "zdrEligible": { "type": "boolean" },
+            "maxImagesPerRequest200k": { "type": "integer", "minimum": 1 },
+            "maxImagesPerRequestDefault": { "type": "integer", "minimum": 1 },
+            "maxImageSizeMb": { "type": "number", "minimum": 1 },
+            "maxImageDimensionPx": { "type": "integer", "minimum": 1 },
+            "maxEdgePx": { "type": "integer", "minimum": 1 },
+            "maxVisualTokens": { "type": "integer", "minimum": 1 },
+            "highResolution": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "supported": { "type": "boolean" },
+                "platformModelMin": { "type": "string" },
+                "maxEdgePx": { "type": "integer", "minimum": 1 },
+                "maxVisualTokens": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "sourceTypes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": ["url", "base64", "file"]
+              }
+            },
+            "mediaTypes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "image/jpeg",
+                  "image/png",
+                  "image/gif",
+                  "image/webp"
+                ]
+              }
+            },
+            "filesApiBeta": { "type": "string" },
+            "notes": { "type": "string" }
+          }
+        },
         "freeFormFunctionCalling": { "type": "boolean" },
         "contextFreeGrammar": { "type": "boolean" },
         "skillsApi": { "type": "boolean" },
@@ -221,7 +527,307 @@
         "batchApi": {
           "type": "object",
           "additionalProperties": false,
-          "description": "OpenAI async Batch API — offline bulk only (not sync batch_size parallelism)",
+          "description": "Async Message/Batch API — offline bulk only (OpenAI Batch API, Anthropic Message Batches); not sync batch_size parallelism",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "extendedThinking": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Anthropic extended / adaptive thinking — see ANTHROPIC_EXTENDED_THINKING.md · ANTHROPIC_ADAPTIVE_THINKING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "preferredMode": {
+              "type": "string",
+              "enum": ["manual_enabled", "adaptive", "always_on"]
+            },
+            "interleavedBetaHeader": { "type": "string" },
+            "blockPreservation": {
+              "type": "string",
+              "enum": ["last_turn_only", "all_turns"]
+            },
+            "displayDefault": {
+              "type": "string",
+              "enum": ["summarized", "omitted"]
+            },
+            "notes": { "type": "string" }
+          }
+        },
+        "fineGrainedToolStreaming": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Anthropic eager_input_streaming on tools — see ANTHROPIC_FINE_GRAINED_TOOL_STREAMING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "toolFlag": {
+              "type": "string",
+              "const": "eager_input_streaming"
+            },
+            "requiresStream": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "agentSkills": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Anthropic Agent Skills — see ANTHROPIC_AGENT_SKILLS.md · ANTHROPIC_SKILLS_AUTHORING.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "zdrEligible": { "type": "boolean" },
+            "skillMdMaxLines": { "type": "integer", "minimum": 1 },
+            "preBuiltSkillIds": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": ["pptx", "xlsx", "docx", "pdf"]
+              }
+            },
+            "betaHeaders": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string" }
+            },
+            "skillsApiEndpoint": {
+              "type": "string",
+              "const": "/v1/skills"
+            },
+            "requiresCodeExecution": { "type": "boolean" },
+            "requiresFilesApi": { "type": "boolean" },
+            "claudeCode": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Claude Code client surface — see CLAUDE_CODE_MONITORING.md · CLAUDE_CODE_AUTO_MODE.md · CLAUDE_CODE_GLOSSARY.md · CLAUDE_CODE_CLI_REFERENCE.md · CLAUDE_CODE_BEST_PRACTICES.md · CLAUDE_CODE_SKILLS.md · CLAUDE_CODE_MCP_CONNECT.md · CLAUDE_CODE_HOOKS.md · CLAUDE_CODE_DEBUG.md · CLAUDE_CODE_COST_MANAGEMENT.md · CLAUDE_CODE_PLUGINS.md · CLAUDE_CODE_SCHEDULED_TASKS.md · CLAUDE_CODE_PROGRAMMATIC.md · CLAUDE_CODE_DEEP_LINKS.md",
+              "properties": {
+                "supported": { "type": "boolean" },
+                "openStandardUrl": { "type": "string" },
+                "personalSkillsPath": { "type": "string" },
+                "projectSkillsPath": { "type": "string" },
+                "legacyCommandsPath": { "type": "string" },
+                "minVersionBundledRun": { "type": "string" },
+                "mcp": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "MCP client config — see CLAUDE_CODE_MCP_CONNECT.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "userConfigPath": { "type": "string" },
+                    "projectConfigFile": { "type": "string" },
+                    "defaultStartupTimeoutMs": { "type": "integer", "minimum": 1 },
+                    "sessionManageCommand": { "type": "string", "const": "/mcp" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "hooks": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Lifecycle hooks — see CLAUDE_CODE_HOOKS.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "userSettingsPath": { "type": "string" },
+                    "projectSettingsPath": { "type": "string" },
+                    "projectLocalSettingsPath": { "type": "string" },
+                    "hooksScriptsPath": { "type": "string" },
+                    "browseCommand": { "type": "string", "const": "/hooks" },
+                    "minVersionIfField": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "debug": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Configuration diagnostics — see CLAUDE_CODE_DEBUG.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "contextCommand": { "type": "string", "const": "/context" },
+                    "doctorCommand": { "type": "string", "const": "/doctor" },
+                    "statusCommand": { "type": "string", "const": "/status" },
+                    "safeModeFlag": { "type": "string", "const": "--safe-mode" },
+                    "minVersionSafeMode": { "type": "string" },
+                    "cleanConfigEnvVar": { "type": "string", "const": "CLAUDE_CONFIG_DIR" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "costManagement": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Token cost tracking and reduction — see CLAUDE_CODE_COST_MANAGEMENT.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "usageCommand": { "type": "string", "const": "/usage" },
+                    "usageCreditsCommand": { "type": "string", "const": "/usage-credits" },
+                    "platformUrl": { "type": "string" },
+                    "minVersionUsageBreakdown": { "type": "string" },
+                    "agentTeamsEnvVar": { "type": "string", "const": "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "plugins": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Plugin marketplaces — see CLAUDE_CODE_PLUGINS.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "managerCommand": { "type": "string", "const": "/plugin" },
+                    "reloadCommand": { "type": "string", "const": "/reload-plugins" },
+                    "officialMarketplaceId": { "type": "string", "const": "claude-plugins-official" },
+                    "communityMarketplaceId": { "type": "string", "const": "claude-community" },
+                    "demoMarketplaceId": { "type": "string", "const": "claude-code-plugins" },
+                    "minVersionContextCost": { "type": "string" },
+                    "minVersionWillInstall": { "type": "string" },
+                    "minVersionSuggestedPlugins": { "type": "string" },
+                    "minVersionReloadCacheWarn": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "scheduledTasks": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Session /loop and cron — see CLAUDE_CODE_SCHEDULED_TASKS.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "loopCommand": { "type": "string", "const": "/loop" },
+                    "minVersion": { "type": "string" },
+                    "maxTasksPerSession": { "type": "integer", "minimum": 1 },
+                    "recurringExpiryDays": { "type": "integer", "minimum": 1 },
+                    "disableEnvVar": { "type": "string", "const": "CLAUDE_CODE_DISABLE_CRON" },
+                    "projectLoopFile": { "type": "string" },
+                    "userLoopFile": { "type": "string" },
+                    "cronTools": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "programmaticCli": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Non-interactive claude -p — see CLAUDE_CODE_PROGRAMMATIC.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "printFlag": { "type": "string", "const": "-p" },
+                    "bareFlag": { "type": "string", "const": "--bare" },
+                    "outputFormats": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["text", "json", "stream-json"] }
+                    },
+                    "stdinMaxMb": { "type": "integer", "minimum": 1 },
+                    "minVersionStdinCap": { "type": "string" },
+                    "minVersionBgGrace": { "type": "string" },
+                    "minVersionBgWaitCeiling": { "type": "string" },
+                    "bgWaitCeilingEnvVar": { "type": "string", "const": "CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS" },
+                    "agentSdkOverviewUrl": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "deepLinks": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "claude-cli:// deep links — see CLAUDE_CODE_DEEP_LINKS.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "urlScheme": { "type": "string", "const": "claude-cli" },
+                    "openPath": { "type": "string", "const": "/open" },
+                    "minVersion": { "type": "string" },
+                    "maxPromptChars": { "type": "integer", "minimum": 1 },
+                    "queryParams": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["q", "cwd", "repo"] }
+                    },
+                    "vscodeOpenUrl": { "type": "string" },
+                    "disableSettingKey": { "type": "string", "const": "disableDeepLinkRegistration" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "bestPractices": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Workflow synthesis — see CLAUDE_CODE_BEST_PRACTICES.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "initCommand": { "type": "string", "const": "/init" },
+                    "platformGuideUrl": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "cliReference": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "CLI commands and flags — see CLAUDE_CODE_CLI_REFERENCE.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "platformUrl": { "type": "string" },
+                    "printFlag": { "type": "string", "const": "-p" },
+                    "bareFlag": { "type": "string", "const": "--bare" },
+                    "safeModeFlag": { "type": "string", "const": "--safe-mode" },
+                    "strictMcpConfigFlag": { "type": "string", "const": "--strict-mcp-config" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "glossary": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Terminology index — see CLAUDE_CODE_GLOSSARY.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "platformUrl": { "type": "string" },
+                    "platformModelGlossaryUrl": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "autoMode": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Auto mode classifier config — see CLAUDE_CODE_AUTO_MODE.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "platformUrl": { "type": "string" },
+                    "permissionModesUrl": { "type": "string" },
+                    "defaultsSubcommand": { "type": "string", "const": "claude auto-mode defaults" },
+                    "configSubcommand": { "type": "string", "const": "claude auto-mode config" },
+                    "critiqueSubcommand": { "type": "string", "const": "claude auto-mode critique" },
+                    "bedrockEnableEnv": { "type": "string", "const": "CLAUDE_CODE_ENABLE_AUTO_MODE" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "monitoring": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "OpenTelemetry export — see CLAUDE_CODE_MONITORING.md",
+                  "properties": {
+                    "supported": { "type": "boolean" },
+                    "platformUrl": { "type": "string" },
+                    "enableEnv": { "type": "string", "const": "CLAUDE_CODE_ENABLE_TELEMETRY" },
+                    "metricsExporterEnv": { "type": "string", "const": "OTEL_METRICS_EXPORTER" },
+                    "logsExporterEnv": { "type": "string", "const": "OTEL_LOGS_EXPORTER" },
+                    "tracesBetaEnv": { "type": "string", "const": "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA" },
+                    "serviceName": { "type": "string", "const": "claude-code" },
+                    "roiGuideUrl": { "type": "string" },
+                    "notes": { "type": "string" }
+                  }
+                },
+                "notes": { "type": "string" }
+              }
+            },
+            "notes": { "type": "string" }
+          }
+        },
+        "contextAwareness": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Token budget signals in prompt — see ANTHROPIC_CONTEXT_WINDOW.md",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "serverSideCompaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Platform compaction API — 4.6+; 4.5 uses SDK cookbook path",
           "properties": {
             "supported": { "type": "boolean" },
             "notes": { "type": "string" }
@@ -263,7 +869,8 @@
         "codegen": { "type": "boolean" },
         "longWorkflow": { "type": "boolean" },
         "spatialReasoning": { "type": "boolean" },
-        "documentUnderstanding": { "type": "boolean" }
+        "documentUnderstanding": { "type": "boolean" },
+        "imageUnderstanding": { "type": "boolean" }
       }
     },
     "limits": {
@@ -290,7 +897,7 @@
     "apiPricing": {
       "type": "object",
       "additionalProperties": false,
-      "description": "OpenAI API token pricing (USD per 1M tokens) — for cost-aware routing",
+      "description": "OpenAI / Anthropic API token pricing (USD per 1M tokens) — for cost-aware routing",
       "properties": {
         "currency": { "type": "string", "enum": ["USD"] },
         "unit": { "type": "string", "enum": ["per_1m_tokens"] },
@@ -396,7 +1003,17 @@
           "enum": ["nano", "mini", "standard", "flagship", "frontier"]
         },
         "apiPricing": { "$ref": "#/$defs/apiPricing" },
-        "notes": { "type": "string" }
+        "notes": { "type": "string" },
+        "escalation": {
+          "type": "object",
+          "required": ["targetModelId"],
+          "additionalProperties": false,
+          "properties": {
+            "targetModelId": { "type": "string", "minLength": 1 },
+            "confidenceBelow": { "type": "number", "minimum": 0, "maximum": 1 },
+            "peerConsensusBelow": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
       }
     }
   }

@@ -77,7 +77,7 @@ After execution: **return result**. **No loop** if confidence/consensus is below
 
 ### 4.3 Fallback
 
-If `config.wallBounce.enableFallback` and peer count &lt; `minProviders`, internal Claude providers (`opus-4.1`, `sonnet-4`) may be invoked. Controlled by env `ENABLE_WALL_BOUNCE_FALLBACK` (default off).
+If `config.wallBounce.enableFallback` and peer count &lt; `minProviders`, internal Claude providers (`opus-4.6`, `opus-4.8`, `sonnet-4.6`) may be invoked. Controlled by env `ENABLE_WALL_BOUNCE_FALLBACK` (default off).
 
 ---
 
@@ -216,7 +216,7 @@ From `getProviderOrder` / task type slicing (simplified):
 | `premium` | up to 4 peers | Same |
 | `critical` | all configured peers | Same |
 
-Exact model IDs in code still reference legacy names (`gpt-5-codex`, `gemini-2.5-pro`, `opus-4.1`, etc.) — catalog migration pending (Track E).
+Catalog pins `claude-sonnet-4-6` / `claude-opus-4-6` (aggregate default, escalate `claude-opus-4-8`); wall-bounce internal provider keys use `sonnet-4.6` / `opus-4.6` / `opus-4.8`.
 
 ---
 

@@ -19,6 +19,14 @@
       "type": "object",
       "minProperties": 1,
       "additionalProperties": { "$ref": "#/$defs/presetMap" }
+    },
+    "escalation": {
+      "type": "object",
+      "description": "Optional preset escalation targets (e.g. claude critical 4.6 → 4.8)",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "type": "string", "minLength": 1 }
+      }
     }
   },
   "$defs": {

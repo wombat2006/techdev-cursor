@@ -57,8 +57,10 @@ Multi-vendor static traits — **schema + stub only**; loader / TaskRouter wirin
 - [ ] **F-11** — Sync `prompt-guidance/{model}.md` + pricing page → `docs/vendor/openai/`; diff `lastReviewed`
 - [ ] **F-12** — Cost-aware TaskRouter: rank candidates by `apiPricing` + capability filters ([OPENAI_PROMPT_GUIDANCE.md § Implementation](./OPENAI_PROMPT_GUIDANCE.md#implementation-considerations-to-be))
 - [ ] **F-13** — RAG ingest OpenAI Batch enrichment (**gated** — Phase 1 script only; no worker until volume gates pass) · [OPENAI_BATCH_API_RAG.md](./OPENAI_BATCH_API_RAG.md)
+- [ ] **F-14** — RAG ingest Anthropic Message Batches enrichment (**gated** — `ant messages:batches` / API script only) · [ANTHROPIC_BATCH_API_RAG.md](./ANTHROPIC_BATCH_API_RAG.md)
 
 OpenAI source: [openai/openai-cookbook](https://github.com/openai/openai-cookbook) · [cookbook.openai.com](https://cookbook.openai.com) · Context7 `/websites/developers_openai_api`
+Anthropic batch: [platform batch processing](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing) · [misc-batch-processing cookbook](https://platform.claude.com/cookbook/misc-batch-processing)
 
 ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.md) · User extensions: [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) (TS-23) · Schema: [config/schemas/llm-model-catalog.schema.json](../config/schemas/llm-model-catalog.schema.json)
 

@@ -53,6 +53,7 @@
 | **agents/mcp-rules.md** | Serena / Cipher / Codex / Context7 |
 | **agents/development-notes.md** | Common tasks, structure |
 | **agents/claude-code.md** | Claude Code notes |
+| **CLAUDE_CODE_SKILLS.md** | Claude Code filesystem skills, slash commands |
 
 ### Core architecture
 
@@ -110,6 +111,42 @@
 | **OPENAI_MODEL_MATRIX.md** | OpenAI model IDs (doc) |
 | **OPENAI_PROMPT_GUIDANCE.md** | GPT-5.x prompt guidance |
 | **OPENAI_COOKBOOK_INTEGRATION.md** | Cookbook → catalog |
+| **ANTHROPIC_COOKBOOK_INTEGRATION.md** | Claude cookbook → catalog |
+| **ANTHROPIC_CAPABILITIES_OVERVIEW.md** | Platform capabilities hub (5 areas) |
+| **ANTHROPIC_MODELS_OVERVIEW.md** | Claude model family — AS-IS vs current tier |
+| **ANTHROPIC_MODEL_SYSTEM_CARDS.md** | Model system cards — safety evals, PDF links |
+| **ANTHROPIC_PROMPT_GUIDANCE.md** | Claude per-model prompt / character |
+| **ANTHROPIC_BATCH_API_RAG.md** | Optional Message Batches RAG (gated) |
+| **ANTHROPIC_EXTENDED_THINKING.md** | Extended thinking (manual — 4.5 AS-IS) |
+| **ANTHROPIC_ADAPTIVE_THINKING.md** | Adaptive thinking (4.6+ migration) |
+| **ANTHROPIC_MULTILINGUAL_SUPPORT.md** | Multilingual / Japanese MMLU routing |
+| **ANTHROPIC_MESSAGE_STREAMING.md** | Messages API SSE streaming |
+| **ANTHROPIC_PROGRAMMATIC_TOOL_CALLING.md** | Code execution sandbox tool calls |
+| **ANTHROPIC_PROMPT_CACHING.md** | Prompt caching (automatic + explicit breakpoints) |
+| **ANTHROPIC_PRICING.md** | API pricing — catalog AS-IS rates, batch, tools |
+| **ANTHROPIC_MID_CONVERSATION_SYSTEM_MESSAGES.md** | Mid-session `role: system` without cache bust |
+| **ANTHROPIC_TOKEN_COUNTING.md** | `messages/count_tokens` preflight API |
+| **ANTHROPIC_PDF_SUPPORT.md** | PDF document blocks (url / base64 / Files API) |
+| **ANTHROPIC_VISION.md** | Image vision blocks — limits, token cost, coordinates |
+| **ANTHROPIC_PARALLEL_TOOL_USE.md** | Parallel tool use + result batching |
+| **ANTHROPIC_FINE_GRAINED_TOOL_STREAMING.md** | Eager tool input streaming |
+| **ANTHROPIC_SKILLS_AUTHORING.md** | Agent Skills authoring |
+| **ANTHROPIC_AGENT_SKILLS.md** | Agent Skills overview — API, surfaces, ZDR |
+| **CLAUDE_CODE_SKILLS.md** | Claude Code Skills — filesystem, frontmatter, bundled /run |
+| **CLAUDE_CODE_MCP_CONNECT.md** | Claude Code MCP client — scopes, transports, OAuth |
+| **CLAUDE_CODE_HOOKS.md** | Claude Code hooks — lifecycle events, matchers, permissions |
+| **CLAUDE_CODE_DEBUG.md** | Claude Code config debug — `/context`, `/doctor`, isolation |
+| **CLAUDE_CODE_COST_MANAGEMENT.md** | Claude Code cost — `/usage`, context, model, hooks |
+| **CLAUDE_CODE_PLUGINS.md** | Claude Code plugins — marketplaces, LSP, install scopes |
+| **CLAUDE_CODE_SCHEDULED_TASKS.md** | Claude Code `/loop`, cron, loop.md |
+| **CLAUDE_CODE_PROGRAMMATIC.md** | Claude Code `claude -p`, `--bare`, Agent SDK CLI |
+| **CLAUDE_CODE_DEEP_LINKS.md** | Claude Code `claude-cli://` deep links |
+| **CLAUDE_CODE_BEST_PRACTICES.md** | Claude Code workflow synthesis — context, verify, plan |
+| **CLAUDE_CODE_GLOSSARY.md** | Claude Code terminology index — links to fork docs |
+| **CLAUDE_CODE_AUTO_MODE.md** | Claude Code auto mode classifier — `autoMode` settings |
+| **CLAUDE_CODE_MONITORING.md** | Claude Code OpenTelemetry — metrics, events, traces |
+| **CLAUDE_CODE_CLI_REFERENCE.md** | Claude Code CLI commands and flags |
+| **ANTHROPIC_CONTEXT_WINDOW.md** | Context windows + compaction |
 | **OPENAI_BATCH_API_RAG.md** | Optional Batch RAG (gated) |
 | **ANTIGRAVITY_CLI_MIGRATION.md** | Tier 1 Google (`agy`) |
 | **gemini-api-migration-guide.md** | Gemini / Antigravity |
