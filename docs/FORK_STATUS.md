@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/23 03:00:14 JST  
+**Last updated:** 2026/06/23 04:09:50 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -98,7 +98,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **TS-26 wire schemas + Codex verify** | 2026/06/22 22:41:19 JST | Per-provider JSON Schema; normalized `ProviderInvokeMetadata`; Codex JSONL fixture + contract test |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
-| **SRP monolith refactor (Phase 0–2)** | TBD | 11 monoliths → module dirs + shims; 70 module tests; includes `mcp-config-manager/`; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **SRP monolith refactor (Phase 0–2)** | 2026/06/23 04:09:50 JST | 11 monoliths → module dirs + shims; 70 module tests; includes `mcp-config-manager/`; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -177,7 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
-| TBD | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
+| 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
 | 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 splits, module tests, SRP_* docs; README + DEVELOPMENT_GUIDE sync |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR (proposed); TO-BE gap + WB-19 backlog |
 | 2026/06/22 22:41:19 JST | TS-26 per-provider wire JSON Schemas + normalized metadata; Codex JSONL verified; contract test |

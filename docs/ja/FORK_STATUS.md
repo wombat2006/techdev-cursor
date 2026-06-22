@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/23 03:00:14 JST  
+**最終更新:** 2026/06/23 04:09:50 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -98,7 +98,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **TS-26 wire schema + Codex 検証** | 2026/06/22 22:41:19 JST | provider 別 JSON Schema；正規化 metadata；Codex JSONL fixture・契約テスト |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | 草案：ローカル HTTP adapter・cloud（`:cloud`）+ ローカルモデル；WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
-| **SRP monolith refactor（Phase 0–2）** | TBD | 11 monolith → module dir + shim；70 module tests；`mcp-config-manager/` 含む；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **SRP monolith refactor（Phase 0–2）** | 2026/06/23 04:09:50 JST | 11 monolith → module dir + shim；70 module tests；`mcp-config-manager/` 含む；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -167,7 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
-| TBD | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |
+| 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |
 | 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 分割・module tests・SRP_* docs；README / DEVELOPMENT_GUIDE 同期 |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR（草案）；TO-BE gap + WB-19 backlog |
 | 2026/06/22 22:41:19 JST | TS-26 provider 別 wire JSON Schema + 正規化 metadata；Codex JSONL 検証；契約テスト |
