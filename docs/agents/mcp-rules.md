@@ -157,6 +157,7 @@ await brvCurate({
 | `src/services/mcp-config-manager.ts` | Shim → `mcp-config-manager/` — tool optimization |
 | `src/services/mcp-performance-monitor.ts` | Shim → `mcp-performance-monitor/` — metrics, alerts, recommendations |
 | `src/services/ultra-conservative-monitor.ts` | Shim → `ultra-conservative-monitor/` — Phase 3 rollout safety (leaf) |
+| `src/services/srp-safety-monitor.ts` | Shim → `srp-safety-monitor/` — Phase 3 emergency rollback (leaf) |
 | `src/services/codex-mcp-server.ts` | Shim → `codex-mcp/` — Codex integration |
 
 See also: [mcp-integration-guide.md](../mcp-integration-guide.md) · [codex-mcp-implementation.md](../codex-mcp-implementation.md)

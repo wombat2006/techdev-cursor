@@ -247,7 +247,8 @@ export async function handleSessionInfoTool(ctx: CodexToolHandlerContext, args: 
             type: 'text',
             text: JSON.stringify(stats, null, 2)
           }
-        ]
+        ],
+        isError: false
       };
     }
 
@@ -261,7 +262,8 @@ export async function handleSessionInfoTool(ctx: CodexToolHandlerContext, args: 
             type: 'text',
             text: JSON.stringify({ session, history }, null, 2)
           }
-        ]
+        ],
+        isError: false
       };
     }
 
@@ -311,7 +313,8 @@ export async function handleCleanupTool(ctx: CodexToolHandlerContext, args: any)
           type: 'text',
           text: `Cleanup completed. Removed ${result.cleaned} expired sessions.${force ? ' Forced termination of active processes.' : ''}`
         }
-      ]
+      ],
+      isError: false
     };
 
   } catch (error) {

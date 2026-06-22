@@ -56,6 +56,7 @@ Model Context Protocol integration for standardized LLM interactions.
 - `mcp-config-manager.ts` → `mcp-config-manager/` — tool optimization and cost estimation
 - `mcp-performance-monitor.ts` → `mcp-performance-monitor/` — real-time MCP metrics and alerts
 - `ultra-conservative-monitor.ts` → `ultra-conservative-monitor/` — gradual Phase 3 rollout safety (leaf)
+- `srp-safety-monitor.ts` → `srp-safety-monitor/` — Phase 3 emergency rollback monitor (leaf)
 - `codex-mcp-server.ts` → `codex-mcp/` — GPT-5/Codex integration
 - `wall-bounce-adapter.ts` — MCP ↔ Wall-Bounce bridge
 
@@ -106,6 +107,7 @@ src/
 │   ├── mcp-config-manager.ts     # Shim → mcp-config-manager/
 │   ├── mcp-performance-monitor.ts # Shim → mcp-performance-monitor/
 │   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
+│   ├── srp-safety-monitor.ts     # Shim → srp-safety-monitor/
 │   └── __mocks__/              # Test mocks
 ├── types/                      # TypeScript definitions
 ├── utils/

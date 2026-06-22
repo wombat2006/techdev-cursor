@@ -13,8 +13,15 @@ process.env.GOOGLE_REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN || 'test-goo
 process.env.GOOGLE_KNOWN_PDF_ID = process.env.GOOGLE_KNOWN_PDF_ID || 'test-doc-1';
 process.env.GOOGLE_RAG_FOLDER_ID = process.env.GOOGLE_RAG_FOLDER_ID || 'folder_mock_id_12345';
 
-// Set test timeout
-jest.setTimeout(30000);
+// uuid v14+ ships ESM-only; Jest runs CJS — provide a stable mock for transitive imports
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'test-uuid-0000-0000-0000-000000000001'),
+  v1: jest.fn(() => 'test-uuid-0000-0000-0000-000000000001'),
+  v3: jest.fn(() => 'test-uuid-0000-0000-0000-000000000001'),
+  v5: jest.fn(() => 'test-uuid-0000-0000-0000-000000000001'),
+  validate: jest.fn(() => true),
+  version: jest.fn(() => 4),
+}));
 
 // Increase EventEmitter max listeners to prevent memory leak warnings
 require('events').EventEmitter.defaultMaxListeners = 20;

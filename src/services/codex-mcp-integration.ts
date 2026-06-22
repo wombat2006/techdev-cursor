@@ -310,7 +310,12 @@ export class CodexMCPIntegration {
       mode: 'non-interactive'
     };
 
-    const codexResult = await (this.server as any).handleCodexTool(args);
+    const codexResult = (await this.server.handleCodexTool(args)) as {
+      isError?: boolean;
+      content?: Array<{ text?: string }>;
+      sessionId?: string;
+      conversationId?: string;
+    };
     const codexTime = Date.now() - codexStart;
 
     // Estimate cost (simplified)

@@ -81,8 +81,9 @@ All splits must pass before merge.
 | `mcp-config-manager.ts` | 392 | `src/services/mcp-config-manager/` | `mcp-config-manager.ts` | 147 (`manager.ts`) |
 | `ultra-conservative-monitor.ts` | 579 | `src/services/ultra-conservative-monitor/` | `ultra-conservative-monitor.ts` | 244 (`monitor.ts`) |
 | `mcp-performance-monitor.ts` | 543 | `src/services/mcp-performance-monitor/` | `mcp-performance-monitor.ts` | 154 (`monitor.ts`) |
+| `srp-safety-monitor.ts` | 424 | `src/services/srp-safety-monitor/` | `srp-safety-monitor.ts` | 155 (`monitor.ts`) |
 
-**Total:** 13 monoliths → 13 module trees + 13 shims. **80+ tests** in the SRP module suite (12 suites) as of this record.
+**Total:** 14 monoliths → 14 module trees + 14 shims. **86+ tests** in the SRP module suite (13 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -381,6 +382,27 @@ analyze-entry
 
 ---
 
+### 4.14 SRP safety monitor (Phase 3 rollback)
+
+**Shim:** `src/services/srp-safety-monitor.ts`  
+**Modules:** `src/services/srp-safety-monitor/`  
+**Consumers:** none in `src/` (leaf — Phase 3 5% safety tooling)
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `monitor.ts` | 155 | `SRPSafetyMonitor` singleton — interval loop, event handlers |
+| `safety-evaluations.ts` | 124 | Error/latency/memory/consensus threshold checks |
+| `types.ts` | 43 | `SafetyMetrics`, `SafetyAlert`, thresholds |
+| `metrics-collector.ts` | 38 | Simulated metrics from history + process |
+| `alerts.ts` | 33 | Alert building, action hints, history trim |
+| `emergency-rollback.ts` | 31 | `emergencyDisableSRP` + rollback record |
+| `metrics-history.ts` | 32 | Rolling window helpers |
+| `thresholds.ts` | 14 | Env-driven `loadSafetyThresholds` |
+
+**Tests:** `srp-safety-monitor-modules.test.ts` (evaluations, alerts, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -398,6 +420,7 @@ analyze-entry
 | `src/services/mcp-config-manager.ts` | `./mcp-config-manager/index` |
 | `src/services/ultra-conservative-monitor.ts` | `./ultra-conservative-monitor/index` |
 | `src/services/mcp-performance-monitor.ts` | `./mcp-performance-monitor/index` |
+| `src/services/srp-safety-monitor.ts` | `./srp-safety-monitor/index` |
 
 ---
 
@@ -451,7 +474,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
-| 2026-06-23 | `mcp-performance-monitor/` split (Phase 2 #3) |
+| 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
 | 2026-06-23 | Phase 2 start: `mcp-config-manager/` split; `mcp-config-manager-modules.test.ts` |
 | 2026-06-23 | Phase 0–1 complete: `googledrive-connector/`, `cost-tracking/`; 64 module tests; README/ARCHITECTURE/DEVELOPMENT_GUIDE sync |
 | 2026-06-22 | Initial record: 8 monolith splits, 62 SRP module tests, shims documented |

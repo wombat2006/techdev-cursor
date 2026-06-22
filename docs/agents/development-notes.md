@@ -66,6 +66,8 @@ src/
 │   ├── ultra-conservative-monitor/      # Phase 3 rollout monitoring (leaf)
 │   ├── mcp-performance-monitor.ts         # Shim → mcp-performance-monitor/
 │   ├── mcp-performance-monitor/         # MCP metrics, alerts, recommendations
+│   ├── srp-safety-monitor.ts            # Shim → srp-safety-monitor/
+│   ├── srp-safety-monitor/              # Phase 3 SRP safety + emergency rollback (leaf)
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

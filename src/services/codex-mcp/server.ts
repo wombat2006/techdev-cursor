@@ -12,7 +12,13 @@ import { getCodexSessionManager } from '../codex-session-manager';
 import { registerCodexMcpHandlers } from './mcp-handlers';
 import type { CodexMcpHandlerContext } from './mcp-handler-context';
 import { CodexPerformanceStore } from './performance-store';
-import type { CodexToolHandlerContext } from './tool-handlers';
+import {
+  handleCleanupTool,
+  handleCodexReplyTool,
+  handleCodexTool,
+  handleSessionInfoTool,
+  type CodexToolHandlerContext,
+} from './tool-handlers';
 import { CodexMCPConfig, mergeCodexMCPConfig } from './types';
 
 export type { CodexExecutionContext, CodexMCPConfig } from './types';
@@ -110,6 +116,23 @@ export class CodexMCPServer {
     await this.sessionManager.cleanupExpiredSessions();
 
     logger.info('✅ Codex MCP Server stopped with optimizations');
+  }
+
+  /** Facade for direct tool invocation (integration + tests). */
+  public handleCodexTool(args: unknown) {
+    return handleCodexTool(this.toolCtx, args);
+  }
+
+  public handleCodexReplyTool(args: unknown) {
+    return handleCodexReplyTool(this.toolCtx, args);
+  }
+
+  public handleSessionInfoTool(args: unknown) {
+    return handleSessionInfoTool(this.toolCtx, args);
+  }
+
+  public handleCleanupTool(args: unknown) {
+    return handleCleanupTool(this.toolCtx, args);
   }
 }
 

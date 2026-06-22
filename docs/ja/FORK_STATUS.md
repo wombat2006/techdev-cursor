@@ -98,7 +98,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **TS-26 wire schema + Codex 検証** | 2026/06/22 22:41:19 JST | provider 別 JSON Schema；正規化 metadata；Codex JSONL fixture・契約テスト |
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | 草案：ローカル HTTP adapter・cloud（`:cloud`）+ ローカルモデル；WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
-| **SRP monolith refactor（Phase 0–2 + monitors）** | 2026/06/23 04:09:50 JST | 13 monolith → module dir + shim；Phase 2: `mcp-config-manager/` · `ultra-conservative-monitor/` · `mcp-performance-monitor/`；80 module tests；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **SRP monolith refactor（Phase 0–2 + monitors）** | 2026/06/23 04:09:50 JST | 14 monolith → module dir + shim；Phase 2 monitors 完了；86 module tests；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 
 ---
 
@@ -167,6 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| TBD | SRP Phase 2 #4 — `srp-safety-monitor/` 分割；86 module tests（13 suites） |
 | 2026/06/23 04:30:05 JST | SRP Phase 2 #3 — `mcp-performance-monitor/` 分割；README/ARCHITECTURE/MCP_SERVICES 同期；80 module tests（12 suites） |
 | 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` 分割；75 module tests（11 suites） |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |

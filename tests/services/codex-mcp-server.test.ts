@@ -6,15 +6,29 @@
  */
 
 import { CodexMCPServer, CodexMCPConfig } from '../../src/services/codex-mcp-server';
+import { executeCodex } from '../../src/services/codex-mcp/codex-executor';
+import { assessRiskLevel, buildContextPrompt } from '../../src/services/codex-mcp/prompt-utils';
 import { getCodexMCPIntegration } from '../../src/services/codex-mcp-integration';
 import { getCodexSessionManager } from '../../src/services/codex-session-manager';
 import { logger } from '../../src/utils/logger';
 
 // Mock dependencies
 jest.mock('../../src/services/codex-session-manager');
+jest.mock('../../src/services/codex-mcp/codex-executor');
 jest.mock('../../src/utils/logger');
 jest.mock('child_process');
 jest.mock('fs/promises');
+jest.mock('../../src/services/mcp-integration-service', () => ({
+  mcpIntegrationService: {
+    executeMCPTools: jest.fn(),
+  },
+  MCPIntegrationService: jest.fn(),
+}));
+
+const mockedExecuteCodex = executeCodex as jest.MockedFunction<typeof executeCodex>;
+const { mcpIntegrationService: mockMcpIntegrationService } = jest.requireMock(
+  '../../src/services/mcp-integration-service'
+) as { mcpIntegrationService: { executeMCPTools: jest.Mock } };
 
 describe('CodexMCPServer', () => {
   let server: CodexMCPServer;
@@ -95,8 +109,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.updateSessionStatus.mockResolvedValue(undefined);
 
         // Mock Codex execution
-        const mockExecuteCodex = jest.spyOn(server as any, 'executeCodex');
-        mockExecuteCodex.mockResolvedValue({
+        mockedExecuteCodex.mockResolvedValue({
           success: true,
           response: 'def hello_world():\n    print("Hello, World!")',
           session_id: 'test-session-123'
@@ -109,7 +122,7 @@ describe('CodexMCPServer', () => {
           mode: 'non-interactive'
         };
 
-        const result = await (server as any).handleCodexTool(args);
+        const result = await server.handleCodexTool(args);
 
         expect(result).toEqual({
           content: [
@@ -150,8 +163,7 @@ describe('CodexMCPServer', () => {
 
         mockSessionManager.createSession.mockResolvedValue(mockSession);
 
-        const mockExecuteCodex = jest.spyOn(server as any, 'executeCodex');
-        mockExecuteCodex.mockResolvedValue({
+        mockedExecuteCodex.mockResolvedValue({
           success: true,
           response: 'Automated script execution completed',
           session_id: 'test-session-auto'
@@ -164,7 +176,7 @@ describe('CodexMCPServer', () => {
           sandbox: 'isolated'
         };
 
-        const result = await (server as any).handleCodexTool(args);
+        const result = await server.handleCodexTool(args);
 
         expect(result.isError).toBe(false);
         expect(result.content[0].text).toBe('Automated script execution completed');
@@ -178,7 +190,7 @@ describe('CodexMCPServer', () => {
           model: 'gpt-5-codex'
         };
 
-        const result = await (server as any).handleCodexTool(args);
+        const result = await server.handleCodexTool(args);
 
         expect(result.isError).toBe(true);
         expect(result.content[0].text).toContain('Execution failed');
@@ -213,8 +225,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.addAssistantResponse.mockResolvedValue(undefined);
         mockSessionManager.updateSessionStatus.mockResolvedValue(undefined);
 
-        const mockExecuteCodex = jest.spyOn(server as any, 'executeCodex');
-        mockExecuteCodex.mockResolvedValue({
+        mockedExecuteCodex.mockResolvedValue({
           success: true,
           response: 'Here are some test cases for the factorial function:\n\nassert factorial(0) == 1\nassert factorial(5) == 120',
           session_id: 'existing-session'
@@ -225,7 +236,7 @@ describe('CodexMCPServer', () => {
           session_id: 'existing-session'
         };
 
-        const result = await (server as any).handleCodexReplyTool(args);
+        const result = await server.handleCodexReplyTool(args);
 
         expect(result.isError).toBe(false);
         expect(result.sessionId).toBe('existing-session');
@@ -249,8 +260,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.continueSession.mockResolvedValue(mockSession);
         mockSessionManager.getConversationHistory.mockResolvedValue([]);
 
-        const mockExecuteCodex = jest.spyOn(server as any, 'executeCodex');
-        mockExecuteCodex.mockResolvedValue({
+        mockedExecuteCodex.mockResolvedValue({
           success: true,
           response: 'Continued conversation response',
           session_id: 'session-from-conv'
@@ -261,7 +271,7 @@ describe('CodexMCPServer', () => {
           conversation_id: 'target-conv-id'
         };
 
-        const result = await (server as any).handleCodexReplyTool(args);
+        const result = await server.handleCodexReplyTool(args);
 
         expect(result.isError).toBe(false);
         expect(result.conversationId).toBe('target-conv-id');
@@ -275,7 +285,7 @@ describe('CodexMCPServer', () => {
           session_id: 'non-existent-session'
         };
 
-        const result = await (server as any).handleCodexReplyTool(args);
+        const result = await server.handleCodexReplyTool(args);
 
         expect(result.isError).toBe(true);
         expect(result.content[0].text).toContain('Session not found');
@@ -287,7 +297,7 @@ describe('CodexMCPServer', () => {
           // Missing both session_id and conversation_id
         };
 
-        const result = await (server as any).handleCodexReplyTool(args);
+        const result = await server.handleCodexReplyTool(args);
 
         expect(result.isError).toBe(true);
         expect(result.content[0].text).toContain('must be provided');
@@ -305,7 +315,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.getSessionStats.mockResolvedValue(mockStats);
 
         const args = { list_active: true };
-        const result = await (server as any).handleSessionInfoTool(args);
+        const result = await server.handleSessionInfoTool(args);
 
         expect(result.isError).toBe(false);
         expect(JSON.parse(result.content[0].text)).toEqual(mockStats);
@@ -326,7 +336,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.getConversationHistory.mockResolvedValue(mockHistory);
 
         const args = { session_id: 'test-session' };
-        const result = await (server as any).handleSessionInfoTool(args);
+        const result = await server.handleSessionInfoTool(args);
 
         expect(result.isError).toBe(false);
         const responseData = JSON.parse(result.content[0].text);
@@ -336,7 +346,7 @@ describe('CodexMCPServer', () => {
 
       it('should handle missing parameters', async () => {
         const args = {}; // No parameters provided
-        const result = await (server as any).handleSessionInfoTool(args);
+        const result = await server.handleSessionInfoTool(args);
 
         expect(result.isError).toBe(true);
         expect(result.content[0].text).toContain('Please provide session_id or set list_active');
@@ -348,7 +358,7 @@ describe('CodexMCPServer', () => {
         mockSessionManager.cleanupExpiredSessions.mockResolvedValue({ cleaned: 2 });
 
         const args = { force: false };
-        const result = await (server as any).handleCleanupTool(args);
+        const result = await server.handleCleanupTool(args);
 
         expect(result.isError).toBe(false);
         expect(result.content[0].text).toContain('Removed 2 expired sessions');
@@ -364,7 +374,7 @@ describe('CodexMCPServer', () => {
         });
 
         const args = { force: true };
-        const result = await (server as any).handleCleanupTool(args);
+        const result = await server.handleCleanupTool(args);
 
         expect(result.isError).toBe(false);
         expect(result.content[0].text).toContain('Removed 1 expired sessions');
@@ -375,13 +385,13 @@ describe('CodexMCPServer', () => {
 
   describe('Risk Assessment', () => {
     it('should assess risk level correctly', () => {
-      const assessRiskLevel = (server as any).assessRiskLevel.bind(server);
+      const assessRiskLevelFn = assessRiskLevel;
 
-      expect(assessRiskLevel('full-access', true, 'ci')).toBe('critical');
-      expect(assessRiskLevel('full-access', false, 'interactive')).toBe('high');
-      expect(assessRiskLevel('isolated', true, 'interactive')).toBe('medium');
-      expect(assessRiskLevel('isolated', false, 'ci')).toBe('medium');
-      expect(assessRiskLevel('read-only', false, 'interactive')).toBe('low');
+      expect(assessRiskLevelFn('full-access', true, 'ci')).toBe('critical');
+      expect(assessRiskLevelFn('full-access', false, 'interactive')).toBe('high');
+      expect(assessRiskLevelFn('isolated', true, 'interactive')).toBe('medium');
+      expect(assessRiskLevelFn('isolated', false, 'ci')).toBe('medium');
+      expect(assessRiskLevelFn('read-only', false, 'interactive')).toBe('low');
     });
   });
 
@@ -406,7 +416,7 @@ describe('CodexMCPServer', () => {
       ];
 
       const newPrompt = 'Also add type hints';
-      const contextPrompt = (server as any).buildContextPrompt(history, newPrompt);
+      const contextPrompt = buildContextPrompt(history, newPrompt);
 
       expect(contextPrompt).toContain('# Conversation History');
       expect(contextPrompt).toContain('**User**: Write a function to sort an array');
@@ -424,7 +434,7 @@ describe('CodexMCPServer', () => {
       }));
 
       const newPrompt = 'New request';
-      const contextPrompt = (server as any).buildContextPrompt(longHistory, newPrompt);
+      const contextPrompt = buildContextPrompt(longHistory, newPrompt);
 
       // Should only contain the last 5 messages
       expect(contextPrompt).toContain('Message 5');
@@ -477,7 +487,7 @@ describe('CodexMCPServer', () => {
         model: 'gpt-5-codex'
       };
 
-      const result = await (server as any).handleCodexTool(args);
+      const result = await server.handleCodexTool(args);
 
       expect(result.isError).toBe(true);
       expect(result.content[0].text).toContain('Execution failed');
@@ -580,11 +590,7 @@ enable_wall_bounce = false
         }
       };
 
-      // Mock the MCP integration
-      const mcpIntegrationService = require('../../src/services/mcp-integration-service');
-      mcpIntegrationService.mcpIntegrationService = {
-        executeMCPTools: jest.fn().mockResolvedValue(mockMCPResult)
-      };
+      mockMcpIntegrationService.executeMCPTools.mockResolvedValue(mockMCPResult);
 
       const result = await integration.executeCodexWithWallBounce(request);
 

@@ -54,6 +54,7 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 - **MCPPerformanceMonitor** (`src/services/mcp-performance-monitor.ts`): Shim → `mcp-performance-monitor/` — metrics, alerts, recommendations (`npm run mcp-performance`)
 - **MCPApprovalManager** (`src/services/mcp-approval-manager.ts`): Multi-layer approval workflows
 - **UltraConservativeMonitor** (`src/services/ultra-conservative-monitor.ts`): Shim → `ultra-conservative-monitor/` — Phase 3 gradual rollout monitoring (leaf)
+- **SRPSafetyMonitor** (`src/services/srp-safety-monitor.ts`): Shim → `srp-safety-monitor/` — Phase 3 auto-rollback safety (leaf)
 
 #### RAG System (`src/services/googledrive-connector.ts`)
 - **Shim** → `googledrive-connector/` — **legacy AS-IS** in this repo; platform delegation per [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md)
@@ -210,6 +211,7 @@ src/
 │   ├── mcp-config-manager.ts      # Shim → mcp-config-manager/
 │   ├── mcp-performance-monitor.ts # Shim → mcp-performance-monitor/
 │   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
+│   ├── srp-safety-monitor.ts      # Shim → srp-safety-monitor/
 │   ├── codex-mcp-server.ts        # Shim → codex-mcp/
 │   └── __mocks__/                 # Test mocks
 ├── utils/
