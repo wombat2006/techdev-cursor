@@ -1,0 +1,25 @@
+---
+description: After git pull — regenerate Cursor MCP config (techsapo-providers, serena, brv)
+alwaysApply: true
+---
+
+# Cursor MCP — regenerate after git pull
+
+Tracked [.cursor/mcp.json](../../.cursor/mcp.json) commits **glossary-knowledge only** (sibling paths).  
+**techsapo-providers**, **serena**, and **brv** (ByteRover; successor to legacy Cipher) use machine-local absolute paths and are **not** preserved across `git pull`.
+
+## Mandatory after every `git pull`
+
+```bash
+npm run build && npm run cursor-mcp:config
+```
+
+Then: Cursor **Settings → MCP → Reload**.
+
+## When to run again
+
+- Serena, brv, or techsapo-providers missing from MCP list
+- `package.json` / MCP scripts / generator changed on pull
+- Node path or clone location changed on this machine
+
+Full procedure: [CURSOR_MCP_TEMPLATE.md](../../docs/CURSOR_MCP_TEMPLATE.md) · [commands.md](../../docs/agents/commands.md)

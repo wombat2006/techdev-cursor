@@ -11,6 +11,20 @@
 
 ---
 
+## After every `git pull` (mandatory)
+
+Tracked `.cursor/mcp.json` in git contains **glossary-knowledge only**. Pulling removes locally merged **techsapo-providers**, **serena**, and **brv** entries unless you regenerate.
+
+```bash
+npm run build && npm run cursor-mcp:config
+```
+
+Then: Cursor **Settings → MCP → Reload**.
+
+Cursor rule: [.cursor/rules/cursor-mcp-post-pull.mdc](../.cursor/rules/cursor-mcp-post-pull.mdc)
+
+---
+
 ## Recommended: generate config for this machine
 
 ```bash

@@ -24,6 +24,7 @@
 | Modify quality threshold | `src/services/wall-bounce-analyzer.ts` | `executeWallBounce()` |
 | Inference profile / CoT | `config/inference-profiles.json` (planned), provider adapters | [TECH_STACK_INFERENCE_PROFILES.md](../decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | Cursor MCP registration | After Track A-0 in [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) | [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) |
+| **Regenerate MCP after `git pull`** | — | `npm run build && npm run cursor-mcp:config` then Cursor MCP Reload — [.cursor/rules/cursor-mcp-post-pull.mdc](../../.cursor/rules/cursor-mcp-post-pull.mdc) |
 | Glossary extract (consumer) | `meta/glossary-config.json` | `npm run glossary:extract` |
 | Add API endpoint | `src/routes/` | Create new route file |
 | Update MCP approval | `src/services/mcp-approval-manager.ts` | `assessRisk()` |

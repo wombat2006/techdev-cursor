@@ -121,7 +121,8 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 3. `npm run setup-mcp-prereqs` — `uv`/`uvx` for Serena (once per machine)  
 4. `cp .env.brv.local.example .env.brv.local` — set **one** API key (OpenRouter / Anthropic / OpenAI / Gemini)  
 5. `npm run setup-brv-provider` — connect `brv` to cloud API (Ollama not recommended)  
-6. `npm run build && npm run cursor-mcp:config` — register MCP in Cursor (`techsapo-providers` · Serena · `brv`)
+6. `npm run build && npm run cursor-mcp:config` — register MCP in Cursor (`techsapo-providers` · Serena · `brv`)  
+7. **After every `git pull`** — repeat step 6 ([cursor-mcp-post-pull rule](./.cursor/rules/cursor-mcp-post-pull.mdc))
 
 ---
 
