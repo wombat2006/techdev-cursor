@@ -177,6 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` split; 75 module tests (11 suites) |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 splits (incl. mcp-config-manager), 70 module tests, SRP_* docs + README sync |
 | 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 splits, module tests, SRP_* docs; README + DEVELOPMENT_GUIDE sync |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR (proposed); TO-BE gap + WB-19 backlog |

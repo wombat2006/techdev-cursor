@@ -167,6 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/23 04:20:16 JST | SRP Phase 2 #2 — `ultra-conservative-monitor/` 分割；75 module tests（11 suites） |
 | 2026/06/23 04:09:50 JST | SRP monolith refactor Phase 0–2 — 11 分割（mcp-config-manager 含む）・70 module tests・SRP_* docs + README 同期 |
 | 2026/06/23 03:00:14 JST | SRP monolith refactor Phase 0–1 — 10 分割・module tests・SRP_* docs；README / DEVELOPMENT_GUIDE 同期 |
 | 2026/06/22 22:50:56 JST | TS-27 Ollama gateway ADR（草案）；TO-BE gap + WB-19 backlog |
