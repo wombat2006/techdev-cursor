@@ -84,8 +84,9 @@ All splits must pass before merge.
 | `srp-safety-monitor.ts` | 424 | `src/services/srp-safety-monitor/` | `srp-safety-monitor.ts` | 155 (`monitor.ts`) |
 | `googledrive-push-setup.ts` | 540 | `src/services/googledrive-push-setup/` | `googledrive-push-setup.ts` | 147 (`channel-operations.ts`) |
 | `mcp-approval-manager.ts` | 463 | `src/services/mcp-approval-manager/` | `mcp-approval-manager.ts` | 237 (`manager.ts`) |
+| `huggingface-client.ts` | 297 | `src/services/huggingface-client/` | `huggingface-client.ts` | 77 (`client.ts`) |
 
-**Total:** 16 monoliths → 16 module trees + 16 shims. **101+ tests** in the SRP module suite (15 suites) as of this record.
+**Total:** 17 monoliths → 17 module trees + 17 shims. **107+ tests** in the SRP module suite (16 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -450,6 +451,29 @@ analyze-entry
 
 ---
 
+### 4.17 Hugging Face client (Phase 3 #2)
+
+**Shim:** `src/services/huggingface-client.ts`  
+**Modules:** `src/services/huggingface-client/`  
+**Consumers:** `embedding-service.ts`, `inference-service.ts`, `huggingface-controller.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `client.ts` | 77 | `HuggingFaceClient` facade |
+| `inference.ts` | 64 | Text generation via `HfInference` |
+| `embeddings.ts` | 58 | Feature extraction / embeddings |
+| `http-client.ts` | 50 | Axios client + interceptors |
+| `model-info.ts` | 42 | Hub model metadata fetch/map |
+| `retry-backoff.ts` | 32 | Exponential retry helper |
+| `token-estimation.ts` | 11 | Japanese-aware token estimate |
+| `api-error.ts` | 18 | Axios → `HuggingFaceError` mapping |
+| `factory.ts` | 14 | `createHuggingFaceClient` (+ mock gate) |
+| `index.ts` | 11 | Public exports |
+
+**Tests:** `huggingface-client-modules.test.ts` (token estimate, api-error, model-info, retry, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -470,6 +494,7 @@ analyze-entry
 | `src/services/srp-safety-monitor.ts` | `./srp-safety-monitor/index` |
 | `src/services/googledrive-push-setup.ts` | `./googledrive-push-setup/index` |
 | `src/services/mcp-approval-manager.ts` | `./mcp-approval-manager/index` |
+| `src/services/huggingface-client.ts` | `./huggingface-client/index` |
 
 ---
 
@@ -523,6 +548,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |
 | 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |
 | 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5 — Phase 2 complete) |
 | 2026-06-23 | `srp-safety-monitor/` split (Phase 2 #4) |
