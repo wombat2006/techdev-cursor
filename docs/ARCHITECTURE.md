@@ -109,6 +109,7 @@ src/
 │   ├── mcp-performance-monitor.ts # Shim → mcp-performance-monitor/
 │   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
 │   ├── srp-safety-monitor.ts     # Shim → srp-safety-monitor/
+│   ├── huggingface-client.ts       # Shim → huggingface-client/
 │   └── __mocks__/              # Test mocks
 ├── types/                      # TypeScript definitions
 ├── utils/

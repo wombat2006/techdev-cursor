@@ -71,6 +71,8 @@ src/
 │   ├── srp-safety-monitor/              # Phase 3 SRP safety + emergency rollback (leaf)
 │   ├── googledrive-push-setup.ts        # Shim → googledrive-push-setup/
 │   ├── googledrive-push-setup/          # Drive push notification channel setup
+│   ├── huggingface-client.ts            # Shim → huggingface-client/
+│   ├── huggingface-client/              # HF embeddings, inference, model info
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

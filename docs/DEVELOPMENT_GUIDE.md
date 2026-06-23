@@ -59,6 +59,9 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 #### RAG System (`src/services/googledrive-connector.ts`)
 - **Shim** → `googledrive-connector/` — **legacy AS-IS** in this repo; platform delegation per [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md)
 - **GoogleDrivePushSetup** (`src/services/googledrive-push-setup.ts`): Shim → `googledrive-push-setup/` — Drive push notification channel setup (`webhook-setup` routes)
+
+#### Hugging Face (`src/services/huggingface-client.ts`)
+- **Shim** → `huggingface-client/` — embeddings, inference, model info; used by `embedding-service` / `inference-service`
 - **Embedding Service**: Text embeddings for semantic search
 - **Vector Storage**: OpenAI vector stores for RAG operations
 
