@@ -88,6 +88,13 @@
 | **PROVIDER_INTEGRATION_BACKLOG.md** | Provider adapter backlog |
 | **TECH_STACK_WORKSPACE.md** | TS-01…21 decision backlog |
 
+### Ideas (non-binding)
+
+| Document | Purpose |
+|----------|---------|
+| **ideas/README.md** | Idea scratchpad policy |
+| **ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md** | Express → NestJS gradual strangler (HTTP only) — **not Accepted** |
+
 ### Architecture Decision Records
 
 | Document | ID |

@@ -178,6 +178,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+| **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
 
 ---
 

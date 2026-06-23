@@ -25,9 +25,17 @@ Index of design decisions for TechSapo. Logic/rule ADRs are written in **English
 | — | [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) | **Preparation** | Tech stack refinement workspace |
 | — | [_TEMPLATE_TECH_STACK.md](./_TEMPLATE_TECH_STACK.md) | Template | New stack decision template |
 
+## Ideas (non-binding)
+
+Exploratory notes live under [../ideas/](../ideas/) — **not** ADRs until copied here with **Proposed** status.
+
+| Topic | Document |
+|-------|----------|
+| NestJS strangler (HTTP layer) | [NESTJS_STRANGLER_MIGRATION_IDEA.md](../ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
+
 ## Planned (backlog)
 
-Tech stack decisions will be added as `TECH_STACK_<topic>.md` when accepted. See workspace backlog TS-01 … TS-20.
+Tech stack decisions will be added as `TECH_STACK_<topic>.md` when accepted. See workspace backlog TS-01 … TS-29.
 
 ---
 

@@ -178,6 +178,7 @@ flowchart TB
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+| **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
 
 ---
 

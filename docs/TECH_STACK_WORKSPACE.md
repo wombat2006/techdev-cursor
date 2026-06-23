@@ -45,7 +45,7 @@ npm run audit:tech-stack
 
 | Component | AS-IS | Notes |
 |-----------|-------|-------|
-| HTTP | Express ^4.18 | `src/index.ts` |
+| HTTP | Express ^4.18 | `src/index.ts` — NestJS strangler: **idea only** → [ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md](./ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
 | Security | Helmet, CORS | middleware |
 | Logging | Winston ^3.11 | structured logs |
 | Metrics | prom-client ^15 | `/metrics` |
@@ -160,6 +160,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 | TS-21 | Cursor MCP | Unified `techsapo-providers` in Cursor IDE | not registered | **Full-Fork `techdev-cursor`** → Phase 0 + unified MCP | [FORK_CURSOR.md](./FORK_CURSOR.md) · [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) |
 | TS-22 | Memory substrate | OrchestrationSession + `providerHandles` + Cipher/RAG | Codex-only Redis silo; stateless MCP | **G-MEM closed 2026-06-18**; M1 store Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | TS-28 | MCP product integration | Vendor name before routing; pseudo-WB | `codex-mcp-integration` historical | **Accepted v1.2** NAME-VN; P0 rename | [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
+| TS-29 | HTTP framework | NestJS gradual strangler vs stay Express? | Express ^4.18 | **Idea only** — no implementation | [ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md](./ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
 
 ---
 
