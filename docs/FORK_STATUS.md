@@ -177,6 +177,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/23 17:47:01 JST | SRP Phase 3 #4 — `inference-service/` split; 126 module tests (18 suites); full suite 330 pass |
 | 2026/06/23 11:57:42 JST | SRP Phase 3 #3 — `embedding-service/` split; 115 module tests (17 suites); full suite 319 pass |
 | 2026/06/23 11:52:31 JST | SRP Phase 3 #2 — `huggingface-client/` split; 107 module tests (16 suites); full suite 311 pass |
 | 2026/06/23 04:56:12 JST | SRP Phase 3 #1 — `mcp-approval-manager/` split; 101 module tests (15 suites); full suite 305 pass |
