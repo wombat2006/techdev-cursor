@@ -167,6 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/23 17:55:38 JST | SRP Phase 3 #5 — `googledrive-webhook-handler/` 分割；130 module tests（19 suites）；全 suite 334 pass |
 | 2026/06/23 17:47:01 JST | SRP Phase 3 #4 — `inference-service/` 分割；126 module tests（18 suites）；全 suite 330 pass |
 | 2026/06/23 11:57:42 JST | SRP Phase 3 #3 — `embedding-service/` 分割；115 module tests（17 suites）；全 suite 319 pass |
 | 2026/06/23 11:52:31 JST | SRP Phase 3 #2 — `huggingface-client/` 分割；107 module tests（16 suites）；全 suite 311 pass |
