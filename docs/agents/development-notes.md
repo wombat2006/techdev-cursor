@@ -73,6 +73,8 @@ src/
 │   ├── googledrive-push-setup/          # Drive push notification channel setup
 │   ├── huggingface-client.ts            # Shim → huggingface-client/
 │   ├── huggingface-client/              # HF embeddings, inference, model info
+│   ├── embedding-service.ts             # Shim → embedding-service/
+│   ├── embedding-service/               # Batching, cache, multi-model embedding analysis
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

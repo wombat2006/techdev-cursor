@@ -110,6 +110,7 @@ src/
 │   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
 │   ├── srp-safety-monitor.ts     # Shim → srp-safety-monitor/
 │   ├── huggingface-client.ts       # Shim → huggingface-client/
+│   ├── embedding-service.ts        # Shim → embedding-service/
 │   └── __mocks__/              # Test mocks
 ├── types/                      # TypeScript definitions
 ├── utils/

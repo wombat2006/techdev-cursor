@@ -85,8 +85,9 @@ All splits must pass before merge.
 | `googledrive-push-setup.ts` | 540 | `src/services/googledrive-push-setup/` | `googledrive-push-setup.ts` | 147 (`channel-operations.ts`) |
 | `mcp-approval-manager.ts` | 463 | `src/services/mcp-approval-manager/` | `mcp-approval-manager.ts` | 237 (`manager.ts`) |
 | `huggingface-client.ts` | 297 | `src/services/huggingface-client/` | `huggingface-client.ts` | 77 (`client.ts`) |
+| `embedding-service.ts` | 387 | `src/services/embedding-service/` | `embedding-service.ts` | 214 (`service.ts`) |
 
-**Total:** 17 monoliths → 17 module trees + 17 shims. **107+ tests** in the SRP module suite (16 suites) as of this record.
+**Total:** 18 monoliths → 18 module trees + 18 shims. **115+ tests** in the SRP module suite (17 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -474,6 +475,28 @@ analyze-entry
 
 ---
 
+### 4.18 Embedding service (Phase 3 #3)
+
+**Shim:** `src/services/embedding-service.ts`  
+**Modules:** `src/services/embedding-service/`  
+**Consumers:** `huggingface-controller.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `service.ts` | 214 | `EmbeddingService` — batching, cache, multi-model analysis |
+| `similarity.ts` | 73 | Cosine similarity + model comparison |
+| `model-selection.ts` | 42 | Recommended model heuristics |
+| `types.ts` | 45 | Service config + analysis types |
+| `cache.ts` | 33 | In-memory embedding cache helpers |
+| `fallback.ts` | 31 | Fallback model retry chain |
+| `config.ts` | 15 | Default config builder |
+| `batch-utils.ts` | 7 | Text batching |
+| `index.ts` | 28 | Public exports |
+
+**Tests:** `embedding-service-modules.test.ts` (batch, cache, model selection, similarity, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -495,6 +518,7 @@ analyze-entry
 | `src/services/googledrive-push-setup.ts` | `./googledrive-push-setup/index` |
 | `src/services/mcp-approval-manager.ts` | `./mcp-approval-manager/index` |
 | `src/services/huggingface-client.ts` | `./huggingface-client/index` |
+| `src/services/embedding-service.ts` | `./embedding-service/index` |
 
 ---
 
@@ -548,6 +572,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `embedding-service/` split (Phase 3 #3) |
 | 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |
 | 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |
 | 2026-06-23 | `googledrive-push-setup/` split (Phase 2 #5 — Phase 2 complete) |
