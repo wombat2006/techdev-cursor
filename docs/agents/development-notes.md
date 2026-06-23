@@ -77,6 +77,8 @@ src/
 │   ├── embedding-service/               # Batching, cache, multi-model embedding analysis
 │   ├── inference-service.ts             # Shim → inference-service/
 │   ├── inference-service/               # Tiered inference, conversation, analysis
+│   ├── googledrive-webhook-handler.ts   # Shim → googledrive-webhook-handler/
+│   ├── googledrive-webhook-handler/     # Drive webhook → RAG sync
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

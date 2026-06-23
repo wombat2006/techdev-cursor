@@ -87,8 +87,9 @@ All splits must pass before merge.
 | `huggingface-client.ts` | 297 | `src/services/huggingface-client/` | `huggingface-client.ts` | 77 (`client.ts`) |
 | `embedding-service.ts` | 387 | `src/services/embedding-service/` | `embedding-service.ts` | 214 (`service.ts`) |
 | `inference-service.ts` | 559 | `src/services/inference-service/` | `inference-service.ts` | 221 (`service.ts`) |
+| `googledrive-webhook-handler.ts` | 589 | `src/services/googledrive-webhook-handler/` | `googledrive-webhook-handler.ts` | 100 (`handler.ts`) |
 
-**Total:** 19 monoliths → 19 module trees + 19 shims. **126+ tests** in the SRP module suite (18 suites) as of this record.
+**Total:** 20 monoliths → 20 module trees + 20 shims. **130+ tests** in the SRP module suite (19 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -522,6 +523,29 @@ analyze-entry
 
 ---
 
+### 4.20 Google Drive webhook handler (Phase 3 #5)
+
+**Shim:** `src/services/googledrive-webhook-handler.ts`  
+**Modules:** `src/services/googledrive-webhook-handler/`  
+**Consumers:** `webhook-endpoints.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `notification-handlers.ts` | 158 | sync/update/remove dispatch + file handlers |
+| `handler.ts` | 100 | `GoogleDriveWebhookHandler` facade |
+| `context.ts` | 77 | Drive/RAG/Prometheus bootstrap + header parse |
+| `folder-monitor.ts` | 69 | Monitored folder ancestry checks |
+| `rag-sync.ts` | 68 | Vector store sync/remove |
+| `signature-verification.ts` | 44 | HMAC webhook verification |
+| `change-fetcher.ts` | 38 | Drive changes API |
+| `types.ts` | 33 | Webhook/change types |
+| `supported-mime-types.ts` | 13 | RAG-eligible MIME list |
+| `index.ts` | 20 | Public exports |
+
+**Tests:** `googledrive-webhook-handler-modules.test.ts` (MIME, signature, parser, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -545,6 +569,7 @@ analyze-entry
 | `src/services/huggingface-client.ts` | `./huggingface-client/index` |
 | `src/services/embedding-service.ts` | `./embedding-service/index` |
 | `src/services/inference-service.ts` | `./inference-service/index` |
+| `src/services/googledrive-webhook-handler.ts` | `./googledrive-webhook-handler/index` |
 
 ---
 
@@ -575,7 +600,7 @@ After any further split in this series:
 | File | ~Lines | Notes |
 |------|--------|-------|
 | `src/services/googledrive-connector.ts` | 792 | **Split** → `googledrive-connector/` |
-| `src/services/googledrive-webhook-handler.ts` | 588 | Webhook + RAG sync |
+| `src/services/googledrive-webhook-handler.ts` | 589 | **Split** → `googledrive-webhook-handler/` |
 | `src/services/ultra-conservative-monitor.ts` | 579 | **Split** → `ultra-conservative-monitor/` |
 | `src/services/mcp-performance-monitor.ts` | 543 | **Split** → `mcp-performance-monitor/` |
 | `src/services/codex-mcp-integration.ts` | 565 | Codex ↔ MCP integration |
@@ -598,6 +623,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `googledrive-webhook-handler/` split (Phase 3 #5) |
 | 2026-06-23 | `inference-service/` split (Phase 3 #4) |
 | 2026-06-23 | `embedding-service/` split (Phase 3 #3) |
 | 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |

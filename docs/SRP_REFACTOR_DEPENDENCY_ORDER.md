@@ -156,7 +156,7 @@ flowchart TB
 | 2 | `huggingface-client.ts` | 297 | — | ✅ → `huggingface-client/` |
 | 3 | `embedding-service.ts` | 387 | `huggingface-client` ✅ | ✅ → `embedding-service/` |
 | 4 | `inference-service.ts` | 559 | `huggingface-client` ✅ | ✅ → `inference-service/` |
-| 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ | pending |
+| 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ | ✅ → `googledrive-webhook-handler/` |
 | 6 | `codex-gpt5-provider.ts` | 410 | timeout handler | pending |
 | 7 | `redis-service.ts` | 303 | — | pending |
 | 8 | `codex-mcp-integration.ts` | 566 | `redis-service` | pending |
@@ -189,7 +189,7 @@ flowchart TB
 
 ```bash
 npx tsc --noEmit
-npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|mcp-approval-manager-modules|huggingface-client-modules|embedding-service-modules|inference-service-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
+npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|mcp-approval-manager-modules|huggingface-client-modules|embedding-service-modules|inference-service-modules|googledrive-webhook-handler-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
 ```
 
 ---
@@ -198,6 +198,7 @@ npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file
 
 | Date | Change |
 |------|--------|
+| 2026-06-23 | `googledrive-webhook-handler/` split (Phase 3 #5) |
 | 2026-06-23 | `inference-service/` split (Phase 3 #4) |
 | 2026-06-23 | `embedding-service/` split (Phase 3 #3) |
 | 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |

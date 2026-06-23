@@ -67,7 +67,8 @@ Model Context Protocol integration for standardized LLM interactions.
 Google Drive integration for document retrieval and embedding.
 
 **Core File (AS-IS):** `src/services/googledrive-connector.ts` (shim → `googledrive-connector/`) — **legacy in this repo**
-**Push notifications (AS-IS):** `src/services/googledrive-push-setup.ts` (shim → `googledrive-push-setup/`) — webhook channel setup for Drive changes
+**Push notifications (AS-IS):** `src/services/googledrive-push-setup.ts` (shim → `googledrive-push-setup/`) — webhook channel setup for Drive changes  
+**Webhook handler (AS-IS):** `src/services/googledrive-webhook-handler.ts` (shim → `googledrive-webhook-handler/`) — real-time RAG sync on Drive push notifications
 
 **To-Be:** Storage connectors (Google Drive, S3, OneDrive, …) and RAG Vector connectors move to sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform). See [TO-BE-GLOSSARY-PIPELINE.md § Connector delegation](../meta/TO-BE-GLOSSARY-PIPELINE.md#connector-delegation-planned).
 
@@ -112,6 +113,7 @@ src/
 │   ├── huggingface-client.ts       # Shim → huggingface-client/
 │   ├── embedding-service.ts        # Shim → embedding-service/
 │   ├── inference-service.ts        # Shim → inference-service/
+│   ├── googledrive-webhook-handler.ts  # Shim → googledrive-webhook-handler/
 │   └── __mocks__/              # Test mocks
 ├── types/                      # TypeScript definitions
 ├── utils/
