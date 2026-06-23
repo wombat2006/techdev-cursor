@@ -532,7 +532,7 @@ analyze-entry
 | File | Lines | Responsibility |
 |------|-------|----------------|
 | `notification-handlers.ts` | 158 | sync/update/remove dispatch + file handlers |
-| `handler.ts` | 100 | `GoogleDriveWebhookHandler` facade |
+| `handler.ts` | 98 | `GoogleDriveWebhookHandler` facade |
 | `context.ts` | 77 | Drive/RAG/Prometheus bootstrap + header parse |
 | `folder-monitor.ts` | 69 | Monitored folder ancestry checks |
 | `rag-sync.ts` | 68 | Vector store sync/remove |
