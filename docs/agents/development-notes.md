@@ -75,6 +75,8 @@ src/
 │   ├── huggingface-client/              # HF embeddings, inference, model info
 │   ├── embedding-service.ts             # Shim → embedding-service/
 │   ├── embedding-service/               # Batching, cache, multi-model embedding analysis
+│   ├── inference-service.ts             # Shim → inference-service/
+│   ├── inference-service/               # Tiered inference, conversation, analysis
 │   └── __mocks__/                       # Test mocks
 ├── middleware/
 │   ├── auth.ts                          # Authentication

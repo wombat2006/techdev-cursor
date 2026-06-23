@@ -155,7 +155,7 @@ flowchart TB
 | 1 | `mcp-approval-manager.ts` | 463 | `mcp-config-manager` ✅ | ✅ → `mcp-approval-manager/` |
 | 2 | `huggingface-client.ts` | 297 | — | ✅ → `huggingface-client/` |
 | 3 | `embedding-service.ts` | 387 | `huggingface-client` ✅ | ✅ → `embedding-service/` |
-| 4 | `inference-service.ts` | 559 | `huggingface-client` | pending |
+| 4 | `inference-service.ts` | 559 | `huggingface-client` ✅ | ✅ → `inference-service/` |
 | 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ | pending |
 | 6 | `codex-gpt5-provider.ts` | 410 | timeout handler | pending |
 | 7 | `redis-service.ts` | 303 | — | pending |
@@ -189,7 +189,7 @@ flowchart TB
 
 ```bash
 npx tsc --noEmit
-npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|mcp-approval-manager-modules|huggingface-client-modules|embedding-service-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
+npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file-type-detector|log-analyzer-modules|mcp-integration-modules|mcp-config-manager-modules|mcp-approval-manager-modules|huggingface-client-modules|embedding-service-modules|inference-service-modules|ultra-conservative-monitor-modules|mcp-performance-monitor-modules|srp-safety-monitor-modules|googledrive-push-setup-modules|prometheus-wall-bounce|server-modules|googledrive-cost-tracking" --forceExit
 ```
 
 ---
@@ -198,6 +198,7 @@ npm test -- --testPathPattern="wall-bounce|opus-aggregate|codex-mcp-modules|file
 
 | Date | Change |
 |------|--------|
+| 2026-06-23 | `inference-service/` split (Phase 3 #4) |
 | 2026-06-23 | `embedding-service/` split (Phase 3 #3) |
 | 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |
 | 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |

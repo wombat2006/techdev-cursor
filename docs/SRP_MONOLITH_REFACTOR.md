@@ -86,8 +86,9 @@ All splits must pass before merge.
 | `mcp-approval-manager.ts` | 463 | `src/services/mcp-approval-manager/` | `mcp-approval-manager.ts` | 237 (`manager.ts`) |
 | `huggingface-client.ts` | 297 | `src/services/huggingface-client/` | `huggingface-client.ts` | 77 (`client.ts`) |
 | `embedding-service.ts` | 387 | `src/services/embedding-service/` | `embedding-service.ts` | 214 (`service.ts`) |
+| `inference-service.ts` | 559 | `src/services/inference-service/` | `inference-service.ts` | 221 (`service.ts`) |
 
-**Total:** 18 monoliths → 18 module trees + 18 shims. **115+ tests** in the SRP module suite (17 suites) as of this record.
+**Total:** 19 monoliths → 19 module trees + 19 shims. **126+ tests** in the SRP module suite (18 suites) as of this record.
 
 **Dependency order:** [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md)
 
@@ -497,6 +498,30 @@ analyze-entry
 
 ---
 
+### 4.19 Inference service (Phase 3 #4)
+
+**Shim:** `src/services/inference-service.ts`  
+**Modules:** `src/services/inference-service/`  
+**Consumers:** `huggingface-controller.ts`
+
+| File | Lines | Responsibility |
+|------|-------|----------------|
+| `service.ts` | 221 | `InferenceService` — generation, multi-model, conversation |
+| `response-analysis.ts` | 88 | Confidence, relevance, follow-up suggestions |
+| `response-processing.ts` | 52 | Request payload + response cleanup |
+| `conversation-store.ts` | 52 | In-memory conversation history |
+| `context-builder.ts` | 41 | System/user context assembly |
+| `model-selection.ts` | 38 | Tier model pick + token limits |
+| `config.ts` | 38 | Default config + model tiers |
+| `types.ts` | 67 | Service/analysis types |
+| `rate-limit.ts` | 25 | Per-minute request throttle |
+| `cost.ts` | 17 | Simplified cost estimate |
+| `index.ts` | 32 | Public exports |
+
+**Tests:** `inference-service-modules.test.ts` (model selection, analysis, rate limit, shim smoke).
+
+---
+
 ## 5. Shim reference (quick lookup)
 
 | Shim path | Re-exports from |
@@ -519,6 +544,7 @@ analyze-entry
 | `src/services/mcp-approval-manager.ts` | `./mcp-approval-manager/index` |
 | `src/services/huggingface-client.ts` | `./huggingface-client/index` |
 | `src/services/embedding-service.ts` | `./embedding-service/index` |
+| `src/services/inference-service.ts` | `./inference-service/index` |
 
 ---
 
@@ -572,6 +598,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | `inference-service/` split (Phase 3 #4) |
 | 2026-06-23 | `embedding-service/` split (Phase 3 #3) |
 | 2026-06-23 | `huggingface-client/` split (Phase 3 #2) |
 | 2026-06-23 | `mcp-approval-manager/` split (Phase 3 #1) |

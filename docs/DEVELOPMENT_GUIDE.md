@@ -63,6 +63,7 @@ npm run brv-mcp      # Start ByteRover memory MCP (brv mcp)
 #### Hugging Face (`src/services/huggingface-client.ts`)
 - **Shim** → `huggingface-client/` — embeddings, inference, model info; used by `embedding-service` / `inference-service`
 - **EmbeddingService** (`src/services/embedding-service.ts`): Shim → `embedding-service/` — batching, cache, multi-model analysis
+- **InferenceService** (`src/services/inference-service.ts`): Shim → `inference-service/` — tiered models, conversation, analysis
 - **Embedding Service**: Text embeddings for semantic search
 - **Vector Storage**: OpenAI vector stores for RAG operations
 
