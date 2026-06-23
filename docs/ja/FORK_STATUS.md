@@ -167,6 +167,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/23 11:57:42 JST | SRP Phase 3 #3 — `embedding-service/` 分割；115 module tests（17 suites）；全 suite 319 pass |
 | 2026/06/23 11:52:31 JST | SRP Phase 3 #2 — `huggingface-client/` 分割；107 module tests（16 suites）；全 suite 311 pass |
 | 2026/06/23 04:56:12 JST | SRP Phase 3 #1 — `mcp-approval-manager/` 分割；101 module tests（15 suites）；全 suite 305 pass |
 | 2026/06/23 04:52:33 JST | SRP Phase 2 #5 — `googledrive-push-setup/` 分割；Phase 2 完了；95 module tests（14 suites）；全 suite 299 pass |
