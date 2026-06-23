@@ -220,6 +220,7 @@ src/
 │   ├── ultra-conservative-monitor.ts # Shim → ultra-conservative-monitor/
 │   ├── srp-safety-monitor.ts      # Shim → srp-safety-monitor/
 │   ├── codex-mcp-server.ts        # Shim → codex-mcp/
+│   ├── codex-mcp-integration.ts   # Deprecated shim → mcp-product-integration (TS-28)
 │   └── __mocks__/                 # Test mocks
 ├── utils/
 │   └── file-type-detector/        # File type detection modules

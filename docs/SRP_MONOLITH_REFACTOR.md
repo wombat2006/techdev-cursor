@@ -603,7 +603,7 @@ After any further split in this series:
 | `src/services/googledrive-webhook-handler.ts` | 589 | **Split** → `googledrive-webhook-handler/` |
 | `src/services/ultra-conservative-monitor.ts` | 579 | **Split** → `ultra-conservative-monitor/` |
 | `src/services/mcp-performance-monitor.ts` | 543 | **Split** → `mcp-performance-monitor/` |
-| `src/services/codex-mcp-integration.ts` | 565 | Codex ↔ MCP integration |
+| `src/services/codex-mcp-integration.ts` | 565 | **Rename target:** `mcp-product-integration/` — TS-28 NAME-VN; shim only after P0 |
 | `src/utils/migrate-to-redis.ts` | 558 | One-off migration utility |
 
 ---
@@ -623,6 +623,7 @@ Query example for agents: `brv-query` → “SRP shim pattern for wall-bounce / 
 
 | Date (JST context) | Change |
 |--------------------|--------|
+| 2026-06-23 | TS-28 v1.1 docs sync — README, MCP_SERVICES, codex-mcp-implementation, FORK_STATUS |
 | 2026-06-23 | `googledrive-webhook-handler/` split (Phase 3 #5) |
 | 2026-06-23 | `inference-service/` split (Phase 3 #4) |
 | 2026-06-23 | `embedding-service/` split (Phase 3 #3) |

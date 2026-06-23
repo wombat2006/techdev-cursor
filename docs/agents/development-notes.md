@@ -57,6 +57,7 @@ src/
 │   ├── mcp-approval-manager/            # Risk-based approval workflows
 │   ├── codex-mcp-server.ts              # Shim → codex-mcp/
 │   ├── codex-mcp/                       # Codex MCP server modules
+│   ├── mcp-product-integration/         # To-Be (TS-28 NAME-VN); shim: codex-mcp-integration.ts
 │   ├── googledrive-connector.ts         # Shim → googledrive-connector/ (legacy RAG)
 │   ├── googledrive-connector/           # Drive list/download, vector store, RAG search
 │   ├── cost-tracking.ts                 # Shim → cost-tracking/

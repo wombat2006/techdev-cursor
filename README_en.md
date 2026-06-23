@@ -35,6 +35,7 @@ Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `
 | **Track B — Wall-Bounce API** | `wall-bounce-analyzer.ts`: **one** parallel or sequential pass + one aggregation | No threshold branch, no 2–5 round loop, no objection UX |
 | **Thresholds** | Warn in logs; **no retry/branch** on low scores | Auto wall-bounce on miss |
 | **Transport** | MCP uses adapters; analyzer uses **legacy spawn** | Unify in B-1 |
+| **Legacy MCP product layer** | AS-IS: `codex-mcp-integration.ts` (**historical name**, pseudo-WB); not on prod API | **TS-28 P0** → `mcp-product-integration` + constitution WB |
 | **Memory (Layer A)** | Types + ADR only; **no Redis store** | M1–M3 |
 | **SSE** | Partial (e.g. 500-char truncate) | Extend in B-5 |
 
@@ -50,6 +51,7 @@ Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IM
 |----------|------|-------|------|
 | 1 | Layer A persistence (`OrchestrationSessionStore` / Redis) | **M1** | B→C prerequisite |
 | 2 | Wire Wall-Bounce to `src/adapters/*` | **B-1** | B→C |
+| 2a | **MCP product layer** — vendor-neutral rename; constitution WB (NAME-VN) | **TS-28 P0** | Before SRP #8 |
 | 2b | **usage / stop_reason / session_id** from CLI (TS-26) | **B-6** | B→C |
 | 3 | Parallel → aggregate → **threshold branch**; keyword modes (TS-25) | **B-4** | B→C G7 |
 | 4 | SSE + Layer A event stream | **B-5** | B→C |
@@ -120,6 +122,11 @@ flowchart TB
     ORCH --> CE[ConsensusEngine — Jaccard]
   end
 
+  subgraph legacyProduct["MCP product layer (TS-28 · AS-IS file still codex-*)"]
+    MPI["mcp-product-integration\n(To-Be)"] --> CMS[codex-mcp/ plugin]
+    MPI -.->|"enable_wall_bounce"| WBA
+  end
+
   subgraph platform["Sibling platform (this repo: MCP consumer only)"]
     GK[glossary-knowledge MCP] --> TPP[term-prep-platform]
   end
@@ -138,6 +145,7 @@ flowchart TB
 | Cursor → MCP → adapters → CLI | ✅ single `analyze_*` (no aggregate / rounds) | Same + mode keywords |
 | `index.ts` → `server/` | ✅ `TechSapoServer`; modular split (SRP) | unchanged |
 | `wall-bounce-analyzer.ts` | ✅ shim → `services/wall-bounce/` (constitution path) | B-1 adapters · threshold branch (B-4) |
+| `codex-mcp-integration.ts` | AS-IS filename only (**TS-28 NAME-VN** → `mcp-product-integration`) | Constitution WB via analyzer (canonical) |
 | `wall-bounce-server.ts` | shim → `wall-bounce-server/`; default analyzer path | merge (C-5) |
 | MCP monitoring / config (SRP) | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` · `srp-safety-monitor/` | unchanged |
 | Layer A / SSE | Types only · partial SSE (500-char truncate) · `session_id` not persisted | M1–M3 · B-5 |
@@ -155,6 +163,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | **[WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)** | **Code-derived current state** |
 | [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./docs/WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | Modification checklist |
 | [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./docs/decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
+| [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) | **TS-28 v1.2** — MCP product refactor; **no vendor names before routing** (NAME-VN) |
 
 ---
 
@@ -169,6 +178,12 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+
+---
+
+## Naming (TS-28 NAME-VN)
+
+**Constitution Wall-Bounce is multi-provider.** No vendor proper names (`codex`, `claude`, `agy`, …) in modules or public APIs **before** the routing boundary (`enable_wall_bounce`, execution mode). Codex-specific names belong under the **`codex-mcp/` plugin** only. See [TS-28 §4.11](./docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md#411-vendor-neutral-naming-name-vn).
 
 ---
 

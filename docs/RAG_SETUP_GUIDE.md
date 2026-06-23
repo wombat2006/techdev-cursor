@@ -123,6 +123,9 @@ Content-Type: application/json
 ```
 
 #### 4. RAG検索 + 壁打ち分析
+
+> **TS-28 / RAG-1（予定）:** 現状の `enable_wall_bounce` は **憲法 Wall-Bounce ではない** — legacy MCP スタブへの並列呼び出し。Phase 1 で pseudo-WB 撤去 + deprecation 警告予定。constitution API への統合は別 ADR。詳細: [TS-28 §5 RAG-1](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md).
+
 ```bash
 POST /api/v1/rag/search
 Content-Type: application/json

@@ -2,9 +2,20 @@
 
 > **Prerequisite:** Complete [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) **Phase 0** — WSL-native `codex` install + `~/.codex/auth.json` before running or registering this MCP in Cursor.
 
+> **Architecture decision:** [TS-28 v1.2](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) — **NAME-VN:** vendor-neutral `mcp-product-integration` for routing; `codex-mcp/` plugin for Codex-only tools. P0 delegates multi-provider WB to `WallBounceAnalyzer`.
+
 ## Overview
 
-This document describes the comprehensive implementation of the OpenAI Codex MCP (Model Context Protocol) server for TechSapo's Wall-Bounce Analysis System. The implementation is based on the official OpenAI Codex documentation and provides enterprise-grade integration with advanced security, monitoring, and multi-LLM coordination capabilities.
+This document describes the **legacy OpenAI Codex MCP server** (`codex-mcp/`) and the **vendor-neutral MCP product layer** (To-Be: `mcp-product-integration`; AS-IS shim: `codex-mcp-integration.ts`).
+
+| Surface | Role | Wall-Bounce? |
+|---------|------|--------------|
+| **`techsapo-providers-mcp-server`** | Cursor daily dev — `analyze_codex` one-shot via `codex-adapter` | No |
+| **`codex-mcp/`** | Legacy **Codex MCP server** — tools `codex`, `codex-reply` (vendor OK) |
+| **`mcp-product-integration`** | Vendor-neutral routing — WB vs direct (To-Be; shim: `codex-mcp-integration.ts`) |
+| **`wall-bounce-analyzer.ts`** | Constitution multi-LLM (2–5 rounds) | Yes — canonical |
+
+**AS-IS (pre-P0):** `executeCodexWithWallBounce()` misroutes through `mcpIntegrationService` with a single codex tool (`consensus_score: 1.0`). **To-Be (TS-28 P0):** `invokeConstitutionWallBounce()` → `wallBounceAnalyzer.executeWallBounce()`.
 
 ## Architecture
 
@@ -12,14 +23,19 @@ This document describes the comprehensive implementation of the OpenAI Codex MCP
 
 ```
 src/services/
-├── codex-mcp-server.ts           # Full MCP server implementation
-├── codex-mcp-integration.ts      # Wall-Bounce integration adapter
-├── codex-session-manager.ts      # Session management (existing)
+├── codex-mcp-server.ts           # Shim → codex-mcp/
+├── codex-mcp/                    # MCP tools: codex, codex-reply
+├── codex-mcp-integration.ts      # Product layer (TS-28 P0 refactor target)
+├── codex-session-manager.ts      # Layer B session helper (Codex-only)
+├── mcp-integration/              # Enterprise MCP orchestration (approval, metrics)
+│   └── provider-product/         # Shared product shell (P1 — TS-28)
 ├── mcp-approval-manager.ts       # Enterprise approval workflows
-└── mcp-integration-service.ts    # MCP orchestration service
+└── mcp-integration-service.ts    # Shim → mcp-integration/
+
+src/adapters/codex-adapter.ts     # Track A-1 symmetric CLI adapter
 
 config/
-└── codex-mcp.toml               # TOML configuration file
+└── codex-mcp.toml               # TOML configuration (`enable_wall_bounce` default **false** — TS-28)
 
 scripts/
 └── start-codex-mcp.sh           # Startup and management script
@@ -30,11 +46,14 @@ tests/services/
 
 ### Integration Points
 
-- **Wall-Bounce System**: Multi-LLM coordination via `wall-bounce-analyzer.ts`
-- **Redis Service**: Session persistence and caching
-- **Prometheus Metrics**: Performance monitoring and cost tracking
-- **Approval Workflows**: Enterprise security and governance
-- **MCP Protocol**: Standardized tool and resource access
+- **Constitution Wall-Bounce (To-Be P0):** `invokeConstitutionWallBounce()` → `wall-bounce-analyzer.ts` / `wall-bounce/` when `enable_wall_bounce = true`
+- **Direct Codex:** `codex-adapter` when parity checklist satisfied; else `CodexMCPServer` (`transport: auto` in TOML)
+- **Approval:** Enterprise approval on **direct path only** (TS-28 APPR-1)
+- **Redis Service:** Execution history (`codex:history:*`) — migrate to Layer A in P3 (TS-22)
+- **Prometheus Metrics:** Performance monitoring and cost tracking
+- **MCP Protocol:** `codex` / `codex-reply` tools on legacy server only
+
+**Not wired:** Production HTTP routes (`server.ts`, `wall-bounce-api.ts`) do not import `codex-mcp-integration` today.
 
 ## Features
 
@@ -172,7 +191,7 @@ working_directory = "."
 approval_policy = "risk-based"
 max_concurrent_sessions = 10
 session_timeout_ms = 300000
-enable_wall_bounce = true
+enable_wall_bounce = false   # TS-28: opt-in; true → invokeConstitutionWallBounce() (P0)
 min_providers = 2
 quality_threshold = 0.7
 
@@ -259,34 +278,37 @@ npm run codex-mcp-restart
 ./scripts/start-codex-mcp.sh -t
 ```
 
-## Wall-Bounce Integration
+## Wall-Bounce Integration (TS-28)
 
-### Multi-LLM Coordination
+### Constitution path (To-Be P0)
 
-The Codex MCP server integrates seamlessly with TechSapo's Wall-Bounce Analysis System:
+When `enable_wall_bounce = true`, the product layer **must** call `invokeConstitutionWallBounce()` → `wallBounceAnalyzer.executeWallBounce()` (2+ providers, 2–5 rounds, confidence ≥ 0.7, consensus ≥ 0.6). See [TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md).
 
 ```typescript
-// Example usage in Wall-Bounce context
+// After P0 — enable_wall_bounce: true delegates to constitution analyzer
 const codexIntegration = getCodexMCPIntegration();
 
 const result = await codexIntegration.executeCodexWithWallBounce({
-  prompt: "Implement a secure authentication system",
+  prompt: 'Implement a secure authentication system',
   context: {
     task_type: 'premium',
     cost_tier: 'medium',
-    user_id: 'developer-123'
+    user_id: 'developer-123',
   },
   options: {
     model: 'gpt-5-codex',
     sandbox: 'isolated',
     reasoning_effort: 'high',
     verbosity: 'high',
-    enable_wall_bounce: true
-  }
+    enable_wall_bounce: true, // opt-in; TOML default is false
+  },
 });
+// result.wall_bounce_analysis mapped from real WallBounceResult (not consensus_score: 1.0)
 ```
 
-### Quality Thresholds
+**Default:** `config/codex-mcp.toml` sets `enable_wall_bounce = false` — direct Codex unless explicitly opted in.
+
+### Quality Thresholds (constitution)
 
 - **Confidence Threshold**: ≥ 0.7
 - **Consensus Threshold**: ≥ 0.6

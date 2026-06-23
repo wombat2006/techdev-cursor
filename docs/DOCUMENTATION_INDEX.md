@@ -101,6 +101,7 @@
 | **decisions/TECH_STACK_LLM_PROVIDER_TRANSPORT.md** | TS-17 |
 | **decisions/TECH_STACK_CLI_INVOKE_METADATA.md** | TS-26 — CLI usage / stop_reason / session_id at adapter boundary |
 | **decisions/TECH_STACK_OLLAMA_GATEWAY.md** | TS-27 — Ollama local gateway (cloud + local models); optional adapter |
+| **decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md** | TS-28 v1.2 — NAME-VN vendor-neutral before routing |
 | **decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md** | TS-25 — parallel-first; threshold branch; keyword modes |
 | **decisions/TECH_STACK_CORE_VS_ADDON_COUPLING.md** | TS-18 |
 | **decisions/TECH_STACK_AWS_PERIPHERAL.md** | TS-13 |
@@ -152,7 +153,7 @@
 | **OPENAI_BATCH_API_RAG.md** | Optional Batch RAG (gated) |
 | **ANTIGRAVITY_CLI_MIGRATION.md** | Tier 1 Google (`agy`) |
 | **gemini-api-migration-guide.md** | Gemini / Antigravity |
-| **codex-mcp-implementation.md** | Codex MCP |
+| **codex-mcp-implementation.md** | Legacy Codex MCP + TS-28 product layer |
 | **mcp-integration-guide.md** | MCP patterns |
 | **RAG_SETUP_GUIDE.md** | RAG ingest |
 

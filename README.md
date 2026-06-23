@@ -35,6 +35,7 @@
 | **Track B — Wall-Bounce API** | `wall-bounce-analyzer.ts`：並列 or 逐次 **1 パス + アグリゲータ 1 回**で終了 | 閾値分岐・2–5 ラウンドループ・異議 UI なし |
 | **閾値** | ログ警告程度；低スコアでも**再実行・分岐しない** | 未達時に壁打ちモードへ自動分岐 |
 | **トランスポート** | MCP は adapters；analyzer は **legacy spawn** | B-1 で統一予定 |
+| **Legacy MCP 製品層** | AS-IS: `codex-mcp-integration.ts`（**名称は歴史的**・偽 WB）· 本番 API 未接続 | **TS-28 P0** → `mcp-product-integration` + 憲法 WB 委譲 |
 | **記憶（Layer A）** | 型・ADR のみ；Redis store **未** | M1–M3 |
 | **SSE** | 部分実装（応答 500 文字切り詰め等） | B-5 で拡張予定 |
 
@@ -50,6 +51,7 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 |------|------|-------|------|
 | 1 | Layer A 永続化（`OrchestrationSessionStore` / Redis） | **M1** | B→C 前提 |
 | 2 | Wall-Bounce → `src/adapters/*` 配線 | **B-1** | B→C |
+| 2a | **MCP 製品層** — ベンダ中立名へ移行・憲法 WB 委譲（NAME-VN） | **TS-28 P0** | SRP #8 前 |
 | 2b | CLI から **usage / stop_reason / session_id**（TS-26） | **B-6** | B→C |
 | 3 | 並列→合議→**閾値分岐**・キーワードモード（TS-25） | **B-4** | B→C G7 |
 | 4 | SSE + Layer A ストリーム | **B-5** | B→C |
@@ -120,6 +122,11 @@ flowchart TB
     ORCH --> CE[ConsensusEngine — Jaccard]
   end
 
+  subgraph legacyProduct["MCP 製品層（TS-28 · AS-IS ファイル名は codex-*）"]
+    MPI["mcp-product-integration\n(To-Be)"] --> CMS[codex-mcp/ plugin]
+    MPI -.->|"enable_wall_bounce"| WBA
+  end
+
   subgraph platform["兄弟 platform（本 repo は MCP 接続のみ）"]
     GK[glossary-knowledge MCP] --> TPP[term-prep-platform]
   end
@@ -138,6 +145,7 @@ flowchart TB
 | Cursor → MCP → adapters → CLI | ✅ 単発 `analyze_*`（集約・ラウンドなし） | 同左 + モードキーワード連携 |
 | `index.ts` → `server/` | ✅ `TechSapoServer`；モジュール分割済（SRP） | 変更なし |
 | `wall-bounce-analyzer.ts` | ✅ シム → `services/wall-bounce/`（憲法パス維持） | B-1 adapters · 閾値分岐（B-4） |
+| `codex-mcp-integration.ts` | AS-IS ファイル名のみ（**TS-28 NAME-VN** で `mcp-product-integration` へ） | 憲法 WB は analyzer 正規入口 |
 | `wall-bounce-server.ts` | シム → `wall-bounce-server/`；デフォルトは analyzer | C-5 で統合 |
 | MCP monitoring / config (SRP) | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` · `srp-safety-monitor/` | 変更なし |
 | Layer A / SSE | 型のみ · SSE 部分（応答 500 文字切り詰め）· `session_id` 未永続 | M1–M3 · B-5 |
@@ -155,6 +163,7 @@ flowchart TB
 | **[WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)** | **コードから確定した現状** |
 | [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](./docs/WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md) | 改修ポイント一覧 |
 | [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./docs/decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
+| [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) | **TS-28 v1.2** — MCP 製品層改修；**ルーティング前にベンダ名禁止**（NAME-VN） |
 
 ---
 
@@ -169,6 +178,12 @@ flowchart TB
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+
+---
+
+## 命名（TS-28 NAME-VN）
+
+**憲法 Wall-Bounce は全プロバイダ共通。** ルーティング（`enable_wall_bounce` 等）**より前**のモジュール・公開 API に `codex` / `claude` / `agy` 等の固有名を付けない。Codex 固有は **`codex-mcp/` プラグイン以降**のみ。詳細: [TS-28 §4.11](./docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md#411-vendor-neutral-naming-name-vn).
 
 ---
 

@@ -159,6 +159,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 | TS-20 | Inference profiles | Model, effort, CoT, temperature per task/provider | fragmented / hardcoded | **InferenceProfile + presets, Phase 0** | [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) |
 | TS-21 | Cursor MCP | Unified `techsapo-providers` in Cursor IDE | not registered | **Full-Fork `techdev-cursor`** → Phase 0 + unified MCP | [FORK_CURSOR.md](./FORK_CURSOR.md) · [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) |
 | TS-22 | Memory substrate | OrchestrationSession + `providerHandles` + Cipher/RAG | Codex-only Redis silo; stateless MCP | **G-MEM closed 2026-06-18**; M1 store Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
+| TS-28 | MCP product integration | Vendor name before routing; pseudo-WB | `codex-mcp-integration` historical | **Accepted v1.2** NAME-VN; P0 rename | [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
 
 ---
 

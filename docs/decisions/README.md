@@ -20,6 +20,7 @@ Index of design decisions for TechSapo. Logic/rule ADRs are written in **English
 | TS-25 | [TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | **Accepted (direction)** | Default parallel-first; threshold branch; keyword/MCP mode overrides |
 | TS-26 | [TECH_STACK_CLI_INVOKE_METADATA.md](./TECH_STACK_CLI_INVOKE_METADATA.md) | **Accepted (direction)** | CLI usage / stop_reason / session_id at adapter boundary (no API keys) |
 | TS-27 | [TECH_STACK_OLLAMA_GATEWAY.md](./TECH_STACK_OLLAMA_GATEWAY.md) | **Proposed (direction)** | Local Ollama HTTP gateway for cloud + local models (optional L3 adapter) |
+| TS-28 | [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) | **Accepted** v1.2 | MCP product refactor; NAME-VN vendor-neutral before routing |
 | TS-22 | [TECH_STACK_MEMORY_SUBSTRATE.md](./TECH_STACK_MEMORY_SUBSTRATE.md) | **Accepted** — G-MEM 2026-06-18 | Layer A/B/C; event temporal metadata; idle 7d / max 30d TTL |
 | — | [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) | **Preparation** | Tech stack refinement workspace |
 | — | [_TEMPLATE_TECH_STACK.md](./_TEMPLATE_TECH_STACK.md) | Template | New stack decision template |

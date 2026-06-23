@@ -159,7 +159,7 @@ flowchart TB
 | 5 | `googledrive-webhook-handler.ts` | 589 | `googledrive-connector` ✅ | ✅ → `googledrive-webhook-handler/` |
 | 6 | `codex-gpt5-provider.ts` | 410 | timeout handler | pending |
 | 7 | `redis-service.ts` | 303 | — | pending |
-| 8 | `codex-mcp-integration.ts` | 566 | `redis-service` | pending |
+| 8 | `codex-mcp-integration.ts` → **`mcp-product-integration/`** | 566 | `redis-service` | pending — **TS-28 P0** (NAME-VN + WB) before split; shim deprecated |
 | 9 | `utils/migrate-to-redis.ts` | 559 | `redis-service` | pending |
 
 ### Phase 4 — Routes & controllers (last)

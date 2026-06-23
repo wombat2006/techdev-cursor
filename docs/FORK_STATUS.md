@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/23 17:55:59 JST  
+**Last updated:** 2026/06/23 21:28:52 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -99,6 +99,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | Proposed: local HTTP adapter for cloud (`*:cloud`) + local models; WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
 | **SRP monolith refactor (Phase 0–2 + monitors)** | 2026/06/23 04:09:50 JST | 14 monoliths → module dirs + shims; Phase 2 monitors complete; 86 module tests; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **TS-28 MCP product integration ADR** | 2026/06/23 21:28:52 JST | v1.2 Accepted NAME-VN; mcp-product-integration; README/ARCHITECTURE/MCP sync — [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
 
 ---
 
@@ -108,7 +109,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 |------|-------|-------|
 | Redis `OrchestrationSessionStore` | M1 | Layer A mandatory for production sessions |
 | Wall-Bounce → adapter wiring | B-1 | Legacy spawn in `wall-bounce-analyzer.ts` remains |
-| RAG `/search` legacy MCP parallel | B-1 | `rag-endpoint.ts` not via unified adapters |
+| RAG `/search` legacy MCP parallel | B-1 / RAG-1 | `rag-endpoint.ts` pseudo-WB — TS-28 Phase RAG-1 planned |
+| **TS-28** MCP product P0 | B / SRP #8 | `mcp-product-integration` (NAME-VN); constitution WB — before SRP #8 |
 | Constitution enforce (2–5 rounds, Hard Gate loop) | C | AS-IS: 1-pass; rounds only in To-Be wall-bounce mode ([TS-25](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)) |
 | simulate / legacy MCP paths | B-1 | `mcp-clients` guarded; rag-endpoint still simulate until adapters |
 | A-2 InferenceProfile in MCP schemas | A | Non-blocking |

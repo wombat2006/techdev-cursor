@@ -40,7 +40,7 @@ enable_compression = true
 enable_keep_alive = true
 
 # Wall-Bounce Integration for TechSapo
-enable_wall_bounce = true
+enable_wall_bounce = false          # TS-28: opt-in; true → constitution analyzer (P0)
 min_providers = 2
 quality_threshold = 0.7
 

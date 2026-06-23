@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/23 17:55:59 JST  
+**最終更新:** 2026/06/23 21:28:52 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -99,6 +99,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **TS-27 Ollama gateway ADR** | 2026/06/22 22:50:56 JST | 草案：ローカル HTTP adapter・cloud（`:cloud`）+ ローカルモデル；WB-19 |
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
 | **SRP monolith refactor（Phase 0–2 + monitors）** | 2026/06/23 04:09:50 JST | 14 monolith → module dir + shim；Phase 2 monitors 完了；86 module tests；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
+| **TS-28 MCP product integration ADR** | 2026/06/23 21:28:52 JST | v1.2 Accepted NAME-VN；`mcp-product-integration`；README/ARCHITECTURE/MCP 同期 — [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](../decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
 
 ---
 
@@ -108,7 +109,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 |------|-------|------|
 | Redis `OrchestrationSessionStore` | M1 | Layer A 本番必須 |
 | Wall-Bounce → adapter 配線 | B-1 | `wall-bounce-analyzer.ts` legacy spawn 残存 |
-| RAG `/search` legacy MCP 並行 | B-1 | `rag-endpoint.ts` 未統合 |
+| RAG `/search` legacy MCP 並行 | B-1 / RAG-1 | `rag-endpoint.ts` pseudo-WB — TS-28 RAG-1 予定 |
+| **TS-28** MCP 製品 P0 | B / SRP #8 | `mcp-product-integration`（NAME-VN）；憲法 WB — SRP #8 前 |
 | 憲法 enforce（2–5 ラウンド） | C | AS-IS: 1-pass；To-Be 壁打ちモード時のみ（[TS-25](../decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md)） |
 | `inference-profiles.json` 実ファイル | B-0 | effort/cot preset JSON 未 |
 | simulate / legacy MCP 経路 | B-1 | `mcp-clients` ガード済；rag-endpoint は adapter 統合まで simulate |

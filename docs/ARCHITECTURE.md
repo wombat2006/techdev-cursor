@@ -57,8 +57,10 @@ Model Context Protocol integration for standardized LLM interactions.
 - `mcp-performance-monitor.ts` → `mcp-performance-monitor/` — real-time MCP metrics and alerts
 - `ultra-conservative-monitor.ts` → `ultra-conservative-monitor/` — gradual Phase 3 rollout safety (leaf)
 - `srp-safety-monitor.ts` → `srp-safety-monitor/` — Phase 3 emergency rollback monitor (leaf)
-- `codex-mcp-server.ts` → `codex-mcp/` — GPT-5/Codex integration
-- `wall-bounce-adapter.ts` — MCP ↔ Wall-Bounce bridge
+- `codex-mcp-server.ts` → `codex-mcp/` — legacy Codex MCP tools (`codex`, `codex-reply`)
+- `mcp-product-integration/` — vendor-neutral MCP product routing ([TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) NAME-VN; shim: `codex-mcp-integration.ts`)
+- `techsapo-providers-mcp-server.ts` — unified `analyze_*` MCP (agy / claude / codex adapters)
+- `wall-bounce-adapter.ts` — SRP migration bridge (runtime-disabled via SRP-1 until invokers exist)
 
 **MCP Protocol**: Uses `@modelcontextprotocol/sdk` for standardized tool/resource access
 

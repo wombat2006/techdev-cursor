@@ -266,7 +266,16 @@ class MCPConfigManager {
 
 ## Wall-Bounce MCP Integration
 
-### Wall-Bounce Adapter
+> **TS-28:** Constitution multi-LLM = `wall-bounce-analyzer.ts` only. **MCP product layer** (To-Be: `mcp-product-integration`; AS-IS shim filename `codex-mcp-integration.ts`) routes to analyzer or Codex plugin — **not** a Codex-only WB entry. **NAME-VN:** no vendor names before routing.
+
+### Dual MCP surfaces (role-fixed)
+
+| Surface | Tools | Sessions | Wall-Bounce |
+|---------|-------|----------|-------------|
+| `techsapo-providers-mcp-server` | `analyze_claude`, `analyze_codex`, `analyze_agy` | Stateless | No |
+| `codex-mcp/` (legacy) | `codex`, `codex-reply` | `codex-session-manager` (Layer B) | Opt-in via integration → analyzer (P0) |
+
+### Wall-Bounce Adapter (SRP migration — optional)
 
 **Location**: `src/services/wall-bounce-adapter.ts`
 
@@ -294,29 +303,33 @@ class WallBounceAdapter {
 }
 ```
 
-### Execution Flow
+### Execution Flow (constitution API — canonical)
 
 ```
-User Request
+User Request → wall-bounce-api.ts
     ↓
-Wall-Bounce Analyzer
+WallBounceAnalyzer (wall-bounce/)
     ↓
-Wall-Bounce Adapter
+invokers → CLI / MCP peers → aggregator
     ↓
-MCP Integration Service
-    ↓
-Approval Manager (risk assessment)
-    ↓ [approved]
-Config Manager (optimize params)
-    ↓
-Codex MCP Server
-    ↓
-spawn('codex', [...])
-    ↓
-GPT-5/GPT-5-Codex
-    ↓
-Response → Adapter → Wall-Bounce
+SSE / JSON response
 ```
+
+### Execution Flow (legacy Codex product — TS-28 P0 target)
+
+```
+Client / test → mcp-product-integration (shim: codex-mcp-integration.ts)
+    ↓
+enable_wall_bounce?
+    ├─ true  → invokeConstitutionWallBounce() → WallBounceAnalyzer (P0)
+    └─ false → codex-adapter (parity OK) | CodexMCPServer fallback
+```
+
+**Deprecated / broken AS-IS path:** `codex-mcp-integration` → `mcpIntegrationService` → OpenAI Responses API with `null` client — removed in P0 (SEC-1).
+
+### Wall-Bounce Adapter flow (SRP — disabled by default)
+
+`shouldUseSRPArchitecture()` must remain **false** until `llm-provider-registry` invokers are implemented (TS-28 SRP-1). When enabled, `WallBounceAdapter` → `WallBounceOrchestrator` — separate from constitution `WallBounceAnalyzer` path.
 
 ## Session Management
 

@@ -68,6 +68,7 @@ ADR: [TECH_STACK_LLM_MODEL_CATALOG.md](./decisions/TECH_STACK_LLM_MODEL_CATALOG.
 
 - [ ] **Track A-2** — `config/inference-profiles.json` + JSON Schema; resolver loads file instead of hardcode
 - [ ] **Track B** — Wire adapters into `wall-bounce-analyzer.ts`; remove nested MCP client spawn
+- [ ] **Track B — mcp-product-integration** — [TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) v1.2 **NAME-VN**; P0 rename + constitution WB before SRP #8
 - [ ] **Track B-6** — CLI invoke metadata at adapter boundary ([TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md)); `usage`, `stop_reason`, `session_id` from CLI JSON
 - [ ] **Track L3 / F** — **Ollama gateway** optional adapter ([TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md)); local HTTP → cloud (`*:cloud`) + local models
 - [ ] **Python Antigravity SDK sidecar** — optional agent path via `google-antigravity` ([repo](https://github.com/google-antigravity/antigravity-sdk-python)); blocked on OAuth/subscription parity (API key today conflicts with [SECURITY.md](./SECURITY.md))

@@ -47,6 +47,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_
 | RAG ingest (AS-IS → platform) | Legacy `googledrive-connector/` shim → **term-prep-platform** storage + Vector connectors | [RAG_SETUP_GUIDE.md](docs/RAG_SETUP_GUIDE.md) |
 | Glossary prep (consumer) | `meta/glossary-config.json` | [TO-BE-GLOSSARY-PIPELINE.md](meta/TO-BE-GLOSSARY-PIPELINE.md) |
 | Provider backlog | `src/adapters/*` | [PROVIDER_INTEGRATION_BACKLOG.md](docs/PROVIDER_INTEGRATION_BACKLOG.md) |
+| MCP product layer (TS-28) | `mcp-product-integration` (shim: `codex-mcp-integration.ts`) | [TS-28](docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) — **NAME-VN:** no vendor names before routing |
 
 ---
 
@@ -61,6 +62,7 @@ Details: [WALL_BOUNCE_SYSTEM.md](docs/WALL_BOUNCE_SYSTEM.md) · [WALL_BOUNCE_AS_
 | **Memory** | Layer A `OrchestrationSession` mandatory; event `ts`/`tsEnd` UTC; session `clientTimezone` optional | [TECH_STACK_MEMORY_SUBSTRATE.md](docs/decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | **Commit** | P0/P1/P2 doc sync per policy; same commit as implementation | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
 | **Doc language** | Logic docs **English**; `README.md` (ja top) / proposals Japanese | [DOCUMENTATION_POLICY.md](docs/DOCUMENTATION_POLICY.md) |
+| **Vendor naming** | No vendor proper names **before** multi-provider routing boundary | [TS-28 NAME-VN](docs/decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md#411-vendor-neutral-naming-name-vn) |
 
 ### Provider Tiers (Summary)
 

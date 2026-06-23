@@ -35,6 +35,8 @@ Wall-Bounce in this repo means **multi-provider LLM orchestration** for analysis
 
 **MCP (`src/services/techsapo-providers-mcp-server.ts`):** Tools `analyze_claude`, `analyze_codex`, `analyze_agy` — **one provider, one prompt, one response**. No aggregation, no rounds, no threshold branch.
 
+**Legacy MCP product (AS-IS file `codex-mcp-integration.ts` — historical name):** Not on production API routes. Pseudo-WB today. [TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) P0 → `mcp-product-integration` + `invokeConstitutionWallBounce()` → `WallBounceAnalyzer`. **Constitution WB is not Codex-specific** (NAME-VN).
+
 ---
 
 ## 3. Dual orchestration implementations (gap B3)
