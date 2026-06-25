@@ -63,7 +63,7 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 | 8 | 異議ワークフロー | **C-7** | Gate C G7 |
 | 9 | Analyzer / Orchestrator 統合 | **C-5** | Gate C |
 
-**PromptAnalyzer / 辞書 v0:** 形態素解析・辞書 lookup の本体は **term-prep-platform に実装**する。本 repo（consumer）では実装しない — 兄弟クローンを MCP **`glossary-knowledge`** で呼び出せば足りる（[`.cursor/mcp.json`](./.cursor/mcp.json) 登録済み · 詳細 [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)）。プラットフォーム変更が必要なときはユーザーへエスカレーション（[AGENTS.md](./AGENTS.md)）。
+**PromptAnalyzer / 辞書 v0:** 形態素解析・辞書 lookup の本体は **term-prep-platform に実装**する。本 repo（consumer）では実装しない — 兄弟クローンを MCP **`glossary-knowledge`** で呼び出せば足りる（[`.cursor/mcp.json`](./.cursor/mcp.json) 登録済み · 詳細 [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)）。platform 進捗は [TERM_PREP_PLATFORM_STATUS.md](./meta/TERM_PREP_PLATFORM_STATUS.md)（sibling `meta/consumer-handoff/` を read-only 参照）。プラットフォーム変更が必要なときはユーザーへエスカレーション（[AGENTS.md](./AGENTS.md)）。
 
 **いまのフォーカス:** Track **B**（Gate A→B は Pass）— [CURSOR_MCP_TODO_ja.md](./docs/ja/CURSOR_MCP_TODO_ja.md) 要約
 
@@ -150,7 +150,7 @@ flowchart TB
 | `wall-bounce-server.ts` | シム → `wall-bounce-server/`；デフォルトは analyzer | C-5 で統合 |
 | MCP monitoring / config (SRP) | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` · `srp-safety-monitor/` | 変更なし |
 | Layer A / SSE | 型のみ · SSE 部分（応答 500 文字切り詰め）· `session_id` 未永続 | M1–M3 · B-5 |
-| term-prep-platform | `glossary-knowledge` を `.cursor/mcp.json` 登録 | PromptAnalyzer · 辞書 v0 は **platform 側** |
+| term-prep-platform | `glossary-knowledge` を `.cursor/mcp.json` 登録 · sibling `consumer-handoff` read-only | PromptAnalyzer · 辞書 v0 は **platform 側** |
 
 詳細: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
@@ -167,7 +167,7 @@ flowchart TB
 | **Glossary consumer config**（`meta/glossary-*`） | ✅ 編集 | スキーマ mirror のみ | Phase 0 ✅ |
 | **`glossary_extractor` · registry** | 実行のみ（npm） | ✅ 本体 | Phase 0 ✅ |
 | **`glossary-knowledge` MCP** | `.cursor/mcp.json` 登録 | ✅ 本体 | stub |
-| **Google Drive corpus mirror** | レガシー `googledrive-connector.ts` | ✅ **移管先**（Phase 0.5） | 委譲予定 |
+| **Google Drive corpus mirror** | レガシー `googledrive-connector.ts` · **consumer 配線未** | ✅ **移管先**（Phase 0.5 実装済） | platform 準備済 · consumer PR 未 |
 | **OpenAI Vector Store 投入** | AS-IS レガシー | ✅ **共通化先**（Phase 4.5） | 委譲予定 |
 | **S3 / OneDrive mirror** | ❌ 新規不可 | ✅ 実装予定 | 提案 |
 | **Genspark AI Drive（`aidrive`）** | ✅ **必須**（TS-30 idea） | ❌ 実装しない | 未実装 |
@@ -177,6 +177,10 @@ flowchart TB
 **記憶の使い分け:** 社内文書の意味検索 = **OpenAI Vector Store**（ingest は platform 経路）。Genspark ツール用ファイル置き場 = **aidrive**（Vector の正本にしない）。
 
 **platform 作業時のプロンプト:** [meta/platform-integration/PROMPT_START.md](./meta/platform-integration/PROMPT_START.md) · [読み取りパック](./meta/platform-integration/README.md)
+
+**platform 進捗（read-only）:** [meta/TERM_PREP_PLATFORM_STATUS.md](./meta/TERM_PREP_PLATFORM_STATUS.md) → sibling `term-prep-platform/meta/consumer-handoff/`
+
+**Cross-repo handoff:** outbound 正本は `meta/platform-integration/`。platform → consumer 通知は sibling [consumer-handoff](https://github.com/wombat2006/term-prep-platform/tree/main/meta/consumer-handoff) を**読むだけ**（他 repo への書き込みなし）。Cursor skills: [`.cursor/skills/README.md`](./.cursor/skills/README.md)（`consumer-integration` · `consumer-handoff` · `platform-handoff`）· `scripts/platform-handoff/check-handoff.sh`
 
 ---
 
@@ -203,7 +207,7 @@ flowchart TB
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform プロンプト](./meta/platform-integration/PROMPT_START.md) |
+| **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform プロンプト](./meta/platform-integration/PROMPT_START.md) · [platform 進捗](./meta/TERM_PREP_PLATFORM_STATUS.md) · [Cursor skills](./.cursor/skills/README.md) |
 | **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
 | **検討中（方針メモ・優先外）** | [Genspark Add-on（TS-30 Idea）](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A（`gsk` + HTTP D1–D7）；TS-18 Add-on；**実装は TS-28 P0 + Track B 後** |
 

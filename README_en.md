@@ -63,7 +63,7 @@ Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IM
 | 8 | Objection workflow | **C-7** | Gate C G7 |
 | 9 | Analyzer / Orchestrator merge | **C-5** | Gate C |
 
-**PromptAnalyzer / dictionary v0:** Morphological parsing and dictionary lookup are **implemented on term-prep-platform**, not in this consumer repo. Wire them in by calling the sibling clone over MCP **`glossary-knowledge`** ([`.cursor/mcp.json`](./.cursor/mcp.json) already registered · [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)). Escalate to the user when platform changes are required ([AGENTS.md](./AGENTS.md)).
+**PromptAnalyzer / dictionary v0:** Morphological parsing and dictionary lookup are **implemented on term-prep-platform**, not in this consumer repo. Wire them in by calling the sibling clone over MCP **`glossary-knowledge`** ([`.cursor/mcp.json`](./.cursor/mcp.json) already registered · [RAG_SETUP_GUIDE.md](./docs/RAG_SETUP_GUIDE.md) · [TO-BE-GLOSSARY-PIPELINE.md](./meta/TO-BE-GLOSSARY-PIPELINE.md)). Platform progress: [TERM_PREP_PLATFORM_STATUS.md](./meta/TERM_PREP_PLATFORM_STATUS.md) (read-only sibling `meta/consumer-handoff/`). Escalate to the user when platform changes are required ([AGENTS.md](./AGENTS.md)).
 
 **Current focus:** Track **B** (Gate A→B Pass) — [CURSOR_MCP_TODO.md](./docs/CURSOR_MCP_TODO.md)
 
@@ -150,7 +150,7 @@ flowchart TB
 | `wall-bounce-server.ts` | shim → `wall-bounce-server/`; default analyzer path | merge (C-5) |
 | MCP monitoring / config (SRP) | ✅ `mcp-config-manager/` · `mcp-performance-monitor/` · `ultra-conservative-monitor/` · `srp-safety-monitor/` | unchanged |
 | Layer A / SSE | Types only · partial SSE (500-char truncate) · `session_id` not persisted | M1–M3 · B-5 |
-| term-prep-platform | `glossary-knowledge` in `.cursor/mcp.json` | PromptAnalyzer · dictionary v0 on **platform** |
+| term-prep-platform | `glossary-knowledge` in `.cursor/mcp.json` · sibling `consumer-handoff` read-only | PromptAnalyzer · dictionary v0 on **platform** |
 
 Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./docs/WALL_BOUNCE_SYSTEM.md)
 
@@ -167,7 +167,7 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 | **Glossary consumer config** (`meta/glossary-*`) | ✅ Edit here | Schema mirror only | Phase 0 ✅ |
 | **`glossary_extractor` · registry** | Invoke via npm | ✅ Own | Phase 0 ✅ |
 | **`glossary-knowledge` MCP** | `.cursor/mcp.json` register | ✅ Own | stub |
-| **Google Drive corpus mirror** | Legacy `googledrive-connector.ts` | ✅ **Delegation target** (Phase 0.5) | Planned |
+| **Google Drive corpus mirror** | Legacy `googledrive-connector.ts` · **consumer wiring open** | ✅ **Delegation target** (Phase 0.5 done) | Platform ready · consumer PR pending |
 | **OpenAI Vector Store ingest** | AS-IS legacy | ✅ **Unification target** (Phase 4.5) | Planned |
 | **S3 / OneDrive mirror** | ❌ Do not add | ✅ Planned | Proposed |
 | **Genspark AI Drive (`aidrive`)** | ✅ **Required** (TS-30 idea) | ❌ Do not implement | Not built |
@@ -177,6 +177,10 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 **Retrieval split:** internal semantic search = **OpenAI Vector Store** (ingest via platform). Genspark tool files = **aidrive** (not Vector canonical source).
 
 **Prompt for platform work:** [meta/platform-integration/PROMPT_START.md](./meta/platform-integration/PROMPT_START.md) · [read pack](./meta/platform-integration/README.md)
+
+**Platform progress (read-only):** [meta/TERM_PREP_PLATFORM_STATUS.md](./meta/TERM_PREP_PLATFORM_STATUS.md) → sibling `term-prep-platform/meta/consumer-handoff/`
+
+**Cross-repo handoff:** outbound canonical docs live under `meta/platform-integration/`. Platform → consumer notifications: read sibling [consumer-handoff](https://github.com/wombat2006/term-prep-platform/tree/main/meta/consumer-handoff) only (**no writes to other repos**). Cursor skills: [`.cursor/skills/README.md`](./.cursor/skills/README.md) (`consumer-integration` · `consumer-handoff` · `platform-handoff`) · `scripts/platform-handoff/check-handoff.sh`
 
 ---
 
@@ -203,7 +207,7 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform prompt](./meta/platform-integration/PROMPT_START.md) |
+| **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform prompt](./meta/platform-integration/PROMPT_START.md) · [platform progress](./meta/TERM_PREP_PLATFORM_STATUS.md) · [Cursor skills](./.cursor/skills/README.md) |
 | **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
 | **Under consideration (direction memo; out of backlog)** | [Genspark Add-on (TS-30 Idea)](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A (`gsk` + HTTP D1–D7); TS-18 add-on; **implementation after TS-28 P0 + Track B** |
 
