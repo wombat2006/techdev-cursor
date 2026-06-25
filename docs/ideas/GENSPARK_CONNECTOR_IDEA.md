@@ -312,7 +312,7 @@ Is the question about previously ingested INTERNAL documents?
 
 ### 3.3.4 Platform handoff
 
-Consumer → platform handoff (canonical): [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) — platform agents read techdev-cursor; consumer agents do not edit term-prep-platform.
+Consumer → platform read pack (canonical): [meta/platform-integration/README.md](../../meta/platform-integration/README.md) · user prompt: [PROMPT_START.md](../../meta/platform-integration/PROMPT_START.md)
 
 ---
 

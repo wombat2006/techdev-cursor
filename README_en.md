@@ -158,7 +158,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 
 ## Implementation ownership (techdev-cursor vs term-prep-platform)
 
-Plan table for **which repo implements what**. Layer diagram & examples: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · boundary canonical (consumer): [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+Plan table for **which repo implements what**. Layer diagram & examples: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform read pack: [meta/platform-integration/README.md](./meta/platform-integration/README.md)
 
 | Capability | techdev-cursor | term-prep-platform | Status |
 |------------|----------------|-------------------|--------|
@@ -176,7 +176,7 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 
 **Retrieval split:** internal semantic search = **OpenAI Vector Store** (ingest via platform). Genspark tool files = **aidrive** (not Vector canonical source).
 
-**Prompt for platform work:** [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+**Prompt for platform work:** [meta/platform-integration/PROMPT_START.md](./meta/platform-integration/PROMPT_START.md) · [read pack](./meta/platform-integration/README.md)
 
 ---
 
@@ -203,7 +203,7 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform handoff](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
+| **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform prompt](./meta/platform-integration/PROMPT_START.md) |
 | **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
 | **Under consideration (direction memo; out of backlog)** | [Genspark Add-on (TS-30 Idea)](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A (`gsk` + HTTP D1–D7); TS-18 add-on; **implementation after TS-28 P0 + Track B** |
 

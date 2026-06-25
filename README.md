@@ -158,7 +158,7 @@ flowchart TB
 
 ## 実装分担（techdev-cursor vs term-prep-platform）
 
-第三者が **どちらの repo に何を実装するか** を把握するための計画表。詳細フロー: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · 境界正本（consumer）: [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+第三者が **どちらの repo に何を実装するか** を把握するための計画表。詳細フロー: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform 向け読み取りパック: [meta/platform-integration/README.md](./meta/platform-integration/README.md)
 
 | 機能 | techdev-cursor | term-prep-platform | 状態 |
 |------|----------------|-------------------|------|
@@ -176,7 +176,7 @@ flowchart TB
 
 **記憶の使い分け:** 社内文書の意味検索 = **OpenAI Vector Store**（ingest は platform 経路）。Genspark ツール用ファイル置き場 = **aidrive**（Vector の正本にしない）。
 
-**platform 作業時のプロンプト:** [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+**platform 作業時のプロンプト:** [meta/platform-integration/PROMPT_START.md](./meta/platform-integration/PROMPT_START.md) · [読み取りパック](./meta/platform-integration/README.md)
 
 ---
 
@@ -203,7 +203,7 @@ flowchart TB
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
-| **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform 渡しプロンプト](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
+| **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform プロンプト](./meta/platform-integration/PROMPT_START.md) |
 | **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
 | **検討中（方針メモ・優先外）** | [Genspark Add-on（TS-30 Idea）](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A（`gsk` + HTTP D1–D7）；TS-18 Add-on；**実装は TS-28 P0 + Track B 後** |
 
