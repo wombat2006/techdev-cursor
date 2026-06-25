@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/25 21:48:45 JST  
+**最終更新:** 2026/06/25 21:55:10 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -180,6 +180,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/25 21:55:10 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR 同期 — cross-repo handoff マイルストーン（en + ja）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark 境界 · Cursor skills（platform/consumer-handoff）· opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — term-prep-platform と対 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea（Hybrid A）— idea doc + README/FORK 未完了；実装なし — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/23 17:55:38 JST | SRP Phase 3 #5 — `googledrive-webhook-handler/` 分割；130 module tests（19 suites）；全 suite 334 pass |
