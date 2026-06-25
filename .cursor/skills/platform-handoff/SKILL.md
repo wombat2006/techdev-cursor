@@ -4,7 +4,10 @@ description: Prepare a term-prep-platform handoff prompt and reading checklist f
 disable-model-invocation: true
 ---
 
-# Platform handoff (term-prep-platform)
+# Platform handoff (techdev-cursor → term-prep-platform)
+
+**Pair (platform):** `term-prep-platform/.cursor/skills/platform-integration/SKILL.md` — platform agent reads consumer boundary after paste.  
+**Inbound pair:** `consumer-handoff` — when platform notifies consumer (Issue / CHANGELOG).
 
 ## Goal
 
@@ -47,5 +50,13 @@ Return **only**:
 
 - “Implement Google Drive corpus mirror on platform (Phase 0.5). Do not add Genspark or aidrive.”
 - “Design Vector Store ingest connector on platform (Phase 4.5). Ingest from platform mirror paths, not aidrive.”
-- “Fix glossary_extractor to respect `filter.max_candidates_output` from consumer config; consumer will re-run `npm run glossary:extract`.”
+- “Fix glossary_extractor to respect `filter.max_candidates_output` in consumer config; consumer will re-run `npm run glossary:extract`.”
 
+## Related skills (this repo)
+
+| Skill | When |
+|-------|------|
+| `consumer-integration` | **Before** consumer work — read platform `meta/consumer-handoff/` |
+| `consumer-handoff` | **After** platform Issue — apply consumer PR spec + `check-handoff.sh` |
+
+See [.cursor/skills/README.md](../README.md) for the full pair table.

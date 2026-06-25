@@ -160,6 +160,7 @@ playwright/.cache/
 
 # Glossary pipeline (Phase 0 — legacy single-file output deprecated)
 meta/glossary-candidates.json
+meta/.platform-handoff-last-seen
 
 # Local configuration overrides
 config/local.json

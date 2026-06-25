@@ -12,6 +12,8 @@ Related:
 **Consumer config (this repo):** `meta/glossary-config.json`  
 **Platform implementation (read-only invoke):** [term-prep-platform](https://github.com/wombat2006/term-prep-platform) — `glossary_extractor.py`, `mcp/glossary-knowledge`, and **planned** storage + RAG Vector connectors
 
+**Platform progress (read-only):** [TERM_PREP_PLATFORM_STATUS.md](./TERM_PREP_PLATFORM_STATUS.md) → sibling `meta/consumer-handoff/` · Cursor skills `consumer-integration` / `consumer-handoff`
+
 ---
 
 ## Consumer boundary (mandatory)

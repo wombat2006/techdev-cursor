@@ -15,8 +15,17 @@ This directory is the **single entry** for platform-side agents to understand sc
 
 | Repo | Agent may edit? | Agent must read? |
 |------|-----------------|------------------|
-| term-prep-platform | **Yes** (your workspace) | This index + task-specific docs below |
-| techdev-cursor | **No** (notify user) | Sibling clone or GitHub — paths below |
+| term-prep-platform | **Yes** (platform workspace) | Platform `meta/consumer-handoff/` + this index (from platform) |
+| techdev-cursor | **Yes** (consumer workspace) | This index + task-specific docs below |
+
+**Bidirectional packs**
+
+| Direction | Canonical pack | Cursor skill (techdev-cursor) |
+|-----------|----------------|------------------------------|
+| Consumer → platform (boundary) | `meta/platform-integration/` | `platform-handoff` |
+| Platform → consumer (status) | `term-prep-platform/meta/consumer-handoff/` | `consumer-integration` · `consumer-handoff` |
+
+Shim: [meta/TERM_PREP_PLATFORM_STATUS.md](../TERM_PREP_PLATFORM_STATUS.md)
 
 ---
 
