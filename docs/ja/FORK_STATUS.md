@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/25 21:55:10 JST  
+**最終更新:** 2026/06/25 22:06:35 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -105,6 +105,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Genspark handoff 方針同期** | 2026/06/25 18:58:02 JST | `TERM_PREP_PLATFORM_HANDOFF_GENSPARK` shim → platform-integration；platform 側 mirror MD なし |
 | **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion`（readonly マルチモデル） |
 | **Cursor skills — consumer handoff（A+C pair）** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../../meta/TERM_PREP_PLATFORM_STATUS.md) — term-prep-platform と対 |
+| **README platform handoff 同期（P1）** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 分担 · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills リンク（`627f270d`） |
 
 ---
 
@@ -145,7 +146,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；cross-repo handoff docs + Cursor skills；`googledrive-connector/` モジュール shim（レガシー） | Phase 0.5 consumer 配線（platform 準備済）· Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
 | **Cross-repo handoff（term-prep-platform）** | Consumer → `meta/platform-integration/` · platform → `consumer-handoff/` 読取；Cursor skills + `check-handoff.sh`；cross-repo agent 編集なし | Phase 0.5 consumer PR（platform `04`）· bot Issue ワークフロー（A+C） |
 | **Genspark Add-on（TS-30 idea）** | コードベースに未実装 | Hybrid A · **AI Drive 必須** · 別 MCP；corpus 正本ではない — [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
-| **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | 現状維持（進捗は本 doc） |
+| **ドキュメント入口** | 薄い README — 実装分担 · platform 進捗 shim · cross-repo handoff；進捗は本 doc | 現状維持 |
 | **Legacy platform docs** | `docs/legacy/` 隔離済（phase 1） | phase 2 任意（残クラスタ整理） |
 
 詳細: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](../ARCHITECTURE.md)（英語）
@@ -180,6 +181,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/25 22:06:35 JST | README P1 同期 — Phase 0.5 分担 · platform 進捗 · cross-repo handoff · Cursor skills（ja/en `627f270d`）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 21:55:10 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR 同期 — cross-repo handoff マイルストーン（en + ja）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark 境界 · Cursor skills（platform/consumer-handoff）· opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — term-prep-platform と対 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea（Hybrid A）— idea doc + README/FORK 未完了；実装なし — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |

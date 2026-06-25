@@ -6,7 +6,7 @@
 **Not:** An execution checklist — use [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md).  
 **Human entry (Goal / AS-IS / roadmap):** [README.md](../README.md) · [README_en.md](../README_en.md)  
 **Wall-Bounce depth:** [WALL_BOUNCE_TO_BE.md](./WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_AS_IS.md](./WALL_BOUNCE_AS_IS.md)  
-**Status:** Active · **Last updated:** 2026/06/22  
+**Status:** Active · **Last updated:** 2026/06/25  
 **Related:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 ---

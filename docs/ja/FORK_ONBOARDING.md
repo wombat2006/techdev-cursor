@@ -4,9 +4,9 @@
 
 **目的:** 設計思想と、現状（AS-IS）・計画（To-Be）を正直に示す（採用候補、レビュア、新メンバー向け）。  
 **ではない:** 実行チェックリスト — [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) を使う。  
-**人間向け入口（ゴール / 現在地 / 必要なこと）:** [README.md](../../README.md)  
+**人間向け入口（ゴール / 現在地 / 必要なこと）:** [README.md](../../README.md) · [README_en.md](../../README_en.md)  
 **Wall-Bounce 詳細:** [WALL_BOUNCE_TO_BE.md](../WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_AS_IS.md](../WALL_BOUNCE_AS_IS.md)  
-**状態:** 有効 · **最終更新:** 2026/06/22  
+**状態:** 有効 · **最終更新:** 2026/06/25  
 **関連:** [FORK_CURSOR.md](./FORK_CURSOR.md) · [FORK_STATUS.md](./FORK_STATUS.md) · [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 ---

@@ -3,7 +3,7 @@
 *[English](../FORK_CURSOR.md) | **日本語***
 
 **状態:** 採択済 — 実装ターゲットは upstream ではなく本フォーク  
-**最終更新:** 2026-06-19（B2b 日本語ペア）
+**最終更新:** 2026-06-25（cross-repo handoff · README 実装分担）
 
 ---
 
@@ -21,7 +21,7 @@
 
 **Upstream（参照）:** `wombat2006/techdev`  
 **Primary（本フォーク）:** `techdev-cursor` — DevAssist ライン  
-**Sibling platform:** `term-prep-platform` — glossary extract・コネクタ・MCP；consumer は `meta/consumer-handoff/` を read-only で参照 — [FORK_STATUS § Cross-repo handoff](./FORK_STATUS.md)
+**Sibling platform:** `term-prep-platform` — glossary extract・コネクタ・MCP；consumer **outbound** [meta/platform-integration/](../../meta/platform-integration/README.md) · **inbound** `meta/consumer-handoff/` read-only — [README § 実装分担](../../README.md#実装分担techdev-cursor-vs-term-prep-platform) · [FORK_STATUS](./FORK_STATUS.md)
 
 関連: [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md) · [英語 runbook](../CURSOR_MCP_TODO.md)
 

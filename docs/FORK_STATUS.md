@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/25 21:55:10 JST  
+**Last updated:** 2026/06/25 22:06:35 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -105,6 +105,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Genspark handoff policy sync** | 2026/06/25 18:58:02 JST | `TERM_PREP_PLATFORM_HANDOFF_GENSPARK` shim → platform-integration; no platform mirror MD |
 | **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion` (readonly multi-model) |
 | **Cursor skills — consumer handoff (A+C pair)** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../meta/TERM_PREP_PLATFORM_STATUS.md) — paired with term-prep-platform |
+| **README platform handoff sync (P1)** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 ownership · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills links (`627f270d`) |
 
 ---
 
@@ -144,7 +145,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; cross-repo handoff docs + Cursor skills; legacy `googledrive-connector/` shim | Phase 0.5 consumer wiring (platform ready) · Phase 2.5 filter · platform storage + RAG Vector connectors |
 | **Cross-repo handoff (term-prep-platform)** | Consumer → `meta/platform-integration/` · platform → read `consumer-handoff/`; Cursor skills + `check-handoff.sh`; no cross-repo agent edits | Phase 0.5 consumer PR per platform `04` · bot Issue workflow (A+C) |
 | **Genspark Add-on (TS-30 idea)** | Not in codebase | Hybrid A · **AI Drive mandatory** · separate MCP; **not** corpus canonical — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
-| **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | Same — rolling status stays in FORK_STATUS |
+| **Docs entry** | Thin README — implementation ownership · platform progress shim · cross-repo handoff; rolling status in FORK_STATUS | Same |
 | **Legacy platform docs** | `docs/legacy/` quarantine (phase 1 done) | Phase 2 optional (remaining cluster cleanup) |
 
 Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHITECTURE.md)
@@ -190,6 +191,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/25 22:06:35 JST | README P1 sync — Phase 0.5 ownership · platform progress · cross-repo handoff · Cursor skills (ja/en `627f270d`) |
 | 2026/06/25 21:55:10 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR sync — cross-repo handoff milestone (en + ja) |
 | 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark boundary · Cursor skills (platform/consumer-handoff) · opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — paired with term-prep-platform |
 | 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea (Hybrid A) — idea doc + README/FORK not-done; no impl |

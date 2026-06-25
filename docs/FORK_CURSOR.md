@@ -4,7 +4,7 @@
 
 **Status**: ACCEPTED — implementation target is the fork, not this upstream repo  
 **Owner**: TechSapo Development Team  
-**Last updated**: 2026-06-18 (Fork schemas + MCP bootstrap)
+**Last updated**: 2026-06-25 (cross-repo handoff · README implementation ownership)
 
 ## Repository identity
 
@@ -20,7 +20,7 @@
 
 **Upstream (reference):** `wombat2006/techdev` — platform docs and P5 architecture archive.  
 **Primary (this fork):** `techdev-cursor` — Cursor-integrated coding environment (DevAssist line).  
-**Sibling platform:** `term-prep-platform` — glossary extract, connectors, MCP; consumer reads `meta/consumer-handoff/` (read-only) — [FORK_STATUS § Cross-repo handoff](./FORK_STATUS.md).
+**Sibling platform:** `term-prep-platform` — glossary extract, connectors, MCP; consumer **outbound** [meta/platform-integration/](../meta/platform-integration/README.md) · **inbound** read `meta/consumer-handoff/` (read-only) — [README § Implementation ownership](../README_en.md#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [FORK_STATUS](./FORK_STATUS.md)
 
 Related: [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md) · [MCP_SERVICES.md](./MCP_SERVICES.md) · [P5 §9 Forkable core](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#9-フォーク可能コア) · [TS-20 InferenceProfile](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
 
