@@ -2,7 +2,7 @@
 
 **Status**: ACTIVE — start with Track A; do not skip Gates  
 **Owner**: TechSapo Development Team  
-**Last updated**: 2026-06-19
+**Last updated**: 2026-06-25
 
 Step-by-step checklist for **subscription-quota** development via Cursor MCP and downstream platform work.
 
@@ -44,6 +44,11 @@ Step-by-step checklist for **subscription-quota** development via Cursor MCP and
 | **F-7 / F-11** (Cookbook · vendor doc sync) | Doc/catalog enrichment — **does not** replace P0 A-1 registration |
 | **TS-21 README maturity bars** | External narrative; separate from execution priority |
 | **Plan A doc stubs** | Remove in Plan A P5 when external links expire |
+| **Glossary consumer Phase 0** | `meta/glossary-*` + extract — platform **read-only** via MCP/scripts — [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) |
+| **term-prep-platform handoff** | Consumer docs + [TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) — **do not edit platform repo** from consumer tasks |
+| **Genspark TS-30 / NestJS TS-29** | **Idea only** — not in this runbook — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) · [NESTJS_STRANGLER_MIGRATION_IDEA.md](./ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
+| **TS-27 Ollama gateway** | Proposed L3 adapter — [TECH_STACK_OLLAMA_GATEWAY.md](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) |
+| **SRP monolith splits** | Phase 0–3 done — maintenance only; does not block B-1 |
 
 **Dev loop vs constitution (no conflict):**
 
@@ -178,6 +183,13 @@ Each task block: **Purpose** → **Steps** → **Done when** → **Reflection me
 | **F-2** catalog loader | `[~]` | `llm-model-catalog-loader.ts` + matrix resolve; TaskRouter / startup wiring pending |
 | **TS-23** user L1–L2 extensions | `[x]` | ADR accepted — [TECH_STACK_USER_EXTENSIBLE_LLM.md](./decisions/TECH_STACK_USER_EXTENSIBLE_LLM.md) |
 | **TS-24** session continuation + retry | `[x]` | ADR accepted — upward jitter · [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md); M1–M3 implementation pending |
+| **TS-28 P0** MCP product NAME-VN | `[ ]` | `mcp-product-integration` rename + constitution WB — **before SRP #8** — [TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
+| **B-4** execution mode routing (TS-25) | `[ ]` | Parallel-first → threshold branch |
+| **B-5** SSE + Layer A observability | `[ ]` | Partial SSE AS-IS (500-char truncate) |
+| **B-6** CLI invoke metadata (TS-26) | `[~]` | Wire schemas + Codex fixture ✅; adapter parse pending |
+| **Glossary consumer Phase 0** | `[x]` | **2026-06-21** — `meta/glossary-config.json`, adopt/hold, extract scripts |
+| **SRP monolith refactor** (Phase 0–3) | `[x]` | **2026-06-23** — 14 module splits — [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) |
+| **Genspark TS-30** (idea) | `—` | **Out of runbook** — impl after TS-28 P0 + Track B; [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3.3 |
 | Track B complete | `[ ]` | B-0 partial: matrix+catalog resolver; `inference-profiles.json` + `retryOnNegative` pending; WB wiring pending |
 | Gate B→C passed | `[ ]` | — |
 | Track C complete | `[ ]` | — |
@@ -595,6 +607,8 @@ Wall-Bounce and multi-LLM workflows require **durable orchestration transcript**
 ## Track B — InferenceProfile implementation (TS-20)
 
 **Start only after Gate A→B Pass (including G-MEM).**
+
+**Active prerequisite (2026-06-25):** Complete **TS-28 P0** (MCP product NAME-VN) before **SRP #8** / broad MCP product wiring — see [TS-28](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md). **Genspark TS-30** remains **out of runbook** until TS-28 P0 + Track B minimum.
 
 References: [TECH_STACK_INFERENCE_PROFILES.md](./decisions/TECH_STACK_INFERENCE_PROFILES.md) · [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) · [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) (TS-24)
 
@@ -1018,6 +1032,10 @@ flowchart TD
 | MCP architecture | [MCP_SERVICES.md](./MCP_SERVICES.md) |
 | Backlog TS-21 | [TECH_STACK_WORKSPACE.md](./TECH_STACK_WORKSPACE.md) |
 | Codex review crosswalk | [§ Codex review crosswalk](#codex-review-crosswalk-2026-06-18) (source: [techsapo PR #3](https://github.com/wombat2006/techsapo/pull/3) — not copied) |
+| Repo ownership (consumer vs platform) | [README § Implementation ownership](../README_en.md#implementation-ownership-techdev-cursor-vs-term-prep-platform) |
+| Genspark / aidrive vs Vector Store | [GENSPARK_CONNECTOR_IDEA.md §3.3](./ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) |
+| Platform handoff prompt | [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
+| Rolling progress (Gates) | [FORK_STATUS.md](./FORK_STATUS.md) |
 
 ---
 
@@ -1027,3 +1045,6 @@ flowchart TD
 - P5 Phase 1+ (Grounding, AWS, NDL)
 - Auto-routing shell script (by design — use presets + TaskRouter)
 - **Track D** (tokenizer / response cache) — **LOW PRIORITY**; see [FORK_CURSOR.md](./FORK_CURSOR.md#track-d-low-priority)
+- **TS-30 Genspark Add-on implementation** — **idea only**; after TS-28 P0 + Track B — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md)
+- **TS-29 NestJS strangler** — **idea only** — [NESTJS_STRANGLER_MIGRATION_IDEA.md](./ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md)
+- **term-prep-platform repo edits** from consumer agents — read sibling docs + [handoff prompt](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md); escalate to user

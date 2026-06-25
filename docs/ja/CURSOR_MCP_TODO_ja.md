@@ -6,7 +6,7 @@
 
 **リポジトリ入口（ゴール / 現在地 / 必要なこと）:** [README.md](../../README.md) · Wall-Bounce 詳細 [TO-BE](../WALL_BOUNCE_TO_BE.md) · [AS-IS](../WALL_BOUNCE_AS_IS.md)
 
-**最終更新:** 2026-06-22  
+**最終更新:** 2026-06-25  
 **関連:** [FORK_STATUS.md](./FORK_STATUS.md) · [FORK_CURSOR.md](./FORK_CURSOR.md)
 
 ---
@@ -36,6 +36,8 @@
 | **P3** | **C** | 憲法 enforce · orchestrator | Gate B→C 後 |
 | **P4** | **D/P5+** | cache · Batch RAG · grounding | 任意 |
 
+**Runbook 外（idea のみ）:** [Genspark TS-30](../ideas/GENSPARK_CONNECTOR_IDEA.md) · [NestJS TS-29](../ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — 実装は TS-28 P0 + Track B 後
+
 ---
 
 ## クイックスタート（開発者）
@@ -60,11 +62,25 @@
 | **B-0** | `inference-profiles.json` + TS-20 + TS-24 `retryOnNegative`（matrix+catalog resolver ✅；preset ファイル未） |
 | **M2–M3** | `sessionId` 継続 · Layer A イベント · negative 再試行（TS-24） |
 | **B-1** | `wall-bounce-analyzer.ts` / `rag-endpoint.ts` → `src/adapters/*` |
-| **B-6** | CLI invoke metadata（TS-26）— `usage` / `stop_reason` / `session_id` |
+| **TS-28 P0** | MCP 製品層 NAME-VN — SRP #8 **前** |
+| **B-6** | CLI invoke metadata（TS-26）— wire schema ✅ · adapter parse 未 |
 | **B-4** | 実行モードルーティング（TS-25）— 並列→閾値分岐 |
 | **B-5** | SSE + Layer A 可観測性 |
 
 **改修一覧:** [WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md](../WALL_BOUNCE_IMPLEMENTATION_BACKLOG.md)
+
+---
+
+## 実装分担（consumer / platform）
+
+| 領域 | techdev-cursor | term-prep-platform |
+|------|----------------|-------------------|
+| Wall-Bounce · MCP | ✅ | — |
+| Glossary extract 実行 | npm のみ | ✅ 本体 |
+| Google Drive mirror · Vector ingest | レガシー（委譲予定） | ✅ Phase 0.5 / 4.5 |
+| Genspark **aidrive** | ✅（TS-30 idea） | ❌ 実装しない |
+
+詳細: [README 実装分担表](../../README.md#実装分担techdev-cursor-vs-term-prep-platform) · [aidrive vs Vector §3.3](../ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · [platform 渡しプロンプト](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
 
 ---
 
@@ -97,4 +113,5 @@
 | **進捗・Gate 時刻** | [FORK_STATUS.md](./FORK_STATUS.md) |
 | **設計思想** | [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | **Wall-Bounce To-Be / AS-IS** | [WALL_BOUNCE_TO_BE.md](../WALL_BOUNCE_TO_BE.md) · [WALL_BOUNCE_AS_IS.md](../WALL_BOUNCE_AS_IS.md) |
+| **実装分担・Genspark 境界** | [README](../../README.md#実装分担techdev-cursor-vs-term-prep-platform) · [handoff](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
 | **完全手順（英語）** | [CURSOR_MCP_TODO.md](../CURSOR_MCP_TODO.md) |
