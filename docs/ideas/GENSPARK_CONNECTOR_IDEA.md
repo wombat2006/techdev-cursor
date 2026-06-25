@@ -183,6 +183,138 @@ GensparkConnector (facade)
 | `gsk` | `GSK_API_KEY` env or `~/.genspark-tool-cli/config.json` | [antigravity-cli.ts](../../src/utils/antigravity-cli.ts), [agy-adapter.ts](../../src/adapters/agy-adapter.ts) |
 | HTTP | `GSK_API_KEY` from `.env` only at runtime | [huggingface-client](../../src/services/huggingface-client/) (peripheral HTTP, not WB peer) |
 
+### 3.1 AI Drive — mandatory when implemented
+
+When this idea is promoted and built, **Genspark AI Drive (`aidrive` / `gsk drive *`) is required**, not optional:
+
+| Requirement | Detail |
+|-------------|--------|
+| **Default file surface** | Uploads, media analyze, drive list/mkdir/move/download — route through **AI Drive**, not ad-hoc local temp paths |
+| **Transport** | `gsk drive …` for named ops; HTTP D4–D6 when diskless or typed in-memory reads are required |
+| **Out of scope for “mandatory”** | Genspark `google_drive` integration tool — see §3.2 (agent convenience only; not corpus canonical) |
+| **Not a WB peer** | AI Drive satisfies Genspark tool I/O; it does **not** replace Layer A or orchestration memory |
+
+---
+
+## 3.2 term-prep-platform boundary — conflict review
+
+Sibling [term-prep-platform](https://github.com/wombat2006/term-prep-platform) owns **glossary prep** and **planned durable ingest** (Google Drive mirror, S3, RAG Vector). Genspark Add-on owns **agent-time tooling** (search, media, **AI Drive**). Names overlap (“Drive”) but **backends differ**.
+
+### 3.2.1 Three “drive” surfaces (do not conflate)
+
+| Surface | Backend | Auth | Owner in this fork | Role |
+|---------|---------|------|-------------------|------|
+| **Google Drive (corpus / RAG)** | Google Drive API | OAuth / service account | **term-prep-platform** (Phase 0.5+) via `googledrive-connector.ts` reuse | Durable corpus mirror → glossary extract → RAG Vector |
+| **Genspark AI Drive (`aidrive`)** | Genspark cloud (`/api/tool_cli/aidrive`) | `GSK_API_KEY` | **techdev-cursor** Genspark Add-on (TS-30) | **Mandatory** staging for Genspark tools (upload, analyze, media, drive CLI) |
+| **Genspark `google_drive` tool** | Google via Genspark integration | `GSK_API_KEY` | Genspark Add-on — **non-canonical** | Optional agent fetch; **not** glossary/RAG ingest path |
+
+### 3.2.2 Conflict matrix
+
+| Topic | term-prep-platform (planned / in progress) | Genspark Add-on (Hybrid A) | Conflict level | Resolution |
+|-------|--------------------------------------------|----------------------------|----------------|------------|
+| **Canonical corpus ingest** | Phase 0.5: Drive mirror; Phase 4: platform connectors; consumer **must not** extend `googledrive-connector.ts` | AI Drive for tool I/O only | **Low** if separated | Corpus paths = platform + `meta/glossary-config.json`; AI Drive = Genspark session files |
+| **Google Drive as data source** | Official path: `googledrive-connector.ts` → mirror → `npm run glossary:extract` | `gsk` may expose `google_drive` tool | **High** if used for RAG prep | **Forbidden:** using Genspark `google_drive` or crawl output as canonical corpus without ADR bridge |
+| **RAG Vector ingest** | Phase 4.5: same TS connector `vector` mode on platform | Search / crawl / summarize = **grounding**, not Vector DB | **Medium** | No second vector pipeline through Genspark; optional `GroundingProvider` cites only |
+| **S3 / OneDrive** | Platform Python adapters (Phase 0.5+) | May exist as gsk integrations | **Medium** | Durable mirror = platform; Genspark = ephemeral agent access unless bridged |
+| **Webhook / push sync** | `googledrive-push-setup` + webhook handler (AS-IS legacy in consumer) | Not available via aidrive | **Low** | Real-time Drive sync stays legacy/platform path |
+| **Consumer repo edits** | Invoke platform read-only; escalate platform changes to user | Implement only under `src/connectors/genspark/` + separate MCP | **Low** | AGENTS.md consumer boundary unchanged |
+
+### 3.2.3 Rules (idea → implementation)
+
+1. **AI Drive mandatory** for Genspark connector file lifecycle (§3.1).
+2. **Do not** point `meta/glossary-config.json` `corpus.files` at Genspark AI Drive paths as canonical source — use Google Drive mirror / in-repo / platform-synced paths per [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md).
+3. **Do not** reimplement Google Drive OAuth/RAG in the Genspark connector — that remains platform + legacy `googledrive-connector.ts` delegation.
+4. **Bridge (future, ADR only):** explicit export aidrive → local mirror → glossary extract; not default.
+5. **Platform escalation:** ingest/connector changes on term-prep-platform still require **user notification** — Genspark work does not authorize consumer edits to the platform repo.
+
+### 3.2.4 Data flow (target separation)
+
+```text
+┌─ term-prep-platform (durable prep) ─────────────────────────┐
+│ Google Drive / S3 mirror → glossary_extractor → adopt/hold   │
+│ Phase 4.5: Vector connector (googledrive-connector reuse)   │
+└───────────────────────────┬───────────────────────────────────┘
+                            │ registry / optional RAG query
+                            ▼
+┌─ techdev-cursor core ───────────────────────────────────────┐
+│ Wall-Bounce · analyze_* · Layer A                            │
+└───────────────────────────┬───────────────────────────────────┘
+                            │ optional GroundingProvider
+                            ▼
+┌─ Genspark Add-on (TS-30) ───────────────────────────────────┐
+│ gsk + HTTP · AI Drive mandatory · search/media/task tools      │
+│ NOT corpus canonical · NOT Vector ingest                     │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Details: [meta/TO-BE-GLOSSARY-PIPELINE.md § Connector delegation](../../meta/TO-BE-GLOSSARY-PIPELINE.md#connector-delegation-planned) · [RAG_SETUP_GUIDE.md § Storage connectors](../RAG_SETUP_GUIDE.md)
+
+---
+
+## 3.3 AI Drive vs OpenAI Vector Store — layers, decision flow, examples
+
+**Core rule:** **aidrive** = Genspark **tool file I/O** (mandatory staging). **Vector Store** = **ingested internal corpus** semantic search. Different layers — not interchangeable.
+
+### 3.3.1 Layer diagram
+
+```text
+【Durable · canonical · semantic retrieval】     【Genspark runtime · tool I/O】
+Google Drive mirror ─┐
+S3 / in-repo corpus ─┼→ term-prep-platform     OpenAI Vector Store
+(Phase 0.5+)         │   glossary_extractor          │
+                     │         │                     │ file_search (RAG)
+                     └─────────┼─────────────────────┤
+                               │                     ▼
+                               │            Wall-Bounce / RAG API
+                               │
+                     × no default wire from aidrive
+
+Genspark tools (upload · analyze · img · task · drive)
+        │
+        ▼
+   aidrive (mandatory)  ←→  gsk drive / HTTP D4–D6
+        │
+        ├─ gsk search / crawl / summarize → live grounding (not Vector DB)
+        └─ × not a Vector Store substitute
+```
+
+| Layer | Technology | Owner repo | Purpose | Lifetime |
+|-------|------------|------------|---------|----------|
+| **Corpus mirror** | Google Drive API · S3 | **term-prep-platform** (+ legacy `googledrive-connector.ts` in consumer until delegation) | Canonical document source for prep + Vector ingest | Durable |
+| **Semantic index** | OpenAI Vector Store (`vs_*`) | Ingest via platform Phase 4.5 (AS-IS: consumer `googledrive-connector/vector-store.ts`) | “Find similar paragraphs in **our** ingested KB” | Durable (re-ingest on change) |
+| **Genspark staging** | **aidrive** (`/api/tool_cli/aidrive`) | **techdev-cursor** Genspark Add-on (TS-30) | Files Genspark tools need (upload → analyze, media output, drive ops) | Session / tool scope |
+| **Live grounding** | `gsk search` / `crawl` / `summarize` | **techdev-cursor** Genspark Add-on | External / live web facts | Per request |
+
+### 3.3.2 Decision flow
+
+```text
+Is the question about previously ingested INTERNAL documents?
+  ├─ Yes → OpenAI Vector Store (file_search)
+  │         Source ingest = platform mirror path, NOT aidrive
+  └─ No
+       └─ Does a Genspark tool need a file handle?
+            ├─ Yes → aidrive (mandatory)
+            └─ No
+                 └─ Need live web / external fetch?
+                      ├─ Yes → gsk search / crawl / summarize
+                      └─ No → analyze_* / Wall-Bounce only
+```
+
+### 3.3.3 Examples
+
+| Scenario | Use | Do **not** use |
+|----------|-----|----------------|
+| “Find OAuth setup in our past design docs” | **Vector Store** (ingested corpus) | aidrive |
+| “Analyze this PNG with Genspark” | **aidrive** (upload → `gsk analyze`) | Vector Store |
+| “What changed in React 19 today?” | **gsk search / crawl** | Vector Store (unless doc pre-ingested) |
+| “Persist draft from aidrive into team KB” | **Bridge only (ADR):** export → platform mirror → Vector ingest | aidrive → Vector direct |
+| “Point `corpus.files` at cloud paths” | Platform mirror / in-repo paths | aidrive paths |
+
+### 3.3.4 Platform handoff
+
+Consumer → platform sync doc: [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)  
+Platform canonical copy: `term-prep-platform/docs/integrations/techdev-cursor-genspark-boundary.md`
+
 ---
 
 ## 4. D1–D7 — `gsk` vs API responsibility boundary
@@ -332,6 +464,8 @@ export GSK_API_KEY=...   # from .env locally only
 | nishlumi drift vs Genspark API | Reference only; own tests + smoke script |
 | Scope creep (reimplement 90 tools in HTTP) | **D1** generic call; everything else gsk |
 | Competes with Track B | Status **Idea**; no FORK_STATUS milestone |
+| **Corpus / RAG vs AI Drive** | §3.2 rules — platform owns Google Drive mirror; AI Drive mandatory for Genspark only |
+| **Duplicate Google Drive ingest** | Ban Genspark `google_drive` as canonical corpus; document in ADR + TO-BE-GLOSSARY-PIPELINE |
 
 ---
 
@@ -343,6 +477,8 @@ export GSK_API_KEY=...   # from .env locally only
 - [ ] Update [TECH_STACK_WORKSPACE.md](../TECH_STACK_WORKSPACE.md) — TS-30 Target column
 - [ ] Add [PROVIDER_INTEGRATION_BACKLOG.md](../PROVIDER_INTEGRATION_BACKLOG.md) row
 - [ ] Optional [MCP_SERVICES.md](../MCP_SERVICES.md) + [ARCHITECTURE.md](../ARCHITECTURE.md) Add-on diagram
+- [ ] Cross-link [meta/TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) § Genspark boundary
+- [ ] Confirm with maintainer: AI Drive mandatory + platform ingest non-overlap (§3.2)
 - [ ] Implement hook `check-env-gitignore` + `genspark-diff-smoke`
 - [ ] **Accepted** → optional README 次に読むもの row; FORK_STATUS only when shipped
 
@@ -355,6 +491,8 @@ export GSK_API_KEY=...   # from .env locally only
 | Topic | Decision (idea stage) |
 |-------|------------------------|
 | Approach | **Hybrid A** — `gsk` default + HTTP for D1–D7 gaps |
+| AI Drive | **Mandatory** when implemented (§3.1) — not optional |
+| Platform boundary | **term-prep-platform** owns corpus/RAG ingest; §3.2 conflict rules |
 | nishlumi | Reference only — no vendor fork |
 | D1–D7 | See §4 boundary table |
 | WB / constitution | **No change**; Genspark is Add-on only |

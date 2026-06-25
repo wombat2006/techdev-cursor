@@ -289,6 +289,8 @@ DELETE /api/v1/rag/vector-stores/{id}
 
 本 repo では **新規のコネクタ実装を追加しない**。platform 側の変更が必要な場合は [TO-BE-GLOSSARY-PIPELINE § Platform escalation](../meta/TO-BE-GLOSSARY-PIPELINE.md#platform-escalation--notify-the-user) に従いユーザーへ通知。
 
+**Genspark AI Drive:** 計画中の Genspark Add-on（[TS-30 idea](../ideas/GENSPARK_CONNECTOR_IDEA.md)）の AI Drive は **glossary corpus の正本ではない** — [TO-BE-GLOSSARY-PIPELINE § Genspark boundary](../meta/TO-BE-GLOSSARY-PIPELINE.md#genspark-ai-drive-boundary-ts-30-idea--consumer-doc-only) 参照。
+
 ## 📚 参考資料
 
 - [Google Drive API Documentation](https://developers.google.com/drive/api)

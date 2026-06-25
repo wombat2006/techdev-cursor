@@ -38,6 +38,7 @@ Multi-LLM platform for daily Cursor coding via unified MCP (`analyze_claude` / `
 | **Legacy MCP product layer** | AS-IS: `codex-mcp-integration.ts` (**historical name**, pseudo-WB); not on prod API | **TS-28 P0** → `mcp-product-integration` + constitution WB |
 | **Memory (Layer A)** | Types + ADR only; **no Redis store** | M1–M3 |
 | **SSE** | Partial (e.g. 500-char truncate) | Extend in B-5 |
+| **Genspark Add-on (TS-30 idea)** | **Not implemented** | Hybrid A; **AI Drive required** when built; after TS-28 P0 + Track B; corpus/RAG stays on term-prep-platform ([idea §3.2](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review)) |
 
 **Progress & Gates:** [FORK_STATUS.md](./docs/FORK_STATUS.md) · **Code truth:** [WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)
 
@@ -155,6 +156,30 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 
 ---
 
+## Implementation ownership (techdev-cursor vs term-prep-platform)
+
+Plan table for **which repo implements what**. Layer diagram & examples: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform canonical: [term-prep-platform … genspark-boundary](https://github.com/wombat2006/term-prep-platform/blob/master/docs/integrations/techdev-cursor-genspark-boundary.md)
+
+| Capability | techdev-cursor | term-prep-platform | Status |
+|------------|----------------|-------------------|--------|
+| **Wall-Bounce · `analyze_*` MCP** | ✅ Implement | — | Track B in progress |
+| **Layer A orchestration memory** | ✅ Planned (M1) | — | ADR done; Redis pending |
+| **Glossary consumer config** (`meta/glossary-*`) | ✅ Edit here | Schema mirror only | Phase 0 ✅ |
+| **`glossary_extractor` · registry** | Invoke via npm | ✅ Own | Phase 0 ✅ |
+| **`glossary-knowledge` MCP** | `.cursor/mcp.json` register | ✅ Own | stub |
+| **Google Drive corpus mirror** | Legacy `googledrive-connector.ts` | ✅ **Delegation target** (Phase 0.5) | Planned |
+| **OpenAI Vector Store ingest** | AS-IS legacy | ✅ **Unification target** (Phase 4.5) | Planned |
+| **S3 / OneDrive mirror** | ❌ Do not add | ✅ Planned | Proposed |
+| **Genspark AI Drive (`aidrive`)** | ✅ **Required** (TS-30 idea) | ❌ Do not implement | Not built |
+| **Genspark search / crawl / media** | ✅ Add-on MCP | ❌ Do not implement | Not built |
+| **PromptAnalyzer · dictionary v0** | MCP connect only | ✅ Implement | Gate C |
+
+**Retrieval split:** internal semantic search = **OpenAI Vector Store** (ingest via platform). Genspark tool files = **aidrive** (not Vector canonical source).
+
+**Prompt for platform work:** [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+
+---
+
 ## Wall-Bounce documentation (required reading)
 
 | Document | Role |
@@ -178,6 +203,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | Design depth | [FORK_ONBOARDING.md](./docs/FORK_ONBOARDING.md) |
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+| **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform handoff](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
 | **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
 | **Under consideration (direction memo; out of backlog)** | [Genspark Add-on (TS-30 Idea)](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A (`gsk` + HTTP D1–D7); TS-18 add-on; **implementation after TS-28 P0 + Track B** |
 

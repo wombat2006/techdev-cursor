@@ -136,6 +136,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
 | **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; `googledrive-connector/` modular shim (legacy) | Phase 2.5 filter · platform storage + RAG Vector connectors |
+| **Genspark Add-on (TS-30 idea)** | Not in codebase | Hybrid A · **AI Drive mandatory** · separate MCP; **not** corpus canonical — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | Same — rolling status stays in FORK_STATUS |
 | **Legacy platform docs** | `docs/legacy/` quarantine (phase 1 done) | Phase 2 optional (remaining cluster cleanup) |
 

@@ -248,6 +248,17 @@ Catalog pins `claude-sonnet-4-6` / `claude-opus-4-6` (aggregate default, escalat
 
 ---
 
+## 15. Peripheral add-ons (not in codebase)
+
+| Add-on | AS-IS in `src/` | Notes |
+|--------|-----------------|-------|
+| **Genspark (TS-30 idea)** | **None** | Planned: Hybrid A (`gsk` + HTTP D1–D7); **AI Drive mandatory** when built; separate MCP — **not** a Wall-Bounce peer |
+| **Ollama gateway (TS-27)** | **None** | Proposed optional `ProviderAdapter` — [TECH_STACK_OLLAMA_GATEWAY.md](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) |
+
+**Genspark vs term-prep-platform:** Genspark **AI Drive** (`aidrive`) is for Genspark tool I/O only. Glossary/RAG **corpus ingest** (Google Drive mirror, S3, Vector) remains [term-prep-platform](https://github.com/wombat2006/term-prep-platform) + legacy `googledrive-connector.ts` — do not use Genspark `google_drive` tool as canonical corpus path. See [GENSPARK_CONNECTOR_IDEA.md §3.2](./ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review).
+
+---
+
 ## 16. Related documents
 
 | Doc | Role |

@@ -80,6 +80,21 @@ If consumer-side work **cannot proceed** without a change in `term-prep-platform
 
 Consumer agents: **do not** extend `googledrive-connector.ts` for new RAG prep work — escalate to the user for platform changes ([Platform escalation](#platform-escalation--notify-the-user)).
 
+### Genspark AI Drive boundary (TS-30 idea — consumer doc only)
+
+Planned [Genspark Add-on](../docs/ideas/GENSPARK_CONNECTOR_IDEA.md) uses **Genspark AI Drive (`aidrive`)** for tool file I/O (**mandatory when implemented**). That is **not** the same as **Google Drive** corpus ingest below.
+
+| Surface | Canonical for glossary / RAG corpus? | Owner |
+|---------|--------------------------------------|-------|
+| Google Drive mirror (`googledrive-connector.ts` → platform) | **Yes** | term-prep-platform Phase 0.5+ |
+| S3 / OneDrive (platform connectors) | **Yes** (when added) | term-prep-platform |
+| Genspark **AI Drive** (`aidrive`) | **No** — tool staging only | techdev-cursor Genspark Add-on |
+| Genspark **`google_drive` tool** | **No** — agent convenience; do not wire to `corpus.files` | Genspark Add-on |
+
+Do **not** point `meta/glossary-config.json` `corpus.files` at Genspark AI Drive paths. Cross-repo platform changes still require [Platform escalation](#platform-escalation--notify-the-user).
+
+Details: [GENSPARK_CONNECTOR_IDEA.md §3.2](../docs/ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review) · [platform handoff](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) · platform file: `term-prep-platform/docs/integrations/techdev-cursor-genspark-boundary.md`
+
 ---
 
 ## Phase 0 (done)

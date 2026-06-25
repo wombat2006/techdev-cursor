@@ -149,6 +149,7 @@ Extends [TS-24](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) negati
 | CLI invoke metadata | Text only; Codex token line discarded | **usage**, **stop_reason**, **session_id** via CLI JSON ([TS-26](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md)) |
 | Adapter unification | MCP adapters vs analyzer spawn | **Single adapter path (B-1)** |
 | Ollama gateway (cloud + local) | Not implemented | **Optional `ollama` adapter** — [TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) |
+| Genspark Add-on (search · media · **AI Drive**) | Not implemented | **TS-30 idea** — Hybrid A; **AI Drive mandatory**; separate MCP; **not** corpus/RAG canonical — [ideas/GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
 | Durable session | None in WB path | **Layer A M1–M3** |
 | MCP wall-bounce | Not available | Optional; primary strict path remains API |
 
@@ -199,5 +200,6 @@ Update [AGENTS.md](../AGENTS.md) constitution summary only after Gate C passes �
 | [decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md](./decisions/TECH_STACK_WALL_BOUNCE_MODE_ROUTING.md) | TS-25 ADR |
 | [decisions/TECH_STACK_CLI_INVOKE_METADATA.md](./decisions/TECH_STACK_CLI_INVOKE_METADATA.md) | TS-26 — CLI usage / stop_reason / session_id |
 | [decisions/TECH_STACK_OLLAMA_GATEWAY.md](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) | TS-27 — Ollama gateway (proposed) |
+| [ideas/GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) | TS-30 — Genspark Add-on (idea); AI Drive vs term-prep-platform boundary |
 | [WALL_BOUNCE_SYSTEM.md](./WALL_BOUNCE_SYSTEM.md) | Operator guide (sync after implementation) |
 | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](./decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) | Objection + retry policy |

@@ -80,6 +80,22 @@ Google Drive integration for document retrieval and embedding.
 - Vector mapping for semantic search
 - Webhook support for real-time updates
 
+### 4.1 Genspark Add-on (TS-30 — idea only)
+
+**AS-IS:** No `src/connectors/genspark/` or `genspark-mcp-server` — not implemented.
+
+**To-Be (idea):** TS-18 peripheral connector — `gsk` spawn + self HTTP for D1–D7; **Genspark AI Drive (`aidrive`) mandatory** for tool file I/O; separate stdio MCP (not `analyze_*`).
+
+**Boundary vs RAG / term-prep-platform:**
+
+| Concern | Owner | Storage / path |
+|---------|-------|----------------|
+| Glossary corpus · RAG Vector ingest | **term-prep-platform** (+ legacy `googledrive-connector.ts` reuse) | Google Drive API mirror · S3 · local mirror in `meta/glossary-config.json` |
+| Genspark tool uploads · media · drive ops | **Genspark Add-on** (this repo, when built) | **Genspark AI Drive** (`aidrive`) — mandatory |
+| Genspark `google_drive` tool | Genspark Add-on — **non-canonical** | Agent convenience only; **not** replacement for platform ingest |
+
+Do not conflate **AI Drive** with **Google Drive**. Full conflict matrix: [GENSPARK_CONNECTOR_IDEA.md §3.2](./ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review). **aidrive vs Vector Store:** [§3.3](./ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples).
+
 ## Directory Structure
 
 > **SRP splits:** Large monoliths use thin shims + module directories. Inventory: [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · refactor order: [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md).

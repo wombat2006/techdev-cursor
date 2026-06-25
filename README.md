@@ -38,6 +38,7 @@
 | **Legacy MCP 製品層** | AS-IS: `codex-mcp-integration.ts`（**名称は歴史的**・偽 WB）· 本番 API 未接続 | **TS-28 P0** → `mcp-product-integration` + 憲法 WB 委譲 |
 | **記憶（Layer A）** | 型・ADR のみ；Redis store **未** | M1–M3 |
 | **SSE** | 部分実装（応答 500 文字切り詰め等） | B-5 で拡張予定 |
+| **Genspark Add-on（TS-30 idea）** | **未実装** | Hybrid A · **AI Drive 必須** · TS-28 P0 + Track B 後 · corpus/RAG は term-prep-platform 側（[idea §3.2](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review)） |
 
 **進捗・Gate:** [FORK_STATUS.md](./docs/ja/FORK_STATUS.md) · **コード実態の正本:** [WALL_BOUNCE_AS_IS.md](./docs/WALL_BOUNCE_AS_IS.md)
 
@@ -155,6 +156,30 @@ flowchart TB
 
 ---
 
+## 実装分担（techdev-cursor vs term-prep-platform）
+
+第三者が **どちらの repo に何を実装するか** を把握するための計画表。詳細フロー: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform 側正本: [term-prep-platform … genspark-boundary](https://github.com/wombat2006/term-prep-platform/blob/master/docs/integrations/techdev-cursor-genspark-boundary.md)
+
+| 機能 | techdev-cursor | term-prep-platform | 状態 |
+|------|----------------|-------------------|------|
+| **Wall-Bounce · `analyze_*` MCP** | ✅ 実装 | — | Track B 進行中 |
+| **Layer A オーケストレーション記憶** | ✅ 実装予定（M1） | — | ADR 済・Redis 未 |
+| **Glossary consumer config**（`meta/glossary-*`） | ✅ 編集 | スキーマ mirror のみ | Phase 0 ✅ |
+| **`glossary_extractor` · registry** | 実行のみ（npm） | ✅ 本体 | Phase 0 ✅ |
+| **`glossary-knowledge` MCP** | `.cursor/mcp.json` 登録 | ✅ 本体 | stub |
+| **Google Drive corpus mirror** | レガシー `googledrive-connector.ts` | ✅ **移管先**（Phase 0.5） | 委譲予定 |
+| **OpenAI Vector Store 投入** | AS-IS レガシー | ✅ **共通化先**（Phase 4.5） | 委譲予定 |
+| **S3 / OneDrive mirror** | ❌ 新規不可 | ✅ 実装予定 | 提案 |
+| **Genspark AI Drive（`aidrive`）** | ✅ **必須**（TS-30 idea） | ❌ 実装しない | 未実装 |
+| **Genspark search / crawl / media** | ✅ Add-on MCP | ❌ 実装しない | 未実装 |
+| **PromptAnalyzer · 辞書 v0** | MCP 接続のみ | ✅ 実装 | Gate C |
+
+**記憶の使い分け:** 社内文書の意味検索 = **OpenAI Vector Store**（ingest は platform 経路）。Genspark ツール用ファイル置き場 = **aidrive**（Vector の正本にしない）。
+
+**platform 作業時のプロンプト:** [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
+
+---
+
 ## Wall-Bounce ドキュメント（必読）
 
 | ドキュメント | 役割 |
@@ -178,6 +203,7 @@ flowchart TB
 | 設計思想 | [FORK_ONBOARDING.md](./docs/ja/FORK_ONBOARDING.md) |
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
+| **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform 渡しプロンプト](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) |
 | **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
 | **検討中（方針メモ・優先外）** | [Genspark Add-on（TS-30 Idea）](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A（`gsk` + HTTP D1–D7）；TS-18 Add-on；**実装は TS-28 P0 + Track B 後** |
 

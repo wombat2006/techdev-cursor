@@ -137,6 +137,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
 | **Model catalog（TS-21）** | JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + コスト routing |
 | **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；`googledrive-connector/` モジュール shim（レガシー） | Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
+| **Genspark Add-on（TS-30 idea）** | コードベースに未実装 | Hybrid A · **AI Drive 必須** · 別 MCP；corpus 正本ではない — [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | 現状維持（進捗は本 doc） |
 | **Legacy platform docs** | `docs/legacy/` 隔離済（phase 1） | phase 2 任意（残クラスタ整理） |
 
