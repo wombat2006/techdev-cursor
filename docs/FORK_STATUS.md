@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/23 21:28:52 JST  
+**Last updated:** 2026/06/25 17:40:52 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -121,6 +121,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
 | Ollama gateway adapter | TS-27 L3 | [TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) proposed — `ollama signin` + `localhost:11434` |
+| Genspark Add-on connector | TS-30 idea | Hybrid A (`gsk` spawn + HTTP D1–D7); **idea only** — impl after TS-28 P0 + Track B — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) |
 
 ---
 
@@ -179,7 +180,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
-| 2026/06/23 17:55:38 JST | SRP Phase 3 #5 — `googledrive-webhook-handler/` split; 130 module tests (19 suites); full suite 334 pass |
+| 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea (Hybrid A) — idea doc + README/FORK not-done; no impl |
 | 2026/06/23 17:47:01 JST | SRP Phase 3 #4 — `inference-service/` split; 126 module tests (18 suites); full suite 330 pass |
 | 2026/06/23 11:57:42 JST | SRP Phase 3 #3 — `embedding-service/` split; 115 module tests (17 suites); full suite 319 pass |
 | 2026/06/23 11:52:31 JST | SRP Phase 3 #2 — `huggingface-client/` split; 107 module tests (16 suites); full suite 311 pass |

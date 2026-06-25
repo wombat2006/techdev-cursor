@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/23 21:28:52 JST  
+**最終更新:** 2026/06/25 17:40:52 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -122,6 +122,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | `filter.max_candidates_output` cap | RAG prep | config あり；platform extractor 未対応 — **platform 変更** |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
 | Ollama gateway adapter | TS-27 L3 | [TS-27](../decisions/TECH_STACK_OLLAMA_GATEWAY.md) 草案 — `ollama signin` + `localhost:11434` |
+| Genspark Add-on connector | TS-30 idea | Hybrid A（`gsk` spawn + HTTP D1–D7）；**idea のみ** — TS-28 P0 + Track B 後に実装 — [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) |
 
 ---
 

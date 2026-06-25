@@ -15,3 +15,4 @@ Scratchpad for **exploratory design notes** that are **not** accepted decisions.
 | ID | Document | Topic |
 |----|----------|-------|
 | — | [NESTJS_STRANGLER_MIGRATION_IDEA.md](./NESTJS_STRANGLER_MIGRATION_IDEA.md) | Gradual Express → NestJS strangler (HTTP layer only) |
+| TS-30 (reserved) | [GENSPARK_CONNECTOR_IDEA.md](./GENSPARK_CONNECTOR_IDEA.md) | Genspark Add-on — Hybrid A (`gsk` + HTTP for D1–D7) |

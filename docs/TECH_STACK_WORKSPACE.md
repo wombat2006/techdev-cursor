@@ -161,6 +161,7 @@ Priority is **not fixed** — reorder as needed during refinement.
 | TS-22 | Memory substrate | OrchestrationSession + `providerHandles` + Cipher/RAG | Codex-only Redis silo; stateless MCP | **G-MEM closed 2026-06-18**; M1 store Track B | [TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) v1.3 |
 | TS-28 | MCP product integration | Vendor name before routing; pseudo-WB | `codex-mcp-integration` historical | **Accepted v1.2** NAME-VN; P0 rename | [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
 | TS-29 | HTTP framework | NestJS gradual strangler vs stay Express? | Express ^4.18 | **Idea only** — no implementation | [ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md](./ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
+| TS-30 | Genspark connector | Add-on: `gsk` spawn + HTTP for integration gaps (D1–D7)? | none | **Idea only** — no implementation | [ideas/GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) |
 
 ---
 

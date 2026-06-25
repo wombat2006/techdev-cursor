@@ -94,6 +94,7 @@
 |----------|---------|
 | **ideas/README.md** | Idea scratchpad policy |
 | **ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md** | Express → NestJS gradual strangler (HTTP only) — **not Accepted** |
+| **ideas/GENSPARK_CONNECTOR_IDEA.md** | Genspark Add-on connector — Hybrid A (`gsk` + HTTP D1–D7) — **not Accepted** |
 
 ### Architecture Decision Records
 

@@ -179,6 +179,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
+| **Under consideration (direction memo; out of backlog)** | [Genspark Add-on (TS-30 Idea)](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A (`gsk` + HTTP D1–D7); TS-18 add-on; **implementation after TS-28 P0 + Track B** |
 
 ---
 

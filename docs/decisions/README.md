@@ -32,10 +32,11 @@ Exploratory notes live under [../ideas/](../ideas/) — **not** ADRs until copie
 | Topic | Document |
 |-------|----------|
 | NestJS strangler (HTTP layer) | [NESTJS_STRANGLER_MIGRATION_IDEA.md](../ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) |
+| Genspark Add-on (Hybrid A) | [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) |
 
 ## Planned (backlog)
 
-Tech stack decisions will be added as `TECH_STACK_<topic>.md` when accepted. See workspace backlog TS-01 … TS-29.
+Tech stack decisions will be added as `TECH_STACK_<topic>.md` when accepted. See workspace backlog TS-01 … TS-30.
 
 ---
 

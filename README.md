@@ -179,6 +179,7 @@ flowchart TB
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
+| **検討中（方針メモ・優先外）** | [Genspark Add-on（TS-30 Idea）](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A（`gsk` + HTTP D1–D7）；TS-18 Add-on；**実装は TS-28 P0 + Track B 後** |
 
 ---
 
