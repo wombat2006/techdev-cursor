@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/25 22:06:35 JST  
+**最終更新:** 2026/06/25 22:11:26 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -181,6 +181,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/25 22:11:26 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR 同期 — README P1 マイルストーン記録（en + ja `95c7cbec`）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 22:06:35 JST | README P1 同期 — Phase 0.5 分担 · platform 進捗 · cross-repo handoff · Cursor skills（ja/en `627f270d`）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 21:55:10 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR 同期 — cross-repo handoff マイルストーン（en + ja）— 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark 境界 · Cursor skills（platform/consumer-handoff）· opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — term-prep-platform と対 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |

@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/25 22:06:35 JST  
+**Last updated:** 2026/06/25 22:11:26 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -191,6 +191,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/25 22:11:26 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR sync — README P1 milestone recorded (en + ja `95c7cbec`) |
 | 2026/06/25 22:06:35 JST | README P1 sync — Phase 0.5 ownership · platform progress · cross-repo handoff · Cursor skills (ja/en `627f270d`) |
 | 2026/06/25 21:55:10 JST | FORK_STATUS / ONBOARDING / FORK_CURSOR sync — cross-repo handoff milestone (en + ja) |
 | 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark boundary · Cursor skills (platform/consumer-handoff) · opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — paired with term-prep-platform |
