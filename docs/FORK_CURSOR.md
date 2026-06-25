@@ -19,7 +19,8 @@
 | **Upstream role** | Reference / optional cherry-pick (`fork_primary` model) |
 
 **Upstream (reference):** `wombat2006/techdev` — platform docs and P5 architecture archive.  
-**Primary (this fork):** `techdev-cursor` — Cursor-integrated coding environment (DevAssist line).
+**Primary (this fork):** `techdev-cursor` — Cursor-integrated coding environment (DevAssist line).  
+**Sibling platform:** `term-prep-platform` — glossary extract, connectors, MCP; consumer reads `meta/consumer-handoff/` (read-only) — [FORK_STATUS § Cross-repo handoff](./FORK_STATUS.md).
 
 Related: [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md) · [MCP_SERVICES.md](./MCP_SERVICES.md) · [P5 §9 Forkable core](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#9-フォーク可能コア) · [TS-20 InferenceProfile](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
 

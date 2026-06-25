@@ -54,7 +54,7 @@
 | モデルカタログ（TS-21） | JSON + schema | runtime loader + TaskRouter（Track F） |
 | メモリ（TS-22） | ADR + schema；G-MEM 済 | M1 store + `sessionId`（Track B） |
 | セッション継続（TS-24） | ADR — Aggregator 後フォロー + negative retry | Track B で Layer A と配線 |
-| Glossary prep（RAG） | **Phase 0** — consumer config・初回 extract・adopt/hold；`npm run glossary:extract` | Phase 2.5 knowledge filter · platform ストレージ + RAG Vector コネクタ（レガシー `googledrive-connector/` シムから委譲） |
+| Glossary prep（RAG） | **Phase 0** — consumer config・初回 extract・adopt/hold；`npm run glossary:extract`；cross-repo handoff docs + Cursor skills | Phase 0.5 consumer 配線（platform 準備済）· Phase 2.5 knowledge filter · platform ストレージ + RAG Vector コネクタ（レガシー `googledrive-connector/` シムから委譲） |
 | OpenAI の深掘り | Cookbook / prompt guidance 反映済 | Anthropic / Google へ同パターンで展開 |
 
 ---
@@ -89,6 +89,7 @@ Google     ██░░░░░░░░  基盤のみ（agy 運用；catalog e
 | **TS-22 メモリ** | Layer A transcript · UTC · TTL | [TECH_STACK_MEMORY_SUBSTRATE.md](../decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | **TS-24 セッション継続** | Aggregator 後フォロー · upward-jitter negative retry | [TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md](../decisions/TECH_STACK_SESSION_CONTINUATION_AND_RETRY.md) |
 | **Glossary consumer** | consumer のみ編集 · sibling platform invoke · adopt/hold | [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](../RAG_SETUP_GUIDE.md) · コネクタは platform 委譲予定 |
+| **Cross-repo handoff** | Consumer → `meta/platform-integration/` · platform → `consumer-handoff/` read-only；Cursor skills；A+C Issue ワークフロー | [TERM_PREP_PLATFORM_STATUS.md](../../meta/TERM_PREP_PLATFORM_STATUS.md) · `.cursor/skills/README.md` |
 | **フォークのスコープ** | Cursor コーディング支援 | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **セキュリティ** | subscription CLI / SDK のみ | [SECURITY.md](../SECURITY.md) |
 | **OpenAI（先行）** | prompt guidance · Cookbook · cost tiers | [OPENAI_COOKBOOK_INTEGRATION.md](../OPENAI_COOKBOOK_INTEGRATION.md) |

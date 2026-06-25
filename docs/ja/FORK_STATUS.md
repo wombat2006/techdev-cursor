@@ -3,7 +3,7 @@
 *[English](../FORK_STATUS.md) | **日本語***
 
 **人間向けローリングスナップショット**（メンテナ、チーム、レビュア）。  
-**最終更新:** 2026/06/25 17:40:52 JST  
+**最終更新:** 2026/06/25 21:48:45 JST  
 **実行手順:** [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md)（要約）· [英語 runbook](../CURSOR_MCP_TODO.md) · **方針:** [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 > **Gate レビュー**と**主要 Track マイルストーン**で更新（P0）。README 本文に進捗を重複しない。  
@@ -44,7 +44,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **B** — InferenceProfile + adapter + memory | P1 | `[ ]` **アクティブ** | B-0 部分（matrix+catalog resolver ✅）；M1 store 未；B-1 WB 配線未 |
 | **C** — P5 Phase 0 | P3 | `[ ]` ブロック | Hard gate · PromptAnalyzer · 憲法ラウンド · orchestrator 統合 |
 | **E / F** — catalog / cost routing | P2 | `[~]` 部分 | F-1 ✅ · F-2 loader 部分 · F-3+ 未 |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` 部分 | Glossary consumer **Phase 0** ✅（RAG prep）；platform ストレージ/Vector コネクタ · Batch RAG · grounding 未 |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` 部分 | Glossary consumer **Phase 0** ✅ + **cross-repo handoff** docs/skills ✅（RAG prep）；Phase 0.5 consumer 配線未；platform ストレージ/Vector コネクタ · Batch RAG · grounding 未 |
 
 ---
 
@@ -100,6 +100,11 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6；Opus 4.6 集約デフォルト + 4.8 エスカレーション；プラットフォーム統合ガイド |
 | **SRP monolith refactor（Phase 0–2 + monitors）** | 2026/06/23 04:09:50 JST | 14 monolith → module dir + shim；Phase 2 monitors 完了；86 module tests；[SRP_MONOLITH_REFACTOR.md](../SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](../SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 | **TS-28 MCP product integration ADR** | 2026/06/23 21:28:52 JST | v1.2 Accepted NAME-VN；`mcp-product-integration`；README/ARCHITECTURE/MCP 同期 — [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](../decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
+| **Genspark / aidrive cross-repo 境界** | 2026/06/25 18:36:49 JST | aidrive vs Vector Store · repo 分担 · read-only cross-repo 方針 — [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) §3 |
+| **Platform integration read pack** | 2026/06/25 19:09:41 JST | `meta/platform-integration/*` — platform 向け consumer 正本境界 |
+| **Genspark handoff 方針同期** | 2026/06/25 18:58:02 JST | `TERM_PREP_PLATFORM_HANDOFF_GENSPARK` shim → platform-integration；platform 側 mirror MD なし |
+| **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion`（readonly マルチモデル） |
+| **Cursor skills — consumer handoff（A+C pair）** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../../meta/TERM_PREP_PLATFORM_STATUS.md) — term-prep-platform と対 |
 
 ---
 
@@ -118,7 +123,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | A-3 チーム MCP 登録 | A | 非ブロック |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify（NullProvider 超）— **platform 変更**（ユーザーへ通知） |
 | Glossary Phase 4 ストレージ / Vector コネクタ | RAG prep | レガシー `googledrive-connector/` シムは本 repo → **term-prep-platform** へ委譲（Drive、S3、OneDrive、RAG Vector） |
-| Google Drive ローカルミラー corpus | RAG prep | interim `corpus.files` 差替え |
+| **Phase 0.5 consumer PR 配線** | RAG prep | platform Phase 0.5 準備済 — consumer `glossary:sync*` · `source` block · TO-BE §0.5（platform `04-consumer-pr-guide`）— **未** |
+| Google Drive ローカルミラー corpus | RAG prep | platform mirror 準備済；consumer PR + OAuth 後に `source` + `corpus.files` を有効化 |
 | `filter.max_candidates_output` cap | RAG prep | config あり；platform extractor 未対応 — **platform 変更** |
 | `docs/legacy/` phase 2 | docs | `mcp-*.md` クラスタ（任意） |
 | Ollama gateway adapter | TS-27 L3 | [TS-27](../decisions/TECH_STACK_OLLAMA_GATEWAY.md) 草案 — `ollama signin` + `localhost:11434` |
@@ -136,7 +142,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **オーケストレーション記憶** | ADR + schema・型のみ（Redis 未） | M1 Redis + M2–M6 配線；TS-24 継続・再試行 |
 | **InferenceProfile** | matrix + catalog resolver（Contract Layer） | B-0 `inference-profiles.json` |
 | **Model catalog（TS-21）** | JSON + schema；F-1 validate；F-2 loader 部分 | F-3 TaskRouter + コスト routing |
-| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；`googledrive-connector/` モジュール shim（レガシー） | Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
+| **Glossary prep（RAG）** | Phase 0 — config・extract・adopt/hold；cross-repo handoff docs + Cursor skills；`googledrive-connector/` モジュール shim（レガシー） | Phase 0.5 consumer 配線（platform 準備済）· Phase 2.5 filter · platform ストレージ + RAG Vector コネクタ |
+| **Cross-repo handoff（term-prep-platform）** | Consumer → `meta/platform-integration/` · platform → `consumer-handoff/` 読取；Cursor skills + `check-handoff.sh`；cross-repo agent 編集なし | Phase 0.5 consumer PR（platform `04`）· bot Issue ワークフロー（A+C） |
 | **Genspark Add-on（TS-30 idea）** | コードベースに未実装 | Hybrid A · **AI Drive 必須** · 別 MCP；corpus 正本ではない — [GENSPARK_CONNECTOR_IDEA.md](../ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
 | **ドキュメント入口** | 薄い README → 本 doc + ONBOARDING | 現状維持（進捗は本 doc） |
 | **Legacy platform docs** | `docs/legacy/` 隔離済（phase 1） | phase 2 任意（残クラスタ整理） |
@@ -163,6 +170,8 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **フォーク identity** | [FORK_CURSOR.md](./FORK_CURSOR.md) |
 | **設計深度** | [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) |
 | **Glossary consumer** | [TO-BE-GLOSSARY-PIPELINE.md](../../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](../RAG_SETUP_GUIDE.md) |
+| **Platform integration（consumer → platform）** | [platform-integration/README.md](../../meta/platform-integration/README.md) · skill `platform-handoff` |
+| **Platform progress（platform → consumer）** | [TERM_PREP_PLATFORM_STATUS.md](../../meta/TERM_PREP_PLATFORM_STATUS.md) · skills `consumer-integration` / `consumer-handoff` |
 | **方針** | [DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md) |
 
 ---
@@ -171,6 +180,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 
 | タイムスタンプ (JST) | 変更 |
 |---------------------|------|
+| 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark 境界 · Cursor skills（platform/consumer-handoff）· opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — term-prep-platform と対 — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea（Hybrid A）— idea doc + README/FORK 未完了；実装なし — 英語 [FORK_STATUS.md](../FORK_STATUS.md) と同期 |
 | 2026/06/23 17:55:38 JST | SRP Phase 3 #5 — `googledrive-webhook-handler/` 分割；130 module tests（19 suites）；全 suite 334 pass |
 | 2026/06/23 17:47:01 JST | SRP Phase 3 #4 — `inference-service/` 分割；126 module tests（18 suites）；全 suite 330 pass |

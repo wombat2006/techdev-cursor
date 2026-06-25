@@ -20,7 +20,8 @@
 | **upstream の役割** | 参照 / cherry-pick 任意（`fork_primary`） |
 
 **Upstream（参照）:** `wombat2006/techdev`  
-**Primary（本フォーク）:** `techdev-cursor` — DevAssist ライン
+**Primary（本フォーク）:** `techdev-cursor` — DevAssist ライン  
+**Sibling platform:** `term-prep-platform` — glossary extract・コネクタ・MCP；consumer は `meta/consumer-handoff/` を read-only で参照 — [FORK_STATUS § Cross-repo handoff](./FORK_STATUS.md)
 
 関連: [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md) · [英語 runbook](../CURSOR_MCP_TODO.md)
 

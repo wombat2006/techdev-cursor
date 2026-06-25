@@ -3,7 +3,7 @@
 *[English](FORK_STATUS.md) | [日本語](./ja/FORK_STATUS.md)*
 
 **Rolling snapshot for human readers** (maintainers, teammates, reviewers).  
-**Last updated:** 2026/06/25 17:40:52 JST  
+**Last updated:** 2026/06/25 21:48:45 JST  
 **Execute from:** [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · **Policy:** [DOCUMENTATION_POLICY.md](./DOCUMENTATION_POLICY.md)
 
 > Update this file at **Gate reviews** and **major Track milestones** (P0). Do not duplicate progress in README body.  
@@ -44,7 +44,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **B** — InferenceProfile + adapters + memory | P1 | `[ ]` **Active** | B-0 partial (matrix+catalog resolver ✅); M1 store pending; B-1 WB wiring pending |
 | **C** — P5 Phase 0 platform | P3 | `[ ]` Blocked | Hard gate · PromptAnalyzer · constitution rounds · orchestrator merge |
 | **E / F** — catalog / cost routing | P2 | `[~]` Partial | F-1 ✅ · F-2 loader partial · F-3+ pending |
-| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` Partial | Glossary consumer **Phase 0** ✅ (RAG prep); platform storage/Vector connectors · Batch RAG · grounding pending |
+| **D / P5+** — cache · Batch RAG · grounding | P4 | `[~]` Partial | Glossary consumer **Phase 0** ✅ + **cross-repo handoff** docs/skills ✅ (RAG prep); Phase 0.5 consumer wiring open; platform storage/Vector connectors · Batch RAG · grounding pending |
 
 ---
 
@@ -100,6 +100,11 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Anthropic catalog + docs** | 2026/06/23 02:59:52 JST | Sonnet 4.6; Opus 4.6 aggregate default + 4.8 escalation; platform integration guides |
 | **SRP monolith refactor (Phase 0–2 + monitors)** | 2026/06/23 04:09:50 JST | 14 monoliths → module dirs + shims; Phase 2 monitors complete; 86 module tests; [SRP_MONOLITH_REFACTOR.md](./SRP_MONOLITH_REFACTOR.md) · [SRP_REFACTOR_DEPENDENCY_ORDER.md](./SRP_REFACTOR_DEPENDENCY_ORDER.md) |
 | **TS-28 MCP product integration ADR** | 2026/06/23 21:28:52 JST | v1.2 Accepted NAME-VN; mcp-product-integration; README/ARCHITECTURE/MCP sync — [TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md](./decisions/TECH_STACK_CODEX_MCP_INTEGRATION_REFACTOR.md) |
+| **Genspark / aidrive cross-repo boundary** | 2026/06/25 18:36:49 JST | aidrive vs Vector Store · repo ownership · read-only cross-repo policy — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3 |
+| **Platform integration read pack** | 2026/06/25 19:09:41 JST | `meta/platform-integration/*` — consumer canonical boundary for platform agents |
+| **Genspark handoff policy sync** | 2026/06/25 18:58:02 JST | `TERM_PREP_PLATFORM_HANDOFF_GENSPARK` shim → platform-integration; no platform mirror MD |
+| **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion` (readonly multi-model) |
+| **Cursor skills — consumer handoff (A+C pair)** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../meta/TERM_PREP_PLATFORM_STATUS.md) — paired with term-prep-platform |
 
 ---
 
@@ -117,7 +122,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | A-3 team MCP registration | A | Non-blocking |
 | Glossary Phase 2.5 knowledge filter | RAG prep | MCP classify beyond NullProvider — **platform change** (notify user) |
 | Glossary Phase 4 storage / Vector connectors | RAG prep | Legacy `googledrive-connector/` shim in this repo → **term-prep-platform** (Drive, S3, OneDrive, RAG Vector) |
-| Google Drive local mirror corpus | RAG prep | Replace interim `corpus.files` in consumer config |
+| **Phase 0.5 consumer PR wiring** | RAG prep | Platform Phase 0.5 ready — consumer `glossary:sync*` · `source` block · TO-BE §0.5 per platform `04-consumer-pr-guide` — **open** |
+| Google Drive local mirror corpus | RAG prep | Platform mirror ready; enable `source` + `corpus.files` after consumer PR + OAuth |
 | `filter.max_candidates_output` cap | RAG prep | Config present; platform extractor ignores — **platform change** |
 | `docs/legacy/` phase 2 | docs migration | Exploratory `mcp-*.md` cluster (optional) |
 | Ollama gateway adapter | TS-27 L3 | [TS-27](./decisions/TECH_STACK_OLLAMA_GATEWAY.md) proposed — `ollama signin` + `localhost:11434` |
@@ -135,7 +141,8 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Orchestration memory** | ADR + schema/types only (Redis pending) | M1 Redis + M2–M6 wiring; TS-24 continuation/retry |
 | **InferenceProfile** | Matrix+catalog resolver (Contract Layer) | B-0 `inference-profiles.json` file |
 | **Model catalog (TS-21)** | Rich JSON + schema; F-1 validate; F-2 loader partial | F-3 TaskRouter + cost routing |
-| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; `googledrive-connector/` modular shim (legacy) | Phase 2.5 filter · platform storage + RAG Vector connectors |
+| **Glossary prep (RAG)** | Phase 0 — consumer config, extract, adopt/hold; cross-repo handoff docs + Cursor skills; legacy `googledrive-connector/` shim | Phase 0.5 consumer wiring (platform ready) · Phase 2.5 filter · platform storage + RAG Vector connectors |
+| **Cross-repo handoff (term-prep-platform)** | Consumer → `meta/platform-integration/` · platform → read `consumer-handoff/`; Cursor skills + `check-handoff.sh`; no cross-repo agent edits | Phase 0.5 consumer PR per platform `04` · bot Issue workflow (A+C) |
 | **Genspark Add-on (TS-30 idea)** | Not in codebase | Hybrid A · **AI Drive mandatory** · separate MCP; **not** corpus canonical — [GENSPARK_CONNECTOR_IDEA.md](./ideas/GENSPARK_CONNECTOR_IDEA.md) §3.2 |
 | **Docs entry** | Thin README → FORK_STATUS + FORK_ONBOARDING | Same — rolling status stays in FORK_STATUS |
 | **Legacy platform docs** | `docs/legacy/` quarantine (phase 1 done) | Phase 2 optional (remaining cluster cleanup) |
@@ -174,6 +181,8 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 | **Architecture** | [ARCHITECTURE.md](./ARCHITECTURE.md) |
 | **Memory ADR** | [decisions/TECH_STACK_MEMORY_SUBSTRATE.md](./decisions/TECH_STACK_MEMORY_SUBSTRATE.md) |
 | **Glossary consumer** | [TO-BE-GLOSSARY-PIPELINE.md](../meta/TO-BE-GLOSSARY-PIPELINE.md) · [RAG_SETUP_GUIDE.md](./RAG_SETUP_GUIDE.md) |
+| **Platform integration (consumer → platform)** | [platform-integration/README.md](../meta/platform-integration/README.md) · skill `platform-handoff` |
+| **Platform progress (platform → consumer)** | [TERM_PREP_PLATFORM_STATUS.md](../meta/TERM_PREP_PLATFORM_STATUS.md) · skills `consumer-integration` / `consumer-handoff` |
 
 ---
 
@@ -181,6 +190,7 @@ Details: [FORK_ONBOARDING.md](./FORK_ONBOARDING.md) · [ARCHITECTURE.md](./ARCHI
 
 | Timestamp (JST) | Change |
 |-----------------|--------|
+| 2026/06/25 21:48:45 JST | Cross-repo handoff — platform-integration pack · Genspark boundary · Cursor skills (platform/consumer-handoff) · opinion subagents · `TERM_PREP_PLATFORM_STATUS` + `check-handoff.sh` — paired with term-prep-platform |
 | 2026/06/25 17:40:52 JST | TS-30 Genspark Add-on idea (Hybrid A) — idea doc + README/FORK not-done; no impl |
 | 2026/06/23 17:47:01 JST | SRP Phase 3 #4 — `inference-service/` split; 126 module tests (18 suites); full suite 330 pass |
 | 2026/06/23 11:57:42 JST | SRP Phase 3 #3 — `embedding-service/` split; 115 module tests (17 suites); full suite 319 pass |
