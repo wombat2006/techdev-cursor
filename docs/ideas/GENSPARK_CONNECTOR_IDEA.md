@@ -312,8 +312,7 @@ Is the question about previously ingested INTERNAL documents?
 
 ### 3.3.4 Platform handoff
 
-Consumer → platform sync doc: [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)  
-Platform canonical copy: `term-prep-platform/docs/integrations/techdev-cursor-genspark-boundary.md`
+Consumer → platform handoff (canonical): [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](../../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) — platform agents read techdev-cursor; consumer agents do not edit term-prep-platform.
 
 ---
 

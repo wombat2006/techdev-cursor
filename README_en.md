@@ -158,7 +158,7 @@ Details: [ARCHITECTURE.md](./docs/ARCHITECTURE.md) · [WALL_BOUNCE_SYSTEM.md](./
 
 ## Implementation ownership (techdev-cursor vs term-prep-platform)
 
-Plan table for **which repo implements what**. Layer diagram & examples: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform canonical: [term-prep-platform … genspark-boundary](https://github.com/wombat2006/term-prep-platform/blob/master/docs/integrations/techdev-cursor-genspark-boundary.md)
+Plan table for **which repo implements what**. Layer diagram & examples: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · boundary canonical (consumer): [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
 
 | Capability | techdev-cursor | term-prep-platform | Status |
 |------------|----------------|-------------------|--------|

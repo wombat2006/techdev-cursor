@@ -93,7 +93,7 @@ Planned [Genspark Add-on](../docs/ideas/GENSPARK_CONNECTOR_IDEA.md) uses **Gensp
 
 Do **not** point `meta/glossary-config.json` `corpus.files` at Genspark AI Drive paths. Cross-repo platform changes still require [Platform escalation](#platform-escalation--notify-the-user).
 
-Details: [GENSPARK_CONNECTOR_IDEA.md §3.2](../docs/ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review) · [platform handoff](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) · platform file: `term-prep-platform/docs/integrations/techdev-cursor-genspark-boundary.md`
+Details: [GENSPARK_CONNECTOR_IDEA.md §3.2](../docs/ideas/GENSPARK_CONNECTOR_IDEA.md#32-term-prep-platform-boundary--conflict-review) · [platform handoff](../meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md) (consumer canonical — platform agents read techdev-cursor; no mirror MD required)
 
 ---
 

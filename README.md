@@ -158,7 +158,7 @@ flowchart TB
 
 ## 実装分担（techdev-cursor vs term-prep-platform）
 
-第三者が **どちらの repo に何を実装するか** を把握するための計画表。詳細フロー: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · platform 側正本: [term-prep-platform … genspark-boundary](https://github.com/wombat2006/term-prep-platform/blob/master/docs/integrations/techdev-cursor-genspark-boundary.md)
+第三者が **どちらの repo に何を実装するか** を把握するための計画表。詳細フロー: [GENSPARK_CONNECTOR_IDEA.md §3.3](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md#33-ai-drive-vs-openai-vector-store--layers-decision-flow-examples) · 境界正本（consumer）: [meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md](./meta/TERM_PREP_PLATFORM_HANDOFF_GENSPARK.md)
 
 | 機能 | techdev-cursor | term-prep-platform | 状態 |
 |------|----------------|-------------------|------|
