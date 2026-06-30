@@ -12,5 +12,5 @@ if [[ -z "$UVX" ]]; then
 fi
 exec "$UVX" --from git+https://github.com/oraios/serena serena start-mcp-server \
   --transport stdio \
-  --context claude-code \
+  --context ide \
   --project "$REPO_ROOT"

@@ -17,16 +17,27 @@
 
 ---
 
-## What the consumer provides (read-only)
+## Invoke surface (current state — D-004 migration in progress)
 
-| Artifact | Path (techdev-cursor) | Platform uses it as |
-|----------|----------------------|---------------------|
-| Corpus config | `meta/glossary-config.json` | Input to `glossary:extract` |
-| Adopt / hold outputs | `meta/glossary-adopt.json`, `meta/glossary-hold.json` | Git-tracked consumer outputs |
-| Invoke scripts | `npm run glossary:extract`, `glossary:extract:check`, `glossary:mcp-smoke` | CLI entry — platform code runs underneath |
-| MCP registration | `.cursor/mcp.json` → sibling platform | Consumer registers; platform implements server |
+> **D-004 (2026-06-29):** Migration from sibling-path scripts to `term-prep-platform` package CLI entrypoints is **in progress**.
+> A+C cross-repo Issue bot workflow is **deprecated**. `06-cross-repo-workflow.md` is legacy.
+> **A1 (install source — PyPI / private index) is an open user decision.** Full package CLI cutover is deferred until A1 is resolved.
 
-**Sibling path default:** `../term-prep-platform` from techdev-cursor (or `TERM_PREP_PLATFORM_ROOT` on consumer side).
+| Artifact | Current (AS-IS) | To-Be (D-004 complete) |
+|----------|-----------------|------------------------|
+| Corpus config | `meta/glossary-config.json` | Same |
+| Adopt / hold | `meta/glossary-adopt.json`, `meta/glossary-hold.json` | Same |
+| Extract invoke | `npm run glossary:extract` → `scripts/run-glossary-extract.sh` → sibling venv Python | `term-prep-extract --config meta/glossary-config.json` |
+| MCP launch | `.cursor/mcp.json` → `../term-prep-platform/.venv/bin/python -m glossary_knowledge_mcp` | `"command": "term-prep-glossary-knowledge-mcp"` (PATH-based) |
+| Contract guard | — | `term-prep-contract-check --config meta/glossary-config.json --expect-major 1` |
+
+**Consumer actions pending (from platform `03-consumer-actions.md`):**
+- A1: install source decision (user) — PyPI / private index
+- A2: `mcp.json` PATH-based command update
+- A3: `meta/glossary-config.json` schema alignment
+- A4: CI contract check
+
+**Sibling path:** `../term-prep-platform` still required until A1 resolved and package published.
 
 ---
 

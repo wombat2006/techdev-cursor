@@ -1,6 +1,6 @@
 ---
 name: consumer-handoff
-description: Handle term-prep-platform handoff on techdev-cursor — check CHANGELOG, apply consumer PR spec, escalate to platform. Use when the user mentions platform-handoff Issue, consumer-handoff CHANGELOG, check-handoff, request-platform-change, or A+C cross-repo workflow.
+description: Handle term-prep-platform handoff on techdev-cursor — check CHANGELOG, apply consumer PR spec, escalate to platform. Use when the user mentions platform-handoff, consumer-handoff CHANGELOG, check-handoff, request-platform-change, or D-004 package contract cutover.
 disable-model-invocation: true
 ---
 
@@ -9,9 +9,11 @@ disable-model-invocation: true
 **Pair (platform):** `term-prep-platform/.cursor/skills/consumer-handoff/SKILL.md`  
 **Direction:** Platform publishes status; **consumer** reads and applies obligations in **techdev-cursor**.
 
+> **D-004 (2026-06-29):** A+C cross-repo Issue bot workflow is **deprecated**. `06-cross-repo-workflow.md` is legacy. New contract: package CLI entrypoints + Semver pin. See platform `meta/CONSUMER_HANDOFF.md` for entry point.
+
 ## Goal
 
-After platform work (or a `platform-handoff` Issue), keep consumer wiring correct: read platform pack, apply **this repo** changes per spec, verify with scripts. **Do not edit term-prep-platform.**
+After platform work, keep consumer wiring correct: read platform pack, apply **this repo** changes per spec, verify with scripts. **Do not edit term-prep-platform.**
 
 ## Non-negotiables
 
@@ -26,20 +28,19 @@ After platform work (or a `platform-handoff` Issue), keep consumer wiring correc
 | Step | File |
 |------|------|
 | 0 | `../term-prep-platform/meta/consumer-handoff/README.md` |
-| 1 | `05-platform-implementation.md` |
-| 2 | `01-platform-status.md` |
-| 3 | `02-schema-and-cli.md` |
-| 4 | `04-consumer-pr-guide-techdev-cursor.md` — **consumer PR spec** |
-| 5 | `03-consumer-actions.md` |
-| 6 | `CHANGELOG.md` |
-| 7 | `06-cross-repo-workflow.md` |
+| 1 | `01-platform-status.md` |
+| 2 | `02-schema-and-cli.md` |
+| 3 | `04-consumer-pr-guide-techdev-cursor.md` — **consumer PR spec** |
+| 4 | `03-consumer-actions.md` |
+| 5 | `CHANGELOG.md` |
+| ~~6~~ | ~~`06-cross-repo-workflow.md`~~ — **Deprecated (D-004)** |
 
 ### Consumer (this repo)
 
 | File | Role |
 |------|------|
 | `meta/TERM_PREP_PLATFORM_STATUS.md` | Shim → platform pack |
-| `scripts/platform-handoff/check-handoff.sh` | NEW / STALE / OK vs CHANGELOG |
+| `scripts/platform-handoff/check-handoff.sh` | NEW / STALE / OK vs CHANGELOG (reads CHANGELOG directly — no Python helper) |
 | `scripts/platform-handoff/request-platform-change.sh` | Open platform Issue (reverse path) |
 
 ## Workflow
@@ -53,7 +54,7 @@ After platform work (or a `platform-handoff` Issue), keep consumer wiring correc
 2. Read platform `CHANGELOG.md` + linked handoff docs.
 3. If **NEW** or **STALE**:
    - Apply missing consumer changes per `04-consumer-pr-guide-techdev-cursor.md` (this repo only).
-   - Run verification from 04 § Post-merge (e.g. `glossary:extract:check`, `glossary:sync:check` when scripts exist).
+   - Run verification (e.g. `npm run glossary:extract:check`).
 4. Mark seen:
    ```bash
    ./scripts/platform-handoff/check-handoff.sh --mark-seen
@@ -62,19 +63,13 @@ After platform work (or a `platform-handoff` Issue), keep consumer wiring correc
 ### B. Consumer blocked — need platform change
 
 1. **Do not** edit platform repo.
-2. Run:
-   ```bash
-   export CROSS_REPO_GH_TOKEN=...
-   ./scripts/platform-handoff/request-platform-change.sh \
-     --title "<short title>" --body "<what platform must do>"
-   ```
-3. Tell user to wait for platform CHANGELOG + new consumer Issue (workflow C).
+2. Notify user: blocked goal, what platform must change, ask user to apply on term-prep-platform.
 
 ### C. User asks for handoff summary
 
 Return:
 
-1. **check-handoff status** (NEW / STALE / OK) and latest CHANGELOG id.
+1. **check-handoff status** (NEW / STALE / OK) and latest CHANGELOG date.
 2. **Consumer obligations** — bullets from `03-consumer-actions.md` still open.
 3. **Files to change** — from `04` (no full duplicate of 04).
 4. **Next command** — verify or `--mark-seen`.

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Consumer-side: verify platform handoff was read; compare CHANGELOG to last-seen marker.
 #
-# Install via term-prep-platform:
-#   ../term-prep-platform/scripts/cross_repo/install_consumer_scripts.sh
+# Note: D-004 (2026-06-29) deprecated the A+C cross-repo bot workflow.
+# check-handoff.sh now reads CHANGELOG directly (handoff_changelog.py was removed from platform).
 #
 # Usage (from techdev-cursor root):
 #   ./scripts/platform-handoff/check-handoff.sh
@@ -14,7 +14,6 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PLATFORM_ROOT="${TERM_PREP_PLATFORM_ROOT:-$REPO_ROOT/../term-prep-platform}"
 CHANGELOG="${PLATFORM_ROOT}/meta/consumer-handoff/CHANGELOG.md"
 SEEN_FILE="${REPO_ROOT}/meta/.platform-handoff-last-seen"
-WORKFLOW="${PLATFORM_ROOT}/meta/consumer-handoff/06-cross-repo-workflow.md"
 
 MARK_SEEN=0
 if [[ "${1:-}" == "--mark-seen" ]]; then
@@ -27,7 +26,7 @@ if [[ ! -f "$CHANGELOG" ]]; then
   exit 1
 fi
 
-LATEST="$(python3 "${PLATFORM_ROOT}/scripts/cross_repo/handoff_changelog.py" id)"
+LATEST="$(grep -m1 '^## [0-9]' "$CHANGELOG" | sed 's/^## //' | cut -d' ' -f1)"
 
 if [[ "$MARK_SEEN" -eq 1 ]]; then
   mkdir -p "$(dirname "$SEEN_FILE")"
@@ -39,14 +38,10 @@ fi
 echo "platform handoff latest: $LATEST"
 echo "read pack: ${PLATFORM_ROOT}/meta/consumer-handoff/README.md"
 
-if [[ -f "$WORKFLOW" ]]; then
-  echo "workflow:  ${WORKFLOW}"
-fi
-
 if [[ ! -f "$SEEN_FILE" ]]; then
   echo ""
   echo "status: NEW — no meta/.platform-handoff-last-seen yet"
-  echo "action: read consumer-handoff README → 05 → 04; open consumer PR if needed"
+  echo "action: read consumer-handoff README → 01 → 02 → 04 → 03; open consumer PR if needed"
   echo "        then: $0 --mark-seen"
   exit 2
 fi

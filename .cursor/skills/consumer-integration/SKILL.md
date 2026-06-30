@@ -29,13 +29,16 @@ Scope **techdev-cursor** work correctly before coding. Platform docs are **read-
 
 ## Mandatory read order (platform repo)
 
+> **D-004 (2026-06-29):** A+C bot workflow deprecated. `06-cross-repo-workflow.md` is legacy. Read order below reflects new package contract structure.
+
 | Step | File |
 |------|------|
 | 0 | `meta/consumer-handoff/README.md` |
-| 1 | `meta/consumer-handoff/05-platform-implementation.md` |
-| 2 | `meta/consumer-handoff/01-platform-status.md` |
-| 3 | `meta/consumer-handoff/02-schema-and-cli.md` |
+| 1 | `meta/consumer-handoff/01-platform-status.md` |
+| 2 | `meta/consumer-handoff/02-schema-and-cli.md` |
+| 3 | `meta/consumer-handoff/04-consumer-pr-guide-techdev-cursor.md` — **consumer PR spec** |
 | 4 | `meta/consumer-handoff/03-consumer-actions.md` |
+| ~~5~~ | ~~`meta/consumer-handoff/05-platform-implementation.md`~~ — superseded by 01 |
 
 ## Consumer boundary (this repo — read)
 

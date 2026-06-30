@@ -17,18 +17,32 @@
 
 ---
 
+## D-004 status (2026-06-29 — in progress)
+
+> **Policy change:** Platform has adopted artifact boundary (package CLI + Semver pin) as the consumer invoke contract.  
+> A+C cross-repo Issue bot workflow is **deprecated**. `06-cross-repo-workflow.md` is legacy.  
+> **A1 (install source: PyPI / private index) is an open user decision.** Full cutover deferred until A1 resolved.
+
+| Consumer action | Status |
+|-----------------|--------|
+| A1: decide install source (PyPI / private index) | **pending — user decision** |
+| A2: `mcp.json` → PATH-based command | pending consumer PR |
+| A3: `glossary-config.json` schema alignment | pending |
+| A4: CI contract check | pending consumer PR |
+
 ## Read order (consumer agents)
+
+> D-004 updated read order. `05-platform-implementation.md` superseded by `01`; `06-cross-repo-workflow.md` deprecated.
 
 | Step | Platform file | Purpose |
 |------|---------------|---------|
 | 0 | `README.md` | Index |
-| 1 | `05-platform-implementation.md` | What platform built (Phase 0 · 0.5) |
-| 2 | `01-platform-status.md` | Phase progress |
-| 3 | `02-schema-and-cli.md` | Schema · CLI · MCP contract |
-| 4 | `04-consumer-pr-guide-techdev-cursor.md` | Consumer PR / wiring spec |
-| 5 | `03-consumer-actions.md` | Open obligations checklist |
-| 6 | `CHANGELOG.md` | Dated platform changes |
-| 7 | `06-cross-repo-workflow.md` | A+C bot Issue / PR coordination |
+| 1 | `01-platform-status.md` | Phase progress + D-004 migration state |
+| 2 | `02-schema-and-cli.md` | Schema · CLI entrypoints · MCP contract |
+| 3 | `04-consumer-pr-guide-techdev-cursor.md` | Consumer PR / wiring spec |
+| 4 | `03-consumer-actions.md` | Open obligations checklist |
+| 5 | `CHANGELOG.md` | Dated platform changes |
+| ~~6~~ | ~~`06-cross-repo-workflow.md`~~ | **Deprecated (D-004)** |
 
 ---
 
@@ -36,13 +50,15 @@
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/platform-handoff/check-handoff.sh` | Compare CHANGELOG vs `meta/.platform-handoff-last-seen` |
+| `scripts/platform-handoff/check-handoff.sh` | Compare CHANGELOG vs `meta/.platform-handoff-last-seen` (reads CHANGELOG directly — D-004 fix applied) |
 | `scripts/platform-handoff/request-platform-change.sh` | Open Issue on term-prep-platform |
 
 ```bash
 ./scripts/platform-handoff/check-handoff.sh
 ./scripts/platform-handoff/check-handoff.sh --mark-seen
 ```
+
+> **D-004 note:** `check-handoff.sh` previously called `handoff_changelog.py` (removed from platform). Updated to read CHANGELOG via grep (Stage 1 fix applied 2026-06-30).
 
 ---
 

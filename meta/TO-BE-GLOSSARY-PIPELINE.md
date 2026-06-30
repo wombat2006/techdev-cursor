@@ -27,7 +27,9 @@ Work on glossary prep **only in this repo**. Do **not** edit, commit, or cross-c
 | `npm run glossary:extract` / `glossary:extract:check` | Commits or PRs on term-prep-platform |
 | `npm run glossary:mcp-smoke` | Duplicating platform Python or MCP source here |
 
-**Invoke model:** sibling clone `../term-prep-platform` (or `TERM_PREP_PLATFORM_ROOT`) is a **read-only runtime dependency** — same as calling an installed CLI. Platform maintains its own copy of consumer metadata if needed; that is **out of scope** for agents working in this repo.
+**Invoke model (AS-IS):** sibling clone `../term-prep-platform` (or `TERM_PREP_PLATFORM_ROOT`) is a **read-only runtime dependency** — same as calling an installed CLI. Platform maintains its own copy of consumer metadata if needed; that is **out of scope** for agents working in this repo.
+
+**Invoke model (To-Be — D-004 in progress):** `term-prep-platform` package CLI entrypoints (`term-prep-extract`, `term-prep-sync`, `term-prep-glossary-knowledge-mcp`). **Deferred until A1 (install source: PyPI / private index) is decided.** A+C cross-repo bot workflow is **deprecated** as of 2026-06-29.
 
 Do **not** duplicate platform Python or MCP in this repo. `.cursor/mcp.json` registers `glossary-knowledge` → sibling platform (verify only; do not change `techsapo-providers`).
 
