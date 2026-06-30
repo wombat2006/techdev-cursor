@@ -12,22 +12,33 @@
       }
     },
     "techsapo-providers": {
-      "command": "bash",
+      "command": "/home/wombat/.nvm/versions/node/v22.22.3/bin/node",
       "args": [
-        "scripts/cursor-mcp-techsapo-providers.sh"
-      ]
+        "/home/wombat/techdev-cursor/dist/services/techsapo-providers-mcp-server.js"
+      ],
+      "cwd": "/home/wombat/techdev-cursor"
     },
     "serena": {
-      "command": "bash",
+      "command": "/home/wombat/.local/bin/uvx",
       "args": [
-        "scripts/cursor-mcp-serena.sh"
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--transport",
+        "stdio",
+        "--context",
+        "ide",
+        "--project",
+        "/home/wombat/techdev-cursor"
       ]
     },
     "brv": {
-      "command": "bash",
+      "command": "/home/wombat/techdev-cursor/node_modules/.bin/brv",
       "args": [
-        "scripts/start-brv-mcp.sh"
-      ]
+        "mcp"
+      ],
+      "cwd": "/home/wombat/techdev-cursor"
     }
   }
 }
