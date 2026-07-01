@@ -3,7 +3,7 @@
 *[English](../FORK_CURSOR.md) | **日本語***
 
 **状態:** 採択済 — 実装ターゲットは upstream ではなく本フォーク  
-**最終更新:** 2026-06-25（cross-repo handoff · README 実装分担）
+**最終更新:** 2026-07-01（Serena運用プレイブック · 差分監査同期）
 
 ---
 
@@ -24,6 +24,13 @@
 **Sibling platform:** `term-prep-platform` — glossary extract・コネクタ・MCP；consumer **outbound** [meta/platform-integration/](../../meta/platform-integration/README.md) · **inbound** `meta/consumer-handoff/` read-only — [README § 実装分担](../../README.md#実装分担techdev-cursor-vs-term-prep-platform) · [FORK_STATUS](./FORK_STATUS.md)
 
 関連: [CURSOR_MCP_PLAN.md](../CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO_ja.md](./CURSOR_MCP_TODO_ja.md) · [英語 runbook](../CURSOR_MCP_TODO.md)
+
+---
+
+## 運用メモ（2026-07-01）
+
+- Serena の実務運用手順は [docs/agents/serena-playbook.md](../agents/serena-playbook.md) を正本とする。
+- push済み状態と commit 前差分の照合は [FORK_STATUS.md](./FORK_STATUS.md) の「差分監査」節に記録。
 
 ---
 

@@ -23,6 +23,30 @@
 
 ---
 
+## 差分監査（2026/06/30 13:00 JST 以降）
+
+依頼どおり、push済み内容と現在の commit 前差分を照合した結果を記録する。
+
+### 作業前の状態
+
+- **ブランチ/リモート基準:** `master` = `origin/master`（ahead/behind なし）。
+- **対象期間（2026/06/30 13:00 JST 以降）の push 済み commit:** `afc62979` のみ（`2026/06/30 14:35:22 JST`）。
+- **既に push 済みだった内容:** D-004 Stage 1（`check-handoff.sh` 修正、A+C 廃止反映、Serena context 修正、関連ドキュメント同期）。
+
+### commit前の現状
+
+- **ステージ済み差分:** `docs/agents/serena-playbook.md`（新規）, `.serena/.gitignore`（更新）。
+- `afc62979` 以降の **新規 push 済み commit はなし**。
+- 現在差分の目的は、Serena 参照追跡運用の実務化と、Serena 自動生成メモのノイズ抑制。
+
+### 差分が生じた作業内容
+
+1. Context7 + ローカル MCP 実測に基づく Serena 運用プレイブックを追加（`docs/agents/serena-playbook.md`）。
+2. 参照追跡テンプレ（`find_symbol` / `find_referencing_symbols` / `find_declaration` / `search_for_pattern` フォールバック）を整備。
+3. 一時的な Serena 生成メモを履歴に混入させないよう `.serena/.gitignore` に `/memories/memory_*.md` を追加。
+
+---
+
 ## Gate 進捗
 
 | Gate | 状態 | タイムスタンプ (JST) | メモ |
@@ -106,7 +130,7 @@ Gate 順 **A → B → C** 固定 — [CURSOR_MCP_TODO § Track priority](../CUR
 | **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion`（readonly マルチモデル） |
 | **Cursor skills — consumer handoff（A+C pair）** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../../meta/TERM_PREP_PLATFORM_STATUS.md) — term-prep-platform と対 |
 | **D-004 Stage 1 — doc + スクリプト同期** | 2026/06/30 14:35:22 JST | check-handoff.sh 修正（handoff_changelog.py → CHANGELOG grep）；A+C 廃止；skills/docs 更新；A1 ユーザー決定待ち |
-|| **README platform handoff 同期（P1）** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 分担 · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills リンク（`627f270d`） |
+| **README platform handoff 同期（P1）** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 分担 · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills リンク（`627f270d`） |
 
 ---
 

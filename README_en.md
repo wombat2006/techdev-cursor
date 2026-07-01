@@ -69,6 +69,13 @@ Work packages toward To-Be (suggested order) — per-file tasks: [WALL_BOUNCE_IM
 
 ---
 
+## Latest updates (2026-07-01)
+
+- Added reconciliation record (pushed state vs current pre-commit diff) to [FORK_STATUS.md](./docs/FORK_STATUS.md): baseline before work, current pre-commit state, and concrete delta-producing tasks.
+- Added Serena practical operations guide with reference-tracing templates: [docs/agents/serena-playbook.md](./docs/agents/serena-playbook.md).
+
+---
+
 ## What & why
 
 | | |
@@ -208,6 +215,7 @@ Plan table for **which repo implements what**. Layer diagram & examples: [GENSPA
 | AI agents | [AGENTS.md](./AGENTS.md) |
 | Full index | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | **Repo split (consumer vs platform)** | [Implementation ownership](#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [platform prompt](./meta/platform-integration/PROMPT_START.md) · [platform progress](./meta/TERM_PREP_PLATFORM_STATUS.md) · [Cursor skills](./.cursor/skills/README.md) |
+| **Serena practical operations** | [Serena playbook](./docs/agents/serena-playbook.md) |
 | **Under consideration (not adopted; out of backlog)** | [NestJS strangler (TS-29 Idea)](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP layer only; evaluate effectiveness & low-cost implementability; **not planned** |
 | **Under consideration (direction memo; out of backlog)** | [Genspark Add-on (TS-30 Idea)](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A (`gsk` + HTTP D1–D7); TS-18 add-on; **implementation after TS-28 P0 + Track B** |
 

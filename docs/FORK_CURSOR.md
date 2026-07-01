@@ -4,7 +4,7 @@
 
 **Status**: ACCEPTED — implementation target is the fork, not this upstream repo  
 **Owner**: TechSapo Development Team  
-**Last updated**: 2026-06-25 (cross-repo handoff · README implementation ownership)
+**Last updated**: 2026-07-01 (Serena operations playbook · status delta audit sync)
 
 ## Repository identity
 
@@ -23,6 +23,13 @@
 **Sibling platform:** `term-prep-platform` — glossary extract, connectors, MCP; consumer **outbound** [meta/platform-integration/](../meta/platform-integration/README.md) · **inbound** read `meta/consumer-handoff/` (read-only) — [README § Implementation ownership](../README_en.md#implementation-ownership-techdev-cursor-vs-term-prep-platform) · [FORK_STATUS](./FORK_STATUS.md)
 
 Related: [CURSOR_MCP_PLAN.md](./CURSOR_MCP_PLAN.md) · [CURSOR_MCP_TODO.md](./CURSOR_MCP_TODO.md) · [CURSOR_MCP_TEMPLATE.md](./CURSOR_MCP_TEMPLATE.md) · [MCP_SERVICES.md](./MCP_SERVICES.md) · [P5 §9 Forkable core](./decisions/WALL_BOUNCE_P5_ARCHITECTURE.md#9-フォーク可能コア) · [TS-20 InferenceProfile](./decisions/TECH_STACK_INFERENCE_PROFILES.md)
+
+---
+
+## Operational note (2026-07-01)
+
+- Serena practical operations guide is now maintained at [docs/agents/serena-playbook.md](./agents/serena-playbook.md).
+- Reconciliation of pushed state vs pre-commit diff is recorded in [FORK_STATUS.md](./FORK_STATUS.md) (delta audit section).
 
 ---
 

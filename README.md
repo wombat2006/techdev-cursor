@@ -69,6 +69,13 @@ To-Be 到達に向けた作業（実行順の目安）— ファイル単位は 
 
 ---
 
+## 最新更新（2026-07-01）
+
+- 6/30 13:00 JST 以降の push済み内容と現状差分の照合結果を [FORK_STATUS.md](./docs/ja/FORK_STATUS.md) に追記（作業前状態 / commit前現状 / 差分作業内容）。
+- Serena 実務運用（参照追跡テンプレ含む）を [docs/agents/serena-playbook.md](./docs/agents/serena-playbook.md) として追加。
+
+---
+
 ## What & why
 
 | | |
@@ -208,6 +215,7 @@ flowchart TB
 | AI エージェント | [AGENTS.md](./AGENTS.md) |
 | 全文索引 | [DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) |
 | **実装分担（consumer / platform）** | [実装分担表](#実装分担techdev-cursor-vs-term-prep-platform) · [platform プロンプト](./meta/platform-integration/PROMPT_START.md) · [platform 進捗](./meta/TERM_PREP_PLATFORM_STATUS.md) · [Cursor skills](./.cursor/skills/README.md) |
+| **Serena 実務運用** | [Serena playbook](./docs/agents/serena-playbook.md) |
 | **検討中（未採用・優先外）** | [NestJS strangler（TS-29 Idea）](./docs/ideas/NESTJS_STRANGLER_MIGRATION_IDEA.md) — HTTP 層のみ；効果・低コスト実装可否を評価；**採用未定** |
 | **検討中（方針メモ・優先外）** | [Genspark Add-on（TS-30 Idea）](./docs/ideas/GENSPARK_CONNECTOR_IDEA.md) — Hybrid A（`gsk` + HTTP D1–D7）；TS-18 Add-on；**実装は TS-28 P0 + Track B 後** |
 

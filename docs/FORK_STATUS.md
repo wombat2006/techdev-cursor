@@ -23,6 +23,30 @@
 
 ---
 
+## Delta audit (since 2026/06/30 13:00 JST)
+
+This section records the requested reconciliation between pushed state and current pre-commit working tree.
+
+### Working state before this task
+
+- **Branch / remote baseline:** `master` = `origin/master` at `afc62979` (no ahead/behind).
+- **Pushed commit in scope (>= 2026/06/30 13:00 JST):** only `afc62979` (`2026/06/30 14:35:22 JST`).
+- **What was already pushed:** D-004 Stage 1 doc/script sync (`check-handoff.sh` fix, A+C deprecated notes, Serena context fix, related FORK_STATUS sync).
+
+### Current state before commit (now)
+
+- **Staged docs/workspace diff:** `docs/agents/serena-playbook.md` (new), `.serena/.gitignore` (updated).
+- **No additional pushed commits** after `afc62979`.
+- **Intent of current diff:** operational readiness for Serena reference-tracing workflows and cleanup policy for transient Serena memory files.
+
+### Work that produced the diff
+
+1. Added repo-specific Serena operations playbook (`docs/agents/serena-playbook.md`) based on Context7 + local MCP verification.
+2. Added a practical reference-tracking template set (`find_symbol`, `find_referencing_symbols`, `find_declaration`, fallback with `search_for_pattern`).
+3. Added ignore rule for transient Serena-generated memory docs (`.serena/.gitignore`: `/memories/memory_*.md`) to keep commit history clean.
+
+---
+
 ## Gate progress
 
 | Gate | Status | Timestamp (JST) | Notes |
@@ -106,7 +130,7 @@ Gate order **A → B → C** is fixed — see [CURSOR_MCP_TODO § Track priority
 | **Cursor skills — platform handoff + opinions** | 2026/06/25 21:32:19 JST | `.cursor/skills/platform-handoff` · `.cursor/agents/*-opinion` (readonly multi-model) |
 | **Cursor skills — consumer handoff (A+C pair)** | 2026/06/25 21:48:45 JST | `consumer-integration` / `consumer-handoff` · `scripts/platform-handoff/` · [TERM_PREP_PLATFORM_STATUS.md](../meta/TERM_PREP_PLATFORM_STATUS.md) — paired with term-prep-platform |
 | **D-004 Stage 1 — doc + script sync** | 2026/06/30 14:35:22 JST | check-handoff.sh fix (handoff_changelog.py → CHANGELOG grep); A+C deprecated; skills/docs updated; A1 pending user decision |
-|| **README platform handoff sync (P1)** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 ownership · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills links (`627f270d`) |
+| **README platform handoff sync (P1)** | 2026/06/25 22:06:35 JST | ja/en README — Phase 0.5 ownership · `TERM_PREP_PLATFORM_STATUS` · cross-repo handoff · Cursor skills links (`627f270d`) |
 
 ---
 

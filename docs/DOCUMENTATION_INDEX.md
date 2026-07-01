@@ -54,6 +54,7 @@
 | **../CLAUDE.md** | Claude Code shim → AGENTS.md |
 | **agents/commands.md** | dev / test / MCP commands |
 | **agents/mcp-rules.md** | Serena / Cipher / Codex / Context7 |
+| **agents/serena-playbook.md** | Serena practical operations + reference-tracing templates (repo-specific) |
 | **agents/development-notes.md** | Common tasks, structure |
 | **agents/claude-code.md** | Claude Code notes |
 | **CLAUDE_CODE_SKILLS.md** | Claude Code filesystem skills, slash commands |
